@@ -1,0 +1,12 @@
+[package]
+name = "borscht"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+exe2ax = { path = "../exe2ax" }
+anyhow = "1.0.38"
+log = "0.4.14"
+env_logger = "0.8.3"
+clap = "2.33.3"
+hexyl = "0.8.0"

@@ -1,0 +1,7 @@
+[package]
+name = "exe2ax"
+version = "0.0.1"
+authors = [ "Ruin0x11 <nonbirithm@fastmail.com>" ]
+
+[dependencies]
+anyhow = "1.0.38"
