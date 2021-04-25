@@ -5,3 +5,5 @@ authors = [ "Ruin0x11 <nonbirithm@fastmail.com>" ]
 
 [dependencies]
 anyhow = "1.0.38"
+pelite = "0.9.0"
+byteorder = "1.4.3"

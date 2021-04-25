@@ -45,11 +45,11 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
         )
 }
 
-fn print_bytes(input: &[u8], limit: usize) {
+fn print_bytes<R: AsRef<[u8]>>(input: R) {
     let stdout = io::stdout();
     let mut handle = stdout.lock();
     let mut printer = hexyl::Printer::new(&mut handle, true, hexyl::BorderStyle::Unicode, false);
-    printer.print_all(&input[..limit]).unwrap()
+    printer.print_all(&input.as_ref()[..]).unwrap()
 }
 
 fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
@@ -61,9 +61,11 @@ fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
 
     fs::create_dir_all(output_dir)?;
     let mut input_file = File::open(input_path)?;
-    let dpm = exe2ax::exe::exe_to_dpm(&mut input_file)?;
 
-    print_bytes(&dpm.0, 256);
+    let dpm = exe2ax::dpm::exe_to_dpm(&mut input_file)?;
+    let ax = exe2ax::ax::dpm_to_ax(&dpm)?;
+
+    // print_bytes(&dpm);
 
     Ok(())
 }
