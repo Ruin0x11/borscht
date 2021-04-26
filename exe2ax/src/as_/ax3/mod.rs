@@ -41,7 +41,7 @@ pub struct Ax3Header {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Ax3Label {
     pub token_offset: u32
 }
@@ -248,7 +248,7 @@ fn find_noncolliding_name_func(prefix: &str, function_names: &HashSet<String>) -
     new_name
 }
 
-fn rename_functions<'a>(file: &'a mut Ax3File<'a>) -> HashMap<usize, String> {
+fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
     let mut function_names = HashSet::new();
 
     let mut dll_funcs = Vec::new();
@@ -333,6 +333,27 @@ fn rename_functions<'a>(file: &'a mut Ax3File<'a>) -> HashMap<usize, String> {
     resolved
 }
 
+fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
+    let count = file.labels.len();
+    let mut labels = Vec::new();
+    let mut result = HashMap::new();
+
+    for (i, label) in file.labels.iter().enumerate() {
+        labels.push((i, label.token_offset))
+    }
+
+    labels.sort_by(|a, b| a.1.cmp(&b.1));
+
+    let keta = f32::log10(count as f32) as usize + 1;
+
+    for (i, _) in labels.iter().enumerate() {
+        let new_name = format!("*label{:0>4}", i);
+        result.insert(i, new_name);
+    }
+
+    result
+}
+
 pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     let mut dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
     // let ax3_view = view::parse_view(bytes);
@@ -351,10 +372,11 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         plugins: util::transmute_slice::<Ax3Plugin>(slice, header.plugin_offset, header.plugin_size as u32),
     };
 
-    {
-        let func_names = rename_functions(&mut file);
-        println!("{:#?}", func_names);
-    }
+    let func_names = rename_functions(&file);
+    println!("{:#?}", func_names);
+
+    let label_names = rename_labels(&file);
+    println!("{:#?}", label_names);
 
     Ok(())
 }
