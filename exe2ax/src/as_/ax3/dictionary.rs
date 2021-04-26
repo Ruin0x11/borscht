@@ -172,4 +172,27 @@ impl Hsp3Dictionary {
             }
         }
     }
+
+    pub fn get_all_function_names(&self) -> Vec<String> {
+        let mut result = Vec::new();
+
+        for (key, value) in self.codes.iter() {
+            match value.code_type {
+                HspCodeType::HspFunction |
+                HspCodeType::IfStatement |
+                HspCodeType::OnEventStatement |
+                HspCodeType::OnStatement |
+                HspCodeType::McallStatement => {
+                    result.push(value.name.to_lowercase());
+                },
+                _ => ()
+            }
+        }
+
+        for name in self.params.values() {
+            result.push(name.to_lowercase());
+        }
+
+        result
+    }
 }
