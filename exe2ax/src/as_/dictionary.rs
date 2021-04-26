@@ -8,7 +8,7 @@ pub struct HspDictionaryKey {
 }
 
 #[repr(u8)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, enum_utils::FromStr)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, enum_utils::FromStr, enum_utils::TryFromRepr)]
 pub enum HspCodeType {
     None = 0x00,
     Operator = 0xFF,

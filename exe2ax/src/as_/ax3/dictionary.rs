@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::convert::TryFrom;
 use std::fs::File;
 use std::io::{Read, Seek, SeekFrom, Cursor};
 use std::path::Path;
@@ -80,7 +81,6 @@ fn extract_code<'a>(bytes: &'a [u8]) -> Result<HspCodeDictionary> {
 
     for result in rdr.records() {
         let r = result?;
-        println!("{:?}", r);
 
         let type_ = r.get(0).map(|i| parse_hex_u8(i)).ok_or_else(|| anyhow!("Missing type"))?;
         let value_ = r.get(1).map(|i| parse_hex_i32(i)).ok_or_else(|| anyhow!("Missing value"))?;
@@ -137,5 +137,38 @@ impl Hsp3Dictionary {
             codes: codes,
             params: params
         })
+    }
+
+    pub fn lookup_code(&self, key: &HspDictionaryKey) -> Option<HspDictionaryValue> {
+        match self.codes.get(key) {
+            Some(v) => Some(v.clone()),
+            None => {
+                let key = HspDictionaryKey { type_: key.type_, value: None };
+                match self.codes.get(&key) {
+                    Some(v) => Some(v.clone()),
+                    None => {
+                        if key.type_ == 0x11 && key.value >= Some(0x1000) {
+                            // ComFunction
+                            Some(HspDictionaryValue {
+                                name: "comfunc".to_string(),
+                                code_type: HspCodeType::ComFunction,
+                                extra: HspCodeExtraFlags::None,
+                                priority: 0
+                            })
+                        } else if key.type_ >= 0x12 {
+                            // PlugInFunction
+                            Some(HspDictionaryValue {
+                                name: "pluginFunction".to_string(),
+                                code_type: HspCodeType::try_from(key.type_ as u8 - 0x12).unwrap(),
+                                extra: HspCodeExtraFlags::None,
+                                priority: 0
+                            })
+                        } else {
+                            None
+                        }
+                    }
+                }
+            }
+        }
     }
 }
