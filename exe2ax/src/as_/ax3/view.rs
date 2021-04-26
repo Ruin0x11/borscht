@@ -3,9 +3,11 @@ use std::mem;
 use bitflags::bitflags;
 use anyhow::{Result, anyhow};
 
+use super::util;
+
 #[repr(C)]
 #[derive(Debug)]
-pub struct Ax3Header {
+pub struct Ax3ViewHeader {
     pub _unknown1: u32,
     pub _unknown2: u32,
     pub _unknown3: u32,
@@ -78,8 +80,8 @@ pub struct Ax3Module {
 
 #[repr(C)]
 #[derive(Debug)]
-pub struct Ax3Data<'a> {
-    pub header: &'a Ax3Header,
+pub struct Ax3View<'a> {
+    pub header: &'a Ax3ViewHeader,
     pub script: &'a [u8],
     pub dlls: &'a [Ax3Dll],
     pub funcs: &'a [Ax3Func],
@@ -89,30 +91,18 @@ pub struct Ax3Data<'a> {
     pub texts: &'a [u8],
 }
 
-fn get_slice<'a>(slice: &'a [u8], offset: u32, size: u32) -> &'a [u8] {
-    let offset = offset as usize;
-    let size = size as usize;
-
-    &slice[offset..(offset+size)]
-}
-
-fn transmute_slice<'a, T>(slice: &'a [u8], offset: u32, size: u32) -> &'a [T] {
-    let t_slice = get_slice(slice, offset, size);
-    unsafe { slice::from_raw_parts(t_slice.as_ptr() as *const _, size as usize / mem::size_of::<T>()) }
-}
-
-pub fn parse_data<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Ax3Data<'a> {
+pub fn parse_view<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Ax3View<'a> {
     let slice = bytes.as_ref();
-    let header: &'a Ax3Header = unsafe { &*(slice.as_ptr() as *const _) };
+    let header: &'a Ax3ViewHeader = unsafe { &*(slice.as_ptr() as *const _) };
 
-    Ax3Data {
+    Ax3View {
         header: header,
-        script: get_slice(slice, header.script_offset, header.script_size),
-        labels: transmute_slice::<Ax3Label>(slice, header.label_offset, header.label_size),
-        dlls: transmute_slice::<Ax3Dll>(slice, header.dll_offset, header.dll_size),
-        funcs: transmute_slice::<Ax3Func>(slice, header.func_offset, header.func_size),
-        deffuncs: transmute_slice::<Ax3Deffunc>(slice, header.deffunc_offset, header.deffunc_size),
-        modules: transmute_slice::<Ax3Module>(slice, header.module_offset, header.module_size),
-        texts: get_slice(slice, header.text_offset, header.text_size),
+        script: util::get_slice(slice, header.script_offset, header.script_size),
+        labels: util::transmute_slice::<Ax3Label>(slice, header.label_offset, header.label_size),
+        dlls: util::transmute_slice::<Ax3Dll>(slice, header.dll_offset, header.dll_size),
+        funcs: util::transmute_slice::<Ax3Func>(slice, header.func_offset, header.func_size),
+        deffuncs: util::transmute_slice::<Ax3Deffunc>(slice, header.deffunc_offset, header.deffunc_size),
+        modules: util::transmute_slice::<Ax3Module>(slice, header.module_offset, header.module_size),
+        texts: util::get_slice(slice, header.text_offset, header.text_size),
     }
 }

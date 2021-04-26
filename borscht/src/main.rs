@@ -62,11 +62,9 @@ fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
     fs::create_dir_all(output_dir)?;
     let mut input_file = File::open(input_path)?;
 
-    // let dpm = exe2ax::dpm::exe_to_dpm(&mut input_file)?;
-    // let ax = exe2ax::ax::dpm_to_ax(&dpm)?;
-    // let as_ = exe2ax::as_::ax_to_as(&ax)?;
-
-    let dict = exe2ax::as_::ax3::dictionary::Hsp3Dictionary::from_csv("Dictionary.csv");
+    let dpm = exe2ax::dpm::exe_to_dpm(&mut input_file)?;
+    let ax = exe2ax::ax::dpm_to_ax(&dpm)?;
+    let as_ = exe2ax::as_::ax_to_as(&ax)?;
 
     // print_bytes(&dpm);
 
