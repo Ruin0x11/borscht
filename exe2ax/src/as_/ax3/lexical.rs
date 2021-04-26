@@ -14,11 +14,11 @@ pub struct LexicalAnalyzer {
 }
 
 pub struct TokenIterator<'a, R: Read + Seek> {
-    reader: R,
-    token_offset: u32,
-    end_offset: u32,
-    dict: &'a Hsp3Dictionary,
-    file: &'a Ax3File<'a>
+    pub reader: R,
+    pub token_offset: u32,
+    pub end_offset: u32,
+    pub dict: &'a Hsp3Dictionary,
+    pub file: &'a Ax3File<'a>
 }
 
 bitflags! {
@@ -30,6 +30,7 @@ bitflags! {
     }
 }
 
+#[derive(Debug)]
 pub enum PrimitiveTokenKind<'a> {
     Label(&'a Ax3Label),
     Integer,
@@ -51,14 +52,15 @@ pub enum PrimitiveTokenKind<'a> {
     Unknown,
 }
 
+#[derive(Debug)]
 pub struct PrimitiveToken<'a> {
-    token_offset: u32,
-    type_: u8,
-    flag: PrimitiveTokenFlags,
-    value: i32,
+    pub token_offset: u32,
+    pub type_: u8,
+    pub flag: PrimitiveTokenFlags,
+    pub value: i32,
     // name: &'a str,
-    dict_value: Option<HspDictionaryValue>,
-    kind: PrimitiveTokenKind<'a>
+    pub dict_value: Option<HspDictionaryValue>,
+    pub kind: PrimitiveTokenKind<'a>
 }
 
 fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u32, type_: u8, flag: PrimitiveTokenFlags, value: i32, extra_value: Option<u16>) -> PrimitiveToken<'a>{

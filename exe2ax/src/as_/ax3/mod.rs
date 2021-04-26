@@ -199,6 +199,7 @@ pub struct Ax3Plugin {
 pub struct Ax3File<'a> {
     pub header: &'a Ax3Header,
     pub dict: &'a Hsp3Dictionary,
+    pub code: &'a [u8],
     pub literals: &'a [u8],
     pub labels: &'a [Ax3Label],
     pub dlls: &'a [Ax3Dll],
@@ -385,7 +386,6 @@ fn read_variable_names<'a>(slice: &'a [u8], header: &'a Ax3Header, literals: &'a
     let mut cursor = Cursor::new(slice_range);
 
     while let Ok(b) = cursor.read_u8() {
-        println!("{}", b);
         match b {
             252 => {
                 cursor.read_u8()?;
@@ -431,8 +431,9 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     let mut file = Ax3File {
         header: header,
         dict: &dict,
-        labels: util::transmute_slice::<Ax3Label>(slice, header.label_offset, header.label_size),
+        code: util::get_slice(slice, header.code_offset, header.code_size),
         literals: literals,
+        labels: util::transmute_slice::<Ax3Label>(slice, header.label_offset, header.label_size),
         dlls: util::transmute_slice::<Ax3Dll>(slice, header.dll_offset, header.dll_size),
         parameters: util::transmute_slice::<Ax3Parameter>(slice, header.parameter_offset, header.parameter_size),
         functions: util::transmute_slice::<Ax3Function>(slice, header.function_offset, header.function_size),
@@ -441,10 +442,22 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     };
 
     let func_names = rename_functions(&file);
-    println!("{:#?}", func_names);
 
     let label_names = rename_labels(&file);
-    println!("{:#?}", label_names);
+
+    let reader = Cursor::new(file.code);
+
+    let iter = lexical::TokenIterator {
+        reader: reader,
+        token_offset: 0,
+        end_offset: header.code_size / 2,
+        dict: &dict,
+        file: &file
+    };
+
+    for token in iter {
+        // println!("{:?}", token);
+    }
 
     Ok(())
 }
