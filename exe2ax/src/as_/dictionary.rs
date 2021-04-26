@@ -54,4 +54,15 @@ pub struct HspDictionaryValue {
     pub priority: u32
 }
 
+impl Default for HspDictionaryValue {
+    fn default() -> Self {
+        HspDictionaryValue {
+            name: String::new(),
+            code_type: HspCodeType::None,
+            extra: HspCodeExtraFlags::None,
+            priority: 0
+        }
+    }
+}
+
 pub type HspCodeDictionary = HashMap<HspDictionaryKey, HspDictionaryValue>;

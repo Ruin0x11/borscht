@@ -59,8 +59,18 @@ pub struct PrimitiveToken<'a> {
     pub flag: PrimitiveTokenFlags,
     pub value: i32,
     // name: &'a str,
-    pub dict_value: Option<HspDictionaryValue>,
+    pub dict_value: HspDictionaryValue,
     pub kind: PrimitiveTokenKind<'a>
+}
+
+impl<'a> PrimitiveToken<'a> {
+   pub fn is_bracket_start(&self) -> bool {
+       self.dict_value.extra.contains(HspCodeExtraFlags::BracketStart)
+   }
+
+   pub fn is_end_of_param(&self) -> bool {
+       self.flag.contains(PrimitiveTokenFlags::IsLineHead) || self.flag.contains(PrimitiveTokenFlags::IsParamHead)
+   }
 }
 
 fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u32, type_: u8, flag: PrimitiveTokenFlags, value: i32, extra_value: Option<u16>) -> PrimitiveToken<'a>{
@@ -124,7 +134,7 @@ fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u3
         type_: type_,
         flag: flag,
         value: value,
-        dict_value: Some(v),
+        dict_value: v,
         kind: kind
     }
 }
@@ -181,7 +191,7 @@ impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
                     type_: type_,
                     flag: flag,
                     value: value,
-                    dict_value: None,
+                    dict_value: HspDictionaryValue::default(),
                     kind: PrimitiveTokenKind::Unknown
                 })
             }

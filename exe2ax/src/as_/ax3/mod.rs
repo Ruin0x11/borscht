@@ -1,11 +1,12 @@
 pub mod view;
 pub mod dictionary;
 pub mod lexical;
+pub mod ast;
 mod util;
 
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
-use std::io::{Read, Cursor};
+use std::io::{Read, Seek, Cursor};
 use encoding_rs::SHIFT_JIS;
 use byteorder::{LittleEndian, ReadBytesExt};
 use anyhow::{Result, anyhow};
@@ -418,6 +419,45 @@ fn read_variable_names<'a>(slice: &'a [u8], header: &'a Ax3Header, literals: &'a
     Ok(result)
 }
 
+use as_::dictionary::HspCodeExtraFlags;
+use self::lexical::PrimitiveTokenKind;
+use std::iter::Peekable;
+use self::ast::*;
+
+type Iter<'a, R> = Peekable<lexical::TokenIterator<'a, R>>;
+
+fn read_argument<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
+    iter.next_if(|&x| x.is_bracket_start());
+
+    let next = iter.next().unwrap();
+
+    if next.is_end_of_param() {
+       
+    }
+
+    AstNode::new(next.token_offset, kind)
+}
+
+fn read_nodes<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> () {
+    let mut tab_count = 0;
+    while let Some(token) = iter.next() {
+        let token_offset = token.token_offset;
+        let tab_count = tab_count;
+        println!("{:?}", token);
+
+        match token.kind {
+            PrimitiveTokenKind::GlobalVariable(name) => {
+                let next = iter.peek().unwrap();
+                if next.is_bracket_start() {
+                    // Array access
+                    let arg = read_argument(iter);
+                }
+            },
+            _ => ()
+        }
+    }
+}
+
 pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     let dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
 
@@ -447,7 +487,7 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
 
     let reader = Cursor::new(file.code);
 
-    let iter = lexical::TokenIterator {
+    let mut iter = lexical::TokenIterator {
         reader: reader,
         token_offset: 0,
         end_offset: header.code_size / 2,
@@ -455,9 +495,7 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         file: &file
     };
 
-    for token in iter {
-        // println!("{:?}", token);
-    }
+    let nodes = read_nodes(&mut iter.peekable());
 
     Ok(())
 }
