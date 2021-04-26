@@ -1,10 +1,13 @@
 pub mod view;
 pub mod dictionary;
+pub mod lexical;
 mod util;
 
 use std::borrow::Cow;
-use encoding_rs::SHIFT_JIS;
 use std::collections::{HashMap, HashSet};
+use std::io::{Read, Cursor};
+use encoding_rs::SHIFT_JIS;
+use byteorder::{LittleEndian, ReadBytesExt};
 use anyhow::{Result, anyhow};
 
 use self::view::Ax3View;
@@ -44,6 +47,13 @@ pub struct Ax3Header {
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Ax3Label {
     pub token_offset: u32
+}
+
+#[repr(C)]
+#[derive(Debug)]
+pub struct Ax3Cmd {
+    pub plugin_index: u32,
+    pub method_index: u32,
 }
 
 #[repr(u8)]
@@ -195,6 +205,7 @@ pub struct Ax3File<'a> {
     pub parameters: &'a [Ax3Parameter],
     pub functions: &'a [Ax3Function],
     pub plugins: &'a [Ax3Plugin],
+    pub variable_names: Vec<Cow<'a, str>>
 }
 
 #[repr(C)]
@@ -213,15 +224,26 @@ fn read_str_bytes<'a>(input: &'a [u8]) -> &'a [u8] {
 
     panic!("No null byte in input");
 }
+
+fn read_str_literal<'a>(input: &'a [u8], offset: usize) -> Cow<'a, str> {
+    let slice = &input[offset..];
+
+    let bytes = read_str_bytes(slice);
+    let (cow, encoding_used, had_errors) = SHIFT_JIS.decode(bytes);
+    assert!(!had_errors);
+    cow
+}
+
 impl<'a> Ax3File<'a> {
     pub fn read_str_literal(&self, offset: usize) -> Cow<'a, str> {
-        let start = offset;
-        let slice = &self.literals[start..];
+        read_str_literal(&self.literals, offset)
+    }
 
-        let bytes = read_str_bytes(slice);
-        let (cow, encoding_used, had_errors) = SHIFT_JIS.decode(bytes);
-        assert!(!had_errors);
-        cow
+    pub fn read_double_literal(&self, offset: usize) -> f32 {
+        let slice = &self.literals[offset..];
+
+        let mut cursor = Cursor::new(slice);
+        cursor.read_f32::<LittleEndian>().unwrap()
     }
 }
 
@@ -354,22 +376,68 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
     result
 }
 
+fn read_variable_names<'a>(slice: &'a [u8], header: &'a Ax3Header, literals: &'a [u8]) -> Result<Vec<Cow<'a, str>>> {
+    let mut result = Vec::new();
+
+    let offset = header.debug_offset as usize;
+    let size = header.debug_size as usize;
+    let slice_range = &slice[offset..size+offset];
+    let mut cursor = Cursor::new(slice_range);
+
+    while let Ok(b) = cursor.read_u8() {
+        println!("{}", b);
+        match b {
+            252 => {
+                cursor.read_u8()?;
+                cursor.read_u8()?;
+            },
+            253 => {
+                let b1 = cursor.read_u8()? as u32;
+                let b2 = cursor.read_u8()? as u32;
+                let b3 = cursor.read_u8()? as u32;
+
+                let literal_offset = b1 ^ (b2 << 8) ^ (b3 << 16);
+                let s = read_str_literal(literals, literal_offset as usize);
+                result.push(s);
+
+                cursor.read_u8()?;
+                cursor.read_u8()?;
+            },
+            254 => {
+                cursor.read_u8()?;
+                cursor.read_u8()?;
+                cursor.read_u8()?;
+                cursor.read_u8()?;
+                cursor.read_u8()?;
+            },
+            255 => break,
+            _ => unreachable!()
+        }
+    }
+
+    Ok(result)
+}
+
 pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
-    let mut dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
-    // let ax3_view = view::parse_view(bytes);
+    let dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
 
     let slice = bytes.as_ref();
     let header: &'a Ax3Header = unsafe { &*(slice.as_ptr() as *const _) };
+
+    let literals = util::get_slice(slice, header.literal_offset, header.literal_size);
+
+    let variable_names = read_variable_names(slice, header, literals)?;
 
     let mut file = Ax3File {
         header: header,
         dict: &dict,
         labels: util::transmute_slice::<Ax3Label>(slice, header.label_offset, header.label_size),
-        literals: util::get_slice(slice, header.literal_offset, header.literal_size),
+        literals: literals,
         dlls: util::transmute_slice::<Ax3Dll>(slice, header.dll_offset, header.dll_size),
         parameters: util::transmute_slice::<Ax3Parameter>(slice, header.parameter_offset, header.parameter_size),
         functions: util::transmute_slice::<Ax3Function>(slice, header.function_offset, header.function_size),
         plugins: util::transmute_slice::<Ax3Plugin>(slice, header.plugin_offset, header.plugin_size as u32),
+        variable_names: variable_names
     };
 
     let func_names = rename_functions(&file);
