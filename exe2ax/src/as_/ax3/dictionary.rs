@@ -9,9 +9,10 @@ use anyhow::{Result, anyhow};
 
 use crate::as_::dictionary::*;
 
+#[derive(Debug)]
 pub struct Hsp3Dictionary {
-    codes: HspCodeDictionary,
-    params: HashMap<u32, String>
+    pub codes: HspCodeDictionary,
+    pub params: HashMap<u32, String>
 }
 
 fn find_subsequence(haystack: &[u8], needle: &[u8]) -> Option<usize> {
