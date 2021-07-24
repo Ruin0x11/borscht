@@ -614,14 +614,36 @@ fn expression_priority(tok: &lexical::PrimitiveToken) -> (u32, u32) {
     match &tok.kind {
         PrimitiveTokenKind::Operator => {
             match tok.dict_value.name.as_str() {
-                "+" => (6, 6),
+                "+" => (3, 3),
+                "-" => (3, 3),
+                "*" => (4, 4),
+                "/" => (4, 4),
+                "\\" => (4, 4),
+                "&" => (0, 0),
+                "|" => (0, 0),
+                "^" => (0, 0),
+                "=" => (1, 1),
+                "!" => (1, 1),
+                ">" => (1, 1),
+                "<" => (1, 1),
+                ">=" => (1, 1),
+                "<=" => (1, 1),
+                ">>" => (2, 2),
+                "<<" => (2, 2),
                 _ => (1, 1),
             }
         },
+        PrimitiveTokenKind::String(_) => (6, 6),
         x => {
             panic!("Not found op: {:?}", x);
         }
     }
+}
+
+#[derive(Debug)]
+enum ExprPart<'a> {
+    Token(lexical::PrimitiveToken<'a>),
+    Expr(AstNode<'a>)
 }
 
 impl<'a, R: Read + Seek> Parser<'a, R> {
@@ -631,9 +653,9 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
     }
 
-    fn read_primary_expression(&mut self) -> AstNode<'a> {
-        let kind = self.tokens.peek().unwrap().kind.clone();
-        match kind {
+    fn parse_primary_expression(&mut self) -> AstNode<'a> {
+        let token = self.tokens.peek().unwrap().clone();
+        match &token.kind {
             PrimitiveTokenKind::Integer => {
                 let next = self.tokens.next().unwrap();
                 let kind = AstNodeKind::Literal(LiteralNode::Integer(next.value));
@@ -641,12 +663,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             },
             PrimitiveTokenKind::Double(d) => {
                 let next = self.tokens.next().unwrap();
-                let kind = AstNodeKind::Literal(LiteralNode::Double(d));
+                let kind = AstNodeKind::Literal(LiteralNode::Double(*d));
                 AstNode::new(next.token_offset, kind)
             },
             PrimitiveTokenKind::String(s) => {
                 let next = self.tokens.next().unwrap();
-                let kind = AstNodeKind::Literal(LiteralNode::String(s));
+                let kind = AstNodeKind::Literal(LiteralNode::String(s.clone()));
                 AstNode::new(next.token_offset, kind)
             },
             PrimitiveTokenKind::GlobalVariable(ident) => self.read_variable(),
@@ -659,13 +681,20 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             PrimitiveTokenKind::PlugInFunction(_) |
             PrimitiveTokenKind::ComFunction(_) => self.read_function(true),
             x => {
-                panic!("Not found: {:?}", x);
+                panic!("Not found expr: {:?}", token);
             }
         }
     }
 
     fn next_is_end_of_stream(&mut self) -> bool {
         self.tokens.peek().is_none()
+    }
+
+    fn next_is_end_of_param(&mut self) -> bool {
+        match self.tokens.peek() {
+            Some(x) => x.is_end_of_param(),
+            None => true
+        }
     }
 
     fn next_is_end_of_line(&mut self) -> bool {
@@ -682,7 +711,15 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
     }
 
+    fn next_is_bracket_end(&mut self) -> bool {
+        match self.tokens.peek() {
+            Some(x) => x.is_bracket_end(),
+            None => true
+        }
+    }
+
     fn read_function(&mut self, has_bracket: bool) -> AstNode<'a> {
+        println!("READ FUNC");
         let tok = self.tokens.next().unwrap();
         let token_offset = tok.token_offset;
         if self.next_is_end_of_line() {
@@ -714,60 +751,89 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             ident: tok,
             arg: arg
         });
+        println!("FUNC: {}", kind);
         return AstNode::new(token_offset, kind);
     }
 
-    fn next_binds_tighter_than(&mut self, priority: u32) -> bool {
+    fn expression_continues(&mut self) -> bool {
         self.tokens.peek().map_or(false, |tok| {
-            if tok.is_bracket_end() || tok.is_end_of_param() {
-                false
-            } else {
-                expression_priority(tok).0 > priority
-            }
+            tok.is_bracket_end() || tok.is_end_of_param()
         })
     }
 
     // sdim proclist, 50, 4
 
     fn read_expression(&mut self, priority: u32) -> AstNode<'a> {
-        let mut lhs = self.read_primary_expression();
+        let mut terms = Vec::new();
 
-        while self.next_binds_tighter_than(priority) {
-            let first_op = self.tokens.next().unwrap();
-            let rhs = self.read_expression(expression_priority(&first_op).0);
-
-            let token_offset = lhs.token_offset;
-            let tab_count = lhs.tab_count;
-            let errors = lhs.errors.clone();
-            let comments = lhs.comments.clone();
-
-            let new_kind = AstNodeKind::Expression(ExpressionNode {
-                lhs: Box::new(lhs),
-                op: Some(first_op),
-                rhs: Some(Box::new(rhs))
-            });
-
-            let new_node = AstNode {
-                token_offset: token_offset,
-                tab_count: tab_count,
-                visible: true,
-                errors: errors,
-                comments: comments,
-                kind: new_kind
-            };
-
-            lhs = new_node
+        while !self.next_is_bracket_end() {
+            if let PrimitiveTokenKind::Operator = &self.tokens.peek().unwrap().kind {
+                terms.push(ExprPart::Token(self.tokens.next().unwrap()));
+            } else {
+                terms.push(ExprPart::Expr(self.parse_primary_expression()));
+            }
+            if self.next_is_end_of_param() {
+                break;
+            }
         }
-        println!("EXPR: {:?}", lhs);
-        lhs
+
+        let mut stack: Vec<AstNode<'a>> = Vec::new();
+        println!("{:?}, {}", terms, terms.len());
+
+        while terms.len() > 0 {
+            let term = terms.remove(0);
+
+            match term {
+                ExprPart::Token(op) => {
+                    let rhs = if stack.len() > 1 {
+                        stack.remove(stack.len() - 1)
+                    } else {
+                        match terms.remove(0) {
+                            ExprPart::Expr(e) => e,
+                            _ => unreachable!()
+                        }
+                    };
+                    let lhs = stack.remove(stack.len() - 1);
+
+                    let token_offset = lhs.token_offset;
+                    let tab_count = lhs.tab_count;
+                    let errors = lhs.errors.clone();
+                    let comments = lhs.comments.clone();
+
+                    let new_kind = AstNodeKind::Expression(ExpressionNode {
+                        lhs: Box::new(lhs),
+                        op: Some(op),
+                        rhs: Some(Box::new(rhs))
+                    });
+
+                    let new_node = AstNode {
+                        token_offset: token_offset,
+                        tab_count: tab_count,
+                        visible: true,
+                        errors: errors,
+                        comments: comments,
+                        kind: new_kind
+                    };
+
+                    stack.push(new_node);
+                },
+                ExprPart::Expr(a) => {
+                    stack.push(a);
+                }
+            }
+        }
+
+        let expr = stack.remove(0);
+        println!("EXPR: {}", expr);
+        expr
     }
 
     fn read_argument(&mut self) -> AstNode<'a> {
         let has_bracket = self.tokens.peek().map_or(false, |x| x.is_bracket_start());
         self.tokens.next_if(|x| has_bracket);
 
-        let next = self.tokens.next().unwrap();
-        let first_arg_is_null = next.is_end_of_param();
+        let token_offset = self.tokens.peek().unwrap().token_offset;
+        let first_arg_is_null = self.next_is_end_of_param();
         let mut exps = Vec::new();
 
         while let Some(x) = self.tokens.peek() {
@@ -784,7 +850,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             has_bracket: has_bracket,
             first_arg_is_null: first_arg_is_null
         });
-        AstNode::new(next.token_offset, kind)
+        AstNode::new(token_offset, kind)
     }
 
     fn read_variable(&mut self) -> AstNode<'a> {
@@ -840,10 +906,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         };
 
         let if_block = Box::new(self.read_block());
+        let mut else_primitive = None;
         let mut else_block = None;
 
         if let Some(token) = self.tokens.peek() {
             if let PrimitiveTokenKind::IfStatement(_) = &token.kind {
+                else_primitive = Some(token.clone());
                 else_block = Some(Box::new(self.read_block()));
             }
         }
@@ -852,6 +920,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             primitive: primitive,
             arg: arg,
             if_block: if_block,
+            else_primitive: else_primitive,
             else_block: else_block
         });
         AstNode::new(token_offset, kind)

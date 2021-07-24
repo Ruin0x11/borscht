@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 use std::convert::TryFrom;
+use std::fmt;
 use std::io::{Read, Seek, SeekFrom};
 use byteorder::{LittleEndian, ReadBytesExt};
 use bitflags::bitflags;
@@ -61,6 +62,12 @@ pub struct PrimitiveToken<'a> {
     // name: &'a str,
     pub dict_value: HspDictionaryValue,
     pub kind: PrimitiveTokenKind<'a>
+}
+
+impl<'a> fmt::Display for PrimitiveToken<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.dict_value.name)
+    }
 }
 
 impl<'a> PrimitiveToken<'a> {
