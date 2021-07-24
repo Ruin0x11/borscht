@@ -610,6 +610,20 @@ pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>
 }
 
+fn expression_priority(tok: &lexical::PrimitiveToken) -> (u32, u32) {
+    match &tok.kind {
+        PrimitiveTokenKind::Operator => {
+            match tok.dict_value.name.as_str() {
+                "+" => (6, 6),
+                _ => (1, 1),
+            }
+        },
+        x => {
+            panic!("Not found op: {:?}", x);
+        }
+    }
+}
+
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>) -> Self {
         Parser {
@@ -617,8 +631,254 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
     }
 
+    fn read_primary_expression(&mut self) -> AstNode<'a> {
+        let kind = self.tokens.peek().unwrap().kind.clone();
+        match kind {
+            PrimitiveTokenKind::Integer => {
+                let next = self.tokens.next().unwrap();
+                let kind = AstNodeKind::Literal(LiteralNode::Integer(next.value));
+                AstNode::new(next.token_offset, kind)
+            },
+            PrimitiveTokenKind::Double(d) => {
+                let next = self.tokens.next().unwrap();
+                let kind = AstNodeKind::Literal(LiteralNode::Double(d));
+                AstNode::new(next.token_offset, kind)
+            },
+            PrimitiveTokenKind::String(s) => {
+                let next = self.tokens.next().unwrap();
+                let kind = AstNodeKind::Literal(LiteralNode::String(s));
+                AstNode::new(next.token_offset, kind)
+            },
+            PrimitiveTokenKind::GlobalVariable(ident) => self.read_variable(),
+            PrimitiveTokenKind::HspFunction |
+            PrimitiveTokenKind::OnFunction |
+            PrimitiveTokenKind::OnEventFunction |
+            PrimitiveTokenKind::McallFunction |
+            PrimitiveTokenKind::UserFunction(_) |
+            PrimitiveTokenKind::DllFunction(_) |
+            PrimitiveTokenKind::PlugInFunction(_) |
+            PrimitiveTokenKind::ComFunction(_) => self.read_function(true),
+            x => {
+                panic!("Not found: {:?}", x);
+            }
+        }
+    }
+
+    fn next_is_end_of_stream(&mut self) -> bool {
+        self.tokens.peek().is_none()
+    }
+
+    fn next_is_end_of_line(&mut self) -> bool {
+        match self.tokens.peek() {
+            Some(x) => x.is_end_of_line(),
+            None => true
+        }
+    }
+
+    fn next_is_bracket_start(&mut self) -> bool {
+        match self.tokens.peek() {
+            Some(x) => x.is_bracket_start(),
+            None => true
+        }
+    }
+
+    fn read_function(&mut self, has_bracket: bool) -> AstNode<'a> {
+        let tok = self.tokens.next().unwrap();
+        let token_offset = tok.token_offset;
+        if self.next_is_end_of_line() {
+            let kind = AstNodeKind::Function(FunctionNode {
+                ident: tok,
+                arg: None
+            });
+            return AstNode::new(token_offset, kind);
+        }
+
+        if tok.has_ghost_label() {
+            self.tokens.next().unwrap();
+            if self.next_is_end_of_line() {
+                let kind = AstNodeKind::Function(FunctionNode {
+                    ident: tok,
+                    arg: None
+                });
+                return AstNode::new(token_offset, kind);
+            }
+        }
+
+        let arg = if self.next_is_bracket_start() || has_bracket {
+            Some(Box::new(self.read_argument()))
+        } else {
+            None
+        };
+
+        let kind = AstNodeKind::Function(FunctionNode {
+            ident: tok,
+            arg: arg
+        });
+        return AstNode::new(token_offset, kind);
+    }
+
+    fn next_binds_tighter_than(&mut self, priority: u32) -> bool {
+        self.tokens.peek().map_or(false, |tok| {
+            if tok.is_bracket_end() || tok.is_end_of_param() {
+                false
+            } else {
+                expression_priority(tok).0 > priority
+            }
+        })
+    }
+
+    // sdim proclist, 50, 4
+
+    fn read_expression(&mut self, priority: u32) -> AstNode<'a> {
+        let mut lhs = self.read_primary_expression();
+
+        while self.next_binds_tighter_than(priority) {
+            let first_op = self.tokens.next().unwrap();
+            let rhs = self.read_expression(expression_priority(&first_op).0);
+
+            let token_offset = lhs.token_offset;
+            let tab_count = lhs.tab_count;
+            let errors = lhs.errors.clone();
+            let comments = lhs.comments.clone();
+
+            let new_kind = AstNodeKind::Expression(ExpressionNode {
+                lhs: Box::new(lhs),
+                op: Some(first_op),
+                rhs: Some(Box::new(rhs))
+            });
+
+            let new_node = AstNode {
+                token_offset: token_offset,
+                tab_count: tab_count,
+                visible: true,
+                errors: errors,
+                comments: comments,
+                kind: new_kind
+            };
+
+            lhs = new_node
+        }
+        println!("EXPR: {:?}", lhs);
+        lhs
+    }
+
+    fn read_argument(&mut self) -> AstNode<'a> {
+        let has_bracket = self.tokens.peek().map_or(false, |x| x.is_bracket_start());
+        self.tokens.next_if(|x| has_bracket);
+
+        let next = self.tokens.next().unwrap();
+        let first_arg_is_null = next.is_end_of_param();
+        let mut exps = Vec::new();
+
+        while let Some(x) = self.tokens.peek() {
+            if has_bracket && x.is_bracket_end() {
+                self.tokens.next().unwrap();
+                break;
+            }
+
+            exps.push(Box::new(self.read_expression(0)));
+        }
+
+        let kind = AstNodeKind::Argument(ArgumentNode {
+            exps: exps,
+            has_bracket: has_bracket,
+            first_arg_is_null: first_arg_is_null
+        });
+        AstNode::new(next.token_offset, kind)
+    }
+
+    fn read_variable(&mut self) -> AstNode<'a> {
+        let ident = self.tokens.next().unwrap();
+        let token_offset = ident.token_offset;
+        let next = self.tokens.peek().unwrap();
+        let arg = if next.is_bracket_start() {
+            // Array access
+            Some(Box::new(self.read_argument()))
+        } else {
+            None
+        };
+
+        let kind = AstNodeKind::Variable(VariableNode {
+            ident: ident,
+            arg: arg
+        });
+        AstNode::new(token_offset, kind)
+    }
+
+    fn ensure_token(&mut self, flag: HspCodeExtraFlags) -> lexical::PrimitiveToken {
+        let token = self.tokens.next().unwrap();
+        if token.dict_value.extra & flag != flag {
+            panic!("Not found: {:?}", token);
+        }
+        token
+    }
+
+    fn read_block(&mut self) -> AstNode<'a> {
+        let mut exprs = Vec::new();
+        let token_offset = self.ensure_token(HspCodeExtraFlags::BracketStart).token_offset;
+        while let Some(token) = self.tokens.peek() {
+            if token.dict_value.extra.contains(HspCodeExtraFlags::BracketEnd) {
+                break;
+            }
+            exprs.push(Box::new(self.read_logical_line()));
+        }
+        self.ensure_token(HspCodeExtraFlags::BracketEnd);
+
+        let kind = AstNodeKind::BlockStatement(BlockStatementNode {
+            nodes: exprs,
+        });
+        AstNode::new(token_offset, kind)
+    }
+
+    fn read_if_statement(&mut self) -> AstNode<'a> {
+        let primitive = self.tokens.next().unwrap();
+        let token_offset = primitive.token_offset;
+        let arg = if self.next_is_end_of_line() {
+            None
+        } else {
+            Some(Box::new(self.read_argument()))
+        };
+
+        let if_block = Box::new(self.read_block());
+        let mut else_block = None;
+
+        if let Some(token) = self.tokens.peek() {
+            if let PrimitiveTokenKind::IfStatement(_) = &token.kind {
+                else_block = Some(Box::new(self.read_block()));
+            }
+        }
+
+        let kind = AstNodeKind::IfStatement(IfStatementNode {
+            primitive: primitive,
+            arg: arg,
+            if_block: if_block,
+            else_block: else_block
+        });
+        AstNode::new(token_offset, kind)
+    }
+
+    pub fn read_logical_line(&mut self) -> AstNode<'a> {
+        match &self.tokens.peek().unwrap().kind {
+            PrimitiveTokenKind::GlobalVariable(_) => {
+                self.read_variable()
+            },
+            PrimitiveTokenKind::IfStatement(_) => {
+                self.read_if_statement()
+            },
+            x => {
+                panic!("Not found: {:?}", x);
+            }
+        }
+    }
+
     pub fn parse(&mut self) -> Vec<AstNode<'a>> {
-        Vec::new()
+        let mut result = Vec::new();
+
+        while let Some(token) = self.tokens.peek() {
+            result.push(self.read_logical_line());
+        }
+
+        result
     }
 }
 
@@ -627,7 +887,6 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
 
     let slice = bytes.as_ref();
     let header: &'a Ax3Header = unsafe { &*(slice.as_ptr() as *const _) };
-    println!("{:?}", header);
 
     let literals = util::get_slice(slice, header.literal_offset, header.literal_size);
 
@@ -663,8 +922,6 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     let mut parser = Parser::new(iter);
 
     let nodes = parser.parse();
-
-    println!("{:?}", nodes);
 
     Ok(())
 }

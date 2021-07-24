@@ -6,7 +6,7 @@ pub type AstNodeRef<'a> = Box<AstNode<'a>>;
 #[derive(Clone, Debug)]
 pub struct IfStatementNode<'a> {
     pub primitive: PrimitiveToken<'a>,
-    pub arg: AstNodeRef<'a>,
+    pub arg: Option<AstNodeRef<'a>>,
     pub if_block: AstNodeRef<'a>,
     pub else_block: Option<AstNodeRef<'a>>,
 }

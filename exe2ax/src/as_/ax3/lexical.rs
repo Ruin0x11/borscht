@@ -72,13 +72,16 @@ impl<'a> PrimitiveToken<'a> {
        self.dict_value.extra.contains(HspCodeExtraFlags::BracketEnd)
    }
 
+   pub fn has_ghost_label(&self) -> bool {
+       self.dict_value.extra.contains(HspCodeExtraFlags::HasGhostLabel)
+   }
+
    pub fn is_end_of_param(&self) -> bool {
        self.flag.contains(PrimitiveTokenFlags::IsLineHead) || self.flag.contains(PrimitiveTokenFlags::IsParamHead)
    }
 
-   pub fn is_end_of_stream(&self) -> bool {
-       // TODO
-       false
+   pub fn is_end_of_line(&self) -> bool {
+       self.flag.contains(PrimitiveTokenFlags::IsLineHead)
    }
 }
 
@@ -192,7 +195,9 @@ impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
                     None
                 };
 
-                Some(make_primitive(self.file, v, self.token_offset, type_, flag, value, extra_value))
+                let token = make_primitive(self.file, v, self.token_offset, type_, flag, value, extra_value);
+                println!("{:?}", token);
+                Some(token)
             },
             None => {
                 Some(PrimitiveToken {
