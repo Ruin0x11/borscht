@@ -231,7 +231,7 @@ fn read_str_literal<'a>(input: &'a [u8], offset: usize) -> Cow<'a, str> {
     let slice = &input[offset..];
 
     let bytes = read_str_bytes(slice);
-    let (cow, encoding_used, had_errors) = SHIFT_JIS.decode(bytes);
+    let (cow, _encoding_used, had_errors) = SHIFT_JIS.decode(bytes);
     assert!(!had_errors);
     cow
 }
@@ -260,7 +260,7 @@ fn find_noncolliding_name(default_name: &str, function_names: &HashSet<String>) 
 }
 
 fn find_noncolliding_name_func(prefix: &str, function_names: &HashSet<String>) -> String {
-    let mut new_name = String::new();
+    let mut new_name;
     let mut i = 1;
     loop {
         new_name = format!("{}_{}", prefix, i);
@@ -281,7 +281,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
 
     let mut resolved = HashMap::new();
 
-    let mut dict_funcnames = file.dict.get_all_function_names();
+    let dict_funcnames = file.dict.get_all_function_names();
     for name in dict_funcnames {
         function_names.insert(name);
     }
@@ -348,7 +348,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
         }
     }
 
-    for (func, i) in com_funcs.into_iter() {
+    for (_func, i) in com_funcs.into_iter() {
         let new_name = find_noncolliding_name_func("comfunc", &function_names);
         function_names.insert(new_name.to_lowercase());
         resolved.insert(i, new_name);
@@ -358,7 +358,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
 }
 
 fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
-    let count = file.labels.len();
+    let _count = file.labels.len();
     let mut labels = Vec::new();
     let mut result = HashMap::new();
 
@@ -368,7 +368,7 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
 
     labels.sort_by(|a, b| a.1.cmp(&b.1));
 
-    let keta = f32::log10(count as f32) as usize + 1;
+    // let keta = f32::log10(count as f32) as usize + 1;
 
     for (i, _) in labels.iter().enumerate() {
         let new_name = format!("*label{:0>4}", i);
@@ -424,8 +424,7 @@ use self::lexical::PrimitiveTokenKind;
 use std::iter::Peekable;
 use self::ast::*;
 
-type Iter<'a, R> = Peekable<lexical::TokenIterator<'a, R>>;
-
+/*
 fn read_primary_expression<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
     let kind = iter.peek().unwrap().kind.clone();
     match kind {
@@ -474,82 +473,82 @@ fn read_expression_1<'a, R: Read + Seek>(iter: &mut Iter<'a, R>, lhs: AstNode<'a
         return None;
     }
 
-    let mut lookahead = iter.peek().unwrap().clone();
+    // let mut lookahead = iter.peek().unwrap().clone();
 
-    let continue_lhs = |tok| {
-        return priority(tok).0 >= min_priority
-    };
+    // let continue_lhs = |tok| {
+    //     return priority(tok).0 >= min_priority
+    // };
 
-    let continue_rhs = |tok, first_priority| {
-        return priority(tok).1 >= first_priority
-    };
+    // let continue_rhs = |tok, first_priority| {
+    //     return priority(tok).1 >= first_priority
+    // };
 
-    while priority(&lookahead).0 >= min_priority {
-        let first_op = iter.next().unwrap();
-        let first_prio = priority(&first_op).0;
+    // while continue_lhs(&lookahead) {
+    //     let first_op = iter.next().unwrap();
+    //     let first_prio = priority(&first_op).0;
 
-        let mut rhs = read_primary_expression(iter);
-        lookahead = iter.peek().unwrap().clone();
+    //     let mut rhs = read_primary_expression(iter);
+    //     lookahead = iter.peek().unwrap().clone();
 
-        while continue_rhs(&lookahead, first_prio) {
-            let second_prio = priority(&lookahead).0;
-            match read_expression_1(iter, rhs, second_prio) {
-                Some(new_rhs) => {
-                    rhs = new_rhs;
-                    lookahead = iter.peek().unwrap().clone();
-                },
-                None => return Some(rhs)
-            }
-        }
+    //     while continue_rhs(&lookahead, first_prio) {
+    //         let second_prio = priority(&lookahead).0;
+    //         match read_expression_1(iter, rhs, second_prio) {
+    //             Some(new_rhs) => {
+    //                 rhs = new_rhs;
+    //                 lookahead = iter.peek().unwrap().clone();
+    //             },
+    //             None => return Some(rhs)
+    //         }
+    //     }
 
-        let new_kind = AstNodeKind::Expression(ExpressionNode {
-            lhs: Box::new(lhs),
-            op: Some(first_op),
-            rhs: Some(Box::new(rhs))
-        });
+    //     let new_kind = AstNodeKind::Expression(ExpressionNode {
+    //         lhs: Box::new(lhs),
+    //         op: Some(first_op),
+    //         rhs: Some(Box::new(rhs))
+    //     });
 
-        lhs = AstNode {
-            token_offset: lhs.token_offset,
-            tab_count: lhs.tab_count,
-            visible: true,
-            errors: lhs.errors.clone(),
-            comments: lhs.comments.clone(),
-            kind: new_kind
-        }
-    }
+    //     lhs = AstNode {
+    //         token_offset: lhs.token_offset,
+    //         tab_count: lhs.tab_count,
+    //         visible: true,
+    //         errors: lhs.errors.clone(),
+    //         comments: lhs.comments.clone(),
+    //         kind: new_kind
+    //     }
+    // }
 
-    return Some(lhs);
+    None
 }
 
 fn read_expression<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
-    let primary = read_primary_expression(iter);
-    match read_expression_1(iter, primary, 0) {
-        Some(rhs) => rhs,
-        None => primary
-    }
+    // let primary = read_primary_expression(iter);
+    // match read_expression_1(iter, primary, 0) {
+    //     Some(rhs) => rhs,
+    //     None => primary
+    // }
 }
 
 fn read_argument<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
-    let has_bracket = iter.peek().map_or(false, |x| x.is_bracket_start());
-    iter.next_if(|x| has_bracket);
+    // let has_bracket = iter.peek().map_or(false, |x| x.is_bracket_start());
+    // iter.next_if(|x| has_bracket);
 
-    let next = iter.next().unwrap();
-    let first_arg_is_null = next.is_end_of_param();
-    let mut exps = Vec::new();
+    // let next = iter.next().unwrap();
+    // let first_arg_is_null = next.is_end_of_param();
+    // let mut exps = Vec::new();
 
-    while let Some(x) = iter.peek() {
-        if has_bracket && x.is_bracket_end() {
-            iter.next().unwrap();
-            break;
-        }
-        exps.push(Box::new(read_expression(iter)));
-    }
+    // while let Some(x) = iter.peek() {
+    //     if has_bracket && x.is_bracket_end() {
+    //         iter.next().unwrap();
+    //         break;
+    //     }
+    //     exps.push(Box::new(read_expression(iter)));
+    // }
 
-    let kind = AstNodeKind::Argument(ArgumentNode {
-        exps: exps,
-        has_bracket: has_bracket,
-        first_arg_is_null: first_arg_is_null
-    });
+    // let kind = AstNodeKind::Argument(ArgumentNode {
+    //     exps: exps,
+    //     has_bracket: has_bracket,
+    //     first_arg_is_null: first_arg_is_null
+    // });
     AstNode::new(next.token_offset, kind)
 }
 
@@ -605,12 +604,30 @@ fn read_nodes<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> () {
         }
     }
 }
+*/
+
+pub struct Parser<'a, R: Read + Seek> {
+    tokens: Peekable<lexical::TokenIterator<'a, R>>
+}
+
+impl<'a, R: Read + Seek> Parser<'a, R> {
+    pub fn new(tokens: lexical::TokenIterator<'a, R>) -> Self {
+        Parser {
+            tokens: tokens.peekable()
+        }
+    }
+
+    pub fn parse(&mut self) -> Vec<AstNode<'a>> {
+        Vec::new()
+    }
+}
 
 pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     let dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
 
     let slice = bytes.as_ref();
     let header: &'a Ax3Header = unsafe { &*(slice.as_ptr() as *const _) };
+    println!("{:?}", header);
 
     let literals = util::get_slice(slice, header.literal_offset, header.literal_size);
 
@@ -629,9 +646,9 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         variable_names: variable_names
     };
 
-    let func_names = rename_functions(&file);
+    let _func_names = rename_functions(&file);
 
-    let label_names = rename_labels(&file);
+    let _label_names = rename_labels(&file);
 
     let reader = Cursor::new(file.code);
 
@@ -643,7 +660,11 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         file: &file
     };
 
-    let nodes = read_nodes(&mut iter.peekable());
+    let mut parser = Parser::new(iter);
+
+    let nodes = parser.parse();
+
+    println!("{:?}", nodes);
 
     Ok(())
 }

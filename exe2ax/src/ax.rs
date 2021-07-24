@@ -4,6 +4,7 @@ use std::str::{self, FromStr};
 use anyhow::{Result, anyhow};
 
 use crate::dpm::Dpm;
+use crate::crypt;
 use crate::error;
 
 #[derive(Clone, Debug)]
@@ -42,19 +43,25 @@ impl AsRef<[u8]> for Ax {
 pub fn dpm_to_ax(dpm: &Dpm) -> Result<Ax> {
     let start_ax = dpm.get_file_data("start.ax").ok_or_else(|| anyhow!("No start.ax found in DPM file"))?;
 
-    if start_ax.file.encryption_key.is_some() {
-        return Err(anyhow!("Encrypted files are not supported"))
-    }
+    let buffer = if start_ax.file.encryption_key.is_some() {
+        crypt::decrypt(&start_ax.data)?
+    } else {
+        start_ax.data.clone()
+    };
 
-    let mut stream = Cursor::new(&start_ax.data);
+    bytes_to_ax(buffer)
+}
+
+pub fn bytes_to_ax(buffer: Vec<u8>) -> Result<Ax> {
+    let mut stream = Cursor::new(&buffer);
 
     let mut header = [0; 4];
     stream.read_exact(&mut header)?;
     let s = str::from_utf8(&header)?;
 
     AxType::from_str(s).map(|t| match t {
-        AxType::Ax2 => Ax::Ax2(start_ax.data.clone()),
-        AxType::Ax3 => Ax::Ax3(start_ax.data.clone())
+        AxType::Ax2 => Ax::Ax2(buffer),
+        AxType::Ax3 => Ax::Ax3(buffer)
     })
     .map_err(|e| anyhow!(e))
 }

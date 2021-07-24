@@ -3,6 +3,7 @@ use std::borrow::Cow;
 
 pub type AstNodeRef<'a> = Box<AstNode<'a>>;
 
+#[derive(Clone, Debug)]
 pub struct IfStatementNode<'a> {
     pub primitive: PrimitiveToken<'a>,
     pub arg: AstNodeRef<'a>,
@@ -10,59 +11,70 @@ pub struct IfStatementNode<'a> {
     pub else_block: Option<AstNodeRef<'a>>,
 }
 
+#[derive(Clone, Debug)]
 pub struct AssignmentNode<'a> {
     pub var: AstNodeRef<'a>,
     pub operator: PrimitiveToken<'a>,
     pub argument: Option<AstNodeRef<'a>> // Is None in cases like `x++`
 }
 
+#[derive(Clone, Debug)]
 pub enum LiteralNode<'a> {
     Integer(i32),
     Double(f32),
     String(Cow<'a, str>)
 }
 
+#[derive(Clone, Debug)]
 pub struct VariableNode<'a> {
     pub ident: PrimitiveToken<'a>,
     pub arg: Option<AstNodeRef<'a>>
 }
 
+#[derive(Clone, Debug)]
 pub struct ExpressionNode<'a> {
     pub lhs: AstNodeRef<'a>,
     pub op: Option<PrimitiveToken<'a>>,
     pub rhs: Option<AstNodeRef<'a>>
 }
 
+#[derive(Clone, Debug)]
 pub struct ArgumentNode<'a> {
     pub exps: Vec<AstNodeRef<'a>>,
     pub has_bracket: bool,
     pub first_arg_is_null: bool
 }
 
+#[derive(Clone, Debug)]
 pub struct FunctionNode<'a> {
     pub ident: PrimitiveToken<'a>,
     pub arg: Option<AstNodeRef<'a>>
 }
 
+#[derive(Clone, Debug)]
 pub struct OnStatementNode<'a> {
     pub primitive: PrimitiveToken<'a>,
     pub exp: Option<AstNodeRef<'a>>,
     pub func: Option<AstNodeRef<'a>>,
 }
 
+#[derive(Clone, Debug)]
 pub struct OnEventStatementNode<'a> {
     pub primitive: PrimitiveToken<'a>,
     pub func: Option<AstNodeRef<'a>>,
 }
 
+#[derive(Clone, Debug)]
 pub struct BlockStatementNode<'a> {
     pub nodes: Vec<AstNodeRef<'a>>
 }
 
+#[derive(Clone, Debug)]
 pub struct LabelDeclarationNode<'a> {
     pub primitive: PrimitiveToken<'a>,
 }
 
+#[derive(Clone, Debug)]
 pub struct McallStatementNode<'a> {
     pub primitive: PrimitiveToken<'a>,
     pub var: AstNodeRef<'a>,
@@ -70,10 +82,12 @@ pub struct McallStatementNode<'a> {
     pub secondary_exps: Vec<AstNodeRef<'a>>,
 }
 
+#[derive(Clone, Debug)]
 pub struct CommandStatementNode<'a> {
     pub func: AstNodeRef<'a>,
 }
 
+#[derive(Clone, Debug)]
 pub enum AstNodeKind<'a> {
     IfStatement(IfStatementNode<'a>),
     Assignment(AssignmentNode<'a>),
@@ -90,6 +104,7 @@ pub enum AstNodeKind<'a> {
     McallStatement(McallStatementNode<'a>),
 }
 
+#[derive(Clone, Debug)]
 pub struct AstNode<'a> {
     pub token_offset: u32,
     pub tab_count: u32,

@@ -176,7 +176,7 @@ impl Hsp3Dictionary {
     pub fn get_all_function_names(&self) -> Vec<String> {
         let mut result = Vec::new();
 
-        for (key, value) in self.codes.iter() {
+        for (_key, value) in self.codes.iter() {
             match value.code_type {
                 HspCodeType::HspFunction |
                 HspCodeType::IfStatement |

@@ -7,7 +7,7 @@ extern crate hexyl;
 extern crate exe2ax;
 
 use std::fs::{self, File};
-use std::io::{self};
+use std::io::{self, Read, Write};
 use std::path::{Path};
 use anyhow::Result;
 use clap::{Arg, App, SubCommand, ArgMatches, crate_version, crate_authors};
@@ -64,9 +64,12 @@ fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
 
     let dpm = exe2ax::dpm::exe_to_dpm(&mut input_file)?;
     let ax = exe2ax::ax::dpm_to_ax(&dpm)?;
-    let as_ = exe2ax::as_::ax_to_as(&ax)?;
 
-    // print_bytes(&dpm);
+    let output_file = output_dir.join(input_path.with_extension("ax").file_name().unwrap());
+    let mut file = File::create(&output_file)?;
+    file.write_all(ax.as_ref())?;
+
+    println!("Wrote {:?}.", output_file);
 
     Ok(())
 }
@@ -78,8 +81,9 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
         None => input_file.parent().unwrap()
     };
 
-    // let scene = avg32::load(&input_file.to_str().unwrap())?;
-    // let sexp = disasm::disassemble(&scene)?;
+    let buffer = fs::read(input_file)?;
+    let ax = exe2ax::ax::bytes_to_ax(buffer)?;
+    let as_ = exe2ax::as_::ax_to_as(&ax)?;
 
     let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
     // let mut file = File::create(&output_file)?;

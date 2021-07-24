@@ -1,5 +1,7 @@
 #![feature(seek_stream_len)]
 #![allow(unused_imports)]
+#![allow(non_upper_case_globals)]
+
 
 extern crate pelite;
 extern crate anyhow;
