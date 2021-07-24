@@ -1,4 +1,5 @@
 use super::lexical::PrimitiveToken;
+use std::borrow::Cow;
 
 pub type AstNodeRef<'a> = Box<AstNode<'a>>;
 
@@ -15,7 +16,30 @@ pub struct AssignmentNode<'a> {
     pub argument: Option<AstNodeRef<'a>> // Is None in cases like `x++`
 }
 
+pub enum LiteralNode<'a> {
+    Integer(i32),
+    Double(f32),
+    String(Cow<'a, str>)
+}
+
 pub struct VariableNode<'a> {
+    pub ident: PrimitiveToken<'a>,
+    pub arg: Option<AstNodeRef<'a>>
+}
+
+pub struct ExpressionNode<'a> {
+    pub lhs: AstNodeRef<'a>,
+    pub op: Option<PrimitiveToken<'a>>,
+    pub rhs: Option<AstNodeRef<'a>>
+}
+
+pub struct ArgumentNode<'a> {
+    pub exps: Vec<AstNodeRef<'a>>,
+    pub has_bracket: bool,
+    pub first_arg_is_null: bool
+}
+
+pub struct FunctionNode<'a> {
     pub ident: PrimitiveToken<'a>,
     pub arg: Option<AstNodeRef<'a>>
 }
@@ -53,7 +77,11 @@ pub struct CommandStatementNode<'a> {
 pub enum AstNodeKind<'a> {
     IfStatement(IfStatementNode<'a>),
     Assignment(AssignmentNode<'a>),
+    Literal(LiteralNode<'a>),
     Variable(VariableNode<'a>),
+    Expression(ExpressionNode<'a>),
+    Argument(ArgumentNode<'a>),
+    Function(FunctionNode<'a>),
     OnStatement(OnStatementNode<'a>),
     OnEventStatement(OnEventStatementNode<'a>),
     BlockStatement(BlockStatementNode<'a>),
@@ -75,7 +103,7 @@ impl<'a> AstNode<'a> {
     pub fn new(token_offset: u32, kind: AstNodeKind<'a>) -> Self {
         AstNode {
             token_offset: token_offset,
-            tab_count: tab_count,
+            tab_count: 0,
             visible: true,
             errors: Vec::new(),
             comments: Vec::new(),

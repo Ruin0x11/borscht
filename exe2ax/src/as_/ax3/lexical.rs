@@ -30,7 +30,7 @@ bitflags! {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum PrimitiveTokenKind<'a> {
     Label(&'a Ax3Label),
     Integer,
@@ -52,7 +52,7 @@ pub enum PrimitiveTokenKind<'a> {
     Unknown,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PrimitiveToken<'a> {
     pub token_offset: u32,
     pub type_: u8,
@@ -68,8 +68,17 @@ impl<'a> PrimitiveToken<'a> {
        self.dict_value.extra.contains(HspCodeExtraFlags::BracketStart)
    }
 
+   pub fn is_bracket_end(&self) -> bool {
+       self.dict_value.extra.contains(HspCodeExtraFlags::BracketEnd)
+   }
+
    pub fn is_end_of_param(&self) -> bool {
        self.flag.contains(PrimitiveTokenFlags::IsLineHead) || self.flag.contains(PrimitiveTokenFlags::IsParamHead)
+   }
+
+   pub fn is_end_of_stream(&self) -> bool {
+       // TODO
+       false
    }
 }
 

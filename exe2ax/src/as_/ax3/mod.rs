@@ -51,7 +51,7 @@ pub struct Ax3Label {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Ax3Cmd {
     pub plugin_index: u32,
     pub method_index: u32,
@@ -426,32 +426,180 @@ use self::ast::*;
 
 type Iter<'a, R> = Peekable<lexical::TokenIterator<'a, R>>;
 
-fn read_argument<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
-    iter.next_if(|&x| x.is_bracket_start());
+fn read_primary_expression<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
+    let kind = iter.peek().unwrap().kind.clone();
+    match kind {
+        PrimitiveTokenKind::Integer => {
+            let next = iter.next().unwrap();
+            let kind = AstNodeKind::Literal(LiteralNode::Integer(next.value));
+            AstNode::new(next.token_offset, kind)
+        },
+        PrimitiveTokenKind::Double(d) => {
+            let next = iter.next().unwrap();
+            let kind = AstNodeKind::Literal(LiteralNode::Double(d));
+            AstNode::new(next.token_offset, kind)
+        },
+        PrimitiveTokenKind::String(s) => {
+            let next = iter.next().unwrap();
+            let kind = AstNodeKind::Literal(LiteralNode::String(s));
+            AstNode::new(next.token_offset, kind)
+        },
+        PrimitiveTokenKind::GlobalVariable(ident) => read_variable(iter),
+        PrimitiveTokenKind::HspFunction |
+        PrimitiveTokenKind::OnFunction |
+        PrimitiveTokenKind::OnEventFunction |
+        PrimitiveTokenKind::McallFunction |
+        PrimitiveTokenKind::UserFunction(_) |
+        PrimitiveTokenKind::DllFunction(_) |
+        PrimitiveTokenKind::PlugInFunction(_) |
+        PrimitiveTokenKind::ComFunction(_) => read_function(iter),
+        _ => unreachable!()
+    }
+}
 
-    let next = iter.next().unwrap();
+fn priority(tok: &lexical::PrimitiveToken) -> (u32, u32) {
+    match tok.kind {
+        PrimitiveTokenKind::Operator => {
+            match tok.dict_value.name.as_str() {
+                "+" => (6, 6),
+                _ => (1, 1),
+            }
+        },
+        _ => unreachable!()
+    }
+}
 
-    if next.is_end_of_param() {
-       
+fn read_expression_1<'a, R: Read + Seek>(iter: &mut Iter<'a, R>, lhs: AstNode<'a>, min_priority: u32) -> Option<AstNode<'a>> {
+    if iter.peek().map_or(false, |x| x.is_end_of_param()) {
+        return None;
     }
 
+    let mut lookahead = iter.peek().unwrap().clone();
+
+    let continue_lhs = |tok| {
+        return priority(tok).0 >= min_priority
+    };
+
+    let continue_rhs = |tok, first_priority| {
+        return priority(tok).1 >= first_priority
+    };
+
+    while priority(&lookahead).0 >= min_priority {
+        let first_op = iter.next().unwrap();
+        let first_prio = priority(&first_op).0;
+
+        let mut rhs = read_primary_expression(iter);
+        lookahead = iter.peek().unwrap().clone();
+
+        while continue_rhs(&lookahead, first_prio) {
+            let second_prio = priority(&lookahead).0;
+            match read_expression_1(iter, rhs, second_prio) {
+                Some(new_rhs) => {
+                    rhs = new_rhs;
+                    lookahead = iter.peek().unwrap().clone();
+                },
+                None => return Some(rhs)
+            }
+        }
+
+        let new_kind = AstNodeKind::Expression(ExpressionNode {
+            lhs: Box::new(lhs),
+            op: Some(first_op),
+            rhs: Some(Box::new(rhs))
+        });
+
+        lhs = AstNode {
+            token_offset: lhs.token_offset,
+            tab_count: lhs.tab_count,
+            visible: true,
+            errors: lhs.errors.clone(),
+            comments: lhs.comments.clone(),
+            kind: new_kind
+        }
+    }
+
+    return Some(lhs);
+}
+
+fn read_expression<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
+    let primary = read_primary_expression(iter);
+    match read_expression_1(iter, primary, 0) {
+        Some(rhs) => rhs,
+        None => primary
+    }
+}
+
+fn read_argument<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
+    let has_bracket = iter.peek().map_or(false, |x| x.is_bracket_start());
+    iter.next_if(|x| has_bracket);
+
+    let next = iter.next().unwrap();
+    let first_arg_is_null = next.is_end_of_param();
+    let mut exps = Vec::new();
+
+    while let Some(x) = iter.peek() {
+        if has_bracket && x.is_bracket_end() {
+            iter.next().unwrap();
+            break;
+        }
+        exps.push(Box::new(read_expression(iter)));
+    }
+
+    let kind = AstNodeKind::Argument(ArgumentNode {
+        exps: exps,
+        has_bracket: has_bracket,
+        first_arg_is_null: first_arg_is_null
+    });
     AstNode::new(next.token_offset, kind)
+}
+
+fn read_function<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
+    let tok = iter.next().unwrap();
+    let token_offset = tok.token_offset;
+    if iter.peek().map_or(false, |x| x.is_end_of_stream()) {
+        let kind = AstNodeKind::Function(FunctionNode {
+            ident: tok,
+            arg: None
+        });
+        return AstNode::new(token_offset, kind);
+    }
+
+
+    let kind = AstNodeKind::Function(FunctionNode {
+        ident: tok,
+        arg: None
+    });
+    return AstNode::new(token_offset, kind);
+}
+
+fn read_variable<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
+    let ident = iter.next().unwrap();
+    let token_offset = ident.token_offset;
+    let next = iter.peek().unwrap();
+    let arg = if next.is_bracket_start() {
+        // Array access
+        Some(Box::new(read_argument(iter)))
+    } else {
+        None
+    };
+
+    let kind = AstNodeKind::Variable(VariableNode {
+        ident: ident,
+        arg: arg
+    });
+    AstNode::new(token_offset, kind)
 }
 
 fn read_nodes<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> () {
     let mut tab_count = 0;
-    while let Some(token) = iter.next() {
+    while let Some(token) = iter.peek() {
         let token_offset = token.token_offset;
         let tab_count = tab_count;
         println!("{:?}", token);
 
         match token.kind {
             PrimitiveTokenKind::GlobalVariable(name) => {
-                let next = iter.peek().unwrap();
-                if next.is_bracket_start() {
-                    // Array access
-                    let arg = read_argument(iter);
-                }
+                read_variable(iter);
             },
             _ => ()
         }
@@ -468,7 +616,7 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
 
     let variable_names = read_variable_names(slice, header, literals)?;
 
-    let mut file = Ax3File {
+    let file = Ax3File {
         header: header,
         dict: &dict,
         code: util::get_slice(slice, header.code_offset, header.code_size),
@@ -487,7 +635,7 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
 
     let reader = Cursor::new(file.code);
 
-    let mut iter = lexical::TokenIterator {
+    let iter = lexical::TokenIterator {
         reader: reader,
         token_offset: 0,
         end_offset: header.code_size / 2,
