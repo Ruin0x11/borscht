@@ -212,6 +212,22 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
     }
 }
 
+fn operand_priority<'a>(node: &'a AstNodeRef<'a>) -> i32 {
+    match &node.kind {
+        AstNodeKind::Literal(n) => {
+            match n {
+                LiteralNode::Integer(i) => if *i < 0 { -1 } else { 100 },
+                LiteralNode::Double(d) => if *d < 0.0 { -1 } else { 100 },
+                _ => 100
+            }
+        },
+        AstNodeKind::Function(_) => 100,
+        AstNodeKind::Variable(_) => 100,
+        AstNodeKind::Expression(e) => e.op.as_ref().unwrap().dict_value.priority as i32,
+        _ => unreachable!()
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct ExpressionNode<'a> {
     pub lhs: AstNodeRef<'a>,
@@ -222,26 +238,39 @@ pub struct ExpressionNode<'a> {
 
 impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+        let p1 = operand_priority(&self.lhs);
         match &self.rhs {
             Some(rhs) => match &self.op {
                 Some(op) => {
-                    if self.nested {
+                    let p2 = operand_priority(rhs);
+                    let op_priority = op.dict_value.priority as i32;
+
+                    if p1 < op_priority {
                         write!(f, "(")?;
-                    }
-                    self.lhs.print_code(f, tab_count, ctxt)?;
-                    write!(f, " {} ", get_op(op, false, true))?;
-                    rhs.print_code(f, tab_count, ctxt)?;
-                    if self.nested {
+                        self.lhs.print_code(f, tab_count, ctxt)?;
                         write!(f, ")")?;
+                    } else {
+                        self.lhs.print_code(f, tab_count, ctxt)?;
                     }
+
+                    write!(f, " {} ", get_op(op, false, true))?;
+
+                    if p2 <= op_priority {
+                        write!(f, "(")?;
+                        rhs.print_code(f, tab_count, ctxt)?;
+                        write!(f, ")")?;
+                    } else {
+                        rhs.print_code(f, tab_count, ctxt)?;
+                    }
+
                     Ok(())
                 }
                 None => unreachable!()
             }
             None => match &self.op {
                 Some(op) => {
-                    self.lhs.print_code(f, tab_count, ctxt)?;
-                    write!(f, "{}", get_op(op, false, false))
+                    write!(f, "{}", get_op(op, false, false))?;
+                    self.lhs.print_code(f, tab_count, ctxt)
                 }
                 None => self.lhs.print_code(f, tab_count, ctxt)
             }
@@ -357,6 +386,14 @@ impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
         write!(f, "{{\n")?;
         for (i, exp) in self.nodes.iter().enumerate() {
+
+            // HACK
+            if let AstNodeKind::LabelDeclaration(node) = &exp.kind {
+                if ctxt.label_usage.get(&node.name).is_none() {
+                    continue;
+                }
+            }
+
             print_tabs(f, exp.tab_count)?;
             exp.print_code(f, exp.tab_count, ctxt)?;
             write!(f, "\n")?;

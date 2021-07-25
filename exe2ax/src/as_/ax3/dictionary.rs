@@ -103,7 +103,7 @@ fn extract_code<'a>(bytes: &'a [u8]) -> Result<HspCodeDictionary> {
                 Some(s) => {
                     let (e, p) = parse_extra(s);
                     extra = extra | e;
-                    priority = std::cmp::min(priority, p);
+                    priority = std::cmp::max(priority, p);
                 }
                 None => break
             };

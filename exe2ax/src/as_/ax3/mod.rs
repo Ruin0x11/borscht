@@ -50,7 +50,7 @@ pub struct Ax3Header {
 }
 
 #[repr(C)]
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Ax3Label {
     pub token_offset: u32
 }
@@ -681,30 +681,10 @@ fn get_jump_to_offset<'a>(primitive: &lexical::PrimitiveToken<'a>) -> u32 {
     }
 }
 
-fn expression_priority(tok: &lexical::PrimitiveToken) -> (u32, u32) {
+fn expression_priority(tok: &lexical::PrimitiveToken) -> u32 {
     match &tok.kind {
-        PrimitiveTokenKind::Operator => {
-            match tok.dict_value.name.as_str() {
-                "+" => (3, 3),
-                "-" => (3, 3),
-                "*" => (4, 4),
-                "/" => (4, 4),
-                "\\" => (4, 4),
-                "&" => (0, 0),
-                "|" => (0, 0),
-                "^" => (0, 0),
-                "=" => (1, 1),
-                "!" => (1, 1),
-                ">" => (1, 1),
-                "<" => (1, 1),
-                ">=" => (1, 1),
-                "<=" => (1, 1),
-                ">>" => (2, 2),
-                "<<" => (2, 2),
-                _ => (1, 1),
-            }
-        },
-        PrimitiveTokenKind::String(_) => (6, 6),
+        PrimitiveTokenKind::Operator => tok.dict_value.priority,
+        PrimitiveTokenKind::String(_) => 6,
         x => {
             panic!("Not found op: {:?}", x);
         }
@@ -728,6 +708,7 @@ pub struct Parser<'a, R: Read + Seek> {
     labels: Vec<(u32, LabelKind<'a>)>,
     file: &'a Ax3File<'a>,
     label_names: HashMap<u32, String>,
+    label_usage: HashMap<String, u32>,
     function_names: HashMap<&'a Ax3Function, String>,
     tab_count: u32
 }
@@ -754,6 +735,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             labels: labels,
             file: file,
             label_names: label_names,
+            label_usage: HashMap::new(),
             function_names: function_names,
             tab_count: 1
         }
@@ -779,7 +761,9 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             },
             PrimitiveTokenKind::Label(l) => {
                 let next = self.tokens.next().unwrap();
-                let kind = AstNodeKind::Literal(LiteralNode::Label(self.label_names.get(&l.token_offset).unwrap().clone(), l.token_offset));
+                let name = self.label_names.get(&l.token_offset).unwrap().clone();
+                *self.label_usage.entry(name.clone()).or_insert(0) += 1;
+                let kind = AstNodeKind::Literal(LiteralNode::Label(name, l.token_offset));
                 AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::Symbol => {
@@ -1218,13 +1202,22 @@ pub struct Hsp3As<'a> {
     nodes: Vec<AstNode<'a>>,
     file: &'a Ax3File<'a>,
     function_names: HashMap<&'a Ax3Function, String>,
-    param_names: HashMap<&'a Ax3Parameter, String>
+    param_names: HashMap<&'a Ax3Parameter, String>,
+    label_usage: HashMap<String, u32>,
 }
 
 impl<'a> Hsp3As<'a> {
     fn write<W: Write>(&self, w: &mut W) -> Result<(), io::Error> {
         for (i, node) in self.nodes.iter().enumerate() {
             ast::print_tabs(w, node.tab_count)?;
+
+            // HACK
+            if let AstNodeKind::LabelDeclaration(node) = &node.kind {
+                if self.label_usage.get(&node.name).is_none() {
+                    continue;
+                }
+            }
+
             node.print_code(w, node.tab_count, &self)?;
             if i < self.nodes.len() - 1 {
                 write!(w, "\n")?;
@@ -1278,7 +1271,8 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<
         nodes: nodes,
         file: &file,
         function_names: func_names,
-        param_names: param_names
+        param_names: param_names,
+        label_usage: parser.label_usage
     };
 
     let mut file = File::create(&opts.output_file)?;
