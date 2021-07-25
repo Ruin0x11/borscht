@@ -6,6 +6,7 @@ mod util;
 
 use std::fs::File;
 use std::borrow::Cow;
+use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::io::{self, Read, Write, Seek, Cursor};
@@ -54,9 +55,17 @@ pub struct Ax3Header {
 }
 
 #[repr(C)]
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Ax3Label {
     pub token_offset: u32
+}
+
+/// Struct for disambiguating labels with the same offset but different
+/// positions in the labels list.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct ResolvedLabel<'a> {
+    pub index: usize,
+    pub label: &'a Ax3Label
 }
 
 #[repr(C)]
@@ -300,6 +309,14 @@ impl<'a> Ax3File<'a> {
     pub fn read_iid_code_literal(&self, offset: usize) -> Cow<'a, str> {
         read_iid_code_literal(&self.literals, offset)
     }
+
+    pub fn find_label(&self, label: &'a Ax3Label) -> ResolvedLabel<'a> {
+        let index = self.labels.iter().position(|l| l == label).unwrap();
+        ResolvedLabel {
+            index: index,
+            label: label
+        }
+    }
 }
 
 fn find_noncolliding_name(default_name: &str, function_names: &HashSet<String>) -> String {
@@ -425,20 +442,28 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
     (resolved, params)
 }
 
-fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<&'a Ax3Label, String> {
+fn rename_labels<'a>(file: &'a Ax3File<'a>, label_usage: &HashMap<ResolvedLabel<'a>, u32>) -> HashMap<ResolvedLabel<'a>, String> {
     let _count = file.labels.len();
     let mut labels = Vec::new();
     let mut result = HashMap::new();
 
-    for (i, label) in file.labels.iter().enumerate() {
-        labels.push((i, label))
+    for (label, _) in label_usage.iter() {
+        labels.push(label)
     }
+
+    labels.sort_by(|a, b| {
+        let ord1 = a.label.token_offset.cmp(&b.label.token_offset);
+        if ord1 != Ordering::Equal {
+            return ord1;
+        }
+        a.index.cmp(&b.index)
+    });
 
     // let keta = f32::log10(count as f32) as usize + 1;
 
-    for (i, l) in labels.iter().enumerate() {
+    for (i, l) in labels.into_iter().enumerate() {
         let new_name = format!("*label_{:0>4}", i);
-        result.insert(l.1, new_name);
+        result.insert(*l, new_name);
     }
 
     result
@@ -504,12 +529,11 @@ fn fix_if_else_stmts<'a>(nodes: &mut Vec<AstNode<'a>>) {
                 for j in i+1..nodes.len()-1 {
                     let other = &nodes[j];
                     if let AstNodeKind::IfStatement(ne) = &other.kind {
-                        if nodes[j+1].token_offset == jump_to_offset {
-                            assert!(n.primitive.dict_value.code_type == HspCodeType::ElseStatement);
+                        if other.token_offset == jump_to_offset && ne.primitive.dict_value.code_type == HspCodeType::ElseStatement {
                             found.push((i, j));
                             break;
                         }
-                        else if nodes[j+1].token_offset > jump_to_offset {
+                        else if other.token_offset > jump_to_offset {
                             break;
                         }
                     }
@@ -593,9 +617,72 @@ fn fix_else_stmt_labels<'a>(nodes: &mut Vec<AstNode<'a>>) {
     }
 }
 
+fn fix_dangling_else_stmts<'a>(nodes: &mut Vec<AstNode<'a>>) {
+    if nodes.len() < 2 {
+        return;
+    }
+
+    let mut found = Vec::new();
+
+    for i in 0..nodes.len()-1 {
+        let node = &nodes[i];
+        if let AstNodeKind::IfStatement(n) = &node.kind {
+            if n.primitive.dict_value.code_type == HspCodeType::IfStatement {
+                let other = &nodes[i+1];
+                if let AstNodeKind::IfStatement(n) = &other.kind {
+                    if n.primitive.dict_value.code_type == HspCodeType::ElseStatement {
+                        found.push(i);
+                    }
+                }
+            }
+        }
+    }
+
+    while found.len() > 0 {
+        let i = found.pop().unwrap();
+        let mut node = nodes.remove(i+1);
+        if let AstNodeKind::IfStatement(ref mut n) = &mut nodes[i].kind {
+            assert!(n.primitive.dict_value.code_type == HspCodeType::IfStatement);
+            if let AstNodeKind::IfStatement(ne) = &mut node.kind {
+                assert!(ne.primitive.dict_value.code_type == HspCodeType::ElseStatement);
+                if get_jump_to_offset(&n.primitive) == node.token_offset {
+                    n.else_part = Some(IfStatementElsePart {
+                        primitive: ne.primitive.clone(),
+                        block: ne.if_block.clone(),
+                    });
+                } else {
+                    if let AstNodeKind::BlockStatement(ref mut b) = &mut n.if_block.kind {
+                        if let AstNodeKind::BlockStatement(ref mut be) = &mut ne.if_block.kind {
+                            for inner in be.nodes.drain(0..) {
+                                b.nodes.push(inner)
+                            }
+                            b.nodes.push(Box::new(node));
+                        } else {
+                            unreachable!()
+                        }
+                    } else {
+                        unreachable!()
+                    }
+                }
+            } else {
+                unreachable!()
+            }
+        } else {
+            unreachable!()
+        }
+
+        for p in found.iter_mut() {
+            if *p > i {
+                *p -= 1;
+            }
+        }
+    }
+}
+
 fn resolve_scope<'a>(nodes: &mut Vec<AstNode<'a>>) {
     fix_else_stmt_labels(nodes);
     fix_if_else_stmts(nodes);
+    fix_dangling_else_stmts(nodes);
 }
 
 /// Removes the autogenerated 'stop' function call and label at the end of the
@@ -632,47 +719,52 @@ enum ExprPart<'a> {
 
 #[derive(Debug)]
 enum LabelKind<'a> {
-    Label(String),
-    Function(&'a Ax3Function, String)
+    Label,
+    Function(&'a Ax3Function)
 }
 
 pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>,
-    labels: Vec<(u32, LabelKind<'a>)>,
+    labels: Vec<(usize, &'a Ax3Label, LabelKind<'a>)>,
     file: &'a Ax3File<'a>,
-    label_names: HashMap<&'a Ax3Label, String>,
-    label_usage: HashMap<String, u32>,
+    label_usage: HashMap<ResolvedLabel<'a>, u32>,
     tab_count: u32
 }
 
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
                file: &'a Ax3File<'a>,
-               label_names: HashMap<&'a Ax3Label, String>,
                function_names: HashMap<&'a Ax3Function, String>) -> Self {
         let functions = function_names.iter().map(|(f, n)| { (&file.labels[f.label_index as usize], *f) })
                                              .collect::<HashMap<&'a Ax3Label, &'a Ax3Function>>();
 
         let mut labels = Vec::new();
-        for label in label_names.iter() {
-            let kind = match functions.get(label.0) {
+        for (i, label) in file.labels.iter().enumerate() {
+            let kind = match functions.get(&label) {
                 Some(func) => {
                     match func.get_type() {
                         Ax3FunctionType::DefFunc |
-                        Ax3FunctionType::DefCFunc => LabelKind::Function(func, label.1.clone()),
-                        _ => LabelKind::Label(label.1.clone())
+                        Ax3FunctionType::DefCFunc => LabelKind::Function(func),
+                        _ => LabelKind::Label
                     }
                 }
-                None => LabelKind::Label(label.1.clone())
+                None => LabelKind::Label
             };
-            labels.push((label.0.token_offset, kind));
+            labels.push((i, label, kind));
         }
-        labels.sort_by(|a, b| b.0.cmp(&a.0));
+
+        labels.sort_by(|a, b| {
+            let ord1 = b.1.token_offset.cmp(&a.1.token_offset);
+            if ord1 != Ordering::Equal {
+                return ord1;
+            }
+            b.0.cmp(&a.0)
+        });
+
         Parser {
             tokens: tokens.peekable(),
             labels: labels,
             file: file,
-            label_names: label_names,
             label_usage: HashMap::new(),
             tab_count: 1
         }
@@ -698,9 +790,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             },
             PrimitiveTokenKind::Label(l) => {
                 let next = self.tokens.next().unwrap();
-                let name = self.label_names.get(l).unwrap().clone();
-                *self.label_usage.entry(name.clone()).or_insert(0) += 1;
-                let kind = AstNodeKind::Literal(LiteralNode::Label(name, l.token_offset));
+                *self.label_usage.entry(*l).or_insert(0) += 1;
+                let kind = AstNodeKind::Literal(LiteralNode::Label(*l));
                 AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::Symbol => {
@@ -1057,30 +1148,32 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         // Labels
         let mut result = Vec::new();
         while let Some(top) = self.labels.last() {
-            let token_offset = top.0;
+            let token_offset = top.1.token_offset;
             if token_offset > offset_here {
                 break;
             }
-            let (_, label_kind) = self.labels.pop().unwrap();
+            let (index, label, label_kind) = self.labels.pop().unwrap();
+            let resolved = ResolvedLabel { index: index, label: label };
+            println!("PUTLABEL {} {:?} {:?}", index, label, label_kind);
             match label_kind {
-                LabelKind::Function(func, label_name) => {
+                LabelKind::Function(func) => {
                     let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
-                        name: label_name
+                        label: resolved
                     });
-                    let node = AstNode::new(token_offset, kind, 0);
+                    let node = AstNode::new(label.token_offset, kind, 0);
                     result.push(node);
 
                     let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
                         func: func
                     });
-                    let node = AstNode::new(token_offset, kind, 0);
+                    let node = AstNode::new(label.token_offset, kind, 0);
                     result.push(node);
                 },
-                LabelKind::Label(name) => {
+                LabelKind::Label => {
                     let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
-                        name: name
+                        label: resolved
                     });
-                    let node = AstNode::new(token_offset, kind, 0);
+                    let node = AstNode::new(label.token_offset, kind, 0);
                     result.push(node);
                 }
             };
@@ -1178,7 +1271,7 @@ pub struct Hsp3As<'a> {
     file: &'a Ax3File<'a>,
     function_names: HashMap<&'a Ax3Function, String>,
     param_names: HashMap<&'a Ax3Parameter, String>,
-    label_usage: HashMap<String, u32>,
+    label_names: HashMap<ResolvedLabel<'a>, String>,
 }
 
 impl<'a> Hsp3As<'a> {
@@ -1188,7 +1281,7 @@ impl<'a> Hsp3As<'a> {
 
             // HACK
             if let AstNodeKind::LabelDeclaration(node) = &node.kind {
-                if self.label_usage.get(&node.name).is_none() {
+                if self.label_names.get(&node.label).is_none() {
                     continue;
                 }
             }
@@ -1223,8 +1316,6 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<
         variable_names: variable_names
     };
 
-    let label_names = rename_labels(&file);
-
     let (func_names, param_names) = rename_functions(&file);
 
     let reader = Cursor::new(file.code);
@@ -1237,15 +1328,17 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<
         file: &file
     };
 
-    let mut parser = Parser::new(iter, &file, label_names, func_names.clone());
+    let mut parser = Parser::new(iter, &file, func_names.clone());
     let nodes = parser.parse();
+
+    let label_names = rename_labels(&file, &parser.label_usage);
 
     let hsp3as = Hsp3As {
         nodes: nodes,
         file: &file,
         function_names: func_names,
         param_names: param_names,
-        label_usage: parser.label_usage
+        label_names: label_names
     };
 
     let mut file = File::create(&opts.output_file)?;

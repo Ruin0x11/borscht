@@ -3,7 +3,7 @@ use std::fmt;
 use std::io::{Write, self};
 use encoding_rs::SHIFT_JIS;
 use super::lexical::{PrimitiveToken, PrimitiveTokenKind};
-use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType};
+use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType, Ax3Label, ResolvedLabel};
 
 pub type AstNodeRef<'a> = Box<AstNode<'a>>;
 
@@ -149,7 +149,7 @@ pub enum LiteralNode<'a> {
     Integer(i32),
     Double(f64),
     String(Cow<'a, str>),
-    Label(String, u32),
+    Label(ResolvedLabel<'a>),
     Symbol(String),
 }
 
@@ -179,7 +179,7 @@ impl<'a> AstPrintable<'a> for LiteralNode<'a> {
                     write!(f, "\"{}\"", s)
                 }
             },
-            LiteralNode::Label(l, _) => write!(f, "{}", l),
+            LiteralNode::Label(l) => write!(f, "{}", ctxt.label_names.get(&l).unwrap()),
             LiteralNode::Symbol(s) => if s == "?" {
                 Ok(())
             } else {
@@ -423,7 +423,7 @@ impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
 
             // HACK
             if let AstNodeKind::LabelDeclaration(node) = &exp.kind {
-                if ctxt.label_usage.get(&node.name).is_none() {
+                if ctxt.label_names.get(&node.label).is_none() {
                     continue;
                 }
             }
@@ -438,13 +438,13 @@ impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct LabelDeclarationNode {
-    pub name: String
+pub struct LabelDeclarationNode<'a> {
+    pub label: ResolvedLabel<'a>
 }
 
-impl<'a> AstPrintable<'a> for LabelDeclarationNode {
+impl<'a> AstPrintable<'a> for LabelDeclarationNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
-        write!(f, "{}", self.name)
+        write!(f, "{}", ctxt.label_names.get(&self.label).unwrap())
     }
 }
 
@@ -620,7 +620,7 @@ pub enum AstNodeKind<'a> {
     OnStatement(OnStatementNode<'a>),
     OnEventStatement(OnEventStatementNode<'a>),
     BlockStatement(BlockStatementNode<'a>),
-    LabelDeclaration(LabelDeclarationNode),
+    LabelDeclaration(LabelDeclarationNode<'a>),
     FunctionDeclaration(FunctionDeclarationNode<'a>),
     UsedllDeclaration(UsedllDeclarationNode<'a>),
     CommandStatement(CommandStatementNode<'a>),

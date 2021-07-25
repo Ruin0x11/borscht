@@ -5,7 +5,7 @@ use std::io::{Read, Seek, SeekFrom};
 use byteorder::{LittleEndian, ReadBytesExt};
 use bitflags::bitflags;
 
-use super::{Ax3Label, Ax3Function, Ax3Cmd, Ax3Parameter, Ax3File};
+use super::{Ax3Label, Ax3Function, Ax3Cmd, Ax3Parameter, Ax3File, ResolvedLabel};
 
 use crate::as_::dictionary::*;
 use super::Hsp3Dictionary;
@@ -33,7 +33,7 @@ bitflags! {
 
 #[derive(Debug, Clone)]
 pub enum PrimitiveTokenKind<'a> {
-    Label(&'a Ax3Label),
+    Label(ResolvedLabel<'a>),
     Integer,
     Double(f64),
     String(Cow<'a, str>),
@@ -124,7 +124,7 @@ fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u3
         },
         HspCodeType::Label => {
             let label = file.labels.get(value as usize).unwrap();
-            PrimitiveTokenKind::Label(label)
+            PrimitiveTokenKind::Label(ResolvedLabel { label: label, index: value as usize } )
         },
         HspCodeType::IfStatement |
         HspCodeType::ElseStatement => match extra_value {
