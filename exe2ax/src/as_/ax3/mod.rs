@@ -670,14 +670,66 @@ fn read_nodes<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> () {
 
 fn get_jump_to_offset<'a>(primitive: &lexical::PrimitiveToken<'a>) -> u32 {
     if let PrimitiveTokenKind::IfStatement(offset) = &primitive.kind {
-        let extra = if primitive.flag.contains(lexical::PrimitiveTokenFlags::HasLongTypeValue) {
-            4
-        } else {
-            3
-        };
-        *offset as u32 + primitive.token_offset + extra
+        *offset as u32 + primitive.token_offset
     } else {
         unreachable!()
+    }
+}
+
+fn resolve_scope<'a>(nodes: &mut Vec<AstNode<'a>>) {
+    let mut found = Vec::new();
+    for i in 0..nodes.len() {
+        let node = &nodes[i];
+        if let AstNodeKind::IfStatement(n) = &node.kind {
+            if n.primitive.dict_value.code_type == crate::as_::dictionary::HspCodeType::IfStatement {
+                assert!(n.else_part.is_none());
+                let jump_to_offset = get_jump_to_offset(&n.primitive);
+                for j in i+1..nodes.len()-1 {
+                    let other = &nodes[j];
+                    if let AstNodeKind::IfStatement(ne) = &other.kind {
+                        if nodes[j+1].token_offset == jump_to_offset {
+                            assert!(n.primitive.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement);
+                            found.push((i, j));
+                            break;
+                        }
+                        else if nodes[j+1].token_offset > jump_to_offset {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    while found.len() > 0 {
+        let (left, right) = found.pop().unwrap();
+        {
+            let else_ = nodes.remove(right);
+            let if_ = &mut nodes[left];
+
+            if let AstNodeKind::IfStatement(ref mut n) = &mut if_.kind {
+                assert!(n.primitive.dict_value.code_type == crate::as_::dictionary::HspCodeType::IfStatement);
+                if let AstNodeKind::IfStatement(ne) = else_.kind {
+                    assert!(ne.primitive.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement);
+                    n.else_part = Some(IfStatementElsePart {
+                        primitive: ne.primitive,
+                        block: ne.if_block,
+                    });
+                } else {
+                    unreachable!()
+                }
+            } else {
+                unreachable!()
+            }
+        }
+        for p in found.iter_mut() {
+            if p.0 > right {
+                p.0 -= 1;
+            }
+            if p.1 > right {
+                p.1 -= 1;
+            }
+        }
     }
 }
 
@@ -719,7 +771,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                label_names: HashMap<u32, String>,
                function_names: HashMap<&'a Ax3Function, String>) -> Self {
         let functions = function_names.iter().map(|(f, n)| { (file.labels[f.label_index as usize].token_offset, *f) })
-            .collect::<HashMap<u32, &'a Ax3Function>>();
+                                             .collect::<HashMap<u32, &'a Ax3Function>>();
 
         let mut labels = Vec::new();
         for label in label_names.iter() {
@@ -989,16 +1041,16 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             } else if token.token_offset > until {
                 // eprintln!("Overshot if boundary: {} > {}", token.token_offset, until);
                 break;
-            } else if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
-                break;
             }
             for expr in self.read_logical_line() {
-                exprs.push(Box::new(expr));
+                exprs.push(expr);
             }
         }
 
+        resolve_scope(&mut exprs);
+
         let kind = AstNodeKind::BlockStatement(BlockStatementNode {
-            nodes: exprs,
+            nodes: exprs.into_iter().map(Box::new).collect::<_>(),
         });
         let node = AstNode::new(token_offset, kind, self.tab_count);
 
@@ -1009,7 +1061,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
     fn read_if_statement(&mut self) -> AstNode<'a> {
         let primitive = self.tokens.next().unwrap();
-        assert!(primitive.dict_value.code_type == crate::as_::dictionary::HspCodeType::IfStatement);
 
         let token_offset = primitive.token_offset;
         let arg = if self.next_is_end_of_line() {
@@ -1020,26 +1071,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
         let jump_offset = get_jump_to_offset(&primitive);
         let if_block = Box::new(self.read_block(jump_offset));
-        let mut else_primitive = None;
-        let mut else_block = None;
-
-        if let Some(token) = self.tokens.peek() {
-            if let PrimitiveTokenKind::IfStatement(_) = &token.kind {
-                if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
-                    let token = self.tokens.next().unwrap();
-                    // assert!(self.tokens.peek().unwrap().token_offset == jump_offset-1);
-                    else_block = Some(Box::new(self.read_block(get_jump_to_offset(&token))));
-                    else_primitive = Some(token);
-                }
-            }
-        }
 
         let kind = AstNodeKind::IfStatement(IfStatementNode {
             primitive: primitive,
             arg: arg,
             if_block: if_block,
-            else_primitive: else_primitive,
-            else_block: else_block
+            else_part: None
         });
         AstNode::new(token_offset, kind, self.tab_count)
     }
@@ -1193,6 +1230,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 result.push(expr);
             }
         }
+
+        resolve_scope(&mut result);
 
         result
     }

@@ -23,12 +23,17 @@ impl<'a> AstPrintable<'a> for CommentLineNode {
 }
 
 #[derive(Clone, Debug)]
+pub struct IfStatementElsePart<'a> {
+    pub primitive: PrimitiveToken<'a>,
+    pub block: AstNodeRef<'a>
+}
+
+#[derive(Clone, Debug)]
 pub struct IfStatementNode<'a> {
     pub primitive: PrimitiveToken<'a>,
     pub arg: Option<AstNodeRef<'a>>,
     pub if_block: AstNodeRef<'a>,
-    pub else_primitive: Option<PrimitiveToken<'a>>,
-    pub else_block: Option<AstNodeRef<'a>>,
+    pub else_part: Option<IfStatementElsePart<'a>>
 }
 
 pub fn print_tabs<W: Write>(f: &mut W, tab_count: u32) -> Result<(), io::Error> {
@@ -49,9 +54,9 @@ impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
                 self.if_block.print_code(f, tab_count, ctxt)?;
             }
         }
-        if let Some(else_block) = &self.else_block {
-            write!(f, " {} ", self.else_primitive.as_ref().unwrap())?;
-            else_block.print_code(f, tab_count, ctxt)?;
+        if let Some(else_part) = &self.else_part {
+            write!(f, " {} ", else_part.primitive)?;
+            else_part.block.print_code(f, tab_count, ctxt)?;
         }
         Ok(())
     }
