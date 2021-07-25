@@ -35,7 +35,7 @@ bitflags! {
 pub enum PrimitiveTokenKind<'a> {
     Label(&'a Ax3Label),
     Integer,
-    Double(f32),
+    Double(f64),
     String(Cow<'a, str>),
     Symbol,
     Parameter(&'a Ax3Parameter),

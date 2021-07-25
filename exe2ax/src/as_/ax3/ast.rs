@@ -133,7 +133,7 @@ fn escape_string_inner(start: &[u8], rest: &[u8]) -> String {
             0x08 => escaped.extend(b"\\b"),
             0x0C => escaped.extend(b"\\f"),
             b'\n' => escaped.extend(b"\\n"),
-            b'\r' => escaped.extend(b"\\r"),
+            b'\r' => (),
             b'\t' => escaped.extend(b"\\t"),
             0..=0x1F => escaped.extend(format!("\\u{:04x}", byte).bytes()),
             _ => escaped.push(*byte),
@@ -147,7 +147,7 @@ fn escape_string_inner(start: &[u8], rest: &[u8]) -> String {
 #[derive(Clone, Debug)]
 pub enum LiteralNode<'a> {
     Integer(i32),
-    Double(f32),
+    Double(f64),
     String(Cow<'a, str>),
     Label(String, u32),
     Symbol(String),
@@ -158,7 +158,13 @@ impl<'a> AstPrintable<'a> for LiteralNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
         match self {
             LiteralNode::Integer(i) => write!(f, "{}", i),
-            LiteralNode::Double(d) => write!(f, "{}", d),
+            LiteralNode::Double(d) => {
+                if d.fract() == 0.0 {
+                    write!(f, "{}.0", d)
+                } else {
+                    write!(f, "{}", d)
+                }
+            }
             LiteralNode::String(s) => {
                 let shift_jis = true;
 
@@ -193,12 +199,15 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
         match &self.ident.kind {
             PrimitiveTokenKind::GlobalVariable(name) => {
+                let (bytes, _, errors) = SHIFT_JIS.encode(&name);
+                assert!(!errors, "Cannot encode string as SHIFT_JIS");
+
                 match &self.arg {
                     Some(arg) => {
-                        write!(f, "{}", name)?;
+                        f.write_all(&bytes)?;
                         arg.print_code(f, tab_count, ctxt)
                     },
-                    None => write!(f, "{}", name)
+                    None => f.write_all(&bytes)
                 }
             },
             PrimitiveTokenKind::Parameter(param) => {
@@ -247,6 +256,25 @@ impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
         match &self.rhs {
             Some(rhs) => match &self.op {
                 Some(op) => {
+                    if op.dict_value.name == "*" {
+                        if let AstNodeKind::Literal(l) = &self.lhs.kind {
+                            if let AstNodeKind::Variable(_) = &rhs.kind {
+                                if let LiteralNode::Integer(-1) = l {
+                                    write!(f, "-")?;
+                                    return rhs.print_code(f, tab_count, ctxt)
+                                }
+                            }
+                        }
+                        if let AstNodeKind::Literal(l) = &rhs.kind {
+                            if let AstNodeKind::Variable(_) = &self.lhs.kind {
+                                if let LiteralNode::Integer(-1) = l {
+                                    write!(f, "-")?;
+                                    return self.lhs.print_code(f, tab_count, ctxt)
+                                }
+                            }
+                        }
+                    }
+
                     let p2 = operand_priority(rhs);
                     let op_priority = op.dict_value.priority as i32;
 
@@ -389,7 +417,7 @@ pub struct BlockStatementNode<'a> {
 
 impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
-        write!(f, "{{\n")?;
+        write!(f, "{{\r\n")?;
         for (i, exp) in self.nodes.iter().enumerate() {
 
             // HACK
@@ -401,7 +429,7 @@ impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
 
             print_tabs(f, exp.tab_count)?;
             exp.print_code(f, exp.tab_count, ctxt)?;
-            write!(f, "\n")?;
+            write!(f, "\r\n")?;
         }
         print_tabs(f, tab_count-1)?;
         write!(f, "}}")
@@ -421,6 +449,11 @@ impl<'a> AstPrintable<'a> for LabelDeclarationNode {
 
 fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Ax3Parameter, index: usize, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
     let remove_type = false;
+    let parameter_names = match func.get_type() {
+        Ax3FunctionType::Func |
+        Ax3FunctionType::CFunc => false,
+        _ => true
+    };
 
     let mut wrote = false;
     if !remove_type {
@@ -440,12 +473,16 @@ fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Ax3P
     //     func
     // };
 
-    if wrote {
-        write!(f, " ")?;
+    if parameter_names {
+        if wrote {
+            write!(f, " ")?;
+        }
+
+        let param_name = ctxt.param_names.get(param).unwrap();
+        write!(f, "{}", param_name)?;
     }
 
-    let param_name = ctxt.param_names.get(param).unwrap();
-    write!(f, "{}", param_name)
+    Ok(())
 }
 
 #[derive(Clone, Debug)]
@@ -482,7 +519,7 @@ impl<'a> AstPrintable<'a> for FunctionDeclarationNode<'a> {
                 write!(f, "#cfunc {} \"{}\"", name, self.func.get_default_name(ctxt.file).unwrap())?;
             },
             Ax3FunctionType::DefFunc => {
-                write!(f, "#defcfunc {}", name)?;
+                write!(f, "#deffunc {}", name)?;
                 if self.func.flags.contains(Ax3FunctionFlags::OnExit) {
                     write!(f, " onexit")?;
                 }
@@ -548,11 +585,11 @@ pub struct McallStatementNode<'a> {
 
 impl<'a> AstPrintable<'a> for McallStatementNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
-        write!(f, "{}->", self.primitive)?;
         self.var.print_code(f, tab_count, ctxt)?;
-        write!(f, " ")?;
+        write!(f, "->")?;
         self.primary_exp.print_code(f, tab_count, ctxt)?;
         if let Some(arg) = &self.arg {
+            write!(f, " ")?;
             arg.print_code(f, tab_count, ctxt)?;
         }
         Ok(())

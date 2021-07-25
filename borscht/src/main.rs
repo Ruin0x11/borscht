@@ -70,7 +70,7 @@ fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
         let dpm_file_ref = dpm.get_file_data(&dpm_file.name).unwrap();
         let mut file = File::create(&output_file)?;
 
-        if (dpm_file.name.ends_with(".ax")) {
+        if dpm_file.name.ends_with(".ax") {
             let ax = exe2ax::ax::dpm_to_ax(&dpm_file_ref)?;
             file.write_all(ax.as_ref())?;
         } else {
