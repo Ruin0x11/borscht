@@ -32,45 +32,45 @@ bitflags! {
 }
 
 #[derive(Debug, Clone)]
-pub enum PrimitiveTokenKind<'a> {
-    Label(ResolvedLabel<'a>),
+pub enum PrimitiveTokenKind {
+    Label(ResolvedLabel),
     Integer,
     Double(f64),
-    String(Cow<'a, str>),
+    String(String),
     Symbol,
-    Parameter(&'a Ax3Parameter),
-    GlobalVariable(&'a Cow<'a, str>),
+    Parameter(Ax3Parameter),
+    GlobalVariable(String),
     Operator,
     IfStatement(u16),
     HspFunction,
     OnFunction,
     OnEventFunction,
     McallFunction,
-    UserFunction(&'a Ax3Function),
-    DllFunction(&'a Ax3Function),
+    UserFunction(Ax3Function),
+    DllFunction(Ax3Function),
     PlugInFunction(Ax3Cmd),
-    ComFunction(&'a Ax3Function),
+    ComFunction(Ax3Function),
     Unknown,
 }
 
 #[derive(Debug, Clone)]
-pub struct PrimitiveToken<'a> {
+pub struct PrimitiveToken {
     pub token_offset: u32,
     pub type_: u8,
     pub flag: PrimitiveTokenFlags,
     pub value: i32,
     // name: &'a str,
     pub dict_value: HspDictionaryValue,
-    pub kind: PrimitiveTokenKind<'a>
+    pub kind: PrimitiveTokenKind
 }
 
-impl<'a> fmt::Display for PrimitiveToken<'a> {
+impl fmt::Display for PrimitiveToken {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.dict_value.name)
     }
 }
 
-impl<'a> PrimitiveToken<'a> {
+impl PrimitiveToken {
     pub fn is_bracket_start(&self) -> bool {
         self.dict_value.extra.contains(HspCodeExtraFlags::BracketStart)
     }
@@ -100,18 +100,18 @@ impl<'a> PrimitiveToken<'a> {
     }
 }
 
-fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u32, type_: u8, flag: PrimitiveTokenFlags, value: i32, extra_value: Option<u16>) -> PrimitiveToken<'a>{
+fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u32, type_: u8, flag: PrimitiveTokenFlags, value: i32, extra_value: Option<u16>) -> PrimitiveToken{
     let kind = match v.code_type {
         HspCodeType::None => PrimitiveTokenKind::Unknown,
         HspCodeType::Operator => PrimitiveTokenKind::Operator,
         HspCodeType::Symbol => PrimitiveTokenKind::Symbol,
         HspCodeType::Variable => {
             let name = &file.variable_names[value as usize];
-            PrimitiveTokenKind::GlobalVariable(name)
+            PrimitiveTokenKind::GlobalVariable(name.to_string())
         }
         HspCodeType::String => {
             let s = file.read_str_literal(value as usize);
-            PrimitiveTokenKind::String(s)
+            PrimitiveTokenKind::String(s.to_string())
         },
         HspCodeType::Double => {
             let d = file.read_double_literal(value as usize);
@@ -120,11 +120,11 @@ fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u3
         HspCodeType::Integer => PrimitiveTokenKind::Integer,
         HspCodeType::Param => {
             let param = file.parameters.get(value as usize).unwrap();
-            PrimitiveTokenKind::Parameter(param)
+            PrimitiveTokenKind::Parameter(*param)
         },
         HspCodeType::Label => {
             let label = file.labels.get(value as usize).unwrap();
-            PrimitiveTokenKind::Label(ResolvedLabel { label: label, index: value as usize } )
+            PrimitiveTokenKind::Label(ResolvedLabel { label: *label, index: value as usize } )
         },
         HspCodeType::IfStatement |
         HspCodeType::ElseStatement => match extra_value {
@@ -134,15 +134,15 @@ fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u3
         HspCodeType::HspFunction => PrimitiveTokenKind::HspFunction,
         HspCodeType::UserFunction => {
             let func = file.functions.get(value as usize).unwrap();
-            PrimitiveTokenKind::UserFunction(func)
+            PrimitiveTokenKind::UserFunction(*func)
         },
         HspCodeType::DllFunction => {
             let func = file.functions.get(value as usize).unwrap();
-            PrimitiveTokenKind::DllFunction(func)
+            PrimitiveTokenKind::DllFunction(*func)
         },
         HspCodeType::ComFunction => {
             let func = file.functions.get(value as usize - 0x1000).unwrap();
-            PrimitiveTokenKind::ComFunction(func)
+            PrimitiveTokenKind::ComFunction(*func)
         },
         HspCodeType::PlugInFunction => {
             let cmd = Ax3Cmd {
@@ -167,8 +167,8 @@ fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u3
 }
 
 impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
-    type Item = PrimitiveToken<'a>;
-    fn next(&mut self) -> Option<PrimitiveToken<'a>> {
+    type Item = PrimitiveToken;
+    fn next(&mut self) -> Option<PrimitiveToken> {
         if self.token_offset >= self.end_offset {
             return None
         }

@@ -5,10 +5,10 @@ use encoding_rs::SHIFT_JIS;
 use super::lexical::{PrimitiveToken, PrimitiveTokenKind};
 use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType, Ax3Label, ResolvedLabel};
 
-pub type AstNodeRef<'a> = Box<AstNode<'a>>;
+pub type AstNodeRef = Box<AstNode>;
 
 pub trait AstPrintable<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error>;
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error>;
 }
 
 #[derive(Clone, Debug)]
@@ -17,31 +17,31 @@ pub struct CommentLineNode {
 }
 
 impl<'a> AstPrintable<'a> for CommentLineNode {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         write!(f, "{}", self.content)
     }
 }
 
 #[derive(Clone, Debug)]
-pub struct IfStatementElsePart<'a> {
-    pub primitive: PrimitiveToken<'a>,
-    pub block: AstNodeRef<'a>
+pub struct IfStatementElsePart {
+    pub primitive: PrimitiveToken,
+    pub block: AstNodeRef
 }
 
 #[derive(Clone, Debug)]
-pub struct IfStatementNode<'a> {
-    pub primitive: PrimitiveToken<'a>,
-    pub arg: Option<AstNodeRef<'a>>,
-    pub if_block: AstNodeRef<'a>,
-    pub else_part: Option<IfStatementElsePart<'a>>
+pub struct IfStatementNode {
+    pub primitive: PrimitiveToken,
+    pub arg: Option<AstNodeRef>,
+    pub if_block: AstNodeRef,
+    pub else_part: Option<IfStatementElsePart>
 }
 
 pub fn print_tabs<W: Write>(f: &mut W, tab_count: u32) -> Result<(), io::Error> {
     write!(f, "{:\t<1$}", "", tab_count as usize)
 }
 
-impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for IfStatementNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         match &self.arg {
             Some(arg) => {
                 write!(f, "{} (", self.primitive)?;
@@ -64,7 +64,7 @@ impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
     }
 }
 
-fn get_op<'a>(op: &PrimitiveToken<'a>, is_assignment: bool, has_expression: bool) -> String {
+fn get_op(op: &PrimitiveToken, is_assignment: bool, has_expression: bool) -> String {
     let raw = op.dict_value.name.as_str();
 
     if is_assignment {
@@ -89,14 +89,14 @@ fn get_op<'a>(op: &PrimitiveToken<'a>, is_assignment: bool, has_expression: bool
 }
 
 #[derive(Clone, Debug)]
-pub struct AssignmentNode<'a> {
-    pub var: AstNodeRef<'a>,
-    pub operator: PrimitiveToken<'a>,
-    pub argument: Option<AstNodeRef<'a>> // is None in cases like `x++`
+pub struct AssignmentNode {
+    pub var: AstNodeRef,
+    pub operator: PrimitiveToken,
+    pub argument: Option<AstNodeRef> // is None in cases like `x++`
 }
 
-impl<'a> AstPrintable<'a> for AssignmentNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for AssignmentNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         match &self.argument {
             Some(arg) => {
                 self.var.print_code(f, tab_count, ctxt)?;
@@ -147,17 +147,17 @@ fn escape_string_inner(start: &[u8], rest: &[u8]) -> String {
 }
 
 #[derive(Clone, Debug)]
-pub enum LiteralNode<'a> {
+pub enum LiteralNode {
     Integer(i32),
     Double(f64),
-    String(Cow<'a, str>),
-    Label(ResolvedLabel<'a>),
+    String(String),
+    Label(ResolvedLabel),
     Symbol(String),
 }
 
 
-impl<'a> AstPrintable<'a> for LiteralNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for LiteralNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         match self {
             LiteralNode::Integer(i) => write!(f, "{}", i),
             LiteralNode::Double(d) => {
@@ -192,13 +192,13 @@ impl<'a> AstPrintable<'a> for LiteralNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct VariableNode<'a> {
-    pub ident: PrimitiveToken<'a>,
-    pub arg: Option<AstNodeRef<'a>>
+pub struct VariableNode {
+    pub ident: PrimitiveToken,
+    pub arg: Option<AstNodeRef>
 }
 
-impl<'a> AstPrintable<'a> for VariableNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for VariableNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         match &self.ident.kind {
             PrimitiveTokenKind::GlobalVariable(name) => {
                 let (bytes, _, errors) = SHIFT_JIS.encode(&name);
@@ -228,7 +228,7 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
     }
 }
 
-fn operand_priority<'a>(node: &'a AstNodeRef<'a>) -> i32 {
+fn operand_priority(node: &AstNodeRef) -> i32 {
     match &node.kind {
         AstNodeKind::Literal(n) => {
             match n {
@@ -245,15 +245,15 @@ fn operand_priority<'a>(node: &'a AstNodeRef<'a>) -> i32 {
 }
 
 #[derive(Clone, Debug)]
-pub struct ExpressionNode<'a> {
-    pub lhs: AstNodeRef<'a>,
-    pub op: Option<PrimitiveToken<'a>>,
-    pub rhs: Option<AstNodeRef<'a>>,
+pub struct ExpressionNode {
+    pub lhs: AstNodeRef,
+    pub op: Option<PrimitiveToken>,
+    pub rhs: Option<AstNodeRef>,
     pub nested: bool
 }
 
-impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for ExpressionNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         let p1 = operand_priority(&self.lhs);
         match &self.rhs {
             Some(rhs) => match &self.op {
@@ -314,15 +314,15 @@ impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct ArgumentNode<'a> {
-    pub exps: Vec<AstNodeRef<'a>>,
+pub struct ArgumentNode {
+    pub exps: Vec<AstNodeRef>,
     pub has_bracket: bool,
     pub first_arg_is_null: bool,
     pub mcall: bool,
 }
 
-impl<'a> AstPrintable<'a> for ArgumentNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for ArgumentNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         if self.has_bracket {
             write!(f, "(")?;
         } else {
@@ -349,18 +349,18 @@ impl<'a> AstPrintable<'a> for ArgumentNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct FunctionNode<'a> {
-    pub ident: PrimitiveToken<'a>,
-    pub arg: Option<AstNodeRef<'a>>
+pub struct FunctionNode {
+    pub ident: PrimitiveToken,
+    pub arg: Option<AstNodeRef>
 }
 
-impl<'a> AstPrintable<'a> for FunctionNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for FunctionNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         match self.ident.kind {
             PrimitiveTokenKind::UserFunction(func) |
             PrimitiveTokenKind::DllFunction(func) |
             PrimitiveTokenKind::ComFunction(func) => {
-                let name = ctxt.function_names.get(func).unwrap();
+                let name = ctxt.function_names.get(&func).unwrap();
                 write!(f, "{}", name)?
             },
             _ => write!(f, "{}", self.ident)?
@@ -374,14 +374,14 @@ impl<'a> AstPrintable<'a> for FunctionNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct OnStatementNode<'a> {
-    pub primitive: PrimitiveToken<'a>,
-    pub exp: Option<AstNodeRef<'a>>,
-    pub func: Option<AstNodeRef<'a>>,
+pub struct OnStatementNode {
+    pub primitive: PrimitiveToken,
+    pub exp: Option<AstNodeRef>,
+    pub func: Option<AstNodeRef>,
 }
 
-impl<'a> AstPrintable<'a> for OnStatementNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for OnStatementNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         write!(f, "{}", self.primitive)?;
 
         if let Some(exp) = &self.exp {
@@ -397,13 +397,13 @@ impl<'a> AstPrintable<'a> for OnStatementNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct OnEventStatementNode<'a> {
-    pub primitive: PrimitiveToken<'a>,
-    pub func: Option<AstNodeRef<'a>>,
+pub struct OnEventStatementNode {
+    pub primitive: PrimitiveToken,
+    pub func: Option<AstNodeRef>,
 }
 
-impl<'a> AstPrintable<'a> for OnEventStatementNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for OnEventStatementNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         write!(f, "{}", self.primitive)?;
         if let Some(func) = &self.func {
             write!(f, " ")?;
@@ -414,12 +414,12 @@ impl<'a> AstPrintable<'a> for OnEventStatementNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct BlockStatementNode<'a> {
-    pub nodes: Vec<AstNodeRef<'a>>
+pub struct BlockStatementNode {
+    pub nodes: Vec<AstNodeRef>
 }
 
-impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for BlockStatementNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         write!(f, "{{\r\n")?;
         for (i, exp) in self.nodes.iter().enumerate() {
 
@@ -440,17 +440,17 @@ impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct LabelDeclarationNode<'a> {
-    pub label: ResolvedLabel<'a>
+pub struct LabelDeclarationNode {
+    pub label: ResolvedLabel
 }
 
-impl<'a> AstPrintable<'a> for LabelDeclarationNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for LabelDeclarationNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         write!(f, "{}", ctxt.label_names.get(&self.label).unwrap())
     }
 }
 
-fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Ax3Parameter, index: usize, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Ax3Parameter, index: usize, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
     let remove_type = false;
     let parameter_names = match func.get_type() {
         Ax3FunctionType::Func |
@@ -489,12 +489,12 @@ fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Ax3P
 }
 
 #[derive(Clone, Debug)]
-pub struct FunctionDeclarationNode<'a> {
-    pub func: &'a Ax3Function
+pub struct FunctionDeclarationNode {
+    pub func: Ax3Function
 }
 
-impl<'a> FunctionDeclarationNode<'a> {
-    pub fn get_name(&self, ctxt: &'a Hsp3As<'a>) -> Cow<'a, str> {
+impl FunctionDeclarationNode {
+    pub fn get_name<'a>(&self, ctxt: &'a Hsp3As) -> Cow<'a, str> {
         if let Some(name) = ctxt.function_names.get(&self.func) {
             return Cow::Borrowed(name);
         }
@@ -505,8 +505,8 @@ impl<'a> FunctionDeclarationNode<'a> {
     }
 }
 
-impl<'a> AstPrintable<'a> for FunctionDeclarationNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for FunctionDeclarationNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         let name = self.get_name(ctxt);
         let mut param_start = 0;
 
@@ -543,7 +543,7 @@ impl<'a> AstPrintable<'a> for FunctionDeclarationNode<'a> {
                     write!(f, ",")?;
                 }
                 write!(f, " ")?;
-                write_func_param(f, self.func, &params[i], i, ctxt)?;
+                write_func_param(f, &self.func, &params[i], i, ctxt)?;
             }
         }
 
@@ -552,13 +552,13 @@ impl<'a> AstPrintable<'a> for FunctionDeclarationNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct UsedllDeclarationNode<'a> {
+pub struct UsedllDeclarationNode {
     pub dll: Ax3Dll,
-    pub funcs: Vec<&'a Ax3Function>
+    pub funcs: Vec<Ax3Function>
 }
 
-impl<'a> AstPrintable<'a> for UsedllDeclarationNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for UsedllDeclarationNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         let name = self.dll.get_name(ctxt.file).unwrap();
         match self.dll.dll_type {
             Ax3DllType::Uselib => {
@@ -579,15 +579,15 @@ impl<'a> AstPrintable<'a> for UsedllDeclarationNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct McallStatementNode<'a> {
-    pub primitive: PrimitiveToken<'a>,
-    pub var: AstNodeRef<'a>,
-    pub primary_exp: AstNodeRef<'a>,
-    pub arg: Option<AstNodeRef<'a>>,
+pub struct McallStatementNode {
+    pub primitive: PrimitiveToken,
+    pub var: AstNodeRef,
+    pub primary_exp: AstNodeRef,
+    pub arg: Option<AstNodeRef>,
 }
 
-impl<'a> AstPrintable<'a> for McallStatementNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for McallStatementNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         self.var.print_code(f, tab_count, ctxt)?;
         write!(f, "->")?;
         self.primary_exp.print_code(f, tab_count, ctxt)?;
@@ -599,38 +599,38 @@ impl<'a> AstPrintable<'a> for McallStatementNode<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct CommandStatementNode<'a> {
-    pub func: AstNodeRef<'a>,
+pub struct CommandStatementNode {
+    pub func: AstNodeRef,
 }
 
-impl<'a> AstPrintable<'a> for CommandStatementNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for CommandStatementNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         self.func.print_code(f, tab_count, ctxt)
     }
 }
 
 #[derive(Clone, Debug)]
-pub enum AstNodeKind<'a> {
+pub enum AstNodeKind {
     CommentLine(CommentLineNode),
-    IfStatement(IfStatementNode<'a>),
-    Assignment(AssignmentNode<'a>),
-    Literal(LiteralNode<'a>),
-    Variable(VariableNode<'a>),
-    Expression(ExpressionNode<'a>),
-    Argument(ArgumentNode<'a>),
-    Function(FunctionNode<'a>),
-    OnStatement(OnStatementNode<'a>),
-    OnEventStatement(OnEventStatementNode<'a>),
-    BlockStatement(BlockStatementNode<'a>),
-    LabelDeclaration(LabelDeclarationNode<'a>),
-    FunctionDeclaration(FunctionDeclarationNode<'a>),
-    UsedllDeclaration(UsedllDeclarationNode<'a>),
-    CommandStatement(CommandStatementNode<'a>),
-    McallStatement(McallStatementNode<'a>),
+    IfStatement(IfStatementNode),
+    Assignment(AssignmentNode),
+    Literal(LiteralNode),
+    Variable(VariableNode),
+    Expression(ExpressionNode),
+    Argument(ArgumentNode),
+    Function(FunctionNode),
+    OnStatement(OnStatementNode),
+    OnEventStatement(OnEventStatementNode),
+    BlockStatement(BlockStatementNode),
+    LabelDeclaration(LabelDeclarationNode),
+    FunctionDeclaration(FunctionDeclarationNode),
+    UsedllDeclaration(UsedllDeclarationNode),
+    CommandStatement(CommandStatementNode),
+    McallStatement(McallStatementNode),
 }
 
-impl<'a> AstPrintable<'a> for AstNodeKind<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for AstNodeKind {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         match self {
             AstNodeKind::CommentLine(node) => node.print_code(f, tab_count, ctxt),
             AstNodeKind::IfStatement(node) => node.print_code(f, tab_count, ctxt),
@@ -653,17 +653,17 @@ impl<'a> AstPrintable<'a> for AstNodeKind<'a> {
 }
 
 #[derive(Clone, Debug)]
-pub struct AstNode<'a> {
+pub struct AstNode {
     pub token_offset: u32,
     pub tab_count: u32,
     pub visible: bool,
     pub errors: Vec<String>,
     pub comments: Vec<String>,
-    pub kind: AstNodeKind<'a>
+    pub kind: AstNodeKind
 }
 
-impl<'a> AstNode<'a> {
-    pub fn new(token_offset: u32, kind: AstNodeKind<'a>, tab_count: u32) -> Self {
+impl AstNode {
+    pub fn new(token_offset: u32, kind: AstNodeKind, tab_count: u32) -> Self {
         AstNode {
             token_offset: token_offset,
             tab_count: tab_count,
@@ -675,8 +675,8 @@ impl<'a> AstNode<'a> {
     }
 }
 
-impl<'a> AstPrintable<'a> for AstNode<'a> {
-    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
+impl<'a> AstPrintable<'a> for AstNode {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         self.kind.print_code(f, self.tab_count, ctxt)?;
         Ok(())
     }
