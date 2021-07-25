@@ -425,7 +425,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
     }
 
     let mut params = HashMap::new();
-    let funcnamed_params = false;
+    let funcnamed_params = true;
 
     if funcnamed_params {
         for func in file.functions.iter() {
@@ -641,11 +641,12 @@ fn fix_dangling_else_stmts<'a>(nodes: &mut Vec<AstNode<'a>>) {
     while found.len() > 0 {
         let i = found.pop().unwrap();
         let mut node = nodes.remove(i+1);
+        let tab_count = nodes[i].tab_count;
         if let AstNodeKind::IfStatement(ref mut n) = &mut nodes[i].kind {
             assert!(n.primitive.dict_value.code_type == HspCodeType::IfStatement);
             if let AstNodeKind::IfStatement(ne) = &mut node.kind {
                 assert!(ne.primitive.dict_value.code_type == HspCodeType::ElseStatement);
-                if get_jump_to_offset(&n.primitive) == node.token_offset {
+                if get_jump_to_offset(&n.primitive) == node.token_offset && n.else_part.is_none() {
                     n.else_part = Some(IfStatementElsePart {
                         primitive: ne.primitive.clone(),
                         block: ne.if_block.clone(),
@@ -653,10 +654,19 @@ fn fix_dangling_else_stmts<'a>(nodes: &mut Vec<AstNode<'a>>) {
                 } else {
                     if let AstNodeKind::BlockStatement(ref mut b) = &mut n.if_block.kind {
                         if let AstNodeKind::BlockStatement(ref mut be) = &mut ne.if_block.kind {
-                            for inner in be.nodes.drain(0..) {
-                                b.nodes.push(inner)
+                            if let Some(ref mut else_) = &mut n.else_part {
+                                    if let AstNodeKind::BlockStatement(ref mut eb) = &mut else_.block.kind {
+                                        for inner in be.nodes.drain(0..) {
+                                            eb.nodes.push(inner);
+                                        }
+                                    } else {
+                                        unreachable!()
+                                    }
+                            } else {
+                                for inner in be.nodes.drain(0..) {
+                                    b.nodes.push(inner);
+                                }
                             }
-                            b.nodes.push(Box::new(node));
                         } else {
                             unreachable!()
                         }

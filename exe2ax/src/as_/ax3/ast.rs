@@ -55,7 +55,9 @@ impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
             }
         }
         if let Some(else_part) = &self.else_part {
-            write!(f, " {} ", else_part.primitive)?;
+            write!(f, "\n");
+            print_tabs(f, tab_count)?;
+            write!(f, "{} ", else_part.primitive)?;
             else_part.block.print_code(f, tab_count, ctxt)?;
         }
         Ok(())
