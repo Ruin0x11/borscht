@@ -46,7 +46,9 @@ impl<'a> fmt::Display for AssignmentNode<'a> {
 pub enum LiteralNode<'a> {
     Integer(i32),
     Double(f32),
-    String(Cow<'a, str>)
+    String(Cow<'a, str>),
+    Label(String, u32),
+    Symbol(String),
 }
 
 impl<'a> fmt::Display for LiteralNode<'a> {
@@ -55,6 +57,12 @@ impl<'a> fmt::Display for LiteralNode<'a> {
             LiteralNode::Integer(i) => write!(f, "{}", i),
             LiteralNode::Double(d) => write!(f, "{}", d),
             LiteralNode::String(s) => write!(f, "\"{}\"", s),
+            LiteralNode::Label(l, _) => write!(f, "{}", l),
+            LiteralNode::Symbol(s) => if s == "?" {
+                Ok(())
+            } else {
+                write!(f, "{}", s)
+            }
         }
     }
 }
@@ -67,14 +75,21 @@ pub struct VariableNode<'a> {
 
 impl<'a> fmt::Display for VariableNode<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if let PrimitiveTokenKind::GlobalVariable(name) = &self.ident.kind {
-            match &self.arg {
-                Some(arg) => write!(f, "{}({})", name, arg),
-                None => write!(f, "{}", name)
-            }
-        }
-        else {
-            unreachable!()
+        match &self.ident.kind {
+            PrimitiveTokenKind::GlobalVariable(name) => {
+                match &self.arg {
+                    Some(arg) => write!(f, "{}({})", name, arg),
+                    None => write!(f, "{}", name)
+                }
+            },
+            PrimitiveTokenKind::Parameter(param) => {
+                match &self.arg {
+                    Some(arg) => write!(f, "{}({})", "PARAM", arg),
+                    None => write!(f, "{}", "PARAM")
+                }
+            },
+            _ => unreachable!()
+
         }
     }
 }
@@ -90,7 +105,7 @@ impl<'a> fmt::Display for ExpressionNode<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.rhs {
             Some(rhs) => match &self.op {
-                Some(op) => write!(f, "{} {} {}", self.lhs, op, rhs),
+                Some(op) => write!(f, "({} {} {})", self.lhs, op, rhs),
                 None => unreachable!()
             }
             None => match &self.op {
@@ -145,7 +160,7 @@ impl<'a> fmt::Display for FunctionNode<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.ident)?;
         if let Some(arg) = &self.arg {
-            write!(f, "{}", arg)?;
+            write!(f, " {}", arg)?;
         }
 
         Ok(())

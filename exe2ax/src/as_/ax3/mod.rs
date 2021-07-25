@@ -357,22 +357,22 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
     resolved
 }
 
-fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
+fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<u32, String> {
     let _count = file.labels.len();
     let mut labels = Vec::new();
     let mut result = HashMap::new();
 
     for (i, label) in file.labels.iter().enumerate() {
-        labels.push((i, label.token_offset))
+        labels.push((i, label))
     }
 
-    labels.sort_by(|a, b| a.1.cmp(&b.1));
+    labels.sort_by(|a, b| a.1.token_offset.cmp(&b.1.token_offset));
 
     // let keta = f32::log10(count as f32) as usize + 1;
 
-    for (i, _) in labels.iter().enumerate() {
+    for (i, l) in labels.iter().enumerate() {
         let new_name = format!("*label{:0>4}", i);
-        result.insert(i, new_name);
+        result.insert(l.1.token_offset, new_name);
     }
 
     result
@@ -606,8 +606,17 @@ fn read_nodes<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> () {
 }
 */
 
-pub struct Parser<'a, R: Read + Seek> {
-    tokens: Peekable<lexical::TokenIterator<'a, R>>
+fn get_jump_to_offset<'a>(primitive: &lexical::PrimitiveToken<'a>) -> u32 {
+    if let PrimitiveTokenKind::IfStatement(offset) = &primitive.kind {
+        let extra = if primitive.flag.contains(lexical::PrimitiveTokenFlags::HasLongTypeValue) {
+            4
+        } else {
+            3
+        };
+        *offset as u32 + primitive.token_offset + extra
+    } else {
+        unreachable!()
+    }
 }
 
 fn expression_priority(tok: &lexical::PrimitiveToken) -> (u32, u32) {
@@ -646,10 +655,20 @@ enum ExprPart<'a> {
     Expr(AstNode<'a>)
 }
 
+pub struct Parser<'a, R: Read + Seek> {
+    tokens: Peekable<lexical::TokenIterator<'a, R>>,
+    label_names: HashMap<u32, String>,
+    function_names: HashMap<usize, String>,
+}
+
 impl<'a, R: Read + Seek> Parser<'a, R> {
-    pub fn new(tokens: lexical::TokenIterator<'a, R>) -> Self {
+    pub fn new(tokens: lexical::TokenIterator<'a, R>,
+               label_names: HashMap<u32, String>,
+               function_names: HashMap<usize, String>) -> Self {
         Parser {
-            tokens: tokens.peekable()
+            tokens: tokens.peekable(),
+            label_names: label_names,
+            function_names: function_names,
         }
     }
 
@@ -671,7 +690,18 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 let kind = AstNodeKind::Literal(LiteralNode::String(s.clone()));
                 AstNode::new(next.token_offset, kind)
             },
-            PrimitiveTokenKind::GlobalVariable(ident) => self.read_variable(),
+            PrimitiveTokenKind::Label(l) => {
+                let next = self.tokens.next().unwrap();
+                let kind = AstNodeKind::Literal(LiteralNode::Label(self.label_names.get(&l.token_offset).unwrap().clone(), l.token_offset));
+                AstNode::new(next.token_offset, kind)
+            },
+            PrimitiveTokenKind::Symbol => {
+                let next = self.tokens.next().unwrap();
+                let kind = AstNodeKind::Literal(LiteralNode::Symbol(token.dict_value.name.clone()));
+                AstNode::new(next.token_offset, kind)
+            },
+            PrimitiveTokenKind::Parameter(_) |
+            PrimitiveTokenKind::GlobalVariable(_) => self.read_variable(),
             PrimitiveTokenKind::HspFunction |
             PrimitiveTokenKind::OnFunction |
             PrimitiveTokenKind::OnEventFunction |
@@ -719,14 +749,15 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     }
 
     fn read_function(&mut self, has_bracket: bool) -> AstNode<'a> {
-        println!("READ FUNC");
         let tok = self.tokens.next().unwrap();
+        println!("FUNCSTART: {:?}", tok);
         let token_offset = tok.token_offset;
         if self.next_is_end_of_line() {
             let kind = AstNodeKind::Function(FunctionNode {
                 ident: tok,
                 arg: None
             });
+            println!("FUNC: {}", kind);
             return AstNode::new(token_offset, kind);
         }
 
@@ -737,11 +768,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     ident: tok,
                     arg: None
                 });
+                println!("FUNC: {}", kind);
                 return AstNode::new(token_offset, kind);
             }
         }
 
-        let arg = if self.next_is_bracket_start() || has_bracket {
+        let arg = if self.next_is_bracket_start() || !has_bracket {
             Some(Box::new(self.read_argument()))
         } else {
             None
@@ -755,18 +787,13 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         return AstNode::new(token_offset, kind);
     }
 
-    fn expression_continues(&mut self) -> bool {
-        self.tokens.peek().map_or(false, |tok| {
-            tok.is_bracket_end() || tok.is_end_of_param()
-        })
-    }
-
-    // sdim proclist, 50, 4
-
     fn read_expression(&mut self, priority: u32) -> AstNode<'a> {
         let mut terms = Vec::new();
 
-        while !self.next_is_bracket_end() {
+        loop {
+            if self.next_is_bracket_end() {
+                break;
+            }
             if let PrimitiveTokenKind::Operator = &self.tokens.peek().unwrap().kind {
                 terms.push(ExprPart::Token(self.tokens.next().unwrap()));
             } else {
@@ -785,14 +812,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
             match term {
                 ExprPart::Token(op) => {
-                    let rhs = if stack.len() > 1 {
-                        stack.remove(stack.len() - 1)
-                    } else {
-                        match terms.remove(0) {
-                            ExprPart::Expr(e) => e,
-                            _ => unreachable!()
-                        }
-                    };
+                    let rhs = stack.remove(stack.len() - 1);
                     let lhs = stack.remove(stack.len() - 1);
 
                     let token_offset = lhs.token_offset;
@@ -836,8 +856,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let first_arg_is_null = self.next_is_end_of_param();
         let mut exps = Vec::new();
 
-        while let Some(x) = self.tokens.peek() {
-            if has_bracket && x.is_bracket_end() {
+        while !self.next_is_end_of_line() {
+            if has_bracket && self.next_is_bracket_end() {
                 self.tokens.next().unwrap();
                 break;
             }
@@ -874,21 +894,28 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     fn ensure_token(&mut self, flag: HspCodeExtraFlags) -> lexical::PrimitiveToken {
         let token = self.tokens.next().unwrap();
         if token.dict_value.extra & flag != flag {
-            panic!("Not found: {:?}", token);
+            panic!("Not found with flag: {:?}", token);
         }
         token
     }
 
-    fn read_block(&mut self) -> AstNode<'a> {
+    fn read_block(&mut self, until: u32) -> AstNode<'a> {
+        println!("BLOCK START: {}", until);
         let mut exprs = Vec::new();
-        let token_offset = self.ensure_token(HspCodeExtraFlags::BracketStart).token_offset;
+        let token_offset = 0;
         while let Some(token) = self.tokens.peek() {
-            if token.dict_value.extra.contains(HspCodeExtraFlags::BracketEnd) {
+            println!("NEXT {} == {} ?", token.token_offset, until);
+            if token.token_offset == until {
+                println!("FINISH {}", token.token_offset);
+                break;
+            } else if token.token_offset > until {
+                println!("Overshot if boundary: {} > {}", token.token_offset, until);
+                break;
+            } else if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
                 break;
             }
             exprs.push(Box::new(self.read_logical_line()));
         }
-        self.ensure_token(HspCodeExtraFlags::BracketEnd);
 
         let kind = AstNodeKind::BlockStatement(BlockStatementNode {
             nodes: exprs,
@@ -898,6 +925,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
     fn read_if_statement(&mut self) -> AstNode<'a> {
         let primitive = self.tokens.next().unwrap();
+        assert!(primitive.dict_value.code_type == crate::as_::dictionary::HspCodeType::IfStatement);
+
         let token_offset = primitive.token_offset;
         let arg = if self.next_is_end_of_line() {
             None
@@ -905,14 +934,21 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             Some(Box::new(self.read_argument()))
         };
 
-        let if_block = Box::new(self.read_block());
+        println!("IFSTART");
+        let jump_offset = get_jump_to_offset(&primitive);
+        let if_block = Box::new(self.read_block(jump_offset));
         let mut else_primitive = None;
         let mut else_block = None;
 
         if let Some(token) = self.tokens.peek() {
             if let PrimitiveTokenKind::IfStatement(_) = &token.kind {
-                else_primitive = Some(token.clone());
-                else_block = Some(Box::new(self.read_block()));
+                if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
+                    println!("ELSESTART");
+                    let token = self.tokens.next().unwrap();
+                    // assert!(self.tokens.peek().unwrap().token_offset == jump_offset-1);
+                    else_block = Some(Box::new(self.read_block(get_jump_to_offset(&token))));
+                    else_primitive = Some(token);
+                }
             }
         }
 
@@ -923,17 +959,65 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             else_primitive: else_primitive,
             else_block: else_block
         });
+        println!("IF: {}", kind);
         AstNode::new(token_offset, kind)
+    }
+
+    pub fn read_on_event(&mut self) -> AstNode<'a> {
+        let primitive = self.tokens.next().unwrap();
+        let token_offset = primitive.token_offset;
+
+        let func = if self.next_is_end_of_line() {
+            None
+        } else {
+            Some(Box::new(self.read_function(false)))
+        };
+
+        let kind = AstNodeKind::OnEventStatement(OnEventStatementNode {
+            primitive: primitive,
+            func: func
+        });
+        return AstNode::new(token_offset, kind)
+    }
+
+    pub fn read_assignment(&mut self) -> AstNode<'a> {
+        let var = self.read_variable();
+        let token_offset = var.token_offset;
+        let operator = self.tokens.next().unwrap();
+
+        let argument = if self.next_is_end_of_line() {
+            None
+        } else {
+            Some(Box::new(self.read_argument()))
+        };
+
+        let kind = AstNodeKind::Assignment(AssignmentNode {
+            var: Box::new(var),
+            operator: operator,
+            argument: argument
+        });
+        return AstNode::new(token_offset, kind)
     }
 
     pub fn read_logical_line(&mut self) -> AstNode<'a> {
         match &self.tokens.peek().unwrap().kind {
+            PrimitiveTokenKind::Parameter(_) |
             PrimitiveTokenKind::GlobalVariable(_) => {
-                self.read_variable()
+                self.read_assignment()
             },
+            PrimitiveTokenKind::HspFunction |
+            PrimitiveTokenKind::UserFunction(_) |
+            PrimitiveTokenKind::DllFunction(_) |
+            PrimitiveTokenKind::PlugInFunction(_) |
+            PrimitiveTokenKind::ComFunction(_) => self.read_function(false),
             PrimitiveTokenKind::IfStatement(_) => {
                 self.read_if_statement()
             },
+            PrimitiveTokenKind::OnEventFunction => {
+                self.read_on_event()
+            },
+            // PrimitiveTokenKind::OnFunction |
+            // PrimitiveTokenKind::McallFunction |
             x => {
                 panic!("Not found: {:?}", x);
             }
@@ -974,9 +1058,9 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         variable_names: variable_names
     };
 
-    let _func_names = rename_functions(&file);
+    let label_names = rename_labels(&file);
 
-    let _label_names = rename_labels(&file);
+    let func_names = rename_functions(&file);
 
     let reader = Cursor::new(file.code);
 
@@ -988,9 +1072,13 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         file: &file
     };
 
-    let mut parser = Parser::new(iter);
+    let mut parser = Parser::new(iter, label_names, func_names);
 
     let nodes = parser.parse();
+
+    for node in nodes.iter() {
+        println!("{}\n", node);
+    }
 
     Ok(())
 }

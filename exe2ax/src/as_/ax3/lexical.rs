@@ -168,6 +168,7 @@ impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
         let type_ = self.reader.read_u8().unwrap();
         let flag = PrimitiveTokenFlags::from_bits(self.reader.read_u8().unwrap()).unwrap();
 
+        let token_offset = self.token_offset;
         self.token_offset += 1;
 
         let value = if flag.contains(PrimitiveTokenFlags::HasLongTypeValue) {
@@ -202,13 +203,13 @@ impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
                     None
                 };
 
-                let token = make_primitive(self.file, v, self.token_offset, type_, flag, value, extra_value);
+                let token = make_primitive(self.file, v, token_offset, type_, flag, value, extra_value);
                 println!("{:?}", token);
                 Some(token)
             },
             None => {
                 Some(PrimitiveToken {
-                    token_offset: self.token_offset,
+                    token_offset: token_offset,
                     type_: type_,
                     flag: flag,
                     value: value,
