@@ -122,12 +122,13 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
                 }
             },
             PrimitiveTokenKind::Parameter(param) => {
+                let param_name = ctxt.param_names.get(param).unwrap();
                 match &self.arg {
                     Some(arg) => {
-                        write!(f, "{}", param.get_type_name(ctxt.file).unwrap())?;
+                        write!(f, "{}", param_name)?;
                         arg.print_code(f, tab_count, ctxt)
                     },
-                    None => write!(f, "{}", param.get_type_name(ctxt.file).unwrap())
+                    None => write!(f, "{}", param_name)
                 }
             },
             _ => unreachable!()
@@ -299,7 +300,7 @@ impl<'a> AstPrintable<'a> for LabelDeclarationNode {
     }
 }
 
-fn write_func_param<'a>(f: &mut fmt::Formatter<'_>, param: &Ax3Parameter, index: usize, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+fn write_func_param<'a>(f: &mut fmt::Formatter<'_>, func: &'a Ax3Function, param: &Ax3Parameter, index: usize, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
     let remove_type = false;
 
     let mut wrote = false;
@@ -308,22 +309,24 @@ fn write_func_param<'a>(f: &mut fmt::Formatter<'_>, param: &Ax3Parameter, index:
         if type_name == "NULL" {
             panic!("Null parameter type name");
         } else {
-            write!(f, "{} ", type_name)?;
+            write!(f, "{}", type_name)?;
             wrote = true;
         }
     }
 
-    if param.is_module_type(ctxt.file) {
-        if wrote {
-            write!(f, " ")?;
-        }
-        let module = param.get_module(ctxt.file).unwrap();
-        let func_name = ctxt.function_names.get(module).unwrap();
-        let name = format!("{}_prm{}", func_name, index);
-        write!(f, "{}", "PARAM")?;
+    assert!(param.is_module_type(ctxt.file) == false);
+    // let func = if param.is_module_type(ctxt.file) {
+    //     param.get_module(ctxt.file).unwrap()
+    // } else {
+    //     func
+    // };
+
+    if wrote {
+        write!(f, " ")?;
     }
 
-    Ok(())
+    let param_name = ctxt.param_names.get(param).unwrap();
+    write!(f, "{}", param_name)
 }
 
 #[derive(Clone, Debug)]
@@ -381,7 +384,7 @@ impl<'a> AstPrintable<'a> for FunctionDeclarationNode<'a> {
                     write!(f, ",")?;
                 }
                 write!(f, " ")?;
-                write_func_param(f, &params[i], i, ctxt)?;
+                write_func_param(f, self.func, &params[i], i, ctxt)?;
             }
         }
 

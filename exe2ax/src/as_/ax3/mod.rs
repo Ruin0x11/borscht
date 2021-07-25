@@ -94,7 +94,7 @@ impl Ax3Dll {
 }
 
 #[repr(C)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Ax3Parameter {
     pub param_type: u16,
     pub deffunc_index: i16,
@@ -318,7 +318,7 @@ fn find_noncolliding_name_func(prefix: &str, function_names: &HashSet<String>) -
     new_name
 }
 
-fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<&'a Ax3Function, String> {
+fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, String>, HashMap<&'a Ax3Parameter, String>) {
     let mut function_names = HashSet::new();
 
     let mut dll_funcs = Vec::new();
@@ -400,7 +400,16 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<&'a Ax3Function, Strin
         resolved.insert(func, new_name);
     }
 
-    resolved
+    let mut params = HashMap::new();
+
+
+    for func in file.functions.iter() {
+        for (i, param) in func.get_params(file).iter().enumerate() {
+            params.insert(param, format!("{}_prm{}", resolved[func], i));
+        }
+    }
+
+    (resolved, params)
 }
 
 fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<u32, String> {
@@ -699,21 +708,36 @@ enum ExprPart<'a> {
     Expr(AstNode<'a>)
 }
 
+#[derive(Debug)]
+enum LabelKind<'a> {
+    Label(String),
+    Function(&'a Ax3Function)
+}
+
 pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>,
-    labels: Vec<(u32, String)>,
+    labels: Vec<(u32, LabelKind<'a>)>,
     file: &'a Ax3File<'a>,
     label_names: HashMap<u32, String>,
+    function_names: HashMap<&'a Ax3Function, String>,
     tab_count: u32
 }
 
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
                file: &'a Ax3File<'a>,
-               label_names: HashMap<u32, String>) -> Self {
+               label_names: HashMap<u32, String>,
+               function_names: HashMap<&'a Ax3Function, String>) -> Self {
+        let functions = function_names.iter().map(|(f, n)| { (file.labels[f.label_index as usize].token_offset, *f) })
+            .collect::<HashMap<u32, &'a Ax3Function>>();
+
         let mut labels = Vec::new();
         for label in label_names.iter() {
-            labels.push((*label.0, label.1.clone()));
+            let kind = match functions.get(label.0) {
+                Some(func) => LabelKind::Function(func),
+                None => LabelKind::Label(label.1.clone())
+            };
+            labels.push((*label.0, kind));
         }
         labels.sort_by(|a, b| b.0.cmp(&a.0));
         Parser {
@@ -721,6 +745,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             labels: labels,
             file: file,
             label_names: label_names,
+            function_names: function_names,
             tab_count: 1
         }
     }
@@ -1078,19 +1103,27 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn read_logical_line(&mut self) -> Vec<AstNode<'a>> {
         let offset_here = self.tokens.peek().unwrap().token_offset;
 
+        // Labels
         let mut result = Vec::new();
         while let Some(top) = self.labels.last() {
             let token_offset = top.0;
             if token_offset > offset_here {
                 break;
             }
-            let (_, name) = self.labels.pop().unwrap();
-            let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
-                name: name
-            });
+            let (_, label_kind) = self.labels.pop().unwrap();
+            let kind = match label_kind {
+                LabelKind::Function(func) =>  AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
+                    func: func
+                }),
+                LabelKind::Label(name) => AstNodeKind::LabelDeclaration(LabelDeclarationNode {
+                    name: name
+                }),
+            };
             let node = AstNode::new(token_offset, kind, 0);
             result.push(node);
         }
+
+        // Function decls
 
         let line = match &self.tokens.peek().unwrap().kind {
             PrimitiveTokenKind::Parameter(_) |
@@ -1167,7 +1200,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 pub struct Hsp3As<'a> {
     nodes: Vec<AstNode<'a>>,
     file: &'a Ax3File<'a>,
-    function_names: HashMap<&'a Ax3Function, String>
+    function_names: HashMap<&'a Ax3Function, String>,
+    param_names: HashMap<&'a Ax3Parameter, String>
 }
 
 impl<'a> fmt::Display for Hsp3As<'a> {
@@ -1208,7 +1242,7 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
 
     let label_names = rename_labels(&file);
 
-    let func_names = rename_functions(&file);
+    let (func_names, param_names) = rename_functions(&file);
 
     let reader = Cursor::new(file.code);
 
@@ -1220,13 +1254,14 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         file: &file
     };
 
-    let mut parser = Parser::new(iter, &file, label_names);
+    let mut parser = Parser::new(iter, &file, label_names, func_names.clone());
 
     let nodes = parser.parse();
     let hsp3as = Hsp3As {
         nodes: nodes,
         file: &file,
-        function_names: func_names
+        function_names: func_names,
+        param_names: param_names
     };
 
     println!("{}", hsp3as);
