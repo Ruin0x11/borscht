@@ -999,6 +999,28 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         return AstNode::new(token_offset, kind)
     }
 
+    pub fn read_mcall(&mut self) -> AstNode<'a> {
+        let primitive = self.tokens.next().unwrap();
+        let token_offset = primitive.token_offset;
+
+        let variable = self.read_variable();
+        let exp = self.read_expression(0);
+
+        let arg = if self.next_is_end_of_line() {
+            None
+        } else {
+            Some(Box::new(self.read_argument()))
+        };
+
+        let kind = AstNodeKind::McallStatement(McallStatementNode {
+            primitive: primitive,
+            var: Box::new(variable),
+            primary_exp: Box::new(exp),
+            arg: arg,
+        });
+        return AstNode::new(token_offset, kind)
+    }
+
     pub fn read_logical_line(&mut self) -> AstNode<'a> {
         match &self.tokens.peek().unwrap().kind {
             PrimitiveTokenKind::Parameter(_) |
@@ -1015,6 +1037,9 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             },
             PrimitiveTokenKind::OnEventFunction => {
                 self.read_on_event()
+            },
+            PrimitiveTokenKind::McallFunction => {
+                self.read_mcall()
             },
             // PrimitiveTokenKind::OnFunction |
             // PrimitiveTokenKind::McallFunction |
@@ -1033,6 +1058,10 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
         result
     }
+}
+
+struct Formatter<'a> {
+    nodes: Vec<AstNode<'a>>
 }
 
 pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
@@ -1076,9 +1105,8 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
 
     let nodes = parser.parse();
 
-    for node in nodes.iter() {
-        println!("{}\n", node);
-    }
+    let formatter = Formatter::new(nodes);
+    let code = formatter.format();
 
     Ok(())
 }
