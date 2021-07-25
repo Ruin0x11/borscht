@@ -162,7 +162,7 @@ impl<'a> AstPrintable<'a> for LiteralNode<'a> {
                 if d.fract() == 0.0 {
                     write!(f, "{}.0", d)
                 } else {
-                    write!(f, "{}", d)
+                    write!(f, "{:.}", d)
                 }
             }
             LiteralNode::String(s) => {
@@ -315,7 +315,8 @@ impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
 pub struct ArgumentNode<'a> {
     pub exps: Vec<AstNodeRef<'a>>,
     pub has_bracket: bool,
-    pub first_arg_is_null: bool
+    pub first_arg_is_null: bool,
+    pub mcall: bool,
 }
 
 impl<'a> AstPrintable<'a> for ArgumentNode<'a> {
@@ -326,7 +327,7 @@ impl<'a> AstPrintable<'a> for ArgumentNode<'a> {
             write!(f, " ")?;
         }
 
-        if self.first_arg_is_null {
+        if self.first_arg_is_null && !self.mcall {
             write!(f, ", ")?;
         }
 
@@ -589,7 +590,6 @@ impl<'a> AstPrintable<'a> for McallStatementNode<'a> {
         write!(f, "->")?;
         self.primary_exp.print_code(f, tab_count, ctxt)?;
         if let Some(arg) = &self.arg {
-            write!(f, " ")?;
             arg.print_code(f, tab_count, ctxt)?;
         }
         Ok(())

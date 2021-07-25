@@ -425,7 +425,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
     (resolved, params)
 }
 
-fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<u32, String> {
+fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<&'a Ax3Label, String> {
     let _count = file.labels.len();
     let mut labels = Vec::new();
     let mut result = HashMap::new();
@@ -438,7 +438,7 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<u32, String> {
 
     for (i, l) in labels.iter().enumerate() {
         let new_name = format!("*label_{:0>4}", i);
-        result.insert(l.1.token_offset, new_name);
+        result.insert(l.1, new_name);
     }
 
     result
@@ -576,7 +576,6 @@ fn fix_else_stmt_labels<'a>(nodes: &mut Vec<AstNode<'a>>) {
 
     while found.len() > 0 {
         let i = found.pop().unwrap();
-        println!("FOUND {}", i);
         let node = nodes.remove(i+1);
         if let AstNodeKind::IfStatement(ref mut n) = &mut nodes[i].kind {
             if let AstNodeKind::BlockStatement(ref mut b) = &mut n.if_block.kind {
@@ -634,14 +633,14 @@ enum ExprPart<'a> {
 #[derive(Debug)]
 enum LabelKind<'a> {
     Label(String),
-    Function(&'a Ax3Function)
+    Function(&'a Ax3Function, String)
 }
 
 pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>,
     labels: Vec<(u32, LabelKind<'a>)>,
     file: &'a Ax3File<'a>,
-    label_names: HashMap<u32, String>,
+    label_names: HashMap<&'a Ax3Label, String>,
     label_usage: HashMap<String, u32>,
     tab_count: u32
 }
@@ -649,10 +648,10 @@ pub struct Parser<'a, R: Read + Seek> {
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
                file: &'a Ax3File<'a>,
-               label_names: HashMap<u32, String>,
+               label_names: HashMap<&'a Ax3Label, String>,
                function_names: HashMap<&'a Ax3Function, String>) -> Self {
-        let functions = function_names.iter().map(|(f, n)| { (file.labels[f.label_index as usize].token_offset, *f) })
-                                             .collect::<HashMap<u32, &'a Ax3Function>>();
+        let functions = function_names.iter().map(|(f, n)| { (&file.labels[f.label_index as usize], *f) })
+                                             .collect::<HashMap<&'a Ax3Label, &'a Ax3Function>>();
 
         let mut labels = Vec::new();
         for label in label_names.iter() {
@@ -660,13 +659,13 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 Some(func) => {
                     match func.get_type() {
                         Ax3FunctionType::DefFunc |
-                        Ax3FunctionType::DefCFunc => LabelKind::Function(func),
+                        Ax3FunctionType::DefCFunc => LabelKind::Function(func, label.1.clone()),
                         _ => LabelKind::Label(label.1.clone())
                     }
                 }
                 None => LabelKind::Label(label.1.clone())
             };
-            labels.push((*label.0, kind));
+            labels.push((label.0.token_offset, kind));
         }
         labels.sort_by(|a, b| b.0.cmp(&a.0));
         Parser {
@@ -699,7 +698,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             },
             PrimitiveTokenKind::Label(l) => {
                 let next = self.tokens.next().unwrap();
-                let name = self.label_names.get(&l.token_offset).unwrap().clone();
+                let name = self.label_names.get(l).unwrap().clone();
                 *self.label_usage.entry(name.clone()).or_insert(0) += 1;
                 let kind = AstNodeKind::Literal(LiteralNode::Label(name, l.token_offset));
                 AstNode::new(next.token_offset, kind, self.tab_count)
@@ -761,12 +760,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let tok = self.tokens.next().unwrap();
         let mut tab_count = self.tab_count;
 
-        if tok.adds_tab() {
-            self.tab_count += 1;
-        } else if tok.removes_tab() {
-            self.tab_count -= 1;
-            tab_count -= 1;
-        }
+        // if tok.adds_tab() {
+        //     self.tab_count += 1;
+        // } else if tok.removes_tab() {
+        //     self.tab_count -= 1;
+        //     tab_count -= 1;
+        // }
 
         let token_offset = tok.token_offset;
         if self.next_is_end_of_line() {
@@ -789,7 +788,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
 
         let arg = if self.next_is_bracket_start() || !has_bracket {
-            Some(Box::new(self.read_argument()))
+            Some(Box::new(self.read_argument(false)))
         } else {
             None
         };
@@ -865,7 +864,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         expr
     }
 
-    fn read_argument(&mut self) -> AstNode<'a> {
+    fn read_argument(&mut self, mcall: bool) -> AstNode<'a> {
         let has_bracket = self.tokens.peek().map_or(false, |x| x.is_bracket_start());
         self.tokens.next_if(|x| has_bracket);
 
@@ -885,7 +884,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let kind = AstNodeKind::Argument(ArgumentNode {
             exps: exps,
             has_bracket: has_bracket,
-            first_arg_is_null: first_arg_is_null
+            first_arg_is_null: first_arg_is_null,
+            mcall: mcall
         });
         AstNode::new(token_offset, kind, self.tab_count)
     }
@@ -896,7 +896,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let next = self.tokens.peek().unwrap();
         let arg = if next.is_bracket_start() {
             // Array access
-            Some(Box::new(self.read_argument()))
+            Some(Box::new(self.read_argument(false)))
         } else {
             None
         };
@@ -906,14 +906,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             arg: arg
         });
         AstNode::new(token_offset, kind, self.tab_count)
-    }
-
-    fn ensure_token(&mut self, flag: HspCodeExtraFlags) -> lexical::PrimitiveToken {
-        let token = self.tokens.next().unwrap();
-        if token.dict_value.extra & flag != flag {
-            panic!("Not found with flag: {:?}", token);
-        }
-        token
     }
 
     fn read_block(&mut self, until: u32) -> AstNode<'a> {
@@ -952,10 +944,11 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let arg = if self.next_is_end_of_line() {
             None
         } else {
-            Some(Box::new(self.read_argument()))
+            Some(Box::new(self.read_argument(false)))
         };
 
         let mut jump_offset = get_jump_to_offset(&primitive);
+
         let if_block = Box::new(self.read_block(jump_offset));
 
         let kind = AstNodeKind::IfStatement(IfStatementNode {
@@ -1006,7 +999,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     }
                 }
 
-                let arg = Some(Box::new(self.read_argument()));
+                let arg = Some(Box::new(self.read_argument(false)));
 
                 let kind = AstNodeKind::Function(FunctionNode {
                     ident: tok,
@@ -1025,7 +1018,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let argument = if self.next_is_end_of_line() {
             None
         } else {
-            Some(Box::new(self.read_argument()))
+            Some(Box::new(self.read_argument(false)))
         };
 
         let kind = AstNodeKind::Assignment(AssignmentNode {
@@ -1046,7 +1039,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let arg = if self.next_is_end_of_line() {
             None
         } else {
-            Some(Box::new(self.read_argument()))
+            Some(Box::new(self.read_argument(true)))
         };
 
         let kind = AstNodeKind::McallStatement(McallStatementNode {
@@ -1069,16 +1062,35 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 break;
             }
             let (_, label_kind) = self.labels.pop().unwrap();
-            let kind = match label_kind {
-                LabelKind::Function(func) => AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
-                    func: func
-                }),
-                LabelKind::Label(name) => AstNodeKind::LabelDeclaration(LabelDeclarationNode {
-                    name: name
-                }),
+            match label_kind {
+                LabelKind::Function(func, label_name) => {
+                    let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
+                        name: label_name
+                    });
+                    let node = AstNode::new(token_offset, kind, 0);
+                    result.push(node);
+
+                    let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
+                        func: func
+                    });
+                    let node = AstNode::new(token_offset, kind, 0);
+                    result.push(node);
+                },
+                LabelKind::Label(name) => {
+                    let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
+                        name: name
+                    });
+                    let node = AstNode::new(token_offset, kind, 0);
+                    result.push(node);
+                }
             };
-            let node = AstNode::new(token_offset, kind, 0);
-            result.push(node);
+        }
+
+        let add_tab = self.tokens.peek().unwrap().adds_tab();
+        let remove_tab = self.tokens.peek().unwrap().removes_tab();
+
+        if remove_tab {
+            self.tab_count -= 1;
         }
 
         // Logical line
@@ -1107,6 +1119,10 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 panic!("Not found: {:?}", x);
             }
         };
+
+        if add_tab {
+            self.tab_count += 1;
+        }
 
         result.push(line);
         result
