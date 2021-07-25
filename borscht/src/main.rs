@@ -11,6 +11,7 @@ use std::io::{self, Read, Write};
 use std::path::{Path};
 use anyhow::Result;
 use clap::{Arg, App, SubCommand, ArgMatches, crate_version, crate_authors};
+use exe2ax::as_::DecodeOptions;
 
 fn get_app<'a, 'b>() -> App<'a, 'b> {
     App::new("borscht")
@@ -65,7 +66,7 @@ fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
     let dpm = exe2ax::dpm::exe_to_dpm(&mut input_file)?;
     let ax = exe2ax::ax::dpm_to_ax(&dpm)?;
 
-    let output_file = output_dir.join(input_path.with_extension("ax").file_name().unwrap());
+    let output_file = output_dir.join(input_path.with_file_name("start.ax").file_name().unwrap());
     let mut file = File::create(&output_file)?;
     file.write_all(ax.as_ref())?;
 
@@ -81,13 +82,14 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
         None => input_file.parent().unwrap()
     };
 
+    let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
+    let opts = DecodeOptions {
+        output_file: output_file.clone()
+    };
+
     let buffer = fs::read(input_file)?;
     let ax = exe2ax::ax::bytes_to_ax(buffer)?;
-    let as_ = exe2ax::as_::ax_to_as(&ax)?;
-
-    let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
-    // let mut file = File::create(&output_file)?;
-    // file.write_all(&sexp.as_bytes())?;
+    let as_ = exe2ax::as_::ax_to_as(&ax, &opts)?;
 
     println!("Decompiled bytecode to {:?}.", output_file);
     Ok(())

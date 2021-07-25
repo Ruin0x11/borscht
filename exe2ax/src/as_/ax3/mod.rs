@@ -4,10 +4,11 @@ pub mod lexical;
 pub mod ast;
 mod util;
 
+use std::fs::File;
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
 use std::fmt;
-use std::io::{Read, Seek, Cursor};
+use std::io::{self, Read, Write, Seek, Cursor};
 use encoding_rs::SHIFT_JIS;
 use byteorder::{LittleEndian, ReadBytesExt};
 use anyhow::{Result, anyhow};
@@ -15,6 +16,8 @@ use bitflags::bitflags;
 
 use self::view::Ax3View;
 use self::dictionary::Hsp3Dictionary;
+use self::ast::*;
+use super::DecodeOptions;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -401,11 +404,17 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
     }
 
     let mut params = HashMap::new();
+    let funcnamed_params = false;
 
-
-    for func in file.functions.iter() {
-        for (i, param) in func.get_params(file).iter().enumerate() {
-            params.insert(param, format!("{}_prm{}", resolved[func], i));
+    if funcnamed_params {
+        for func in file.functions.iter() {
+            for (i, param) in func.get_params(file).iter().enumerate() {
+                params.insert(param, format!("{}_prm{}", resolved[func], i));
+            }
+        }
+    } else {
+        for (i, param) in file.parameters.iter().enumerate() {
+            params.insert(param, format!("prm_{}", i));
         }
     }
 
@@ -424,7 +433,7 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<u32, String> {
     // let keta = f32::log10(count as f32) as usize + 1;
 
     for (i, l) in labels.iter().enumerate() {
-        let new_name = format!("*label{:0>4}", i);
+        let new_name = format!("*label_{:0>4}", i);
         result.insert(l.1.token_offset, new_name);
     }
 
@@ -985,7 +994,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             if token.token_offset == until {
                 break;
             } else if token.token_offset > until {
-                println!("Overshot if boundary: {} > {}", token.token_offset, until);
+                // eprintln!("Overshot if boundary: {} > {}", token.token_offset, until);
                 break;
             } else if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
                 break;
@@ -1204,20 +1213,20 @@ pub struct Hsp3As<'a> {
     param_names: HashMap<&'a Ax3Parameter, String>
 }
 
-impl<'a> fmt::Display for Hsp3As<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl<'a> Hsp3As<'a> {
+    fn write<W: Write>(&self, w: &mut W) -> Result<(), io::Error> {
         for (i, node) in self.nodes.iter().enumerate() {
-            ast::print_tabs(f, node.tab_count)?;
-            node.print_code(f, node.tab_count, &self)?;
+            ast::print_tabs(w, node.tab_count)?;
+            node.print_code(w, node.tab_count, &self)?;
             if i < self.nodes.len() - 1 {
-                write!(f, "\n")?;
+                write!(w, "\n")?;
             }
         }
         Ok(())
     }
 }
 
-pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
+pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<()> {
     let dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
 
     let slice = bytes.as_ref();
@@ -1264,7 +1273,8 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         param_names: param_names
     };
 
-    println!("{}", hsp3as);
+    let mut file = File::create(&opts.output_file)?;
+    hsp3as.write(&mut file)?;
 
     Ok(())
 }
