@@ -1062,9 +1062,9 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let mut exprs = Vec::new();
         let token_offset = 0;
         while let Some(token) = self.tokens.peek() {
-            if token.token_offset == until {
+            if token.token_offset == until && token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
                 break;
-            } else if token.token_offset > until {
+            } else if token.token_offset > until + 1 {
                 // eprintln!("Overshot if boundary: {} > {}", token.token_offset, until);
                 break;
             }
@@ -1095,7 +1095,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             Some(Box::new(self.read_argument()))
         };
 
-        let jump_offset = get_jump_to_offset(&primitive);
+        let mut jump_offset = get_jump_to_offset(&primitive);
         let if_block = Box::new(self.read_block(jump_offset));
 
         let kind = AstNodeKind::IfStatement(IfStatementNode {
@@ -1285,9 +1285,7 @@ impl<'a> Hsp3As<'a> {
             }
 
             node.print_code(w, node.tab_count, &self)?;
-            if i < self.nodes.len() - 1 {
-                write!(w, "\n")?;
-            }
+            write!(w, "\n")?;
         }
         Ok(())
     }
@@ -1331,7 +1329,6 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<
     };
 
     let mut parser = Parser::new(iter, &file, label_names, func_names.clone());
-
     let nodes = parser.parse();
 
     let hsp3as = Hsp3As {
