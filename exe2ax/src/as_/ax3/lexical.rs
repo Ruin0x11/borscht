@@ -203,9 +203,7 @@ impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
                     None
                 };
 
-                let token = make_primitive(self.file, v, token_offset, type_, flag, value, extra_value);
-                println!("{:?}", token);
-                Some(token)
+                Some(make_primitive(self.file, v, token_offset, type_, flag, value, extra_value))
             },
             None => {
                 Some(PrimitiveToken {

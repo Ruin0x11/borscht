@@ -6,6 +6,7 @@ mod util;
 
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
+use std::fmt;
 use std::io::{Read, Seek, Cursor};
 use encoding_rs::SHIFT_JIS;
 use byteorder::{LittleEndian, ReadBytesExt};
@@ -750,14 +751,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
     fn read_function(&mut self, has_bracket: bool) -> AstNode<'a> {
         let tok = self.tokens.next().unwrap();
-        println!("FUNCSTART: {:?}", tok);
         let token_offset = tok.token_offset;
         if self.next_is_end_of_line() {
             let kind = AstNodeKind::Function(FunctionNode {
                 ident: tok,
                 arg: None
             });
-            println!("FUNC: {}", kind);
             return AstNode::new(token_offset, kind);
         }
 
@@ -768,7 +767,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     ident: tok,
                     arg: None
                 });
-                println!("FUNC: {}", kind);
                 return AstNode::new(token_offset, kind);
             }
         }
@@ -783,7 +781,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             ident: tok,
             arg: arg
         });
-        println!("FUNC: {}", kind);
         return AstNode::new(token_offset, kind);
     }
 
@@ -805,7 +802,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
 
         let mut stack: Vec<AstNode<'a>> = Vec::new();
-        println!("{:?}, {}", terms, terms.len());
 
         while terms.len() > 0 {
             let term = terms.remove(0);
@@ -844,7 +840,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
 
         let expr = stack.remove(0);
-        println!("EXPR: {}", expr);
         expr
     }
 
@@ -900,13 +895,10 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     }
 
     fn read_block(&mut self, until: u32) -> AstNode<'a> {
-        println!("BLOCK START: {}", until);
         let mut exprs = Vec::new();
         let token_offset = 0;
         while let Some(token) = self.tokens.peek() {
-            println!("NEXT {} == {} ?", token.token_offset, until);
             if token.token_offset == until {
-                println!("FINISH {}", token.token_offset);
                 break;
             } else if token.token_offset > until {
                 println!("Overshot if boundary: {} > {}", token.token_offset, until);
@@ -934,7 +926,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             Some(Box::new(self.read_argument()))
         };
 
-        println!("IFSTART");
         let jump_offset = get_jump_to_offset(&primitive);
         let if_block = Box::new(self.read_block(jump_offset));
         let mut else_primitive = None;
@@ -943,7 +934,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         if let Some(token) = self.tokens.peek() {
             if let PrimitiveTokenKind::IfStatement(_) = &token.kind {
                 if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
-                    println!("ELSESTART");
                     let token = self.tokens.next().unwrap();
                     // assert!(self.tokens.peek().unwrap().token_offset == jump_offset-1);
                     else_block = Some(Box::new(self.read_block(get_jump_to_offset(&token))));
@@ -959,7 +949,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             else_primitive: else_primitive,
             else_block: else_block
         });
-        println!("IF: {}", kind);
         AstNode::new(token_offset, kind)
     }
 
@@ -1061,7 +1050,17 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 }
 
 struct Formatter<'a> {
-    nodes: Vec<AstNode<'a>>
+    nodes: Vec<AstNode<'a>>,
+    file: &'a Ax3File<'a>
+}
+
+impl<'a> fmt::Display for Formatter<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for node in self.nodes.iter() {
+            node.print_code(f, node.tab_count, self.file)?;
+        }
+        Ok(())
+    }
 }
 
 pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
@@ -1104,9 +1103,12 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
     let mut parser = Parser::new(iter, label_names, func_names);
 
     let nodes = parser.parse();
+    let formatter = Formatter {
+        nodes: nodes,
+        file: &file
+    };
 
-    let formatter = Formatter::new(nodes);
-    let code = formatter.format();
+    println!("{}", formatter);
 
     Ok(())
 }
