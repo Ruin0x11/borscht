@@ -357,8 +357,8 @@ impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> Result<(), io::Error> {
         write!(f, "{{\n")?;
         for (i, exp) in self.nodes.iter().enumerate() {
-            print_tabs(f, tab_count)?;
-            exp.print_code(f, tab_count, ctxt)?;
+            print_tabs(f, exp.tab_count)?;
+            exp.print_code(f, exp.tab_count, ctxt)?;
             write!(f, "\n")?;
         }
         print_tabs(f, tab_count-1)?;

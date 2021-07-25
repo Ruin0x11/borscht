@@ -44,7 +44,7 @@ fn parse_extra(s: &str) -> (HspCodeExtraFlags, u32) {
     if s.starts_with("Priority_") {
         (HspCodeExtraFlags::None, s.strip_prefix("Priority_").unwrap().parse::<u32>().unwrap())
     } else {
-        let map = |flag| match flag {
+        let flag = match s {
             "HasExtraInt16" => HspCodeExtraFlags::HasExtraInt16,
             "HasGhostLabel" => HspCodeExtraFlags::HasGhostLabel,
             "HasGhostGoto" => HspCodeExtraFlags::HasGhostGoto,
@@ -56,8 +56,7 @@ fn parse_extra(s: &str) -> (HspCodeExtraFlags, u32) {
             "GotoFunction" => HspCodeExtraFlags::GotoFunction,
             _ => HspCodeExtraFlags::None,
         };
-        let spl = s.split(" ").map(map).fold(HspCodeExtraFlags::None, |acc, f| acc | f);
-        (spl, 0)
+        (flag, 0)
     }
 }
 
@@ -95,10 +94,21 @@ fn extract_code<'a>(bytes: &'a [u8]) -> Result<HspCodeDictionary> {
         let name = r.get(2).ok_or_else(|| anyhow!("Missing name"))?.to_string();
         let code_type_ = r.get(3).ok_or_else(|| anyhow!("Missing code type"))?;
         let code_type: HspCodeType = code_type_.parse::<HspCodeType>().map_err(|_| anyhow!("Failed to parse code type {}", code_type_))?;
-        let (extra, priority) = match r.get(4) {
-            Some(s) => parse_extra(s),
-            None => (HspCodeExtraFlags::None, 0)
-        };
+
+        let mut i = 4;
+        let mut priority = 0;
+        let mut extra = HspCodeExtraFlags::None;
+        loop {
+            match r.get(i) {
+                Some(s) => {
+                    let (e, p) = parse_extra(s);
+                    extra = extra | e;
+                    priority = std::cmp::min(priority, p);
+                }
+                None => break
+            };
+            i += 1;
+        }
 
         let dict_value = HspDictionaryValue { name, code_type, extra, priority };
         dict.insert(dict_key, dict_value);

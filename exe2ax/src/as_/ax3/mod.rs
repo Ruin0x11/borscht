@@ -1130,7 +1130,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             }
             let (_, label_kind) = self.labels.pop().unwrap();
             let kind = match label_kind {
-                LabelKind::Function(func) =>  AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
+                LabelKind::Function(func) => AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
                     func: func
                 }),
                 LabelKind::Label(name) => AstNodeKind::LabelDeclaration(LabelDeclarationNode {
@@ -1141,8 +1141,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             result.push(node);
         }
 
-        // Function decls
-
+        // Logical line
         let line = match &self.tokens.peek().unwrap().kind {
             PrimitiveTokenKind::Parameter(_) |
             PrimitiveTokenKind::GlobalVariable(_) => {
