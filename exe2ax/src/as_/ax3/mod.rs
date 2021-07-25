@@ -367,8 +367,6 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<u32, String> {
         labels.push((i, label))
     }
 
-    labels.sort_by(|a, b| a.1.token_offset.cmp(&b.1.token_offset));
-
     // let keta = f32::log10(count as f32) as usize + 1;
 
     for (i, l) in labels.iter().enumerate() {
@@ -658,7 +656,7 @@ enum ExprPart<'a> {
 
 pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>,
-    labels: Vec<&'a Ax3Label>,
+    labels: Vec<(u32, String)>,
     label_names: HashMap<u32, String>,
     function_names: HashMap<usize, String>,
     tab_count: u32
@@ -670,9 +668,10 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                label_names: HashMap<u32, String>,
                function_names: HashMap<usize, String>) -> Self {
         let mut labels = Vec::new();
-        for label in file.labels.iter().rev() {
-            labels.push(label);
+        for label in label_names.iter() {
+            labels.push((*label.0, label.1.clone()));
         }
+        labels.sort_by(|a, b| b.0.cmp(&a.0));
         Parser {
             tokens: tokens.peekable(),
             labels: labels,
@@ -1033,19 +1032,20 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     }
 
     pub fn read_logical_line(&mut self) -> Vec<AstNode<'a>> {
-        let token_offset = self.tokens.peek().unwrap().token_offset;
+        let offset_here = self.tokens.peek().unwrap().token_offset;
 
         let mut result = Vec::new();
         while let Some(top) = self.labels.last() {
-            if top.token_offset > token_offset {
+            let token_offset = top.0;
+            if token_offset > offset_here {
                 break;
             }
+            let (_, name) = self.labels.pop().unwrap();
             let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
-                name: self.label_names.get(&top.token_offset).unwrap().to_string()
+                name: name
             });
-            let node = AstNode::new(top.token_offset, kind, 0);
+            let node = AstNode::new(token_offset, kind, 0);
             result.push(node);
-            self.labels.pop();
         }
 
         let line = match &self.tokens.peek().unwrap().kind {
