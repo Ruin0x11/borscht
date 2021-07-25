@@ -432,17 +432,17 @@ fn read_primary_expression<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNod
         PrimitiveTokenKind::Integer => {
             let next = iter.next().unwrap();
             let kind = AstNodeKind::Literal(LiteralNode::Integer(next.value));
-            AstNode::new(next.token_offset, kind)
+            AstNode::new(next.token_offset, kind, self.tab_count)
         },
         PrimitiveTokenKind::Double(d) => {
             let next = iter.next().unwrap();
             let kind = AstNodeKind::Literal(LiteralNode::Double(d));
-            AstNode::new(next.token_offset, kind)
+            AstNode::new(next.token_offset, kind, self.tab_count)
         },
         PrimitiveTokenKind::String(s) => {
             let next = iter.next().unwrap();
             let kind = AstNodeKind::Literal(LiteralNode::String(s));
-            AstNode::new(next.token_offset, kind)
+            AstNode::new(next.token_offset, kind, self.tab_count)
         },
         PrimitiveTokenKind::GlobalVariable(ident) => read_variable(iter),
         PrimitiveTokenKind::HspFunction |
@@ -550,7 +550,7 @@ fn read_argument<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
     //     has_bracket: has_bracket,
     //     first_arg_is_null: first_arg_is_null
     // });
-    AstNode::new(next.token_offset, kind)
+    AstNode::new(next.token_offset, kind, self.tab_count)
 }
 
 fn read_function<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
@@ -561,7 +561,7 @@ fn read_function<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
             ident: tok,
             arg: None
         });
-        return AstNode::new(token_offset, kind);
+        return AstNode::new(token_offset, kind, self.tab_count);
     }
 
 
@@ -569,7 +569,7 @@ fn read_function<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
         ident: tok,
         arg: None
     });
-    return AstNode::new(token_offset, kind);
+    return AstNode::new(token_offset, kind, self.tab_count);
 }
 
 fn read_variable<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
@@ -587,7 +587,7 @@ fn read_variable<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> AstNode<'a> {
         ident: ident,
         arg: arg
     });
-    AstNode::new(token_offset, kind)
+    AstNode::new(token_offset, kind, self.tab_count)
 }
 
 fn read_nodes<'a, R: Read + Seek>(iter: &mut Iter<'a, R>) -> () {
@@ -658,18 +658,27 @@ enum ExprPart<'a> {
 
 pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>,
+    labels: Vec<&'a Ax3Label>,
     label_names: HashMap<u32, String>,
     function_names: HashMap<usize, String>,
+    tab_count: u32
 }
 
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
+               file: &'a Ax3File<'a>,
                label_names: HashMap<u32, String>,
                function_names: HashMap<usize, String>) -> Self {
+        let mut labels = Vec::new();
+        for label in file.labels.iter().rev() {
+            labels.push(label);
+        }
         Parser {
             tokens: tokens.peekable(),
+            labels: labels,
             label_names: label_names,
             function_names: function_names,
+            tab_count: 0
         }
     }
 
@@ -679,27 +688,27 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             PrimitiveTokenKind::Integer => {
                 let next = self.tokens.next().unwrap();
                 let kind = AstNodeKind::Literal(LiteralNode::Integer(next.value));
-                AstNode::new(next.token_offset, kind)
+                AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::Double(d) => {
                 let next = self.tokens.next().unwrap();
                 let kind = AstNodeKind::Literal(LiteralNode::Double(*d));
-                AstNode::new(next.token_offset, kind)
+                AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::String(s) => {
                 let next = self.tokens.next().unwrap();
                 let kind = AstNodeKind::Literal(LiteralNode::String(s.clone()));
-                AstNode::new(next.token_offset, kind)
+                AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::Label(l) => {
                 let next = self.tokens.next().unwrap();
                 let kind = AstNodeKind::Literal(LiteralNode::Label(self.label_names.get(&l.token_offset).unwrap().clone(), l.token_offset));
-                AstNode::new(next.token_offset, kind)
+                AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::Symbol => {
                 let next = self.tokens.next().unwrap();
                 let kind = AstNodeKind::Literal(LiteralNode::Symbol(token.dict_value.name.clone()));
-                AstNode::new(next.token_offset, kind)
+                AstNode::new(next.token_offset, kind, self.tab_count)
             },
             PrimitiveTokenKind::Parameter(_) |
             PrimitiveTokenKind::GlobalVariable(_) => self.read_variable(),
@@ -757,7 +766,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 ident: tok,
                 arg: None
             });
-            return AstNode::new(token_offset, kind);
+            return AstNode::new(token_offset, kind, self.tab_count);
         }
 
         if tok.has_ghost_label() {
@@ -767,7 +776,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     ident: tok,
                     arg: None
                 });
-                return AstNode::new(token_offset, kind);
+                return AstNode::new(token_offset, kind, self.tab_count);
             }
         }
 
@@ -781,7 +790,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             ident: tok,
             arg: arg
         });
-        return AstNode::new(token_offset, kind);
+        return AstNode::new(token_offset, kind, self.tab_count);
     }
 
     fn read_expression(&mut self, priority: u32) -> AstNode<'a> {
@@ -819,7 +828,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     let new_kind = AstNodeKind::Expression(ExpressionNode {
                         lhs: Box::new(lhs),
                         op: Some(op),
-                        rhs: Some(Box::new(rhs))
+                        rhs: Some(Box::new(rhs)),
+                        nested: true
                     });
 
                     let new_node = AstNode {
@@ -839,7 +849,11 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             }
         }
 
-        let expr = stack.remove(0);
+        let mut expr = stack.remove(0);
+        if let AstNodeKind::Expression(ref mut node) = expr.kind {
+            node.nested = false;
+        }
+
         expr
     }
 
@@ -865,7 +879,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             has_bracket: has_bracket,
             first_arg_is_null: first_arg_is_null
         });
-        AstNode::new(token_offset, kind)
+        AstNode::new(token_offset, kind, self.tab_count)
     }
 
     fn read_variable(&mut self) -> AstNode<'a> {
@@ -883,7 +897,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             ident: ident,
             arg: arg
         });
-        AstNode::new(token_offset, kind)
+        AstNode::new(token_offset, kind, self.tab_count)
     }
 
     fn ensure_token(&mut self, flag: HspCodeExtraFlags) -> lexical::PrimitiveToken {
@@ -895,6 +909,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     }
 
     fn read_block(&mut self, until: u32) -> AstNode<'a> {
+        self.tab_count += 1;
+
         let mut exprs = Vec::new();
         let token_offset = 0;
         while let Some(token) = self.tokens.peek() {
@@ -906,13 +922,19 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             } else if token.dict_value.code_type == crate::as_::dictionary::HspCodeType::ElseStatement {
                 break;
             }
-            exprs.push(Box::new(self.read_logical_line()));
+            for expr in self.read_logical_line() {
+                exprs.push(Box::new(expr));
+            }
         }
 
         let kind = AstNodeKind::BlockStatement(BlockStatementNode {
             nodes: exprs,
         });
-        AstNode::new(token_offset, kind)
+        let node = AstNode::new(token_offset, kind, self.tab_count);
+
+        self.tab_count -= 1;
+
+        node
     }
 
     fn read_if_statement(&mut self) -> AstNode<'a> {
@@ -949,7 +971,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             else_primitive: else_primitive,
             else_block: else_block
         });
-        AstNode::new(token_offset, kind)
+        AstNode::new(token_offset, kind, self.tab_count)
     }
 
     pub fn read_on_event(&mut self) -> AstNode<'a> {
@@ -966,7 +988,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             primitive: primitive,
             func: func
         });
-        return AstNode::new(token_offset, kind)
+        return AstNode::new(token_offset, kind, self.tab_count)
     }
 
     pub fn read_assignment(&mut self) -> AstNode<'a> {
@@ -985,7 +1007,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             operator: operator,
             argument: argument
         });
-        return AstNode::new(token_offset, kind)
+        return AstNode::new(token_offset, kind, self.tab_count)
     }
 
     pub fn read_mcall(&mut self) -> AstNode<'a> {
@@ -1007,11 +1029,26 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             primary_exp: Box::new(exp),
             arg: arg,
         });
-        return AstNode::new(token_offset, kind)
+        return AstNode::new(token_offset, kind, self.tab_count)
     }
 
-    pub fn read_logical_line(&mut self) -> AstNode<'a> {
-        match &self.tokens.peek().unwrap().kind {
+    pub fn read_logical_line(&mut self) -> Vec<AstNode<'a>> {
+        let token_offset = self.tokens.peek().unwrap().token_offset;
+
+        let mut result = Vec::new();
+        while let Some(top) = self.labels.last() {
+            if top.token_offset > token_offset {
+                break;
+            }
+            let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
+                name: self.label_names.get(&top.token_offset).unwrap().to_string()
+            });
+            let node = AstNode::new(top.token_offset, kind, 0);
+            result.push(node);
+            self.labels.pop();
+        }
+
+        let line = match &self.tokens.peek().unwrap().kind {
             PrimitiveTokenKind::Parameter(_) |
             PrimitiveTokenKind::GlobalVariable(_) => {
                 self.read_assignment()
@@ -1035,29 +1072,37 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             x => {
                 panic!("Not found: {:?}", x);
             }
-        }
+        };
+
+        result.push(line);
+        result
     }
 
     pub fn parse(&mut self) -> Vec<AstNode<'a>> {
         let mut result = Vec::new();
 
-        while let Some(token) = self.tokens.peek() {
-            result.push(self.read_logical_line());
+        while let Some(tok) = self.tokens.peek() {
+            for expr in self.read_logical_line() {
+                result.push(expr);
+            }
         }
 
         result
     }
 }
 
-struct Formatter<'a> {
+pub struct Hsp3As<'a> {
     nodes: Vec<AstNode<'a>>,
     file: &'a Ax3File<'a>
 }
 
-impl<'a> fmt::Display for Formatter<'a> {
+impl<'a> fmt::Display for Hsp3As<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for node in self.nodes.iter() {
+        for (i, node) in self.nodes.iter().enumerate() {
             node.print_code(f, node.tab_count, self.file)?;
+            if i < self.nodes.len() - 1 {
+                write!(f, "\n")?;
+            }
         }
         Ok(())
     }
@@ -1100,15 +1145,15 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         file: &file
     };
 
-    let mut parser = Parser::new(iter, label_names, func_names);
+    let mut parser = Parser::new(iter, &file, label_names, func_names);
 
     let nodes = parser.parse();
-    let formatter = Formatter {
+    let hsp3as = Hsp3As {
         nodes: nodes,
         file: &file
     };
 
-    println!("{}", formatter);
+    println!("{}", hsp3as);
 
     Ok(())
 }
