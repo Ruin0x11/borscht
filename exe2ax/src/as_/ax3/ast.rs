@@ -1,12 +1,23 @@
 use super::lexical::{PrimitiveToken, PrimitiveTokenKind};
 use std::borrow::Cow;
 use std::fmt;
-use super::{Ax3File};
+use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType};
 
 pub type AstNodeRef<'a> = Box<AstNode<'a>>;
 
 pub trait AstPrintable<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result;
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result;
+}
+
+#[derive(Clone, Debug)]
+pub struct CommentLineNode {
+    pub content: String,
+}
+
+impl<'a> AstPrintable<'a> for CommentLineNode {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+        write!(f, "{}", self.content)
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -23,22 +34,22 @@ pub fn print_tabs(f: &mut fmt::Formatter<'_>, tab_count: u32) -> fmt::Result {
 }
 
 impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match &self.arg {
             Some(arg) => {
                 write!(f, "{} (", self.primitive)?;
-                arg.print_code(f, tab_count, file)?;
+                arg.print_code(f, tab_count, ctxt)?;
                 write!(f, " ) ")?;
-                self.if_block.print_code(f, tab_count, file)?;
+                self.if_block.print_code(f, tab_count, ctxt)?;
             }
             None => {
                 write!(f, "{} ", self.primitive)?;
-                self.if_block.print_code(f, tab_count, file)?;
+                self.if_block.print_code(f, tab_count, ctxt)?;
             }
         }
         if let Some(else_block) = &self.else_block {
             write!(f, " {} ", self.else_primitive.as_ref().unwrap())?;
-            else_block.print_code(f, tab_count, file)?;
+            else_block.print_code(f, tab_count, ctxt)?;
         }
         Ok(())
     }
@@ -52,15 +63,15 @@ pub struct AssignmentNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for AssignmentNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match &self.argument {
             Some(arg) => {
-                self.var.print_code(f, tab_count, file)?;
+                self.var.print_code(f, tab_count, ctxt)?;
                 write!(f, " {}", self.operator);
-                arg.print_code(f, tab_count, file)
+                arg.print_code(f, tab_count, ctxt)
             }
             None => {
-                self.var.print_code(f, tab_count, file)?;
+                self.var.print_code(f, tab_count, ctxt)?;
                 write!(f, "{}", self.operator)
             }
         }
@@ -77,7 +88,7 @@ pub enum LiteralNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for LiteralNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match self {
             LiteralNode::Integer(i) => write!(f, "{}", i),
             LiteralNode::Double(d) => write!(f, "{}", d),
@@ -99,13 +110,13 @@ pub struct VariableNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for VariableNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match &self.ident.kind {
             PrimitiveTokenKind::GlobalVariable(name) => {
                 match &self.arg {
                     Some(arg) => {
                         write!(f, "{}", name)?;
-                        arg.print_code(f, tab_count, file)
+                        arg.print_code(f, tab_count, ctxt)
                     },
                     None => write!(f, "{}", name)
                 }
@@ -113,10 +124,10 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
             PrimitiveTokenKind::Parameter(param) => {
                 match &self.arg {
                     Some(arg) => {
-                        write!(f, "{}", param.get_param(file).unwrap())?;
-                        arg.print_code(f, tab_count, file)
+                        write!(f, "{}", param.get_type_name(ctxt.file).unwrap())?;
+                        arg.print_code(f, tab_count, ctxt)
                     },
-                    None => write!(f, "{}", param.get_param(file).unwrap())
+                    None => write!(f, "{}", param.get_type_name(ctxt.file).unwrap())
                 }
             },
             _ => unreachable!()
@@ -134,16 +145,16 @@ pub struct ExpressionNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match &self.rhs {
             Some(rhs) => match &self.op {
                 Some(op) => {
                     if self.nested {
                         write!(f, "(")?;
                     }
-                    self.lhs.print_code(f, tab_count, file)?;
+                    self.lhs.print_code(f, tab_count, ctxt)?;
                     write!(f, " {} ", op)?;
-                    rhs.print_code(f, tab_count, file)?;
+                    rhs.print_code(f, tab_count, ctxt)?;
                     if self.nested {
                         write!(f, ")")?;
                     }
@@ -153,10 +164,10 @@ impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
             }
             None => match &self.op {
                 Some(op) => {
-                    self.lhs.print_code(f, tab_count, file)?;
+                    self.lhs.print_code(f, tab_count, ctxt)?;
                     write!(f, "{}", op)
                 }
-                None => self.lhs.print_code(f, tab_count, file)
+                None => self.lhs.print_code(f, tab_count, ctxt)
             }
         }
     }
@@ -170,7 +181,7 @@ pub struct ArgumentNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for ArgumentNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         if self.has_bracket {
             write!(f, "(")?;
         } else {
@@ -182,7 +193,7 @@ impl<'a> AstPrintable<'a> for ArgumentNode<'a> {
         }
 
         for (i, exp) in self.exps.iter().enumerate() {
-            exp.print_code(f, tab_count, file)?;
+            exp.print_code(f, tab_count, ctxt)?;
             if i < self.exps.len() - 1 {
                 write!(f, ", ")?;
             }
@@ -203,16 +214,16 @@ pub struct FunctionNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for FunctionNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match self.ident.kind {
             PrimitiveTokenKind::DllFunction(func) => {
-                let name = func.get_default_name(file).unwrap();
+                let name = func.get_default_name(ctxt.file).unwrap();
                 write!(f, "{}", name)?
             },
             _ => write!(f, "{}", self.ident)?
         };
         if let Some(arg) = &self.arg {
-            arg.print_code(f, tab_count, file)?;
+            arg.print_code(f, tab_count, ctxt)?;
         }
 
         Ok(())
@@ -227,15 +238,15 @@ pub struct OnStatementNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for OnStatementNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         write!(f, "{}", self.primitive)?;
 
         if let Some(exp) = &self.exp {
-            exp.print_code(f, tab_count, file)?;
+            exp.print_code(f, tab_count, ctxt)?;
         }
 
         if let Some(func) = &self.func {
-            func.print_code(f, tab_count, file)?;
+            func.print_code(f, tab_count, ctxt)?;
         }
 
         Ok(())
@@ -249,11 +260,11 @@ pub struct OnEventStatementNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for OnEventStatementNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         write!(f, "{}", self.primitive)?;
         if let Some(func) = &self.func {
             write!(f, " ")?;
-            func.print_code(f, tab_count, file)?;
+            func.print_code(f, tab_count, ctxt)?;
         }
         Ok(())
     }
@@ -265,11 +276,11 @@ pub struct BlockStatementNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         write!(f, "{{\n")?;
         for (i, exp) in self.nodes.iter().enumerate() {
             print_tabs(f, tab_count)?;
-            exp.print_code(f, tab_count, file)?;
+            exp.print_code(f, tab_count, ctxt)?;
             write!(f, "\n")?;
         }
         print_tabs(f, tab_count-1)?;
@@ -283,8 +294,125 @@ pub struct LabelDeclarationNode {
 }
 
 impl<'a> AstPrintable<'a> for LabelDeclarationNode {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         write!(f, "{}", self.name)
+    }
+}
+
+fn write_func_param<'a>(f: &mut fmt::Formatter<'_>, param: &Ax3Parameter, index: usize, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+    let remove_type = false;
+
+    let mut wrote = false;
+    if !remove_type {
+        let type_name = param.get_type_name(ctxt.file).unwrap();
+        if type_name == "NULL" {
+            panic!("Null parameter type name");
+        } else {
+            write!(f, "{} ", type_name)?;
+            wrote = true;
+        }
+    }
+
+    if param.is_module_type(ctxt.file) {
+        if wrote {
+            write!(f, " ")?;
+        }
+        let module = param.get_module(ctxt.file).unwrap();
+        let func_name = ctxt.function_names.get(module).unwrap();
+        let name = format!("{}_prm{}", func_name, index);
+        write!(f, "{}", "PARAM")?;
+    }
+
+    Ok(())
+}
+
+#[derive(Clone, Debug)]
+pub struct FunctionDeclarationNode<'a> {
+    pub func: &'a Ax3Function
+}
+
+impl<'a> FunctionDeclarationNode<'a> {
+    pub fn get_name(&self, ctxt: &'a Hsp3As<'a>) -> Cow<'a, str> {
+        if let Some(name) = ctxt.function_names.get(&self.func) {
+            return Cow::Borrowed(name);
+        }
+        match self.func.get_type() {
+            Ax3FunctionType::ComFunc => Cow::Owned(format!("comfunc_{}", self.func.function_index)),
+            _ => self.func.get_default_name(ctxt.file).unwrap()
+        }
+    }
+}
+
+impl<'a> AstPrintable<'a> for FunctionDeclarationNode<'a> {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+        let name = self.get_name(ctxt);
+        let mut param_start = 0;
+
+        match self.func.get_type() {
+            Ax3FunctionType::Func => {
+                write!(f, "#func {} ", name)?;
+                if self.func.flags.contains(Ax3FunctionFlags::OnExit) {
+                    write!(f, "onexit ")?;
+                }
+                write!(f, "\"{}\"", self.func.get_default_name(ctxt.file).unwrap())?;
+            },
+            Ax3FunctionType::CFunc => {
+                write!(f, "#cfunc {} \"{}\"", name, self.func.get_default_name(ctxt.file).unwrap())?;
+            },
+            Ax3FunctionType::DefFunc => {
+                write!(f, "#defcfunc {}", name)?;
+                if self.func.flags.contains(Ax3FunctionFlags::OnExit) {
+                    write!(f, " onexit")?;
+                }
+            },
+            Ax3FunctionType::DefCFunc => write!(f, "#defcfunc {}", name)?,
+            Ax3FunctionType::ComFunc => {
+                param_start = 1;
+                write!(f, "#comfunc {} {}", name, self.func.label_index)?;
+            },
+            Ax3FunctionType::Module => write!(f, "TODO module")?,
+            _ => unreachable!()
+        }
+
+        let params = self.func.get_params(ctxt.file);
+        if params.len() > param_start {
+            for i in param_start..params.len() {
+                if i != param_start {
+                    write!(f, ",")?;
+                }
+                write!(f, " ")?;
+                write_func_param(f, &params[i], i, ctxt)?;
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct UsedllDeclarationNode<'a> {
+    pub dll: Ax3Dll,
+    pub funcs: Vec<&'a Ax3Function>
+}
+
+impl<'a> AstPrintable<'a> for UsedllDeclarationNode<'a> {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+        let name = self.dll.get_name(ctxt.file).unwrap();
+        match self.dll.dll_type {
+            Ax3DllType::Uselib => {
+                write!(f, "#uselib \"{}\"", name)
+            },
+            Ax3DllType::Usecom => {
+                write!(f, "#usecom")?;
+                if self.funcs.len() > 0 {
+                    write!(f, " {}", ctxt.function_names[&self.funcs[0]])?;
+                } else {
+                    write!(f, " /*関数なし*/")?;
+                }
+                write!(f, " \"{}\" \"{}\"", name, self.dll.get_cls_name(ctxt.file).unwrap())
+            },
+            _ => unreachable!()
+        }
     }
 }
 
@@ -297,13 +425,13 @@ pub struct McallStatementNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for McallStatementNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         write!(f, "{}->", self.primitive)?;
-        self.var.print_code(f, tab_count, file)?;
+        self.var.print_code(f, tab_count, ctxt)?;
         write!(f, " ")?;
-        self.primary_exp.print_code(f, tab_count, file)?;
+        self.primary_exp.print_code(f, tab_count, ctxt)?;
         if let Some(arg) = &self.arg {
-            arg.print_code(f, tab_count, file)?;
+            arg.print_code(f, tab_count, ctxt)?;
         }
         Ok(())
     }
@@ -315,13 +443,14 @@ pub struct CommandStatementNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for CommandStatementNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
-        self.func.print_code(f, tab_count, file)
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+        self.func.print_code(f, tab_count, ctxt)
     }
 }
 
 #[derive(Clone, Debug)]
 pub enum AstNodeKind<'a> {
+    CommentLine(CommentLineNode),
     IfStatement(IfStatementNode<'a>),
     Assignment(AssignmentNode<'a>),
     Literal(LiteralNode<'a>),
@@ -333,26 +462,31 @@ pub enum AstNodeKind<'a> {
     OnEventStatement(OnEventStatementNode<'a>),
     BlockStatement(BlockStatementNode<'a>),
     LabelDeclaration(LabelDeclarationNode),
+    FunctionDeclaration(FunctionDeclarationNode<'a>),
+    UsedllDeclaration(UsedllDeclarationNode<'a>),
     CommandStatement(CommandStatementNode<'a>),
     McallStatement(McallStatementNode<'a>),
 }
 
 impl<'a> AstPrintable<'a> for AstNodeKind<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
         match self {
-            AstNodeKind::IfStatement(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::Assignment(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::Literal(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::Variable(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::Expression(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::Argument(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::Function(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::OnStatement(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::OnEventStatement(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::BlockStatement(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::LabelDeclaration(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::CommandStatement(node) => node.print_code(f, tab_count, file),
-            AstNodeKind::McallStatement(node) => node.print_code(f, tab_count, file),
+            AstNodeKind::CommentLine(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::IfStatement(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::Assignment(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::Literal(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::Variable(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::Expression(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::Argument(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::Function(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::OnStatement(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::OnEventStatement(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::BlockStatement(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::LabelDeclaration(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::FunctionDeclaration(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::UsedllDeclaration(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::CommandStatement(node) => node.print_code(f, tab_count, ctxt),
+            AstNodeKind::McallStatement(node) => node.print_code(f, tab_count, ctxt),
         }
     }
 }
@@ -381,8 +515,8 @@ impl<'a> AstNode<'a> {
 }
 
 impl<'a> AstPrintable<'a> for AstNode<'a> {
-    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
-        self.kind.print_code(f, self.tab_count, file)?;
+    fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, ctxt: &'a Hsp3As<'a>) -> fmt::Result {
+        self.kind.print_code(f, self.tab_count, ctxt)?;
         Ok(())
     }
 }

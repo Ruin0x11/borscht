@@ -11,6 +11,7 @@ use std::io::{Read, Seek, Cursor};
 use encoding_rs::SHIFT_JIS;
 use byteorder::{LittleEndian, ReadBytesExt};
 use anyhow::{Result, anyhow};
+use bitflags::bitflags;
 
 use self::view::Ax3View;
 use self::dictionary::Hsp3Dictionary;
@@ -58,8 +59,8 @@ pub struct Ax3Cmd {
     pub method_index: u32,
 }
 
-#[repr(u8)]
-#[derive(Debug)]
+#[repr(u32)]
+#[derive(Clone, Debug)]
 pub enum Ax3DllType {
     None = 0x00,
     Uselib = 0x01,
@@ -67,16 +68,33 @@ pub enum Ax3DllType {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Ax3Dll {
-    pub ret_type: u32,
+    pub dll_type: Ax3DllType,
     pub name_offset: u32,
     pub _unknown1: u32,
     pub cls_name_offset: u32
 }
 
+impl Ax3Dll {
+    fn get_name<'a>(&self, file: &'a Ax3File) -> Option<Cow<'a, str>> {
+        match self.dll_type {
+            Ax3DllType::Usecom => Some(file.read_iid_code_literal(self.name_offset as usize)),
+            Ax3DllType::Uselib => Some(file.read_str_literal(self.name_offset as usize)),
+            _ => None
+        }
+    }
+
+    fn get_cls_name<'a>(&self, file: &'a Ax3File) -> Option<Cow<'a, str>> {
+        match self.dll_type {
+            Ax3DllType::Usecom => Some(file.read_str_literal(self.cls_name_offset as usize)),
+            _ => None
+        }
+    }
+}
+
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Ax3Parameter {
     pub param_type: u16,
     pub deffunc_index: i16,
@@ -85,7 +103,7 @@ pub struct Ax3Parameter {
 
 impl Ax3Parameter {
     pub fn is_module_type<'a>(&self, file: &'a Ax3File<'a>) -> bool {
-        match self.get_param(file) {
+        match self.get_type_name(file) {
             Some(s) => {
                 let s = s.as_str();
                 s == "modvar" || s == "modinit" || s == "modterm" || s == "struct"
@@ -94,7 +112,7 @@ impl Ax3Parameter {
         }
     }
 
-    pub fn get_param<'a>(&self, file: &'a Ax3File<'a>) -> Option<&'a String> {
+    pub fn get_type_name<'a>(&self, file: &'a Ax3File<'a>) -> Option<&'a String> {
         let param_type = self.param_type as u32;
         file.dict.params.get(&param_type)
     }
@@ -109,7 +127,7 @@ impl Ax3Parameter {
 }
 
 #[repr(u8)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub enum Ax3FunctionType {
     None = 0x00,
     Func = 0x01,
@@ -120,15 +138,15 @@ pub enum Ax3FunctionType {
     Module = 0x06
 }
 
-#[repr(u8)]
-#[derive(Debug)]
-pub enum Ax3FunctionFlags {
-    None = 0x00,
-    OnExit = 0x01
+bitflags! {
+    pub struct Ax3FunctionFlags: u16 {
+        const None = 0x00;
+        const OnExit = 0x01;
+    }
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Ax3Function {
     pub dll_index: i16,
     pub function_index: i16,
@@ -138,7 +156,7 @@ pub struct Ax3Function {
     pub param_size_sum: u32,
     pub label_index: u32,
     pub _unknown1: u16,
-    pub flags: u16,
+    pub flags: Ax3FunctionFlags,
 }
 
 impl Ax3Function {
@@ -237,6 +255,29 @@ fn read_str_literal<'a>(input: &'a [u8], offset: usize) -> Cow<'a, str> {
     cow
 }
 
+fn read_iid_code_literal<'a>(input: &'a [u8], offset: usize) -> Cow<'a, str> {
+    let slice = &input[offset..offset+0x10];
+
+    Cow::Owned(format!("{{{:02X}{:02X}{:02X}{:02X}-{:02X}{:02X}-{:02X}{:02X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}}}",
+                       slice[0x03],
+                       slice[0x02],
+                       slice[0x01],
+                       slice[0x00],
+                       slice[0x05],
+                       slice[0x04],
+                       slice[0x07],
+                       slice[0x06],
+                       slice[0x08],
+                       slice[0x09],
+                       slice[0x0A],
+                       slice[0x0B],
+                       slice[0x0C],
+                       slice[0x0D],
+                       slice[0x0E],
+                       slice[0x0F]
+    ))
+}
+
 impl<'a> Ax3File<'a> {
     pub fn read_str_literal(&self, offset: usize) -> Cow<'a, str> {
         read_str_literal(&self.literals, offset)
@@ -247,6 +288,10 @@ impl<'a> Ax3File<'a> {
 
         let mut cursor = Cursor::new(slice);
         cursor.read_f32::<LittleEndian>().unwrap()
+    }
+
+    pub fn read_iid_code_literal(&self, offset: usize) -> Cow<'a, str> {
+        read_iid_code_literal(&self.literals, offset)
     }
 }
 
@@ -273,7 +318,7 @@ fn find_noncolliding_name_func(prefix: &str, function_names: &HashSet<String>) -
     new_name
 }
 
-fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
+fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<&'a Ax3Function, String> {
     let mut function_names = HashSet::new();
 
     let mut dll_funcs = Vec::new();
@@ -304,7 +349,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
                         if let Some(default_name) = func.get_default_name(file) {
                             let s = default_name.as_ref().to_string();
                             function_names.insert(s.to_lowercase());
-                            resolved.insert(i, s);
+                            resolved.insert(func, s);
                         }
                     }
                 }
@@ -319,11 +364,11 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
 
         if !function_names.contains(&defname.to_lowercase()) {
             function_names.insert(defname.to_lowercase());
-            resolved.insert(i, defname);
+            resolved.insert(func, defname);
         } else {
             let new_name = find_noncolliding_name(&defname, &function_names);
             function_names.insert(new_name.to_lowercase());
-            resolved.insert(i, new_name);
+            resolved.insert(func, new_name);
         }
     }
 
@@ -341,18 +386,18 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> HashMap<usize, String> {
 
         if !function_names.contains(&new_name.to_lowercase()) {
             function_names.insert(new_name.to_lowercase());
-            resolved.insert(i, new_name);
+            resolved.insert(func, new_name);
         } else {
             let new_name = find_noncolliding_name_func("func", &function_names);
             function_names.insert(new_name.to_lowercase());
-            resolved.insert(i, new_name);
+            resolved.insert(func, new_name);
         }
     }
 
-    for (_func, i) in com_funcs.into_iter() {
+    for (func, i) in com_funcs.into_iter() {
         let new_name = find_noncolliding_name_func("comfunc", &function_names);
         function_names.insert(new_name.to_lowercase());
-        resolved.insert(i, new_name);
+        resolved.insert(func, new_name);
     }
 
     resolved
@@ -657,16 +702,15 @@ enum ExprPart<'a> {
 pub struct Parser<'a, R: Read + Seek> {
     tokens: Peekable<lexical::TokenIterator<'a, R>>,
     labels: Vec<(u32, String)>,
+    file: &'a Ax3File<'a>,
     label_names: HashMap<u32, String>,
-    function_names: HashMap<usize, String>,
     tab_count: u32
 }
 
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
                file: &'a Ax3File<'a>,
-               label_names: HashMap<u32, String>,
-               function_names: HashMap<usize, String>) -> Self {
+               label_names: HashMap<u32, String>) -> Self {
         let mut labels = Vec::new();
         for label in label_names.iter() {
             labels.push((*label.0, label.1.clone()));
@@ -675,8 +719,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         Parser {
             tokens: tokens.peekable(),
             labels: labels,
+            file: file,
             label_names: label_names,
-            function_names: function_names,
             tab_count: 1
         }
     }
@@ -1078,10 +1122,39 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         result
     }
 
+    fn add_early_decls(&mut self, result: &mut Vec<AstNode<'a>>) {
+        for (i, dll) in self.file.dlls.iter().enumerate() {
+            let functions = self.file.functions.iter().filter(|f| {
+                f.dll_index >= 0 && (f.dll_index as usize) == i
+            }).collect::<Vec<&'a Ax3Function>>();
+
+            let kind = AstNodeKind::UsedllDeclaration(UsedllDeclarationNode {
+                dll: dll.clone(),
+                funcs: functions.clone()
+            });
+            result.push(AstNode::new(0, kind, 0));
+
+            for func in functions.iter() {
+                let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
+                    func: func.clone(),
+                });
+                result.push(AstNode::new(0, kind, 0));
+            }
+
+            result.push(AstNode::new(0, AstNodeKind::CommentLine(CommentLineNode{ content: String::new() }), 0));
+        }
+
+        if self.file.plugins.len() > 0 {
+            panic!("Plugins are not implemented yet.");
+        }
+    }
+
     pub fn parse(&mut self) -> Vec<AstNode<'a>> {
         let mut result = Vec::new();
 
-        while let Some(tok) = self.tokens.peek() {
+        self.add_early_decls(&mut result);
+
+        while let Some(_) = self.tokens.peek() {
             for expr in self.read_logical_line() {
                 result.push(expr);
             }
@@ -1093,14 +1166,15 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
 pub struct Hsp3As<'a> {
     nodes: Vec<AstNode<'a>>,
-    file: &'a Ax3File<'a>
+    file: &'a Ax3File<'a>,
+    function_names: HashMap<&'a Ax3Function, String>
 }
 
 impl<'a> fmt::Display for Hsp3As<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for (i, node) in self.nodes.iter().enumerate() {
             ast::print_tabs(f, node.tab_count)?;
-            node.print_code(f, node.tab_count, self.file)?;
+            node.print_code(f, node.tab_count, &self)?;
             if i < self.nodes.len() - 1 {
                 write!(f, "\n")?;
             }
@@ -1146,12 +1220,13 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R) -> Result<()> {
         file: &file
     };
 
-    let mut parser = Parser::new(iter, &file, label_names, func_names);
+    let mut parser = Parser::new(iter, &file, label_names);
 
     let nodes = parser.parse();
     let hsp3as = Hsp3As {
         nodes: nodes,
-        file: &file
+        file: &file,
+        function_names: func_names
     };
 
     println!("{}", hsp3as);
