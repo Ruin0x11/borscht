@@ -462,7 +462,7 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>, label_usage: &HashMap<ResolvedLabel<
     // let keta = f32::log10(count as f32) as usize + 1;
 
     for (i, l) in labels.into_iter().enumerate() {
-        let new_name = format!("*label_{:0>4}", i);
+        let new_name = format!("*label_{:0>4}", i+1);
         result.insert(*l, new_name);
     }
 
@@ -735,12 +735,12 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
                file: &'a Ax3File<'a>,
                function_names: HashMap<&'a Ax3Function, String>) -> Self {
-        let functions = function_names.iter().map(|(f, n)| { (&file.labels[f.label_index as usize], *f) })
-                                             .collect::<HashMap<&'a Ax3Label, &'a Ax3Function>>();
+        let functions = function_names.iter().map(|(f, n)| { (f.label_index as usize, *f) })
+                                             .collect::<HashMap<usize, &'a Ax3Function>>();
 
         let mut labels = Vec::new();
         for (i, label) in file.labels.iter().enumerate() {
-            let kind = match functions.get(&label) {
+            let kind = match functions.get(&i) {
                 Some(func) => {
                     match func.get_type() {
                         Ax3FunctionType::DefFunc |
@@ -1154,7 +1154,6 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             }
             let (index, label, label_kind) = self.labels.pop().unwrap();
             let resolved = ResolvedLabel { index: index, label: label };
-            println!("PUTLABEL {} {:?} {:?}", index, label, label_kind);
             match label_kind {
                 LabelKind::Function(func) => {
                     let kind = AstNodeKind::LabelDeclaration(LabelDeclarationNode {
