@@ -3,7 +3,7 @@ use std::io::{Read, Seek, SeekFrom, Cursor};
 use std::str::{self, FromStr};
 use anyhow::{Result, anyhow};
 
-use crate::dpm::Dpm;
+use crate::dpm::{Dpm, DpmFileRef};
 use crate::crypt;
 use crate::error;
 
@@ -40,13 +40,11 @@ impl AsRef<[u8]> for Ax {
     }
 }
 
-pub fn dpm_to_ax(dpm: &Dpm) -> Result<Ax> {
-    let start_ax = dpm.get_file_data("start.ax").ok_or_else(|| anyhow!("No start.ax found in DPM file"))?;
-
-    let buffer = if start_ax.file.encryption_key.is_some() {
-        crypt::decrypt(&start_ax.data)?
+pub fn dpm_to_ax<'a>(ax: &'a DpmFileRef<'a>) -> Result<Ax> {
+    let buffer = if ax.file.encryption_key.is_some() {
+        crypt::decrypt(&ax.data)?
     } else {
-        start_ax.data.clone()
+        ax.data.clone()
     };
 
     bytes_to_ax(buffer)

@@ -64,13 +64,21 @@ fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
     let mut input_file = File::open(input_path)?;
 
     let dpm = exe2ax::dpm::exe_to_dpm(&mut input_file)?;
-    let ax = exe2ax::ax::dpm_to_ax(&dpm)?;
 
-    let output_file = output_dir.join(input_path.with_file_name("start.ax").file_name().unwrap());
-    let mut file = File::create(&output_file)?;
-    file.write_all(ax.as_ref())?;
+    for dpm_file in dpm.iter_files() {
+        let output_file = output_dir.join(input_path.with_file_name(&dpm_file.name).file_name().unwrap());
+        let dpm_file_ref = dpm.get_file_data(&dpm_file.name).unwrap();
+        let mut file = File::create(&output_file)?;
 
-    println!("Wrote {:?}.", output_file);
+        if (dpm_file.name.ends_with(".ax")) {
+            let ax = exe2ax::ax::dpm_to_ax(&dpm_file_ref)?;
+            file.write_all(ax.as_ref())?;
+        } else {
+            file.write_all(dpm_file_ref.data)?;
+        }
+
+        println!("Wrote {:?}.", output_file);
+    }
 
     Ok(())
 }

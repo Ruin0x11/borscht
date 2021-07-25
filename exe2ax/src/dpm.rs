@@ -46,6 +46,10 @@ impl Dpm {
 
         ind.map(|i| DpmFileRef { file: &self.header.files[i], data: &self.file_data[i] })
     }
+
+    pub fn iter_files<'a>(&'a self) -> std::slice::Iter<'_, DpmFile> {
+        self.header.files.iter()
+    }
 }
 
 // unsafe: s must contain a null byte
