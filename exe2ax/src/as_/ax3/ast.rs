@@ -18,13 +18,12 @@ pub struct IfStatementNode<'a> {
     pub else_block: Option<AstNodeRef<'a>>,
 }
 
-fn print_tabs(f: &mut fmt::Formatter<'_>, tab_count: u32) -> fmt::Result {
-    write!(f, "{: <1$}", "", tab_count as usize)
+pub fn print_tabs(f: &mut fmt::Formatter<'_>, tab_count: u32) -> fmt::Result {
+    write!(f, "{:\t<1$}", "", tab_count as usize)
 }
 
 impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
     fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
-        print_tabs(f, tab_count)?;
         match &self.arg {
             Some(arg) => {
                 write!(f, "{} (", self.primitive)?;
@@ -105,9 +104,8 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
             PrimitiveTokenKind::GlobalVariable(name) => {
                 match &self.arg {
                     Some(arg) => {
-                        write!(f, "{}(", name)?;
-                        arg.print_code(f, tab_count, file)?;
-                        write!(f, ")")
+                        write!(f, "{}", name)?;
+                        arg.print_code(f, tab_count, file)
                     },
                     None => write!(f, "{}", name)
                 }
@@ -115,9 +113,8 @@ impl<'a> AstPrintable<'a> for VariableNode<'a> {
             PrimitiveTokenKind::Parameter(param) => {
                 match &self.arg {
                     Some(arg) => {
-                        write!(f, "{}(", param.get_param(file).unwrap())?;
-                        arg.print_code(f, tab_count, file)?;
-                        write!(f, ")")
+                        write!(f, "{}", param.get_param(file).unwrap())?;
+                        arg.print_code(f, tab_count, file)
                     },
                     None => write!(f, "{}", param.get_param(file).unwrap())
                 }
@@ -270,13 +267,13 @@ pub struct BlockStatementNode<'a> {
 impl<'a> AstPrintable<'a> for BlockStatementNode<'a> {
     fn print_code(&self, f: &mut fmt::Formatter<'_>, tab_count: u32, file: &'a Ax3File<'a>) -> fmt::Result {
         write!(f, "{{\n")?;
-        for exp in self.nodes.iter() {
+        for (i, exp) in self.nodes.iter().enumerate() {
             print_tabs(f, tab_count)?;
             exp.print_code(f, tab_count, file)?;
             write!(f, "\n")?;
         }
         print_tabs(f, tab_count-1)?;
-        write!(f, "}}\n")
+        write!(f, "}}")
     }
 }
 

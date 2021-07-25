@@ -678,7 +678,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             labels: labels,
             label_names: label_names,
             function_names: function_names,
-            tab_count: 0
+            tab_count: 1
         }
     }
 
@@ -1099,6 +1099,7 @@ pub struct Hsp3As<'a> {
 impl<'a> fmt::Display for Hsp3As<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for (i, node) in self.nodes.iter().enumerate() {
+            ast::print_tabs(f, node.tab_count)?;
             node.print_code(f, node.tab_count, self.file)?;
             if i < self.nodes.len() - 1 {
                 write!(f, "\n")?;
