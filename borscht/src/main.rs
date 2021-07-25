@@ -9,6 +9,7 @@ extern crate exe2ax;
 use std::fs::{self, File};
 use std::io::{self, Read, Write};
 use std::path::{Path};
+use std::time::Instant;
 use anyhow::Result;
 use clap::{Arg, App, SubCommand, ArgMatches, crate_version, crate_authors};
 use exe2ax::as_::DecodeOptions;
@@ -97,9 +98,12 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
 
     let buffer = fs::read(input_file)?;
     let ax = exe2ax::ax::bytes_to_ax(buffer)?;
-    let as_ = exe2ax::as_::ax_to_as(&ax, &opts)?;
 
-    println!("Decompiled bytecode to {:?}.", output_file);
+    let now = Instant::now();
+    exe2ax::as_::ax_to_as(&ax, &opts)?;
+
+    println!("Decompiled bytecode to {:?} in {:.2?} seconds.", output_file, now.elapsed());
+
     Ok(())
 }
 
