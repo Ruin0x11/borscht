@@ -837,13 +837,22 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
     fn read_function(&mut self, has_bracket: bool) -> AstNode<'a> {
         let tok = self.tokens.next().unwrap();
+        let mut tab_count = self.tab_count;
+
+        if tok.adds_tab() {
+            self.tab_count += 1;
+        } else if tok.removes_tab() {
+            self.tab_count -= 1;
+            tab_count -= 1;
+        }
+
         let token_offset = tok.token_offset;
         if self.next_is_end_of_line() {
             let kind = AstNodeKind::Function(FunctionNode {
                 ident: tok,
                 arg: None
             });
-            return AstNode::new(token_offset, kind, self.tab_count);
+            return AstNode::new(token_offset, kind, tab_count);
         }
 
         if tok.has_ghost_label() {
@@ -853,7 +862,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     ident: tok,
                     arg: None
                 });
-                return AstNode::new(token_offset, kind, self.tab_count);
+                return AstNode::new(token_offset, kind, tab_count);
             }
         }
 
@@ -867,7 +876,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             ident: tok,
             arg: arg
         });
-        return AstNode::new(token_offset, kind, self.tab_count);
+        AstNode::new(token_offset, kind, tab_count)
     }
 
     fn read_expression(&mut self, priority: u32) -> AstNode<'a> {
