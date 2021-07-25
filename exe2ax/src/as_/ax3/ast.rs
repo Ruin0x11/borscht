@@ -55,6 +55,30 @@ impl<'a> AstPrintable<'a> for IfStatementNode<'a> {
     }
 }
 
+fn get_op<'a>(op: &PrimitiveToken<'a>, is_assignment: bool, has_expression: bool) -> String {
+    let raw = op.dict_value.name.as_str();
+
+    if is_assignment {
+        if !has_expression && raw == "+" {
+            "++".to_string()
+        } else if !has_expression && raw == "-" {
+            "--".to_string()
+        } else {
+            match raw {
+                "=" |
+                ">" |
+                "<" => raw.to_string(),
+                _ => format!("{}=", raw)
+            }
+        }
+    } else {
+        match raw {
+            "=" | "!" => format!("{}=", raw),
+            _ => raw.to_string()
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct AssignmentNode<'a> {
     pub var: AstNodeRef<'a>,
@@ -67,12 +91,12 @@ impl<'a> AstPrintable<'a> for AssignmentNode<'a> {
         match &self.argument {
             Some(arg) => {
                 self.var.print_code(f, tab_count, ctxt)?;
-                write!(f, " {}", self.operator);
+                write!(f, " {}", get_op(&self.operator, true, true));
                 arg.print_code(f, tab_count, ctxt)
             }
             None => {
                 self.var.print_code(f, tab_count, ctxt)?;
-                write!(f, "{}", self.operator)
+                write!(f, "{}", get_op(&self.operator, true, false))
             }
         }
     }
@@ -154,7 +178,7 @@ impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
                         write!(f, "(")?;
                     }
                     self.lhs.print_code(f, tab_count, ctxt)?;
-                    write!(f, " {} ", op)?;
+                    write!(f, " {} ", get_op(op, false, true))?;
                     rhs.print_code(f, tab_count, ctxt)?;
                     if self.nested {
                         write!(f, ")")?;
@@ -166,7 +190,7 @@ impl<'a> AstPrintable<'a> for ExpressionNode<'a> {
             None => match &self.op {
                 Some(op) => {
                     self.lhs.print_code(f, tab_count, ctxt)?;
-                    write!(f, "{}", op)
+                    write!(f, "{}", get_op(op, false, false))
                 }
                 None => self.lhs.print_code(f, tab_count, ctxt)
             }
