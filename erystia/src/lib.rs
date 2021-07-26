@@ -21,7 +21,8 @@ pub struct AnalysisResult {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct AnalysisConfig {
     variable_groups: HashMap<GroupName, VariableGroup>,
-    arrays: HashMap<String, ArrayDefinition>
+    arrays: HashMap<String, ArrayDefinition>,
+    expressions: HashMap<String, ExprDefinition>
 }
 
 type GroupName = String;
@@ -36,16 +37,38 @@ struct VariableGroup {
     _resolved_variables: Vec<VariableDefinition>
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-struct VariableDefinition {
-    name: String,
-    value: ron::Value
+impl VariableGroup {
+    fn iter_resolved_variables<'a>(&'a self) -> impl Iterator<Item = &'a VariableDefinition> {
+        self._resolved_variables.iter().filter(|v| !v.exclude)
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct GroupVariant {
-    name: GroupName,
-    variants: HashSet<String>
+struct VariableDefinition {
+    name: String,
+    value: ron::Value,
+    #[serde(default)]
+    code_value: Option<String>,
+    #[serde(default)]
+    exclude: bool
+}
+
+type ArrayRules = HashMap<usize, Rule>;
+type ArraySubstitutes = HashMap<usize, Substitute>;
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+enum Rule {
+    Any,
+    InGroup(String),
+    Variant(GroupName, HashSet<String>),
+    Array(ArrayRules)
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+enum Substitute {
+    Group(String),
+    #[allow(non_snake_case)]
+    XY2Pic
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -55,23 +78,35 @@ struct ArrayDefinition {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct ArrayIndex {
-    rules: HashMap<usize, Rule>,
-    substitute: HashMap<usize, Substitute>
+    rules: ArrayRules,
+    substitute: ArraySubstitutes
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-enum Rule {
-    Any,
-    InGroup(String),
-    Variant(GroupVariant)
+struct ExprDefinition {
+    indices: Vec<ExprIndex>
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-enum Substitute {
-    Group(String),
-    XY2Pic
+struct ExprIndex {
+    rules: ExprRuleset,
+    substitute: ExprSubstitutes
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ExprRuleset {
+    #[serde(default)]
+    lhs: Option<Rule>,
+
+    #[serde(default)]
+    rhs: ArrayRules,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ExprSubstitutes {
+    #[serde(default)]
+    rhs: ArraySubstitutes
+}
 
 struct ConstantSubstitutionVisitor<'a> {
     config: AnalysisConfig,
@@ -81,7 +116,7 @@ struct ConstantSubstitutionVisitor<'a> {
 impl<'a> ConstantSubstitutionVisitor<'a> {
     fn constant_found_in_group(&self, group_name: &str, i: i32) -> bool {
         let group = self.config.variable_groups.get(group_name).unwrap();
-        for var in group._resolved_variables.iter() {
+        for var in group.iter_resolved_variables() {
             if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
                 if i == j as i32 {
                     return true;
@@ -93,7 +128,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
 
     fn constant_name_found_in_group(&self, group_name: &str, name: &str) -> bool {
         let group = self.config.variable_groups.get(group_name).unwrap();
-        for var in group._resolved_variables.iter() {
+        for var in group.iter_resolved_variables() {
             if var.name == name {
                 return true
             }
@@ -117,9 +152,9 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => false
                 }
             },
-            Rule::Variant(group_variant) => {
-                let group = self.config.variable_groups.get(&group_variant.name).expect("Variable group not defined.");
-                for var in group._resolved_variables.iter().filter(|v| group_variant.variants.contains(&v.name)) {
+            Rule::Variant(group_name, variants) => {
+                let group = self.config.variable_groups.get(group_name).expect("Variable group not defined.");
+                for var in group.iter_resolved_variables().filter(|v| variants.contains(&v.name)) {
                     match &exp.kind {
                         ast::AstNodeKind::Literal(lit) => match &lit {
                             ast::LiteralNode::Integer(i) => {
@@ -141,12 +176,24 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     }
                 }
                 false
+            },
+            Rule::Array(array_rules) => {
+                if let ast::AstNodeKind::Variable(var) = &exp.kind {
+                    if let Some(node) = &var.arg {
+                        if let ast::AstNodeKind::Argument(arg) = &node.kind {
+                            if self.array_index_matches(arg, array_rules) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                false
             }
         }
     }
 
-    fn array_index_matches(&self, arg: &ast::ArgumentNode, array_index: &ArrayIndex) -> bool {
-        for (index, rule) in array_index.rules.iter() {
+    fn array_index_matches(&self, arg: &ast::ArgumentNode, rules: &ArrayRules) -> bool {
+        for (index, rule) in rules.iter() {
             if arg.exps.len() <= *index {
                 return false;
             }
@@ -176,7 +223,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
 
     fn substitute_integer_constant(&self, group_name: &str, exp: &mut ast::AstNode, i: i32) {
         let group = self.config.variable_groups.get(group_name).expect("Variable group not defined.");
-        for var in group._resolved_variables.iter() {
+        for var in group.iter_resolved_variables() {
             if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
                 if i == j as i32 {
                     let kind = self.make_variable(var.name.clone());
@@ -190,7 +237,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
 
     fn substitute_xy2pic(&self, exp: &mut ast::AstNode, i: i32) {
         let code = format!("xy2pic({}, {})", i % 33, i / 33);
-        println!("SUBST xy2pic {}", code);
         let kind = ast::AstNodeKind::Literal(ast::LiteralNode::Symbol(code));
         *exp = ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
     }
@@ -206,25 +252,72 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => ()
                 }
             },
-            XY2Pic => {
+            Substitute::XY2Pic => {
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
                         ast::LiteralNode::Integer(i) => self.substitute_xy2pic(exp, *i),
-                        x => ()
+                        _ => ()
                     },
-                    x => ()
+                    _ => ()
                 }
             }
         }
     }
 
-    fn substitute_array_indices(&self, arg: &mut ast::ArgumentNode, array_index: &ArrayIndex) {
-        for (index, subst) in array_index.substitute.iter() {
+    fn substitute_array_indices(&self, arg: &mut ast::ArgumentNode, substitute: &ArraySubstitutes) {
+        for (index, subst) in substitute.iter() {
             if arg.exps.len() <= *index {
                 panic!("Wanted to substitute index {}, but there are only {} arguments.", index, arg.exps.len());
             }
 
             self.substitute_array_index(&mut arg.exps[*index], subst);
+        }
+    }
+
+    fn get_variable_name(&self, node: &ast::AstNode) -> Option<String> {
+        match &node.kind {
+            ast::AstNodeKind::Variable(var) => {
+                match &var.ident.kind {
+                    PrimitiveTokenKind::GlobalVariable(ref name) => Some(name.clone()),
+                    PrimitiveTokenKind::Parameter(ref param) => Some(self.hsp3as.param_names.get(&param).unwrap().to_string()),
+                    _ => None
+                }
+            },
+            _ => None
+        }
+    }
+
+    fn expr_index_matches(&self, lhs: &ast::AstNode, rhs: &ast::AstNode, rules: &ExprRuleset) -> bool {
+        if let Some(rule) = &rules.lhs {
+            if !self.array_index_rule_matches(lhs, &rule) {
+                return false;
+            }
+        }
+
+        match &rhs.kind {
+            ast::AstNodeKind::Argument(arg) => {
+                for (index, rule) in rules.rhs.iter() {
+                    if arg.exps.len() <= *index {
+                        return false;
+                    }
+
+                    if !self.array_index_rule_matches(&arg.exps[*index], &rule) {
+                        return false;
+                    }
+                }
+
+                true
+            },
+            _ => unreachable!()
+        }
+    }
+
+    fn substitute_expr_indices(&self, rhs: &mut ast::AstNode, substitute: &ExprSubstitutes) {
+        if let ast::AstNodeKind::Argument(ref mut arg) = &mut rhs.kind {
+            println!("Substitute! {:?}", arg);
+            self.substitute_array_indices(arg, &substitute.rhs);
+        } else {
+            panic!("Cannot substitute expression RHS: {:?}", rhs)
         }
     }
 }
@@ -240,9 +333,25 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                 };
                 if let Some(array_def) = &self.config.arrays.get(&variable_name) {
                     for index in array_def.indices.iter() {
-                        if self.array_index_matches(arg, index) {
+                        if self.array_index_matches(arg, &index.rules) {
+                            self.substitute_array_indices(arg, &index.substitute);
+                        }
+                    }
+                }
+            }
+        }
+
+        node
+    }
+
+    fn visit_assignment(&mut self, mut node: ast::AssignmentNode) -> ast::AssignmentNode {
+        if let Some(ref mut arg) = &mut node.argument {
+            if let Some(lhs_name) = self.get_variable_name(&node.var) {
+                if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
+                    for index in expr_def.indices.iter() {
+                        if self.expr_index_matches(&node.var, &arg, &index.rules) {
                             println!("Found match! {:?}", index);
-                            self.substitute_array_indices(arg, &index);
+                            self.substitute_expr_indices(arg, &index.substitute);
                         }
                     }
                 }

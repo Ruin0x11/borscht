@@ -14,7 +14,6 @@ use std::time::Instant;
 use anyhow::Result;
 use clap::{Arg, App, SubCommand, ArgMatches, crate_version, crate_authors};
 use exe2ax::as_::DecodeOptions;
-use exe2ax::as_::ax3::Hsp3As;
 
 fn get_app<'a, 'b>() -> App<'a, 'b> {
     App::new("borscht")
@@ -113,14 +112,15 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
     let ax = exe2ax::ax::bytes_to_ax(buffer)?;
 
     let now = Instant::now();
-    let mut as_ = exe2ax::as_::ax_to_as(ax, &opts)?;
+    let as_ = exe2ax::as_::ax_to_as(ax, &opts)?;
 
     println!("Decompiled bytecode in {:.2?}", now.elapsed());
 
+    let now = Instant::now();
     let mut file = File::create(&output_file)?;
     as_.write_code(&mut file)?;
 
-    // println!("Wrote {:?}.", output_file);
+    println!("Wrote {:?} in {:.2?}.", output_file, now.elapsed());
 
     Ok(())
 }
