@@ -2,6 +2,272 @@
 AnalysisConfig(
     // TODO Some of these are from Plus Custom-G
     variable_groups: {
+        "buff": (
+            variables: [
+(
+name: "BUFF_TYPE_BUFF",
+value: 1
+),
+(
+name: "BUFF_TYPE_HEX",
+value: 2
+),
+(
+name: "BUFF_TYPE_FOOD",
+value: 3
+),
+
+(
+name: "BUFF_HOLY_SHIELD",
+value: 1
+),
+(
+name: "BUFF_MIST_OF_SILENCE",
+value: 2
+),
+(
+name: "BUFF_REGENERATION",
+value: 3
+),
+(
+name: "BUFF_ATTRIBUTE_SHIELD",
+value: 4
+),
+(
+name: "BUFF_SPEED",
+value: 5
+),
+(
+name: "BUFF_SLOW",
+value: 6
+),
+(
+name: "BUFF_HERO",
+value: 7
+),
+(
+name: "BUFF_MIST_OF_FRAILNESS",
+value: 8
+),
+(
+name: "BUFF_ELEMENT_SCAR",
+value: 9
+),
+(
+name: "BUFF_HOLY_VEIL",
+value: 10
+),
+(
+name: "BUFF_NIGHTMARE",
+value: 11
+),
+(
+name: "BUFF_DIVINE_WISDOM",
+value: 12
+),
+(
+name: "BUFF_PUNISHMENT",
+value: 13
+),
+(
+name: "BUFF_LULWYS_TRICK",
+value: 14
+),
+(
+name: "BUFF_INCOGNITO",
+value: 15
+),
+(
+name: "BUFF_DEATH_WORD",
+value: 16
+),
+(
+name: "BUFF_BOOST",
+value: 17
+),
+(
+name: "BUFF_CONTINGENCY",
+value: 18
+),
+(
+name: "BUFF_LUCK",
+value: 19
+),
+(
+name: "BUFF_GROW_STRENGTH",
+value: 20
+),
+(
+name: "BUFF_GROW_CONSTITUTION",
+value: 21
+),
+(
+name: "BUFF_GROW_DEXTERITY",
+value: 22
+),
+(
+name: "BUFF_GROW_PERCEPTION",
+value: 23
+),
+(
+name: "BUFF_GROW_LEARNING",
+value: 24
+),
+(
+name: "BUFF_GROW_WILL",
+value: 25
+),
+(
+name: "BUFF_GROW_MAGIC",
+value: 26
+),
+(
+name: "BUFF_GROW_CHARISMA",
+value: 27
+),
+(
+name: "BUFF_GROW_SPEED",
+value: 28
+),
+(
+name: "BUFF_CLEAR_MIND",
+value: 29
+),
+(
+name: "BUFF_SUPER_REGEN",
+value: 30
+),
+(
+name: "BUFF_FEATHER",
+value: 31
+),
+(
+name: "BUFF_CHARGE",
+value: 32
+),
+(
+name: "BUFF_EMERGENCY_EVASION",
+value: 33
+),
+(
+name: "BUFF_MAGIC_EQUIP",
+value: 34
+),
+(
+name: "BUFF_SUPER_ARMOR",
+value: 35
+),
+(
+name: "BUFF_ATTRIBUTE",
+value: 36
+),
+(
+name: "BUFF_AUTO_GUARD",
+value: 37
+),
+(
+name: "BUFF_QUICK_USE",
+value: 38
+),
+(
+name: "BUFF_UNLUCKY",
+value: 39
+),
+(
+name: "BUFF_RUN_WILDLY",
+value: 40
+),
+(
+name: "BUFF_RETENTION",
+value: 41
+),
+(
+name: "BUFF_TAG_FORCE",
+value: 42
+),
+(
+name: "BUFF_CONCENTRATION",
+value: 43
+),
+(
+name: "BUFF_FORM_SHIFT_ALPHA",
+value: 44
+),
+(
+name: "BUFF_FORM_SHIFT_BETA",
+value: 45
+),
+(
+name: "BUFF_FORM_SHIFT_GAMMA",
+value: 46
+),
+(
+name: "BUFF_FORM_SHIFT_DELTA",
+value: 47
+),
+(
+name: "BUFF_FORM_SHIFT_OMEGA",
+value: 48
+),
+(
+name: "BUFF_RESOLUTION_HAND",
+value: 49
+),
+(
+name: "BUFF_ABYSS_IN_THE_EYE",
+value: 50
+),
+(
+name: "BUFF_SHIELD_PARRY",
+value: 51
+),
+(
+name: "BUFF_GRAVITY_ACCEL",
+value: 52
+),
+(
+name: "BUFF_HYPER_DASH",
+value: 53
+),
+(
+name: "BUFF_BLACK_MIRROR",
+value: 54
+),
+(
+name: "BUFF_GEM_POWER",
+value: 55
+),
+(
+name: "BUFF_DISTRACTED",
+value: 56
+),
+(
+name: "BUFF_MELANCHOLY",
+value: 57
+),
+(
+name: "BUFF_KILLING_DANCE",
+value: 58
+),
+(
+name: "BUFF_SHOOTING_MODE",
+value: 59
+),
+(
+name: "BUFF_DISINFECTION",
+value: 60
+),
+(
+name: "BUFF_CURSE_OF_HUNGER",
+value: 61
+),
+
+(
+name: "MAX_BUFF",
+value: Code("BUFF_CURSE_OF_HUNGER + 1")
+),
+            ]
+            ),
         "mefsubref": (
             variables: [
             (
@@ -1849,23 +2115,23 @@ value: 6
             ),
         "enchant": (
             variables: [
-(
-name: "STARTING_ENCHANT_NORMAL",
-value: 20
-),
-(
-name: "MAX_ENCHANTMENT_LEVEL",
-value: 4
-),
-(
-name: "MAX_EHCHANTMENT_PROC",
-value: Code("27 + 1")
-),
+// (
+// name: "STARTING_ENCHANT_NORMAL",
+// value: 20
+// ),
+// (
+// name: "MAX_ENCHANTMENT_LEVEL",
+// value: 4
+// ),
+// (
+// name: "MAX_ECHHANTMENT_PROC",
+// value: Code("27 + 1")
+// ),
 
-(
-name: "MAX_ITEM_MATERIAL_ENCHANT",
-value: 8
-),
+// (
+// name: "MAX_ITEM_MATERIAL_ENCHANT",
+// value: 8
+// ),
 
 (
 name: "ENCHANT_NONE",
@@ -2261,6 +2527,78 @@ value: Code("ENCHANT_PROC_SHINING_WAVE + 1")
 ),
             ]
             ),
+            "encref": (
+                variables: [
+(
+name: "ENCREF_GENERATE_CHANCE",
+value: 0
+),
+(
+name: "ENCREF_VALUE",
+value: 1
+),
+(
+name: "ENCREF_RARITY",
+value: 2
+),
+(
+name: "ENCREF_FILTER_1",
+value: 3
+),
+(
+name: "ENCREF_FILTER_2",
+value: 4
+),
+(
+name: "ENCREF_FILTER_3",
+value: 5
+),
+                ]
+                ),
+            "encammoref": (
+                variables: [
+(
+name: "ENCAMMOREF_POWER_MODIFIER",
+value: 0
+),
+(
+name: "ENCAMMOREF_POWER_ADD",
+value: 1
+),
+(
+name: "ENCAMMOREF_SP_COST",
+value: 2
+),
+                ]
+                ),
+            "encprocref": (
+                variables: [
+(
+name: "ENCPROCREF_SKILL_ID",
+value: 0
+),
+(
+name: "ENCPROCREF_TARGET_TYPE",
+value: 1
+),
+(
+name: "ENCPROCREF_RARITY",
+value: 2
+),
+(
+name: "ENCPROCREF_FILTER_1",
+value: 3
+),
+(
+name: "ENCPROCREF_FILTER_2",
+value: 4
+),
+(
+name: "ENCPROCREF_PROC_CHANCE",
+value: 5
+),
+                ]
+                ),
         "equip_type": (
             variables: [
 (
@@ -6364,8 +6702,16 @@ value: 33
                                                                                     "chara": (
                                                                                         variables: [
                                                                                         (
-                                                                                            name: "CHARA_PC",
+                                                                                            name: "CHARA_PLAYER",
                                                                                             value: 0
+                                                                                        ),
+                                                                                        (
+                                                                                            name: "CHARA_TEMPORARY",
+                                                                                            value: 56
+                                                                                        ),
+                                                                                        (
+                                                                                            name: "CHARA_TEMPORARY2",
+                                                                                            value: 57
                                                                                         )
                                                                                         ],
                                                                                     ),
@@ -9776,6 +10122,10 @@ value: 850
 name: "GDATA_WALLET",
 value: 851
 ),
+        ]
+        ),
+        "gdatan": (
+            variables: [
 
 (
 name: "GDATAN_TEAM1",
@@ -9785,8 +10135,8 @@ value: 0
 name: "GDATAN_TEAM2",
 value: 1
 ),
-        ]
-        ),
+            ]
+            ),
         "gamemode": (
             variables: [
             (
@@ -18570,12 +18920,6 @@ value: Code("CREATURE_ID_URUK_HIGHNESS + 3")
 
                 "limits": (
                     variables: [
-                    // Static
-                    (
-                        name: "CHARA_PLAYER",
-                        value: 0,
-                    ),
-
                     (
                         name: "RANGE_PLAYER_PIC",
                         value: Code("xy2pic(1, 2)"),
@@ -18699,6 +19043,7 @@ value: Code("CREATURE_ID_URUK_HIGHNESS + 3")
                             "skill_resist",
                             "skill_damage_resist",
                             "skill_normal",
+                            "skill_active",
                             "skill_weapon",
                             "skill_spell",
                             "skill_spact",
@@ -23348,6 +23693,71 @@ value: 5
         )
       ]
     ),
+    // "cbitorg": (
+    //   indices: [
+    //     (
+    //       rules: {
+    //         0: Any,
+    //         1: Any,
+    //       },
+    //       substitute: {
+    //         1: Group("creature_id")
+    //       }
+    //     )
+    //   ]
+    // ),
+    "pcc": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("pcc")
+          }
+        )
+      ]
+    ),
+    "c_col": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            1: Group("color")
+          }
+        )
+      ]
+    ),
+    "inv": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("inv")
+          }
+        )
+      ]
+    ),
+    "refitem": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            1: Group("dbspec")
+          }
+        )
+      ]
+    ),
     "gdata": (
       indices: [
         (
@@ -23356,6 +23766,112 @@ value: 5
           },
           substitute: {
             0: Group("gdata")
+          }
+        )
+      ]
+    ),
+    "gdatan": (
+      indices: [
+        (
+          rules: {
+            0: Any
+          },
+          substitute: {
+            0: Group("gdatan")
+          }
+        )
+      ]
+    ),
+    "mdata": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+          },
+          substitute: {
+            0: Group("mdata")
+          }
+        )
+      ]
+    ),
+    "adata": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("adata")
+          }
+        )
+      ]
+    ),
+    "qdata": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("qdata")
+          }
+        )
+      ]
+    ),
+    "sdata": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("skill"),
+            1: Group("chara")
+          }
+        )
+      ]
+    ),
+    "encref": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("encref"),
+            1: Group("enchant")
+          }
+        )
+      ]
+    ),
+    "encammoref": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("encammoref"),
+            1: Group("enchant_ammo")
+          }
+        )
+      ]
+    ),
+    "encprocref": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            0: Group("encprocref"),
+            1: Group("enchant_proc")
           }
         )
       ]
@@ -23427,6 +23943,32 @@ value: 5
         )
       ]
     ),
+    "mefsubref": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any
+          },
+          substitute: {
+            0: Group("mefsubref"),
+          }
+        )
+      ]
+    ),
+    "lightdata": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any
+          },
+          substitute: {
+            0: Group("lightdata"),
+          }
+        )
+      ]
+    ),
     "trait": (
       indices: [
         (
@@ -23438,6 +23980,93 @@ value: 5
           }
         )
       ]
-    )
+    ),
+    "sdataref": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            1: Group("skill"),
+          }
+        )
+      ]
+    ),
+    "skillname": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+          },
+          substitute: {
+            0: Group("skill"),
+          }
+        )
+      ]
+    ),
+    "skilldesc": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+          },
+          substitute: {
+            0: Group("skill"),
+          }
+        )
+      ]
+    ),
+    "skillencdesc": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+          },
+          substitute: {
+            0: Group("skill"),
+          }
+        )
+      ]
+    ),
+    "bdataref": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            1: Group("buff"),
+          }
+        )
+      ]
+    ),
+    "buffname": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+          },
+          substitute: {
+            0: Group("buff"),
+          }
+        )
+      ]
+    ),
+    "bufftxt": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any,
+          },
+          substitute: {
+            1: Group("buff"),
+          }
+        )
+      ]
+    ),
   }
 )

@@ -32,7 +32,6 @@ struct VariableGroup {
     includes: Vec<GroupName>,
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     variables: Vec<VariableDefinition>,
-
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     _resolved_variables: Vec<VariableDefinition>
 }
@@ -261,7 +260,7 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
     result.append(&mut vars);
 
     for include in group.includes.iter() {
-        let mut vars = resolve_variables(config, config.variable_groups.get(include).expect("Cannot find variable group"));
+        let mut vars = resolve_variables(config, config.variable_groups.get(include).expect(&format!("Cannot find variable group {}", include)));
         result.append(&mut vars);
     }
     result
