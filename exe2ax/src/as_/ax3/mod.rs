@@ -1309,7 +1309,17 @@ pub struct Hsp3As {
 
 impl Hsp3As {
     pub fn write_code<W: Write>(&self, w: &mut W) -> Result<(), io::Error> {
-        self.program.print_code(w, self.program.tab_count, &self)
+        self.write_ast_node(w, &self.program)
+    }
+
+    pub fn write_ast_node<W: Write>(&self, w: &mut W, node: &AstNode) -> Result<(), io::Error> {
+        node.print_code(w, self.program.tab_count, &self)
+    }
+
+    pub fn print_ast_node(&self, node: &AstNode) -> anyhow::Result<String> {
+        let mut buf = Vec::new();
+        self.write_ast_node(&mut buf, node)?;
+        Ok(std::str::from_utf8(buf.as_slice())?.to_string())
     }
 }
 

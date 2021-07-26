@@ -519,6 +519,12 @@ AnalysisConfig(
       ]
     ),
     "dbmode": (
+      includes: [
+        "dbmode_normal",
+        "dbmode_flavor",
+      ]
+    ),
+    "dbmode_normal": (
       variables: [
         ( name: "DBMODE_NONE", value: 0 ),
         ( name: "DBMODE_FIND", value: 1 ),
@@ -6489,7 +6495,7 @@ AnalysisConfig(
         ( name: "TARGET_TYPE_BOTH", value: 9000, ),
         ( name: "TARGET_TYPE_SELF_ONLY", value: 10000, ),
       ],
-      ignore: [ 1, 2, 3, 4, 5 ]
+      ignore: [ 1, 2, 3, 4, 5, 6 ]
     ),
     "damage_from": (
       variables: [
@@ -7130,6 +7136,14 @@ AnalysisConfig(
         ),
         (
           rules: {
+            0: Expr,
+          },
+          substitute: {
+            0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"])
+          }
+        ),
+        (
+          rules: {
             1: InGroup("chara"),
           },
           substitute: {
@@ -7611,6 +7625,16 @@ AnalysisConfig(
         )
       ]
     ),
+
+    // Variables
+
+    "dbmode": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: GroupRecursive("dbmode") } )
+        )
+      ]
+    ),
     "tid": (
       indices: [
         (
@@ -7618,5 +7642,19 @@ AnalysisConfig(
         )
       ]
     )
+  },
+
+  functions: {
+    "refchara": (
+      args: {
+        0: (name: "dbid", expressions: [(substitute: ( rhs: { 0: Group("chara") } ))]),
+        1: (name: "dbspec"),
+        2: (name: "charid")
+      }
+    ),
+  },
+
+  labels: {
+    "*label_2257": (name: "*db_creature", file: "db/db_creature.hsp")
   }
 )

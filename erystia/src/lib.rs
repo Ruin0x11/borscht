@@ -63,13 +63,15 @@ enum Rule {
     Any,
     InGroup(String),
     Variant(GroupName, HashSet<String>),
-    Array(ArrayRules)
+    Array(ArrayRules),
+    Expr
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum Substitute {
-    Group(String),
-    GroupRecursive(String),
+    Group(GroupName),
+    GroupRecursive(GroupName),
+    VariantRecursive(GroupName, HashSet<String>),
     #[allow(non_snake_case)]
     XY2Pic
 }
@@ -136,17 +138,22 @@ fn make_variable(name: String) -> ast::AstNodeKind {
     })
 }
 
-fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32) -> ast::AstNode {
+fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>) -> ast::AstNode {
+    let mut prevented = false;
     for var in group.iter_resolved_variables() {
         if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
             if i == j as i32 {
+                if allow.map_or(false, |a| !a.contains(&var.name)) {
+                    prevented = true;
+                    continue;
+                }
                 let kind = make_variable(var.name.clone());
                 return ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
             }
         }
     }
 
-    if group.ignore.contains(&ron::Value::Number(ron::value::Number::Integer(i.into()))) {
+    if prevented || group.ignore.contains(&ron::Value::Number(ron::value::Number::Integer(i.into()))) {
         return exp;
     }
 
@@ -154,9 +161,17 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
 }
 
 
+fn op_is_comparison(op: &PrimitiveToken) -> bool {
+    match &op.dict_value.name[..] {
+        "=" | "!" | ">" | "<" | ">=" | "<=" => true,
+        _ => false
+    }
+}
+
 struct GroupRecursiveVisitor  {
     group: VariableGroup,
-    group_name: String
+    group_name: String,
+    variants: Option<HashSet<String>>
 }
 
 impl VisitorMut for GroupRecursiveVisitor {
@@ -164,7 +179,7 @@ impl VisitorMut for GroupRecursiveVisitor {
         match &node.kind {
             ast::AstNodeKind::Literal(lit) => match lit {
                 ast::LiteralNode::Integer(i) => {
-                    substitute_integer_constant(&self.group, &self.group_name, node.clone(), *i)
+                    substitute_integer_constant(&self.group, &self.group_name, node.clone(), *i, self.variants.as_ref())
                 },
                 _ => visitor::visit_node_mut(self, node)
             },
@@ -254,6 +269,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
                 false
             }
+            Rule::Expr => !matches!(exp.kind, ast::AstNodeKind::Literal(_))
         }
     }
 
@@ -283,7 +299,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
-                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i),
+                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, None),
                         _ => ()
                     },
                     _ => ()
@@ -291,7 +307,12 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Substitute::GroupRecursive(group_name) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone() };
+                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: None };
+                *exp = visitor.visit_node(exp.clone());
+            },
+            Substitute::VariantRecursive(group_name, variants) => {
+                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: Some(variants.clone()) };
                 *exp = visitor.visit_node(exp.clone());
             },
             Substitute::XY2Pic => {
@@ -350,16 +371,20 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
 
                 true
             },
-            _ => unreachable!()
+            _ => if let Some(rule) = rules.rhs.get(&0) {
+                self.array_index_rule_matches(&rhs, &rule)
+            } else {
+                true
+            }
         }
     }
 
     fn substitute_expr_indices(&self, rhs: &mut ast::AstNode, substitute: &ExprSubstitutes) {
-        if let ast::AstNodeKind::Argument(ref mut arg) = &mut rhs.kind {
-            println!("Substitute! {:?}", arg);
-            self.substitute_array_indices(arg, &substitute.rhs);
-        } else {
-            panic!("Cannot substitute expression RHS: {:?}", rhs)
+        match &mut rhs.kind {
+            ast::AstNodeKind::Argument(ref mut arg) => {
+                self.substitute_array_indices(arg, &substitute.rhs);
+            },
+            _ => self.substitute_array_index(rhs, substitute.rhs.get(&0).unwrap())
         }
     }
 }
@@ -392,8 +417,42 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                 if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
                     for index in expr_def.indices.iter() {
                         if self.expr_index_matches(&node.var, &arg, &index.rules) {
-                            println!("Found match! {:?}", index);
                             self.substitute_expr_indices(arg, &index.substitute);
+                        }
+                    }
+                }
+            }
+        }
+
+        node
+    }
+
+    fn visit_expression(&mut self, mut node: ast::ExpressionNode) -> ast::ExpressionNode {
+        if let Some(ref op) = node.op {
+            if op_is_comparison(op) {
+                if let Some(ref mut rhs) = &mut node.rhs {
+                    if let Some(lhs_name) = self.get_variable_name(&node.lhs) {
+                        if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
+                            for index in expr_def.indices.iter() {
+                                if self.expr_index_matches(&node.lhs, &rhs, &index.rules) {
+                                    if let ast::AstNodeKind::Literal(_) = &rhs.kind {
+                                        println!("{:?} {:?}",
+                                                 self.hsp3as.print_ast_node(&node.lhs).unwrap(),
+                                                 self.hsp3as.print_ast_node(rhs).unwrap());
+                                    }
+                                    self.substitute_expr_indices(rhs, &index.substitute);
+                                }
+                            }
+                        }
+                    }
+
+                    if let Some(rhs_name) = self.get_variable_name(rhs) {
+                        if let Some(expr_def) = &self.config.expressions.get(&rhs_name) {
+                            for index in expr_def.indices.iter() {
+                                if self.expr_index_matches(&rhs, &node.lhs, &index.rules) {
+                                    self.substitute_expr_indices(&mut node.lhs, &index.substitute);
+                                }
+                            }
                         }
                     }
                 }
