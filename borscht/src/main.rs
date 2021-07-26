@@ -61,13 +61,6 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
         )
 }
 
-fn print_bytes<R: AsRef<[u8]>>(input: R) {
-    let stdout = io::stdout();
-    let mut handle = stdout.lock();
-    let mut printer = hexyl::Printer::new(&mut handle, true, hexyl::BorderStyle::Unicode, false);
-    printer.print_all(&input.as_ref()[..]).unwrap()
-}
-
 fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
     let input_path = Path::new(sub_matches.value_of("FILE").unwrap());
     let output_dir = match sub_matches.value_of("output-dir") {

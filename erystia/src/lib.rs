@@ -12,7 +12,7 @@ use exe2ax::as_::ax3::Hsp3As;
 use exe2ax::as_::ax3::ast;
 use exe2ax::as_::dictionary::HspDictionaryValue;
 use exe2ax::as_::ax3::lexical::*;
-use exe2ax::as_::ax3::visitor::*;
+use exe2ax::as_::ax3::visitor::{self, *};
 
 pub struct AnalysisResult {
     pub node: ast::AstNode
@@ -34,7 +34,9 @@ struct VariableGroup {
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     variables: Vec<VariableDefinition>,
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
-    _resolved_variables: Vec<VariableDefinition>
+    _resolved_variables: Vec<VariableDefinition>,
+    #[serde(skip_serializing_if = "HashSet::is_empty", default)]
+    ignore: HashSet<ron::Value>,
 }
 
 impl VariableGroup {
@@ -67,6 +69,7 @@ enum Rule {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum Substitute {
     Group(String),
+    GroupRecursive(String),
     #[allow(non_snake_case)]
     XY2Pic
 }
@@ -89,6 +92,7 @@ struct ExprDefinition {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct ExprIndex {
+    #[serde(default)]
     rules: ExprRuleset,
     substitute: ExprSubstitutes
 }
@@ -102,10 +106,71 @@ struct ExprRuleset {
     rhs: ArrayRules,
 }
 
+impl Default for ExprRuleset {
+    fn default() -> Self {
+        ExprRuleset {
+            lhs: None,
+            rhs: HashMap::new()
+        }
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct ExprSubstitutes {
     #[serde(default)]
     rhs: ArraySubstitutes
+}
+
+fn make_variable(name: String) -> ast::AstNodeKind {
+    ast::AstNodeKind::Variable(ast::VariableNode {
+        ident: PrimitiveToken {
+            token_offset: 0,
+            type_: 0,
+            flag: PrimitiveTokenFlags::None,
+            value: 0,
+            // name: &'a str,
+            dict_value: HspDictionaryValue::default(),
+            kind: PrimitiveTokenKind::GlobalVariable(name)
+        },
+        arg: None
+    })
+}
+
+fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32) -> ast::AstNode {
+    for var in group.iter_resolved_variables() {
+        if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
+            if i == j as i32 {
+                let kind = make_variable(var.name.clone());
+                return ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
+            }
+        }
+    }
+
+    if group.ignore.contains(&ron::Value::Number(ron::value::Number::Integer(i.into()))) {
+        return exp;
+    }
+
+    panic!("Could not find constant {} in group {}.", i, group_name)
+}
+
+
+struct GroupRecursiveVisitor  {
+    group: VariableGroup,
+    group_name: String
+}
+
+impl VisitorMut for GroupRecursiveVisitor {
+    fn visit_node(&mut self, mut node: ast::AstNode) -> ast::AstNode {
+        match &node.kind {
+            ast::AstNodeKind::Literal(lit) => match lit {
+                ast::LiteralNode::Integer(i) => {
+                    substitute_integer_constant(&self.group, &self.group_name, node.clone(), *i)
+                },
+                _ => visitor::visit_node_mut(self, node)
+            },
+            _ => visitor::visit_node_mut(self, node)
+        }
+    }
 }
 
 struct ConstantSubstitutionVisitor<'a> {
@@ -153,7 +218,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
             },
             Rule::Variant(group_name, variants) => {
-                let group = self.config.variable_groups.get(group_name).expect("Variable group not defined.");
+                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
                 for var in group.iter_resolved_variables().filter(|v| variants.contains(&v.name)) {
                     match &exp.kind {
                         ast::AstNodeKind::Literal(lit) => match &lit {
@@ -206,35 +271,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         true
     }
 
-    fn make_variable(&self, name: String) -> ast::AstNodeKind {
-        ast::AstNodeKind::Variable(ast::VariableNode {
-            ident: PrimitiveToken {
-                token_offset: 0,
-                type_: 0,
-                flag: PrimitiveTokenFlags::None,
-                value: 0,
-                // name: &'a str,
-                dict_value: HspDictionaryValue::default(),
-                kind: PrimitiveTokenKind::GlobalVariable(name)
-            },
-            arg: None
-        })
-    }
-
-    fn substitute_integer_constant(&self, group_name: &str, exp: &mut ast::AstNode, i: i32) {
-        let group = self.config.variable_groups.get(group_name).expect("Variable group not defined.");
-        for var in group.iter_resolved_variables() {
-            if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
-                if i == j as i32 {
-                    let kind = self.make_variable(var.name.clone());
-                    *exp = ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
-                    return;
-                }
-            }
-        }
-        panic!("Could not find constant {} in group {}.", i, group_name)
-    }
-
     fn substitute_xy2pic(&self, exp: &mut ast::AstNode, i: i32) {
         let code = format!("xy2pic({}, {})", i % 33, i / 33);
         let kind = ast::AstNodeKind::Literal(ast::LiteralNode::Symbol(code));
@@ -244,13 +280,19 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     fn substitute_array_index(&self, exp: &mut ast::AstNode, subst: &Substitute) {
         match subst {
             Substitute::Group(group_name) => {
+                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
-                        ast::LiteralNode::Integer(i) => self.substitute_integer_constant(&group_name, exp, *i),
+                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i),
                         _ => ()
                     },
                     _ => ()
                 }
+            },
+            Substitute::GroupRecursive(group_name) => {
+                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone() };
+                *exp = visitor.visit_node(exp.clone());
             },
             Substitute::XY2Pic => {
                 match &exp.kind {

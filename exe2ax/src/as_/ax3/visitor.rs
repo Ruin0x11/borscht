@@ -3,13 +3,17 @@ use paste;
 
 macro_rules! create_visitor {
     ($($visit_name:ident => $ast_variant:ident($ast_type:ident),)+) => {
+        pub fn visit_node<V: Visitor + Sized>(visitor: &mut V, node: &AstNode) {
+            match &node.kind {
+                $(
+                    AstNodeKind::$ast_variant(node) => node.visit(visitor),
+                )+
+            }
+        }
+
         pub trait Visitor {
             fn visit_node(&mut self, node: &AstNode) where Self: Sized {
-                match &node.kind {
-                    $(
-                        AstNodeKind::$ast_variant(node) => node.visit(self),
-                    )+
-                }
+                visit_node(self, node);
             }
 
             paste::item! {
@@ -22,19 +26,23 @@ macro_rules! create_visitor {
             }
         }
 
+        pub fn visit_node_mut<V: VisitorMut + Sized>(visitor: &mut V, node: AstNode) -> AstNode {
+            let token_offset = node.token_offset;
+            let tab_count = node.tab_count;
+            let kind = match node.kind {
+                $(
+                    AstNodeKind::$ast_variant(node) => AstNodeKind::$ast_variant(node.visit_mut(visitor)),
+                )+
+            };
+
+            AstNode::new(token_offset, kind, tab_count)
+        }
+
         /// A trait that implements functions to listen for specific nodes/tokens.
         /// Unlike [`Visitor`], nodes/tokens passed are mutable.
         pub trait VisitorMut {
             fn visit_node(&mut self, node: AstNode) -> AstNode where Self: Sized {
-                let token_offset = node.token_offset;
-                let tab_count = node.tab_count;
-                let kind = match node.kind {
-                    $(
-                        AstNodeKind::$ast_variant(node) => AstNodeKind::$ast_variant(node.visit_mut(self)),
-                    )+
-                };
-
-                AstNode::new(token_offset, kind, tab_count)
+                visit_node_mut(self, node)
             }
 
             paste::item! {
@@ -49,29 +57,6 @@ macro_rules! create_visitor {
                         node
                     }
                 )+
-            }
-        }
-
-        impl Visit for AstNode {
-            fn visit<V: Visitor>(&self, visitor: &mut V) {
-                match &self.kind {
-                    $(
-                        AstNodeKind::$ast_variant(node) => node.visit(visitor),
-                    )+
-                }
-            }
-        }
-
-        impl VisitMut for AstNode {
-            fn visit_mut<V: VisitorMut>(self, visitor: &mut V) -> Self {
-                let token_offset = self.token_offset;
-                let tab_count = self.tab_count;
-                let kind = match self.kind {
-                    $(
-                        AstNodeKind::$ast_variant(node) => AstNodeKind::$ast_variant(node.visit_mut(visitor)),
-                    )+
-                };
-                AstNode::new(token_offset, kind, tab_count)
             }
         }
     };
@@ -154,6 +139,19 @@ impl<T: Visit> Visit for Box<T> {
 impl<T: VisitMut> VisitMut for Box<T> {
     fn visit_mut<V: VisitorMut>(self, visitor: &mut V) -> Self {
         Box::new((*self).visit_mut(visitor))
+    }
+}
+
+
+impl Visit for AstNode {
+    fn visit<V: Visitor>(&self, visitor: &mut V) {
+        visitor.visit_node(self);
+    }
+}
+
+impl VisitMut for AstNode {
+    fn visit_mut<V: VisitorMut>(self, visitor: &mut V) -> AstNode {
+        visitor.visit_node(self)
     }
 }
 

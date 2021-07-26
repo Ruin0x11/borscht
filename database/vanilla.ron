@@ -6488,7 +6488,8 @@ AnalysisConfig(
         ( name: "TARGET_TYPE_DIRECTION", value: 8000, ),
         ( name: "TARGET_TYPE_BOTH", value: 9000, ),
         ( name: "TARGET_TYPE_SELF_ONLY", value: 10000, ),
-      ]
+      ],
+      ignore: [ 1, 2, 3, 4, 5 ]
     ),
     "damage_from": (
       variables: [
@@ -6533,7 +6534,7 @@ AnalysisConfig(
         ( name: "DAMAGE_TYPE_ROW", value: 2, ),
       ]
     ),
-    "music": (
+    "music_id": (
       variables: [
         ( name: "STARTING_MUSICLIST", value: 50, exclude: true ),
 
@@ -6625,7 +6626,7 @@ AnalysisConfig(
         ( name: "MUSICLIST_MAX", value: 134, code_value: "MUSICLIST_SCENE_MUSIC + 1", exclude: true ),
       ]
     ),
-    "sound": (
+    "sound_id": (
       variables: [
         ( name: "SOUNDLIST_NONE", value: 0, ),
         ( name: "SOUNDLIST_POP1", value: 1, ),
@@ -7001,6 +7002,7 @@ AnalysisConfig(
     "trait_ether": (
       variables: [
         ( name: "STARTING_TRAIT_ETHER", value: 200, ),
+
         ( name: "TRAIT_ETHER_WEIGHT", value: 201, ),
         ( name: "TRAIT_ETHER_SORE_FACE", value: 202, ),
         ( name: "TRAIT_ETHER_EQUIP_LEG", value: 203, ),
@@ -7029,7 +7031,7 @@ AnalysisConfig(
         "trait_ether"
       ],
       variables: [
-        ( name: "MAX_TRAIT", value: 218, code_value: "MAX_TRAIT_ETHER", exclude: true )
+        ( name: "MAX_TRAIT", value: 218, code_value: "MAX_TRAIT_ETHER" )
       ]
     ),
     "sprite_sheet": (
@@ -7474,6 +7476,7 @@ AnalysisConfig(
             1: Any,
           },
           substitute: {
+            0: Group("skill_dataref"),
             1: Group("skill"),
           }
         )
@@ -7559,26 +7562,59 @@ AnalysisConfig(
     "matid": (
       indices: [
         (
-          rules: (
-            rhs: {}
-          ),
-          substitute: (
-            rhs: { 0: Group("item_id") }
-          )
+          rules: (rhs: {}),
+          substitute: (rhs: { 0: Group("item_id") })
         )
       ]
     ),
     "cdata": (
       indices: [
         (
-          rules: (
-            lhs: Array(
-              { 0: Variant("cdata", ["CDATA_ID"]) }
-            )
-          ),
-          substitute: (
-            rhs: { 0: Group("creature_id") }
-          )
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
+          substitute: (rhs: { 0: Group("creature_id") })
+        ),
+        (
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
+          substitute: (rhs: { 0: Group("role") })
+        )
+      ]
+    ),
+    "mdata": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TYPE"]) }) ),
+          substitute: ( rhs: { 0: Group("map_type") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_MUSIC"]) }) ),
+          substitute: ( rhs: { 0: Group("music_id") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_FIELD"]) }) ),
+          substitute: ( rhs: { 0: Group("map_field") } )
+        )
+      ]
+    ),
+    "gdata": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA"]) }) ),
+          substitute: ( rhs: { 0: Group("area_id") } )
+        )
+      ]
+    ),
+    "sdataref": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("skill_dataref", ["SKILL_DATAREF_USE"]) }), rhs: { 4: Any } ),
+          substitute: ( rhs: { 0: Group("skill"), 1: Group("skill_type"), 3: Group("target_type") } )
+        )
+      ]
+    ),
+    "tid": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: GroupRecursive("trait") } )
         )
       ]
     )
