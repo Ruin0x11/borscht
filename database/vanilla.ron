@@ -12,6 +12,42 @@ AnalysisConfig(
     //     "skill_id_effect"
     //   ]
     // ),
+    "chipi": (
+      variables: [
+        (
+          name: "CHIPI_X",
+          value: 0,
+        ),
+        (
+          name: "CHIPI_Y",
+          value: 1,
+        ),
+        (
+          name: "CHIPI_WIDTH",
+          value: 2,
+        ),
+        (
+          name: "CHIPI_HEIGHT",
+          value: 3,
+        ),
+        (
+          name: "CHIPI_F",
+          value: 4,
+        ),
+        (
+          name: "CHIPI_S",
+          value: 5,
+        ),
+        (
+          name: "CHIPI_SH",
+          value: 6,
+        ),
+        (
+          name: "CHIPI_ANIM",
+          value: 7,
+        )
+      ]
+    ),
     "chipm": (
       variables: [
         (
@@ -123,18 +159,24 @@ AnalysisConfig(
             1: Any
           },
           substitute: {
-            0: Group("chipm")
+            0: Group("chipm"),
+            1: XY2Pic
           }
-        ),
+        )
+      ]
+    ),
+    "chipi": (
+      indices: [
         (
           rules: {
-            0: Variant((name: "chipm", variants: ["CHIPM_F", "CHIPM_ROLE", "CHIPM_ATTRIB"])),
+            0: Any,
             1: Any
           },
           substitute: {
+            0: Group("chipi"),
             1: XY2Pic
           }
-        ),
+        )
       ]
     )
   }

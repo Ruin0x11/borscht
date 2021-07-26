@@ -63,7 +63,7 @@ struct ArrayIndex {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum Rule {
     Any,
-    Group(String),
+    InGroup(String),
     Variant(GroupVariant)
 }
 
@@ -105,7 +105,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     fn array_index_rule_matches(&self, exp: &ast::AstNode, rule: &Rule) -> bool {
         match rule {
             Rule::Any => true,
-            Rule::Group(group_name) => {
+            Rule::InGroup(group_name) => {
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
                         ast::LiteralNode::Integer(i) => self.constant_found_in_group(&group_name, *i),
