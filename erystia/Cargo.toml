@@ -1,0 +1,11 @@
+[package]
+name = "erystia"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+anyhow = "1.0.42"
+exe2ax = { path = "../exe2ax" }
+serde = "1.0.126"
+serde_derive = "1.0.126"
+ron = "0.6.4"

@@ -5,14 +5,16 @@ extern crate env_logger;
 extern crate hexyl;
 
 extern crate exe2ax;
+extern crate erystia;
 
 use std::fs::{self, File};
-use std::io::{self, Read, Write};
+use std::io::{self, Write};
 use std::path::{Path};
 use std::time::Instant;
 use anyhow::Result;
 use clap::{Arg, App, SubCommand, ArgMatches, crate_version, crate_authors};
 use exe2ax::as_::DecodeOptions;
+use exe2ax::as_::ax3::Hsp3As;
 
 fn get_app<'a, 'b>() -> App<'a, 'b> {
     App::new("borscht")
@@ -40,6 +42,13 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
                          .help("output directory")
                          .takes_value(true)
                          .value_name("DIR"))
+                    .arg(Arg::with_name("FILE")
+                         .required(true)
+                         .help(".ax file")
+                         .index(1))
+        )
+        .subcommand(SubCommand::with_name("analyze")
+                    .about("Analyze an HSP .ax")
                     .arg(Arg::with_name("FILE")
                          .required(true)
                          .help(".ax file")
@@ -92,17 +101,45 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
     };
 
     let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
-    let opts = DecodeOptions {
-        output_file: output_file.clone()
-    };
+    let opts = DecodeOptions {};
 
     let buffer = fs::read(input_file)?;
     let ax = exe2ax::ax::bytes_to_ax(buffer)?;
 
     let now = Instant::now();
-    exe2ax::as_::ax_to_as(&ax, &opts)?;
+    let mut as_ = exe2ax::as_::ax_to_as(ax, &opts)?;
 
-    println!("Decompiled bytecode to {:?} in {:.2?} seconds.", output_file, now.elapsed());
+    println!("Decompiled bytecode in {:.2?} seconds.", now.elapsed());
+
+    let mut file = File::create(&output_file)?;
+    as_.write_code(&mut file)?;
+
+    // println!("Wrote {:?}.", output_file);
+
+    Ok(())
+}
+
+fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
+    let input_file = Path::new(sub_matches.value_of("FILE").unwrap());
+    let output_dir = match sub_matches.value_of("output-dir") {
+        Some(dir) => Path::new(dir),
+        None => input_file.parent().unwrap()
+    };
+
+    let opts = DecodeOptions {};
+
+    let buffer = fs::read(input_file)?;
+    let ax = exe2ax::ax::bytes_to_ax(buffer)?;
+
+    let now = Instant::now();
+    let mut as_ = exe2ax::as_::ax_to_as(ax, &opts)?;
+
+    let result = erystia::analyze(as_)?;
+
+    // let mut file = File::create(&output_file)?;
+    // as_.write_code(&mut file)?;
+
+    // println!("Wrote {:?}.", output_file);
 
     Ok(())
 }
@@ -115,6 +152,7 @@ fn main() -> Result<()> {
     match matches.subcommand() {
         ("unpack", Some(sub_matches)) => cmd_unpack(&sub_matches)?,
         ("decode", Some(sub_matches)) => cmd_decode(&sub_matches)?,
+        ("analyze", Some(sub_matches)) => cmd_analyze(&sub_matches)?,
         _ => get_app().print_long_help()?
     }
 

@@ -63,7 +63,7 @@ fn brute_force_xor_key(encrypted: &[u8]) -> Result<XorAddTransform> {
         };
 
         let mut found = true;
-        for (i, byte) in plain.iter().enumerate() {
+        for (i, _byte) in plain.iter().enumerate() {
             if encrypted[i] != xoradd.encode(diff_buffer[i]) {
                 found = false;
                 break;

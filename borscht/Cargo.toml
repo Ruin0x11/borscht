@@ -5,6 +5,7 @@ edition = "2018"
 
 [dependencies]
 exe2ax = { path = "../exe2ax" }
+erystia = { path = "../erystia" }
 anyhow = "1.0.38"
 log = "0.4.14"
 env_logger = "0.8.3"

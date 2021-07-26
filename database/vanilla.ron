@@ -1,0 +1,141 @@
+AnalysisConfig(
+  variable_groups: {
+    // "skill_id": (
+    //   includes: [
+    //     "skill_id_attribute",
+    //     "skill_id_resist",
+    //     "skill_id_damage_resist",
+    //     "skill_id_normal",
+    //     "skill_id_weapon",
+    //     "skill_id_spell",
+    //     "skill_id_spact",
+    //     "skill_id_effect"
+    //   ]
+    // ),
+    "chipm": (
+      variables: [
+        (
+          name: "CHIPM_ROLE",
+          value: 0
+        ),
+        (
+          name: "CHIPM_ROLE_SUB",
+          value: 1,
+        ),
+        (
+          name: "CHIPM_WALL",
+          value: 2,
+        ),
+        (
+          name: "CHIPM_ANIM",
+          value: 3,
+        ),
+        (
+          name: "CHIPM_F",
+          value: 5,
+        ),
+        (
+          name: "CHIPM_H",
+          value: 6,
+        ),
+        (
+          name: "CHIPM_ATTRIB",
+          value: 7,
+        ),
+      ],
+    ),
+    "chipm_role": (
+      variables: [
+        (
+          name: "MAP_CHIP_ROLE_NONE",
+          value: 0,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_DRYROCK",
+          value: 1,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_CROP",
+          value: 2,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_WATER",
+          value: 3,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_SNOW",
+          value: 4,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_MOUNTAIN_WATER",
+          value: 5,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_HARD_WALL",
+          value: 6,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_SAND",
+          value: 7,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_SAND_HARD",
+          value: 8,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_COAST",
+          value: 9,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_SAND_WATER",
+          value: 10,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_COMPOST",
+          value: 11,
+        ),
+        (
+          name: "MAP_CHIP_ROLE_DISPLAY_SPACE",
+          value: 37,
+        ),
+      ],
+    ),
+  },
+
+  arrays: {
+    "tname": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+          },
+          substitute: {
+            0: Group("chipm_role")
+          }
+        )
+      ]
+    ),
+    "chipm": (
+      indices: [
+        (
+          rules: {
+            0: Any,
+            1: Any
+          },
+          substitute: {
+            0: Group("chipm")
+          }
+        ),
+        // (
+        //   rules: {
+        //     0: Variant((name: "chipm", variant: "CHIPM_ROLE")),
+        //     1: Any
+        //   },
+        //   substitute: {
+        //     "rhs": Group("chipm_role")
+        //   }
+        // )
+      ]
+    )
+  }
+)

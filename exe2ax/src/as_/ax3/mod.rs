@@ -2,6 +2,7 @@ pub mod view;
 pub mod dictionary;
 pub mod lexical;
 pub mod ast;
+pub mod visitor;
 mod util;
 
 use std::fs::File;
@@ -142,6 +143,13 @@ impl Ax3Parameter {
     }
 }
 
+#[repr(C)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub struct ResolvedParameter {
+    pub parameter: Ax3Parameter,
+    pub type_name: String,
+}
+
 #[repr(u8)]
 #[derive(Clone, Copy, Debug)]
 pub enum Ax3FunctionType {
@@ -213,11 +221,7 @@ impl Ax3Function {
     }
 
     pub fn get_default_name<'a>(&self, file: &'a Ax3File) -> Option<Cow<'a, str>> {
-        if self.str_index < 0 {
-            None
-        } else {
-            Some(file.read_str_literal(self.str_index as usize))
-        }
+        Some(file.read_str_literal(self.str_index as usize))
     }
 }
 
@@ -342,7 +346,7 @@ fn find_noncolliding_name_func(prefix: &str, function_names: &HashSet<String>) -
     new_name
 }
 
-fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, String>, HashMap<&'a Ax3Parameter, String>) {
+fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, HashMap<Ax3Parameter, String>) {
     let mut function_names = HashSet::new();
 
     let mut dll_funcs = Vec::new();
@@ -373,7 +377,7 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
                         if let Some(default_name) = func.get_default_name(file) {
                             let s = default_name.as_ref().to_string();
                             function_names.insert(s.to_lowercase());
-                            resolved.insert(func, s);
+                            resolved.insert(*func, s);
                         }
                     }
                 }
@@ -382,21 +386,21 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
         }
     }
 
-    for (func, i) in initializers.into_iter() {
+    for (func, _) in initializers.into_iter() {
         let default_name = func.get_default_name(file).unwrap();
         let defname = default_name.as_ref().to_string();
 
         if !function_names.contains(&defname.to_lowercase()) {
             function_names.insert(defname.to_lowercase());
-            resolved.insert(func, defname);
+            resolved.insert(*func, defname);
         } else {
             let new_name = find_noncolliding_name(&defname, &function_names);
             function_names.insert(new_name.to_lowercase());
-            resolved.insert(func, new_name);
+            resolved.insert(*func, new_name);
         }
     }
 
-    for (func, i) in dll_funcs.into_iter() {
+    for (func, _) in dll_funcs.into_iter() {
         let default_name = func.get_default_name(file).unwrap();
         let mut new_name = default_name.to_string();
 
@@ -410,18 +414,18 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
 
         if !function_names.contains(&new_name.to_lowercase()) {
             function_names.insert(new_name.to_lowercase());
-            resolved.insert(func, new_name);
+            resolved.insert(*func, new_name);
         } else {
             let new_name = find_noncolliding_name_func("func", &function_names);
             function_names.insert(new_name.to_lowercase());
-            resolved.insert(func, new_name);
+            resolved.insert(*func, new_name);
         }
     }
 
-    for (func, i) in com_funcs.into_iter() {
+    for (func, _) in com_funcs.into_iter() {
         let new_name = find_noncolliding_name_func("comfunc", &function_names);
         function_names.insert(new_name.to_lowercase());
-        resolved.insert(func, new_name);
+        resolved.insert(*func, new_name);
     }
 
     let mut params = HashMap::new();
@@ -430,12 +434,12 @@ fn rename_functions<'a>(file: &'a Ax3File<'a>) -> (HashMap<&'a Ax3Function, Stri
     if funcnamed_params {
         for func in file.functions.iter() {
             for (i, param) in func.get_params(file).iter().enumerate() {
-                params.insert(param, format!("{}_prm{}", resolved[func], i));
+                params.insert(*param, format!("{}_prm{}", resolved[func], i));
             }
         }
     } else {
         for (i, param) in file.parameters.iter().enumerate() {
-            params.insert(param, format!("prm_{}", i));
+            params.insert(*param, format!("prm_{}", i));
         }
     }
 
@@ -641,7 +645,6 @@ fn fix_dangling_else_stmts<'a>(nodes: &mut Vec<AstNode>) {
     while found.len() > 0 {
         let i = found.pop().unwrap();
         let mut node = nodes.remove(i+1);
-        let tab_count = nodes[i].tab_count;
         if let AstNodeKind::IfStatement(ref mut n) = &mut nodes[i].kind {
             assert!(n.primitive.dict_value.code_type == HspCodeType::IfStatement);
             if let AstNodeKind::IfStatement(ne) = &mut node.kind {
@@ -744,9 +747,9 @@ pub struct Parser<'a, R: Read + Seek> {
 impl<'a, R: Read + Seek> Parser<'a, R> {
     pub fn new(tokens: lexical::TokenIterator<'a, R>,
                file: &'a Ax3File<'a>,
-               function_names: HashMap<&'a Ax3Function, String>) -> Self {
-        let functions = function_names.iter().map(|(f, n)| { (f.label_index as usize, *f) })
-                                             .collect::<HashMap<usize, &'a Ax3Function>>();
+               function_names: HashMap<Ax3Function, String>) -> Self {
+        let functions = function_names.iter().map(|(f, _)| { (f.label_index as usize, *f) })
+                                             .collect::<HashMap<usize, Ax3Function>>();
 
         let mut labels = Vec::new();
         for (i, label) in file.labels.iter().enumerate() {
@@ -754,7 +757,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 Some(func) => {
                     match func.get_type() {
                         Ax3FunctionType::DefFunc |
-                        Ax3FunctionType::DefCFunc => LabelKind::Function(**func),
+                        Ax3FunctionType::DefCFunc => LabelKind::Function(*func),
                         _ => LabelKind::Label
                     }
                 }
@@ -819,14 +822,10 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             PrimitiveTokenKind::DllFunction(_) |
             PrimitiveTokenKind::PlugInFunction(_) |
             PrimitiveTokenKind::ComFunction(_) => self.read_function(true),
-            x => {
+            _ => {
                 panic!("Not found expr: {:?}", token);
             }
         }
-    }
-
-    fn next_is_end_of_stream(&mut self) -> bool {
-        self.tokens.peek().is_none()
     }
 
     fn next_is_end_of_param(&mut self) -> bool {
@@ -859,7 +858,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
     fn read_function(&mut self, has_bracket: bool) -> AstNode {
         let tok = self.tokens.next().unwrap();
-        let mut tab_count = self.tab_count;
+        let tab_count = self.tab_count;
 
         // if tok.adds_tab() {
         //     self.tab_count += 1;
@@ -901,7 +900,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         AstNode::new(token_offset, kind, tab_count)
     }
 
-    fn read_expression(&mut self, priority: u32) -> AstNode {
+    fn read_expression(&mut self) -> AstNode {
         let mut terms = Vec::new();
 
         loop {
@@ -967,7 +966,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
     fn read_argument(&mut self, mcall: bool) -> AstNode {
         let has_bracket = self.tokens.peek().map_or(false, |x| x.is_bracket_start());
-        self.tokens.next_if(|x| has_bracket);
+        self.tokens.next_if(|_| has_bracket);
 
         let token_offset = self.tokens.peek().unwrap().token_offset;
         let first_arg_is_null = self.next_is_end_of_param();
@@ -979,7 +978,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 break;
             }
 
-            exps.push(Box::new(self.read_expression(0)));
+            exps.push(Box::new(self.read_expression()));
         }
 
         let kind = AstNodeKind::Argument(ArgumentNode {
@@ -1048,7 +1047,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             Some(Box::new(self.read_argument(false)))
         };
 
-        let mut jump_offset = get_jump_to_offset(&primitive);
+        let jump_offset = get_jump_to_offset(&primitive);
 
         let if_block = Box::new(self.read_block(jump_offset));
 
@@ -1135,7 +1134,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let token_offset = primitive.token_offset;
 
         let variable = self.read_variable();
-        let exp = self.read_expression(0);
+        let exp = self.read_expression();
 
         let arg = if self.next_is_end_of_line() {
             None
@@ -1172,8 +1171,16 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     let node = AstNode::new(label.token_offset, kind, 0);
                     result.push(node);
 
+                    let params = func.get_params(self.file).iter().map(|p| {
+                        ResolvedParameter {
+                            parameter: *p,
+                            type_name: p.get_type_name(self.file).unwrap().to_string(),
+                        }
+                    }).collect::<_>();
                     let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
-                        func: func
+                        func: func,
+                        default_name: func.get_default_name(self.file).unwrap().to_string(),
+                        params: params
                     });
                     let node = AstNode::new(label.token_offset, kind, 0);
                     result.push(node);
@@ -1238,13 +1245,23 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
             let kind = AstNodeKind::UsedllDeclaration(UsedllDeclarationNode {
                 dll: dll.clone(),
-                funcs: functions.clone()
+                funcs: functions.clone(),
+                name: dll.get_name(self.file).unwrap().to_string(),
+                cls_name: dll.get_cls_name(self.file).map(|s| s.to_string())
             });
             result.push(AstNode::new(0, kind, 0));
 
             for func in functions.iter() {
+                let params = func.get_params(self.file).iter().map(|p| {
+                    ResolvedParameter {
+                        parameter: *p,
+                        type_name: p.get_type_name(self.file).unwrap().to_string(),
+                    }
+                }).collect::<_>();
                 let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
                     func: func.clone(),
+                    default_name: func.get_default_name(self.file).unwrap().to_string(),
+                    params: params
                 });
                 result.push(AstNode::new(0, kind, 0));
             }
@@ -1257,52 +1274,47 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
     }
 
-    pub fn parse(&mut self) -> Vec<AstNode> {
-        let mut result = Vec::new();
+    pub fn parse(&mut self) -> AstNode {
+        let mut nodes = Vec::new();
 
-        self.add_early_decls(&mut result);
+        self.add_early_decls(&mut nodes);
 
         while let Some(_) = self.tokens.peek() {
             for expr in self.read_logical_line() {
-                result.push(expr);
+                nodes.push(expr);
             }
         }
 
-        resolve_scope(&mut result);
-        remove_trailing_stop(&mut result);
+        resolve_scope(&mut nodes);
+        remove_trailing_stop(&mut nodes);
 
-        result
+
+        let kind = AstNodeKind::BlockStatement(BlockStatementNode {
+            nodes: nodes.into_iter().map(Box::new).collect::<_>(),
+        });
+        let block = AstNode::new(0, kind, 0);
+
+        let kind = AstNodeKind::Program(ProgramNode {
+            block: Box::new(block)
+        });
+        AstNode::new(0, kind, 0)
     }
 }
 
-pub struct Hsp3As<'a> {
-    nodes: Vec<AstNode>,
-    file: &'a Ax3File<'a>,
-    function_names: HashMap<&'a Ax3Function, String>,
-    param_names: HashMap<&'a Ax3Parameter, String>,
-    label_names: HashMap<ResolvedLabel, String>,
+pub struct Hsp3As {
+    pub program: AstNode,
+    pub function_names: HashMap<Ax3Function, String>,
+    pub param_names: HashMap<Ax3Parameter, String>,
+    pub label_names: HashMap<ResolvedLabel, String>,
 }
 
-impl<'a> Hsp3As<'a> {
-    fn write<W: Write>(&self, w: &mut W) -> Result<(), io::Error> {
-        for (i, node) in self.nodes.iter().enumerate() {
-            ast::print_tabs(w, node.tab_count)?;
-
-            // HACK
-            if let AstNodeKind::LabelDeclaration(node) = &node.kind {
-                if self.label_names.get(&node.label).is_none() {
-                    continue;
-                }
-            }
-
-            node.print_code(w, node.tab_count, &self)?;
-            write!(w, "\r\n")?;
-        }
-        Ok(())
+impl Hsp3As {
+    pub fn write_code<W: Write>(&self, w: &mut W) -> Result<(), io::Error> {
+        self.program.print_code(w, self.program.tab_count, &self)
     }
 }
 
-pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<()> {
+pub fn decode<'a, R: 'a + AsRef<[u8]>>(bytes: R, _opts: &DecodeOptions) -> Result<Hsp3As> {
     let dict = Hsp3Dictionary::from_csv("Dictionary.csv")?;
 
     let slice = bytes.as_ref();
@@ -1338,20 +1350,16 @@ pub fn decode<'a, R: AsRef<[u8]>>(bytes: &'a R, opts: &DecodeOptions) -> Result<
     };
 
     let mut parser = Parser::new(iter, &file, func_names.clone());
-    let nodes = parser.parse();
+    let program = parser.parse();
 
     let label_names = rename_labels(&file, &parser.label_usage);
 
     let hsp3as = Hsp3As {
-        nodes: nodes,
-        file: &file,
+        program: program,
         function_names: func_names,
         param_names: param_names,
         label_names: label_names
     };
 
-    let mut file = File::create(&opts.output_file)?;
-    hsp3as.write(&mut file)?;
-
-    Ok(())
+    Ok(hsp3as)
 }

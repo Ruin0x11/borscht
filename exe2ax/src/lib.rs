@@ -2,7 +2,6 @@
 #![allow(unused_imports)]
 #![allow(non_upper_case_globals)]
 
-
 extern crate pelite;
 extern crate anyhow;
 extern crate byteorder;
@@ -10,6 +9,7 @@ extern crate bitflags;
 extern crate encoding_rs;
 extern crate encoding_rs_io;
 extern crate enum_utils;
+extern crate paste;
 
 pub mod dpm;
 pub mod crypt;
