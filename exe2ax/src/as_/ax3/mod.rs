@@ -146,6 +146,7 @@ impl Ax3Parameter {
 #[repr(C)]
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct ResolvedParameter {
+    pub index: usize,
     pub parameter: Ax3Parameter,
     pub type_name: String,
 }
@@ -203,20 +204,28 @@ impl Ax3Function {
         }
     }
 
-    pub fn get_params<'a>(&self, file: &'a Ax3File) -> &'a [Ax3Parameter] {
+    pub fn get_params<'a>(&self, file: &'a Ax3File) -> Vec<ResolvedParameter> {
         let size = self.param_start as usize;
         let count = self.param_count as usize;
-        &file.parameters[size..size+count]
+
+        let mut resolved = Vec::new();
+
+        for i in size..size+count {
+            let param = file.parameters[i];
+            resolved.push(ResolvedParameter{ index: i, parameter: param, type_name: param.get_type_name(file).unwrap().clone() });
+        }
+
+        resolved
     }
 
     pub fn get_parent_module<'a>(&self, file: &'a Ax3File) -> Option<&'a Ax3Function> {
         let params = self.get_params(file);
         if params.len() == 0 {
             None
-        } else if !params[0].is_module_type(file) {
+        } else if !params[0].parameter.is_module_type(file) {
             None
         } else {
-            params[0].get_module(file)
+            params[0].parameter.get_module(file)
         }
     }
 
@@ -346,7 +355,7 @@ fn find_noncolliding_name_func(prefix: &str, function_names: &HashSet<String>) -
     new_name
 }
 
-fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, HashMap<Ax3Parameter, String>) {
+fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, HashMap<ResolvedParameter, String>) {
     let mut function_names = HashSet::new();
 
     let mut dll_funcs = Vec::new();
@@ -434,13 +443,13 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
     if funcnamed_params {
         for func in file.functions.iter() {
             for (i, param) in func.get_params(file).iter().enumerate() {
-                params.insert(*param, format!("{}_prm{}", resolved[func], i));
+                params.insert(param.clone(), format!("{}_prm{}", resolved[func], i));
             }
         }
     } else {
-        for (i, param) in file.parameters.iter().enumerate() {
-            params.insert(*param, format!("prm_{}", i));
-        }
+        // for (i, param) in file.parameters.iter().enumerate() {
+        //     params.insert(*param, format!("prm_{}", i));
+        // }
     }
 
     (resolved, params)
@@ -1171,12 +1180,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                     let node = AstNode::new(label.token_offset, kind, 0);
                     result.push(node);
 
-                    let params = func.get_params(self.file).iter().map(|p| {
-                        ResolvedParameter {
-                            parameter: *p,
-                            type_name: p.get_type_name(self.file).unwrap().to_string(),
-                        }
-                    }).collect::<_>();
+                    let params = func.get_params(self.file);
                     let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
                         func: func,
                         default_name: func.get_default_name(self.file).unwrap().to_string(),
@@ -1252,12 +1256,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             result.push(AstNode::new(0, kind, 0));
 
             for func in functions.iter() {
-                let params = func.get_params(self.file).iter().map(|p| {
-                    ResolvedParameter {
-                        parameter: *p,
-                        type_name: p.get_type_name(self.file).unwrap().to_string(),
-                    }
-                }).collect::<_>();
+                let params = func.get_params(self.file);
                 let kind = AstNodeKind::FunctionDeclaration(FunctionDeclarationNode {
                     func: func.clone(),
                     default_name: func.get_default_name(self.file).unwrap().to_string(),
@@ -1292,19 +1291,19 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         let kind = AstNodeKind::BlockStatement(BlockStatementNode {
             nodes: nodes.into_iter().map(Box::new).collect::<_>(),
         });
-        let block = AstNode::new(0, kind, 0);
+        let block = AstNode::new(0, kind, self.tab_count);
 
         let kind = AstNodeKind::Program(ProgramNode {
             block: Box::new(block)
         });
-        AstNode::new(0, kind, 0)
+        AstNode::new(0, kind, self.tab_count)
     }
 }
 
 pub struct Hsp3As {
     pub program: AstNode,
     pub function_names: HashMap<Ax3Function, String>,
-    pub param_names: HashMap<Ax3Parameter, String>,
+    pub param_names: HashMap<ResolvedParameter, String>,
     pub label_names: HashMap<ResolvedLabel, String>,
 }
 

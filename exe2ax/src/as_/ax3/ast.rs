@@ -491,7 +491,7 @@ fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Reso
             write!(f, " ")?;
         }
 
-        let param_name = ctxt.param_names.get(&param.parameter).unwrap();
+        let param_name = ctxt.param_names.get(param).unwrap();
         write!(f, "{}", param_name)?;
     }
 

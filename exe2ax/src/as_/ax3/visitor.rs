@@ -237,6 +237,7 @@ impl Visit for AssignmentNode {
     fn visit<V: Visitor>(&self, visitor: &mut V) {
         visitor.visit_assignment(self);
 
+        self.var.visit(visitor);
         if let Some(argument) = &self.argument {
             argument.visit(visitor);
         }
@@ -247,6 +248,7 @@ impl VisitMut for AssignmentNode {
     fn visit_mut<V: VisitorMut>(mut self, visitor: &mut V) -> Self {
         self = visitor.visit_assignment(self);
 
+        self.var = self.var.visit_mut(visitor);
         self.argument = self.argument.map(|a| a.visit_mut(visitor));
 
         self
@@ -452,12 +454,18 @@ impl VisitMut for UsedllDeclarationNode {
 impl Visit for CommandStatementNode {
     fn visit<V: Visitor>(&self, visitor: &mut V) {
         visitor.visit_command_statement(self);
+
+        self.func.visit(visitor);
     }
 }
 
 impl VisitMut for CommandStatementNode {
-    fn visit_mut<V: VisitorMut>(self, visitor: &mut V) -> Self {
-        visitor.visit_command_statement(self)
+    fn visit_mut<V: VisitorMut>(mut self, visitor: &mut V) -> Self {
+        self = visitor.visit_command_statement(self);
+
+        self.func = self.func.visit_mut(visitor);
+
+        self
     }
 }
 

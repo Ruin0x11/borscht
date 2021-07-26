@@ -126,15 +126,15 @@ AnalysisConfig(
             0: Group("chipm")
           }
         ),
-        // (
-        //   rules: {
-        //     0: Variant((name: "chipm", variant: "CHIPM_ROLE")),
-        //     1: Any
-        //   },
-        //   substitute: {
-        //     "rhs": Group("chipm_role")
-        //   }
-        // )
+        (
+          rules: {
+            0: Variant((name: "chipm", variants: ["CHIPM_F", "CHIPM_ROLE", "CHIPM_ATTRIB"])),
+            1: Any
+          },
+          substitute: {
+            1: XY2Pic
+          }
+        ),
       ]
     )
   }

@@ -49,6 +49,12 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
         )
         .subcommand(SubCommand::with_name("analyze")
                     .about("Analyze an HSP .ax")
+                    .arg(Arg::with_name("output-dir")
+                         .short("o")
+                         .long("output-dir")
+                         .help("output directory")
+                         .takes_value(true)
+                         .value_name("DIR"))
                     .arg(Arg::with_name("FILE")
                          .required(true)
                          .help(".ax file")
@@ -109,7 +115,7 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
     let now = Instant::now();
     let mut as_ = exe2ax::as_::ax_to_as(ax, &opts)?;
 
-    println!("Decompiled bytecode in {:.2?} seconds.", now.elapsed());
+    println!("Decompiled bytecode in {:.2?}", now.elapsed());
 
     let mut file = File::create(&output_file)?;
     as_.write_code(&mut file)?;
@@ -126,6 +132,8 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
         None => input_file.parent().unwrap()
     };
 
+    let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
+
     let opts = DecodeOptions {};
 
     let buffer = fs::read(input_file)?;
@@ -134,12 +142,19 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     let now = Instant::now();
     let mut as_ = exe2ax::as_::ax_to_as(ax, &opts)?;
 
-    let result = erystia::analyze(as_)?;
+    println!("Decompiled bytecode in {:.2?}.", now.elapsed());
 
-    // let mut file = File::create(&output_file)?;
-    // as_.write_code(&mut file)?;
+    let now = Instant::now();
+    let result = erystia::analyze(&as_)?;
+    as_.program = result.node;
 
-    // println!("Wrote {:?}.", output_file);
+    println!("Analyzed in {:.2?}.", now.elapsed());
+
+    let now = Instant::now();
+    let mut file = File::create(&output_file)?;
+    as_.write_code(&mut file)?;
+
+    println!("Wrote {:?} in {:.2?}.", output_file, now.elapsed());
 
     Ok(())
 }
