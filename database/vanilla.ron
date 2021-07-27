@@ -2061,6 +2061,7 @@ AnalysisConfig(
         ( name: "MAX_CHARA_TOTAL", value: 245, ),
         ( name: "MAX_CHARA_DATA", value: 500, ),
       ],
+      ignore: [ -1, 10000 ]
     ),
     "cdata": (
       variables: [
@@ -7502,7 +7503,32 @@ AnalysisConfig(
         ( name: "MAP_CHIP_ROLE_COAST", value: 9, ),
         ( name: "MAP_CHIP_ROLE_SAND_WATER", value: 10, ),
         ( name: "MAP_CHIP_ROLE_COMPOST", value: 11, ),
-        ( name: "MAP_CHIP_ROLE_DISPLAY_SPACE", value: 37, ),
+        ( name: "MAP_CHIP_ROLE_FOOTSTEP", value: 12 ),
+        ( name: "MAP_CHIP_ROLE_PIANO1", value: 13 ),
+        ( name: "MAP_CHIP_ROLE_PIANO2B", value: 14 ),
+        ( name: "MAP_CHIP_ROLE_PIANO3", value: 15 ),
+        ( name: "MAP_CHIP_ROLE_PIANO4B", value: 16 ),
+        ( name: "MAP_CHIP_ROLE_PIANO5", value: 17 ),
+        ( name: "MAP_CHIP_ROLE_PIANO6", value: 18 ),
+        ( name: "MAP_CHIP_ROLE_PIANO7B", value: 19 ),
+        ( name: "MAP_CHIP_ROLE_PIANO8", value: 20 ),
+        ( name: "MAP_CHIP_ROLE_PIANO9B", value: 21 ),
+        ( name: "MAP_CHIP_ROLE_PIANO10", value: 22 ),
+        ( name: "MAP_CHIP_ROLE_PIANO11B", value: 23 ),
+        ( name: "MAP_CHIP_ROLE_PIANO12", value: 24 ),
+        ( name: "MAP_CHIP_ROLE_PIANO13", value: 25 ),
+        ( name: "MAP_CHIP_ROLE_PIANO14B", value: 26 ),
+        ( name: "MAP_CHIP_ROLE_PIANO15", value: 27 ),
+        ( name: "MAP_CHIP_ROLE_PIANO16B", value: 28 ),
+        ( name: "MAP_CHIP_ROLE_PIANO17", value: 29 ),
+        ( name: "MAP_CHIP_ROLE_PIANO18", value: 30 ),
+        ( name: "MAP_CHIP_ROLE_PIANO19B", value: 31 ),
+        ( name: "MAP_CHIP_ROLE_PIANO20", value: 32 ),
+        ( name: "MAP_CHIP_ROLE_PIANO21B", value: 33 ),
+        ( name: "MAP_CHIP_ROLE_PIANO22", value: 34 ),
+        ( name: "MAP_CHIP_ROLE_PIANO23B", value: 35 ),
+        ( name: "MAP_CHIP_ROLE_PIANO24", value: 36 ),
+        ( name: "MAP_CHIP_ROLE_DISPLAY_SPACE", value: 37 ),
       ],
     ),
     "item_find_mode": (
@@ -7944,6 +7970,20 @@ AnalysisConfig(
 
     // Variables
 
+    "cc": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("chara") } )
+        ))
+      ]
+    ),
+    "tc": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("chara") } )
+        ))
+      ]
+    ),
     "dbmode": (
       indices: [
         MatchAll((
@@ -8074,6 +8114,14 @@ AnalysisConfig(
         MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
           substitute: ( rhs: { 0: Group("weather") } )
+        ))
+      ]
+    ),
+    "chipm": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ROLE"]) }) ),
+          substitute: ( rhs: { 0: Group("chipm_role") } )
         ))
       ]
     ),
