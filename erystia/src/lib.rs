@@ -72,11 +72,12 @@ enum Rule {
     Constant(i32),
     Variant(GroupName, HashSet<String>),
     VariantRecursive(GroupName, HashSet<String>, RecursiveCondition),
+    Variable,
     Array(ArrayRules),
     Expr
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 enum RecursiveCondition {
     Any,
     Rhs(String),
@@ -294,6 +295,7 @@ struct GroupRecursiveFindVisitor  {
     group_name: String,
     variants: HashSet<String>,
     condition: RecursiveCondition,
+    stack: Vec<RecursiveCondition>,
     found: bool
 }
 
@@ -302,61 +304,63 @@ impl Visitor for GroupRecursiveFindVisitor {
         match &node.kind {
             ast::AstNodeKind::Literal(lit) => match lit {
                 ast::LiteralNode::Integer(_) => {
-                    if expression_has_variant(node, &self.group, &self.variants) {
+                    let proceed = match &self.condition {
+                        RecursiveCondition::Any => true,
+                        x => self.stack.last().map_or(false, |c| x == c)
+                    };
+                    if proceed && expression_has_variant(node, &self.group, &self.variants) {
                         self.found = true
                     }
                 },
-                _ => visitor::visit_node(self, node)
+                _ => {
+                    self.stack.push(RecursiveCondition::Any);
+                    visitor::visit_node(self, node);
+                    self.stack.pop().unwrap();
+                }
             },
             ast::AstNodeKind::Variable(_) => {
-                if expression_has_variant(node, &self.group, &self.variants) {
+                let proceed = match &self.condition {
+                    RecursiveCondition::Any => true,
+                    x => self.stack.last().map_or(false, |c| x == c)
+                };
+                if proceed && expression_has_variant(node, &self.group, &self.variants) {
                     self.found = true
                 } else {
-                    visitor::visit_node(self, node)
+                    self.stack.push(RecursiveCondition::Any);
+                    visitor::visit_node(self, node);
+                    self.stack.pop().unwrap();
                 }
             },
             ast::AstNodeKind::Expression(ref exp) => {
-                let proceed = if let ast::AstNodeKind::Literal(_) = &exp.lhs.kind {
-                    match &self.condition {
-                        RecursiveCondition::Any => true,
-                        RecursiveCondition::Lhs(reqop) => {
-                            if let Some(op) = &exp.op {
-                                &op.dict_value.name == reqop
-                            } else {
-                                false
-                            }
-                        },
-                        _ => false
-                    }
+                let lhs_cond = if let Some(op) = &exp.op {
+                    RecursiveCondition::Lhs(op.to_string())
                 } else {
-                    true
+                    RecursiveCondition::Any
                 };
-                if proceed {
+                {
+                    self.stack.push(lhs_cond);
                     self.visit_node(&exp.lhs);
+                    self.stack.pop().unwrap();
                 }
 
                 if let Some(ref rhs) = &exp.rhs {
-                    let proceed = if let ast::AstNodeKind::Literal(_) = &rhs.kind {
-                        match &self.condition {
-                            RecursiveCondition::Any => true,
-                            RecursiveCondition::Rhs(reqop) => {
-                                if let Some(op) = &exp.op {
-                                    &op.dict_value.name == reqop
-                                } else {
-                                    false
-                                }
-                            },
-                            _ => false
-                        }
+                    let rhs_cond = if let Some(op) = &exp.op {
+                        RecursiveCondition::Rhs(op.to_string())
                     } else {
-                        true
+                        RecursiveCondition::Any
                     };
-                    if proceed {
+                    {
+                        self.stack.push(rhs_cond);
                         self.visit_node(&rhs);
+                        self.stack.pop().unwrap();
                     }
                 }
-            },
-            _ => visitor::visit_node(self, node)
+            }
+            _ => {
+                self.stack.push(RecursiveCondition::Any);
+                visitor::visit_node(self, node);
+                self.stack.pop().unwrap();
+            }
         }
     }
 }
@@ -365,7 +369,8 @@ struct GroupRecursiveVisitor  {
     group: VariableGroup,
     group_name: String,
     variants: Option<HashSet<String>>,
-    condition: RecursiveCondition
+    condition: RecursiveCondition,
+    stack: Vec<RecursiveCondition>
 }
 
 impl VisitorMut for GroupRecursiveVisitor {
@@ -374,53 +379,55 @@ impl VisitorMut for GroupRecursiveVisitor {
         match &mut node.kind {
             ast::AstNodeKind::Literal(lit) => match lit {
                 ast::LiteralNode::Integer(i) => {
-                    substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref())
-                },
-                _ => visitor::visit_node_mut(self, node)
-            },
-            ast::AstNodeKind::Expression(ref mut exp) => {
-                let proceed = if let ast::AstNodeKind::Literal(_) = &exp.lhs.kind {
-                    match &self.condition {
+                    let proceed = match &self.condition {
                         RecursiveCondition::Any => true,
-                        RecursiveCondition::Lhs(reqop) => {
-                            if let Some(op) = &exp.op {
-                                &op.dict_value.name == reqop
-                            } else {
-                                false
-                            }
-                        },
-                        _ => false
-                    }
-                } else {
-                    true
-                };
-                if proceed {
-                    exp.lhs = Box::new(self.visit_node(*exp.lhs.clone()));
-                } 
-
-                if let Some(ref mut rhs) = &mut exp.rhs {
-                    let proceed = if let ast::AstNodeKind::Literal(_) = &rhs.kind {
-                        match &self.condition {
-                            RecursiveCondition::Any => true,
-                            RecursiveCondition::Rhs(reqop) => {
-                                if let Some(op) = &exp.op {
-                                    &op.dict_value.name == reqop
-                                } else {
-                                    false
-                                }
-                            },
-                            _ => false
-                        }
-                    } else {
-                        true
+                        x => self.stack.last().map_or(false, |c| x == c)
                     };
                     if proceed {
+                        substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref())
+                    } else {
+                        node
+                    }
+                },
+                _ => {
+                    self.stack.push(RecursiveCondition::Any);
+                    let node = visitor::visit_node_mut(self, node);
+                    self.stack.pop().unwrap();
+                    node
+                }
+            },
+            ast::AstNodeKind::Expression(ref mut exp) => {
+                let lhs_cond = if let Some(op) = &exp.op {
+                    RecursiveCondition::Lhs(op.to_string())
+                } else {
+                    RecursiveCondition::Any
+                };
+                {
+                    self.stack.push(lhs_cond);
+                    exp.lhs = Box::new(self.visit_node(*exp.lhs.clone()));
+                    self.stack.pop().unwrap();
+                }
+
+                if let Some(ref mut rhs) = &mut exp.rhs {
+                    let rhs_cond = if let Some(op) = &exp.op {
+                        RecursiveCondition::Rhs(op.to_string())
+                    } else {
+                        RecursiveCondition::Any
+                    };
+                    {
+                        self.stack.push(rhs_cond);
                         *rhs = Box::new(self.visit_node(*rhs.clone()));
+                        self.stack.pop().unwrap();
                     }
                 }
                 node
             }
-            _ => visitor::visit_node_mut(self, node)
+            _ => {
+                self.stack.push(RecursiveCondition::Any);
+                let node = visitor::visit_node_mut(self, node);
+                self.stack.pop().unwrap();
+                node
+            }
         }
     }
 }
@@ -485,9 +492,20 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Rule::VariantRecursive(group_name, variants, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveFindVisitor { group: group.clone(), group_name: group_name.clone(), variants: variants.clone(), found: false, condition: condition.clone() };
+                let mut visitor = GroupRecursiveFindVisitor {
+                    group: group.clone(),
+                    group_name: group_name.clone(),
+                    variants: variants.clone(),
+                    found: false,
+                    condition: condition.clone(),
+                    stack: Vec::new()
+                };
                 visitor.visit_node(&exp);
                 visitor.found
+            },
+            Rule::Variable => match &exp.kind {
+                ast::AstNodeKind::Variable(var) => var.arg.is_none(),
+                _ => false
             },
             Rule::Array(array_rules) => {
                 match &exp.kind {
@@ -552,12 +570,24 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Substitute::GroupRecursive(group_name, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: None, condition: condition.clone() };
+                let mut visitor = GroupRecursiveVisitor {
+                    group: group.clone(),
+                    group_name: group_name.clone(),
+                    variants: None,
+                    condition: condition.clone(),
+                    stack: Vec::new()
+                };
                 *exp = visitor.visit_node(exp.clone());
             },
             Substitute::VariantRecursive(group_name, variants, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: Some(variants.clone()), condition: condition.clone() };
+                let mut visitor = GroupRecursiveVisitor {
+                    group: group.clone(),
+                    group_name: group_name.clone(),
+                    variants: Some(variants.clone()),
+                    condition: condition.clone(),
+                    stack: Vec::new()
+                };
                 *exp = visitor.visit_node(exp.clone());
             },
             Substitute::XY2Pic => {

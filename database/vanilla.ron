@@ -8163,6 +8163,14 @@ AnalysisConfig(
         ))
       ]
     ),
+    // "invctrl": (
+    //   indices: [
+    //     MatchAll((
+    //         rules: ( lhs: Variable ),
+    //         substitute: ( rhs: { 0: Group("invctrl") } )
+    //     ))
+    //   ]
+    // ),
 
     // Arrays
 
@@ -8211,6 +8219,10 @@ AnalysisConfig(
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
           substitute: (rhs: { 0: Group("chara_tier") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_TIER"]) })),
+          substitute: (rhs: { 0: Group("shift_form") })
         )),
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ENVIRONMENT_EFFECT"]) })),
@@ -8741,11 +8753,22 @@ AnalysisConfig(
         ))
       ]
     ),
+    "ibit": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("boolean") } )
+        ))
+      ]
+    ),
     "refitem": (
       indices: [
         MatchAll((
-            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_ITEM_TYPE"]) }) ),
+            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_ITEM_TYPE", "DBSPEC_ITEM_TYPE_MINOR"]) }) ),
             substitute: ( rhs: { 0: Group("filter") } )
+        )),
+        MatchAll((
+            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_ITEM_CAN_READ", "DBSPEC_ITEM_CAN_ZAP", "DBSPEC_ITEM_CAN_DRINK", "DBSPEC_ITEM_CAN_USE"]) }) ),
+            substitute: ( rhs: { 0: Group("boolean") } )
         ))
       ]
     ),
@@ -9937,8 +9960,39 @@ AnalysisConfig(
     ),
     "encadd": (
       args: {
-        0: (name: "arg1", type: Int),
-        1: (name: "arg2", type: Int),
+        0: (name: "itemidx", type: Int),
+        1: (
+          name: "enchant",
+          type: Int,
+          indices: [
+            (
+              substitute: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ])
+            ),
+            (
+              rules: { 1: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")) },
+              substitute: GroupRecursive("skill_attribute", Rhs("+")),
+            ),
+            (
+              rules: { 1: VariantRecursive("enchant_id", ["ENCHANT_RESISTANCE", "ENCHANT_ELEMENTAL_DMG"], Lhs("*")) },
+              substitute: GroupRecursive("skill_all_resist", Rhs("+")),
+            ),
+            (
+              rules: { 1: VariantRecursive("enchant_id", ["ENCHANT_PROC"], Lhs("*")) },
+              substitute: GroupRecursive("enchant_proc_id", Rhs("+")),
+            ),
+            (
+              rules: { 1: VariantRecursive("enchant_id", ["ENCHANT_SKILL"], Lhs("*")) },
+              substitute: GroupRecursive("skill_id", Rhs("+")),
+            ),
+            (
+              rules: { 1: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")) },
+              substitute: GroupRecursive("skill_spell", Rhs("+")),
+            ),
+          ]
+        ),
         2: (name: "arg3", type: Int),
         3: (name: "arg4", type: Int),
         4: (name: "arg5", type: Int),
