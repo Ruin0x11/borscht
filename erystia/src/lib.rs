@@ -69,6 +69,7 @@ type ArraySubstitutes = HashMap<usize, Substitute>;
 enum Rule {
     Any,
     InGroup(String),
+    Constant(i32),
     Variant(GroupName, HashSet<String>),
     VariantRecursive(GroupName, HashSet<String>, RecursiveCondition),
     Array(ArrayRules),
@@ -142,7 +143,6 @@ impl Default for ExprRulesetAll {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct ExprSubstitutesAll {
-    #[serde(default)]
     rhs: ArraySubstitutes
 }
 
@@ -470,6 +470,15 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => false
                 }
             },
+            Rule::Constant(i) => {
+                match &exp.kind {
+                    ast::AstNodeKind::Literal(lit) => match &lit {
+                        ast::LiteralNode::Integer(j) => *i == *j,
+                        _ => false
+                    },
+                    _ => false
+                }
+            },
             Rule::Variant(group_name, variants) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
                 expression_has_variant(exp, &group, &variants)
@@ -613,7 +622,9 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             ast::AstNodeKind::Argument(ref mut arg) => {
                 self.substitute_array_indices(arg, &substitute.rhs);
             },
-            _ => self.substitute_array_index(rhs, substitute.rhs.get(&0).unwrap())
+            _ => if let Some(rule) = substitute.rhs.get(&0) {
+                self.substitute_array_index(rhs, rule);
+            }
         }
     }
 

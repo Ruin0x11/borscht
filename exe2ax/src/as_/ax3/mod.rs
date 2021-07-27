@@ -1319,7 +1319,9 @@ impl Hsp3As {
     pub fn print_ast_node<'a, P: AstPrintable<'a>>(&'a self, node: &'a P) -> anyhow::Result<String> {
         let mut buf = Vec::new();
         self.write_ast_node(&mut buf, node)?;
-        Ok(std::str::from_utf8(buf.as_slice())?.to_string())
+        let (cow, _encoding_used, had_errors) = SHIFT_JIS.decode(&buf);
+        assert!(!had_errors);
+        Ok(cow.to_string())
     }
 }
 

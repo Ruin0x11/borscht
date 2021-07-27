@@ -193,7 +193,7 @@ AnalysisConfig(
         ( name: "LIGHT_TYPE_WINDOW_RED", value: 19 ),
         ( name: "LIGHT_TYPE_SAKURA", value: 20 ),
 
-        ( name: "MAX_LIGHT_TYPE", value: "LIGHT_TYPE_SAKURA + 1" ),
+        ( name: "MAX_LIGHT_TYPE", value: 21, code_value: "LIGHT_TYPE_SAKURA + 1" ),
       ]
     ),
     "inv": (
@@ -316,7 +316,8 @@ AnalysisConfig(
         ( name: "ITEM_KNOWN_QUALITY", value: 2 ),
         ( name: "ITEM_KNOWN_FULL", value: 3 ),
         ( name: "ITEM_KNOWN_NECRO", value: 10 ),
-      ]
+      ],
+      ignore: [ 5 ]
     ),
     "item_status": (
       variables: [
@@ -500,6 +501,12 @@ AnalysisConfig(
         ( name: "MTREF_COL", value: 7 ),
       ]
     ),
+    "mtenc": (
+      variables: [
+        ( name: "MTENC_ENCHANTMENT", value: 0 ),
+        ( name: "MTENC_POWER", value: 1 ),
+      ]
+    ),
     "atx": (
       variables: [
         ( name: "ATX_RANDOM", value: 0 ),
@@ -522,6 +529,12 @@ AnalysisConfig(
         ( name: "ATX_GEN1", value: 17 ),
         ( name: "ATX_GLOBAL1", value: 18 ),
         ( name: "ATX_GENERAL1", value: 19 ),
+      ]
+    ),
+    "atxid": (
+      variables: [
+        ( name: "ATXID_UNKNOWN", value: 0 ),
+        ( name: "ATXID_ATX_ID", value: 1 ),
       ]
     ),
     "wield_style": (
@@ -1270,7 +1283,7 @@ AnalysisConfig(
         ( name: "ANIMATION_UNUSED4", value: 111 ),
       ]
     ),
-    "modelist": (
+    "mode": (
       variables: [
         ( name: "MODELIST_MAIN", value: 0 ),
         ( name: "MODELIST_CHARA_CREATION", value: 1 ),
@@ -1586,10 +1599,10 @@ AnalysisConfig(
         ( name: "MAX_AREA_COUNT", value: 500 ),
         ( name: "MAX_AREA_OLD", value: 200 ),
         ( name: "MAX_AREA_DATA", value: 40, exclude: true ),
-        ( name: "STARTING_USER_AREA", value: 300 ),
-        ( name: "STARTING_RANDOM_AREA", value: 450 ),
-        ( name: "STARTING_USER_AREA_OLD", value: 100 ),
-        ( name: "STARTING_RANDOM_AREA_OLD", value: 150 ),
+        ( name: "STARTING_USER_AREA", value: 300, exclude: true ),
+        ( name: "STARTING_RANDOM_AREA", value: 450, exclude: true ),
+        ( name: "STARTING_USER_AREA_OLD", value: 100, exclude: true ),
+        ( name: "STARTING_RANDOM_AREA_OLD", value: 150, exclude: true ),
 
         ( name: "AREA_NONE", value: 0 ),
         ( name: "AREA_WORLD", value: 1 ),
@@ -2038,6 +2051,12 @@ AnalysisConfig(
         ( name: "DIRECTIVE_MODE_TALKING", value: 3 ),
       ]
     ),
+    "characreate_loc": (
+      includes: [
+        "chara"
+      ],
+      ignore: [ -1, 3 ]
+    ),
     "inv_id": (
       includes: [
         "chara"
@@ -2484,7 +2503,7 @@ AnalysisConfig(
         ( name: "CHARA_BIT_MARK_ITEM", value: 1025 ),
       ]
     ),
-    "character_tier": (
+    "chara_tier": (
       variables: [
         ( name: "CHARACTER_TIER_NONE", value: 0 ),
         ( name: "CHARACTER_TIER_SUMMONED_NORMAL", value: 10 ),
@@ -4920,7 +4939,7 @@ AnalysisConfig(
       ],
       ignore: [ 9999 ]
     ),
-    "creature_id": (
+    "chara_id": (
       variables: [
         ( name: "CREATURE_ID_BUG", value: 0 ),
         ( name: "CREATURE_ID_SHOPKEEPER", value: 1 ),
@@ -5917,16 +5936,20 @@ AnalysisConfig(
       ]
     ),
 
-    "limits": (
-      variables: [
-        ( name: "RANGE_PLAYER_PIC", value: "xy2pic(1, 2)", ),
-
+    "item": (
+     variables: [
         ( name: "MAX_MAP_INV", value: 400, ),
         ( name: "SIZE_INV1", value: 200, ),
         ( name: "SIZE_INV2", value: 20, ),
         ( name: "RANGE_INV1", value: 1320, code_value: "SIZE_INV2 * MAX_CHARA_NC + SIZE_INV1" ),
         ( name: "RANGE_INV2", value: 5080, code_value: "SIZE_INV2 * (MAX_CHARA_TOTAL - MAX_CHARA_NULL) + SIZE_INV1" ),
         ( name: "MAX_INV_DATA", value: 5480, code_value: "RANGE_INV2 + MAX_MAP_INV" ),
+      ],
+      ignore: [ -1, 0, 1 ]
+    ),
+    "limits": (
+      variables: [
+        ( name: "RANGE_PLAYER_PIC", value: "xy2pic(1, 2)", ),
 
         ( name: "MAX_CDATAN", value: 10, ),
         ( name: "MAX_ITEMN", value: 6, ),
@@ -7482,8 +7505,9 @@ AnalysisConfig(
         ( name: "CHIPM_ATTRIB", value: 7, ),
       ],
     ),
-    "chipm_attb": (
+    "chipm_attrib": (
       variables: [
+        ( name: "CHIPM_ATTRIB_DEFAULT", value: 0 ),
         ( name: "CHIPM_ATTRIB_CANT_SEE", value: 1 ),
         ( name: "CHIPM_ATTRIB_CANT_PASS", value: 4 ),
         ( name: "CHIPM_ATTRIB_CANT_SEE_OR_PASS", value: 5 ),
@@ -7503,7 +7527,7 @@ AnalysisConfig(
         ( name: "MAP_CHIP_ROLE_COAST", value: 9, ),
         ( name: "MAP_CHIP_ROLE_SAND_WATER", value: 10, ),
         ( name: "MAP_CHIP_ROLE_COMPOST", value: 11, ),
-        ( name: "MAP_CHIP_ROLE_FOOTSTEP", value: 12 ),
+        ( name: "MAP_CHIP_ROLE_GRATING", value: 12 ),
         ( name: "MAP_CHIP_ROLE_PIANO1", value: 13 ),
         ( name: "MAP_CHIP_ROLE_PIANO2B", value: 14 ),
         ( name: "MAP_CHIP_ROLE_PIANO3", value: 15 ),
@@ -7608,7 +7632,7 @@ AnalysisConfig(
     //         1: Any,
     //       },
     //       substitute: {
-    //         1: Group("creature_id")
+    //         1: Group("chara_id")
     //       }
     //     )
     //   ]
@@ -7788,6 +7812,53 @@ AnalysisConfig(
         )
       ]
     ),
+    "mtname": (
+      indices: [
+        (
+          substitute: {
+            1: Group("item_material"),
+          }
+        )
+      ]
+    ),
+    "mtbit": (
+      indices: [
+        (
+          substitute: {
+            1: Group("item_material"),
+          }
+        )
+      ]
+    ),
+    "mtref": (
+      indices: [
+        (
+          substitute: {
+            0: Group("mtref"),
+            1: Group("item_material"),
+          }
+        )
+      ]
+    ),
+    "mtenc": (
+      indices: [
+        (
+          substitute: {
+            0: Group("mtenc"),
+            1: Group("item_material"),
+          }
+        )
+      ]
+    ),
+    "fishdata": (
+      indices: [
+        (
+          substitute: {
+            0: Group("fishdata"),
+          }
+        )
+      ]
+    ),
     "tname": (
       indices: [
         (
@@ -7823,20 +7894,26 @@ AnalysisConfig(
             0: Group("chipm"),
             1: XY2Pic
           }
-        )
+        ),
+        (
+          substitute: {
+            0: Group("chipm"),
+            1: XY2Pic
+          }
+        ),
       ]
     ),
     "mefsubref": (
       indices: [
         (
-          substitute: { 0: Group("mefsubref"), }
+          substitute: { 0: Group("mefsubref"), 1: Group("mef") }
         )
       ]
     ),
     "lightdata": (
       indices: [
         (
-          substitute: { 0: Group("lightdata"), }
+          substitute: { 0: Group("lightdata"), 1: Group("light_type") }
         )
       ]
     ),
@@ -7984,6 +8061,20 @@ AnalysisConfig(
         ))
       ]
     ),
+    "rc": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("chara") } )
+        ))
+      ]
+    ),
+    "mode": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("mode", Any) } )
+        ))
+      ]
+    ),
     "dbmode": (
       indices: [
         MatchAll((
@@ -8001,8 +8092,14 @@ AnalysisConfig(
     "matid": (
       indices: [
         MatchAll((
-          rules: (rhs: {}),
           substitute: (rhs: { 0: Group("item_id") })
+        ))
+      ]
+    ),
+    "atxspot": (
+      indices: [
+        MatchAll((
+          substitute: (rhs: { 0: Group("atx") })
         ))
       ]
     ),
@@ -8013,15 +8110,27 @@ AnalysisConfig(
       indices: [
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
-          substitute: (rhs: { 0: Group("creature_id") })
+          substitute: (rhs: { 0: Group("chara_id") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_EXIST"]) })),
+          substitute: (rhs: { 0: Group("chara_state") })
         )),
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
           substitute: (rhs: { 0: Group("role") })
         )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARA_PIC"]) })),
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_PIC", "CDATA_PIC_ORG", "CDATA_CHARA_PIC", "CDATA_MARK_ITEM_PIC"]) })),
           substitute: (rhs: { 0: XY2Pic })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ATTACK_STYLE"]) })),
+          substitute: (rhs: { 0: Group("wield_style") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
+          substitute: (rhs: { 0: Group("chara_tier") })
         ))
       ]
     ),
@@ -8044,13 +8153,21 @@ AnalysisConfig(
           substitute: (rhs: { 0: Group("item_property") })
         )),
         MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_KNOWN"]) })),
+          substitute: (rhs: { 0: Group("item_known") })
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
           substitute: (rhs: { 0: Group("skill_id") })
         )),
         MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_CHARA_PIC"]) })),
           substitute: (rhs: { 0: XY2Pic })
-        ))
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_MATERIAL"]) })),
+          substitute: (rhs: { 0: Group("item_material") })
+        )),
         // (
         //   rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_FILE"]) })),
         //   substitute: (rhs: { 0: Group("item_file") })
@@ -8105,6 +8222,14 @@ AnalysisConfig(
         )),
       ]
     ),
+    "atxid": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 1: Variant("atxid", ["ATXID_ATX_ID"]) }) ),
+          substitute: ( rhs: { 0: Group("atx") } )
+        )),
+      ]
+    ),
     "gdata": (
       indices: [
         MatchAll((
@@ -8120,9 +8245,117 @@ AnalysisConfig(
     "chipm": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ROLE"]) }) ),
+          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ROLE", "CHIPM_ROLE_SUB"]) }) ),
           substitute: ( rhs: { 0: Group("chipm_role") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ATTRIB"]) }) ),
+          substitute: ( rhs: { 0: Group("chipm_attrib") } )
         ))
+      ]
+    ),
+    "pcc": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("\\")) } )
+        )),
+      ]
+    ),
+    "mefsubref": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("mefsubref", ["MEFSUBREF_X"]) }) ),
+          substitute: ( rhs: { 2: Group("mef_type") } )
+        )),
+      ]
+    ),
+    "encref": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("encref", ["ENCREF_GENERATE_CHANCE"]) }) ),
+          substitute: ( rhs: { 4: Group("filter") } )
+        )),
+      ]
+    ),
+    "encprocref": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("encprocref", ["ENCPROCREF_SKILL_ID"]) }) ),
+          substitute: ( rhs: { 0: Group("skill_id"), 1: Group("target_type"), 3: Group("filter"), 4: Group("filter") } )
+        )),
+      ]
+    ),
+    "mtenc": (
+      indices: [
+        MatchAll((
+            substitute: (
+              lhs: Array({ 0: Constant(0) }),
+              rhs: {
+                0: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+              }
+            )
+        )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")),
+            substitute: GroupRecursive("skill_attribute", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_RESISTANCE", "ENCHANT_ELEMENTAL_DMG"], Lhs("*")),
+            substitute: GroupRecursive("skill_all_resist", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"], Lhs("*")),
+            substitute: GroupRecursive("enchant_proc_id", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_SKILL"], Lhs("*")),
+            substitute: GroupRecursive("skill_id", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")),
+            substitute: GroupRecursive("skill_spell", Rhs("+")),
+          )),
+      ]
+    ),
+    "mtlistmetal": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Constant(0) }) ),
+          substitute: (
+              rhs: {
+                0: Group("item_material"),
+                1: Group("item_material"),
+                2: Group("item_material"),
+                3: Group("item_material"),
+              }
+            )
+          ))
+      ]
+    ),
+    "mtlistleather": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Constant(0) }) ),
+          substitute: (
+              rhs: {
+                0: Group("item_material"),
+                1: Group("item_material"),
+                2: Group("item_material"),
+                3: Group("item_material"),
+              }
+            )
+          ))
+      ]
+    ),
+    "fishdata": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("fishdata", ["FISHDATA_PIC"]) }) ),
+          substitute: ( rhs: { 0: XY2Pic, 8: Group("item_id") } )
+        )),
       ]
     ),
     "sdataref": (
@@ -8152,6 +8385,41 @@ AnalysisConfig(
       indices: [
         MatchAll((
           substitute: ( rhs: { 0: Group("fix_quality") } )
+        ))
+      ]
+    ),
+    "fixmaterial": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("item_material") } )
+        ))
+      ]
+    ),
+    "flttypemajor": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("filter") } )
+        ))
+      ]
+    ),
+    "flttypeminor": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("filter") } )
+        ))
+      ]
+    ),
+    "invrange": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("item", Any) } )
+        ))
+      ]
+    ),
+    "invhead": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("item", Any) } )
         ))
       ]
     ),
@@ -8417,7 +8685,7 @@ AnalysisConfig(
     ),
     "cnvitemname": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item_id")) ]),
       }
     ),
     "cnven": (
@@ -8440,7 +8708,7 @@ AnalysisConfig(
     ),
     "refchara": (
       args: {
-        0: (name: "dbid", indices: [ ( substitute: Group("creature_id" ) ) ]),
+        0: (name: "dbid", indices: [ ( substitute: Group("chara_id" ) ) ]),
         1: (name: "dbspec", indices: [ ( substitute: Group("dbspec" )) ]),
         2: (name: "charid")
       }
@@ -8475,14 +8743,14 @@ AnalysisConfig(
     "calcskill": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "spellpower", type: Int),
       }
     ),
     "sorg": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "randskill": (
@@ -8512,18 +8780,18 @@ AnalysisConfig(
     ),
     "iequiploc": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "setunid": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "unid", type: Int),
       }
     ),
     "getunid": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "findunid": (
@@ -8566,7 +8834,7 @@ AnalysisConfig(
     ),
     "snd": (
       args: {
-        0: (name: "sound_id", type: Int),
+        0: (name: "sound_id", type: Int, indices: [ ( substitute: Group("sound_id")) ]),
         1: (name: "looping", type: Int, indices: [ ( substitute: Group("boolean")) ]),
         2: (name: "stop_if_playing", type: Int, indices: [ ( substitute: Group("boolean")) ]),
       }
@@ -8626,7 +8894,7 @@ AnalysisConfig(
     ),
     "txtef": (
       args: {
-        0: (name: "color", type: Int),
+        0: (name: "color", type: Int, indices: [ ( substitute: Group("color") ) ]),
       }
     ),
     "msg_newlog": (
@@ -8651,17 +8919,17 @@ AnalysisConfig(
     ),
     "aln": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "npcn": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "_s": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -8677,17 +8945,17 @@ AnalysisConfig(
     ),
     "is": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "was": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "have": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "does": (
@@ -8697,7 +8965,7 @@ AnalysisConfig(
     ),
     "he": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -8718,13 +8986,13 @@ AnalysisConfig(
     ),
     "his": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
     "him": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -8735,13 +9003,13 @@ AnalysisConfig(
     ),
     "your": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg1", type: Int),
       }
     ),
     "yourself": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "txt_check": (
@@ -9189,7 +9457,7 @@ AnalysisConfig(
       args: {
         0: (name: "skillid", type: Int),
         1: (name: "negative", type: Int),
-        2: (name: "charid", type: Int),
+        2: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "foodname": (
@@ -9360,7 +9628,7 @@ AnalysisConfig(
     ),
     "txtgod": (
       args: {
-        0: (name: "godid", type: Int),
+        0: (name: "godid", type: Int, indices: [ ( substitute: Group("god" )) ]),
         1: (name: "flavor", type: Int),
       }
     ),
@@ -9565,7 +9833,7 @@ AnalysisConfig(
     ),
     "itemcreate": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
         2: (name: "x", type: Int),
         3: (name: "y", type: Int),
@@ -9579,7 +9847,7 @@ AnalysisConfig(
     ),
     "inv_getowner": (
       args: {
-        0: (name: "arg1", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item") ) ]),
       }
     ),
     "inv_find": (
@@ -9632,7 +9900,7 @@ AnalysisConfig(
     ),
     "encfindspec": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
         1: (name: "encid", type: Int, indices: [ ( substitute: Group("enchant_id" )) ]),
       }
     ),
@@ -9644,7 +9912,7 @@ AnalysisConfig(
     ),
     "itemusingfind": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
         1: (name: "arg2", type: Int, indices: [ ( substitute: Group("boolean" )) ]),
       }
     ),
@@ -9671,7 +9939,7 @@ AnalysisConfig(
       args: {
         0: (name: "x", type: Int),
         1: (name: "y", type: Int),
-        2: (name: "itemid", type: Int),
+        2: (name: "itemid", type: Int, indices: [ ( substitute: Group("item_id")) ]),
       }
     ),
     "cell_refresh": (
@@ -9682,12 +9950,12 @@ AnalysisConfig(
     ),
     "itemturn": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "removeitem": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item") ) ]),
         1: (name: "amount", type: Int),
       }
     ),
@@ -9705,17 +9973,17 @@ AnalysisConfig(
     ),
     "item_delete": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "inv_getspace": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "inv_sum": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "item_compress": (
@@ -9725,17 +9993,17 @@ AnalysisConfig(
     ),
     "inv_getfreeid": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "inv_weight": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "item_num": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
         1: (name: "amount", type: Int),
       }
     ),
@@ -9751,19 +10019,19 @@ AnalysisConfig(
     ),
     "chara_unequip": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "item_identify": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
         1: (name: "idlevel", type: Int, indices: [ ( rules: { 1: InGroup("item_known") }, substitute: Group("item_known")) ]),
         2: (name: "power", type: Int),
       }
     ),
     "item_checkknown": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "rpname": (
@@ -9773,19 +10041,19 @@ AnalysisConfig(
     ),
     "itemowner": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item") ) ]),
       }
     ),
     "itemname": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item") ) ]),
         1: (name: "arg2", type: Int),
         2: (name: "arg3", type: Int),
       }
     ),
     "remain_make": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item") ) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -9797,8 +10065,8 @@ AnalysisConfig(
     ),
     "item_stack": (
       args: {
-        0: (name: "charid", type: Int),
-        1: (name: "itemid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara") ) ]),
+        1: (name: "itemid", type: Int, indices: [ ( substitute: Group("item") ) ]),
         2: (name: "mode", type: Int),
       }
     ),
@@ -9884,25 +10152,25 @@ AnalysisConfig(
     "sexp": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "sgrowth": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "modgrowth": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "skillid", type: Int),
         2: (name: "arg3", type: Int),
       }
     ),
     "skillgain": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "skillid", type: Int),
         2: (name: "arg3", type: Int),
         3: (name: "arg4", type: Int),
@@ -9911,14 +10179,14 @@ AnalysisConfig(
     "skillmod": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "arg3", type: Int),
       }
     ),
     "skillexp": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "amount", type: Int),
         3: (name: "arg4", type: Int),
         4: (name: "arg5", type: Int),
@@ -9926,13 +10194,13 @@ AnalysisConfig(
     ),
     "calcfame": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
     "decfame": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
@@ -10387,7 +10655,7 @@ AnalysisConfig(
     ),
     "calcweaponfix": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item_id")) ]),
       }
     ),
     "fixaiact": (
@@ -10403,8 +10671,8 @@ AnalysisConfig(
     ),
     "characreate": (
       args: {
-        0: (name: "charid", type: Int),
-        1: (name: "dbid", type: Int, indices: [ ( substitute: Group("creature_id" )) ]),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("characreate_loc")) ]),
+        1: (name: "dbid", type: Int, indices: [ ( substitute: Group("chara_id" )) ]),
         2: (name: "x", type: Int),
         3: (name: "y", type: Int),
       }
@@ -10427,33 +10695,33 @@ AnalysisConfig(
     ),
     "customtalk": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "dbmode", type: Int),
       }
     ),
     "findchara": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara_id")) ]),
       }
     ),
     "findcharaaz": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara_id")) ]),
       }
     ),
     "findcharala": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara_id")) ]),
       }
     ),
     "findallyguard": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara_id")) ]),
       }
     ),
     "findally": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara_id")) ]),
       }
     ),
     "implevel": (
@@ -10463,7 +10731,7 @@ AnalysisConfig(
     ),
     "modimp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -10474,7 +10742,7 @@ AnalysisConfig(
     ),
     "modimp2": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -10513,7 +10781,7 @@ AnalysisConfig(
     ),
     "chara_vanquish": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "turn_aggro": (
@@ -10562,7 +10830,7 @@ AnalysisConfig(
     ),
     "rowact_check": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "rowact_item": (
@@ -10601,13 +10869,13 @@ AnalysisConfig(
     ),
     "findbuff": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "buffid", type: Int),
       }
     ),
     "addbuff": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "buffid", type: Int),
         2: (name: "arg3", type: Int),
         3: (name: "arg4", type: Int),
@@ -10615,7 +10883,7 @@ AnalysisConfig(
     ),
     "delbuff": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "buffid", type: Int),
       }
     ),
@@ -10634,14 +10902,14 @@ AnalysisConfig(
     ),
     "resistmod": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "ele", type: Int),
         2: (name: "arg3", type: Int),
       }
     ),
     "resistmodh": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "ele", type: Int),
         2: (name: "arg3", type: Int),
       }
@@ -10665,32 +10933,32 @@ AnalysisConfig(
     ),
     "dmgcon": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "cond", type: Int),
         2: (name: "arg3", type: Int),
       }
     ),
     "healhp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
     "healmp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
     "healsp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
     "healcon": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "cond", type: Int),
         2: (name: "arg3", type: Int),
       }
@@ -10775,43 +11043,43 @@ AnalysisConfig(
     ),
     "dmgmp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
     "dmgsp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
     "dmgspt": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
     "dmgsptalk": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "amount", type: Int),
       }
     ),
     "healsan": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
     "dmgsan": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
     "actionsp": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -10827,25 +11095,25 @@ AnalysisConfig(
     ),
     "modweight": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
         2: (name: "arg3", type: Int),
       }
     ),
     "modheight": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         1: (name: "arg2", type: Int),
       }
     ),
     "cure_anorexia": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "chara_vomit": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "chara_morasi": (
@@ -10927,17 +11195,17 @@ AnalysisConfig(
     ),
     "calcmedalvalue": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "calcmusicticketvalue": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
       }
     ),
     "calcitemvalue": (
       args: {
-        0: (name: "itemid", type: Int),
+        0: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
         1: (name: "mode", type: Int),
       }
     ),
@@ -10963,12 +11231,12 @@ AnalysisConfig(
     ),
     "calchirecost": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "generatemoney": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calccosthire": (
@@ -11043,31 +11311,31 @@ AnalysisConfig(
     "calcspellpower": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calcspellfail": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calcspellcostmp": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calcspellcoststock": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "skillinit": (
       args: {
         0: (name: "skillid", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "arg3", type: Int),
       }
     ),
@@ -11319,19 +11587,19 @@ AnalysisConfig(
     ),
     "cbreeder": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "cdbit": (
       args: {
         0: (name: "bit", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "cdbitmod": (
       args: {
         0: (name: "bit", type: Int),
-        1: (name: "charid", type: Int),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "seton", type: Int),
       }
     ),
@@ -11616,7 +11884,7 @@ AnalysisConfig(
     "window_recipe": (
       args: {
         0: (name: "arg0", type: Array),
-        1: (name: "itemid", type: Int),
+        1: (name: "itemid", type: Int, indices: [ ( substitute: Group("item")) ]),
         2: (name: "arg2", type: Int),
         3: (name: "arg3", type: Int),
         4: (name: "arg4", type: Int),
@@ -11715,7 +11983,7 @@ AnalysisConfig(
     ),
     "tradecheck": (
       args: {
-        0: (name: "charid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "randname": (
