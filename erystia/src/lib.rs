@@ -319,7 +319,6 @@ impl Visitor for GroupRecursiveFindVisitor {
                     true
                 };
                 if proceed {
-                    println!("LHS {:?}", exp.lhs);
                     self.visit_node(&exp.lhs);
                 }
 
@@ -340,7 +339,6 @@ impl Visitor for GroupRecursiveFindVisitor {
                         true
                     };
                     if proceed {
-                        println!("RHS {:?}", exp.rhs);
                         self.visit_node(&rhs);
                     }
                 }
@@ -464,7 +462,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Rule::VariantRecursive(group_name, variants, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                println!("REC {}", self.hsp3as.print_ast_node(exp).unwrap());
                 let mut visitor = GroupRecursiveFindVisitor { group: group.clone(), group_name: group_name.clone(), variants: variants.clone(), found: false, condition: condition.clone() };
                 visitor.visit_node(&exp);
                 visitor.found
@@ -519,7 +516,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Substitute::GroupRecursive(group_name, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                println!("{}", self.hsp3as.print_ast_node(exp).unwrap());
                 let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: None, condition: condition.clone() };
                 *exp = visitor.visit_node(exp.clone());
             },

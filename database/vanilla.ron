@@ -846,7 +846,6 @@ AnalysisConfig(
     ),
     "rpdatan": (
       variables: [
-
         ( name: "RPDATAN_NAME", value: 0 ),
       ]
     ),
@@ -858,34 +857,41 @@ AnalysisConfig(
     ),
     "rf_id": (
       variables: [
-        ( name: "RF_FLAVOR", value: "EXT_RF + 1" ),
-        ( name: "RF_ORE", value: "EXT_RF + 2" ),
-        ( name: "RF_WOOD", value: "EXT_RF + 3" ),
-        ( name: "RF_ANY", value: "EXT_RF + 4" ),
-        ( name: "RF_FISH", value: "EXT_RF + 5" ),
-        ( name: "RF_EVITEM", value: "EXT_RF + 6" ),
-        ( name: "RF_HERB", value: "EXT_RF + 7" ),
-        ( name: "RF_SEED", value: "EXT_RF + 8" ),
-        ( name: "RF_VEGE", value: "EXT_RF + 9" ),
-        ( name: "RF_DIARY", value: "EXT_RF + 10" ),
-        ( name: "RF_POISON", value: "EXT_RF + 11" ),
-        ( name: "RF_FRUIT", value: "EXT_RF + 12" ),
-        ( name: "RF_BREAD", value: "EXT_RF + 13" ),
-        ( name: "RF_ALE", value: "EXT_RF + 14" ),
-        ( name: "RF_MAGI", value: "EXT_RF + 15" ),
-        ( name: "RF_MAKENN", value: "EXT_RF + 16" ),
-        ( name: "RF_FLOWER", value: "EXT_RF + 17" ),
-        ( name: "RF_BONE", value: "EXT_RF + 18" ),
-        ( name: "RF_METAL", value: "EXT_RF + 19" ),
-        ( name: "RF_SOFT", value: "EXT_RF + 20" ),
-        ( name: "RF_SHARP", value: "EXT_RF + 21" ),
-        ( name: "RF_COFFIN", value: "EXT_RF + 22" ),
-        ( name: "RF_BAIT", value: "EXT_RF + 23" ),
-        ( name: "RF_BARREL", value: "EXT_RF + 24" ),
-        ( name: "RF_LEAF", value: "EXT_RF + 25" ),
-        ( name: "RF_DISINFECTANT", value: "EXT_RF + 26" ),
+        ( name: "RF_FLAVOR", value: 9001, code_value: "EXT_RF + 1" ),
+        ( name: "RF_ORE", value: 9002, code_value: "EXT_RF + 2" ),
+        ( name: "RF_WOOD", value: 9003, code_value: "EXT_RF + 3" ),
+        ( name: "RF_ANY", value: 9004, code_value: "EXT_RF + 4" ),
+        ( name: "RF_FISH", value: 9005, code_value: "EXT_RF + 5" ),
+        ( name: "RF_EVITEM", value: 9006, code_value: "EXT_RF + 6" ),
+        ( name: "RF_HERB", value: 9007, code_value: "EXT_RF + 7" ),
+        ( name: "RF_SEED", value: 9008, code_value: "EXT_RF + 8" ),
+        ( name: "RF_VEGE", value: 9009, code_value: "EXT_RF + 9" ),
+        ( name: "RF_DIARY", value: 9010, code_value: "EXT_RF + 10" ),
+        ( name: "RF_POISON", value: 9011, code_value: "EXT_RF + 11" ),
+        ( name: "RF_FRUIT", value: 9012, code_value: "EXT_RF + 12" ),
+        ( name: "RF_BREAD", value: 9013, code_value: "EXT_RF + 13" ),
+        ( name: "RF_ALE", value: 9014, code_value: "EXT_RF + 14" ),
+        ( name: "RF_MAGI", value: 9015, code_value: "EXT_RF + 15" ),
+        ( name: "RF_MAKENN", value: 9016, code_value: "EXT_RF + 16" ),
+        ( name: "RF_FLOWER", value: 9017, code_value: "EXT_RF + 17" ),
+        ( name: "RF_BONE", value: 9018, code_value: "EXT_RF + 18" ),
+        ( name: "RF_METAL", value: 9019, code_value: "EXT_RF + 19" ),
+        ( name: "RF_SOFT", value: 9020, code_value: "EXT_RF + 20" ),
+        ( name: "RF_SHARP", value: 9021, code_value: "EXT_RF + 21" ),
+        ( name: "RF_COFFIN", value: 9022, code_value: "EXT_RF + 22" ),
+        ( name: "RF_BAIT", value: 9023, code_value: "EXT_RF + 23" ),
+        ( name: "RF_BARREL", value: 9024, code_value: "EXT_RF + 24" ),
+        ( name: "RF_LEAF", value: 9025, code_value: "EXT_RF + 25" ),
+        ( name: "RF_DISINFECTANT", value: 9026, code_value: "EXT_RF + 26" ),
 
-        ( name: "MAX_RF", value: "RF_DISINFECTANT + 1" ),
+        ( name: "MAX_RF", value: 9027, code_value: "RF_DISINFECTANT + 1" ),
+      ]
+    ),
+    "recipe_ingredient": (
+      include: [
+        "rf_id",
+        "item_id",
+        "filter"
       ]
     ),
     "rp_action": (
@@ -926,6 +932,12 @@ AnalysisConfig(
         ( name: "RECIPE_BLEND_ACTION_BARREL_BOMB", value: 10021 ),
         ( name: "RECIPE_BLEND_ACTION_POTTERY", value: 10022 ),
         ( name: "RECIPE_BLEND_ACTION_BIOLOGICAL_RESTORATION", value: 10023 ),
+      ]
+    ),
+    "item_or_recipe_blend_id": (
+      includes: [
+        "item_id",
+        "recipe_blend"
       ]
     ),
     "equip_slot": (
@@ -4891,7 +4903,8 @@ AnalysisConfig(
         ( name: "MAX_ITEM_ID", value: 1171, code_value: "ITEM_ID_GO_RENGE + 3", exclude: true ),
 
         ( name: "MAX_ITEM_DBID", value: 1199, ),
-      ]
+      ],
+      ignore: [ 9999 ]
     ),
     "creature_id": (
       variables: [
@@ -7505,6 +7518,17 @@ AnalysisConfig(
         ( name: "ITEM_FIND_LOCATION_CHARAS", value: 1 ),
       ]
     ),
+    "matget_type": (
+      variables: [
+        ( name: "MATGET_TYPE_DIG", value: 1 ),
+        ( name: "MATGET_TYPE_FISH", value: 2 ),
+        ( name: "MATGET_TYPE_HARVEST", value: 3 ),
+        ( name: "MATGET_TYPE_OBTAIN", value: 4 ),
+        ( name: "MATGET_TYPE_FIND", value: 5 ),
+        ( name: "MATGET_TYPE_RECEIVE", value: 6 ),
+        ( name: "MATGET_TYPE_GET", value: 7 ),
+      ]
+    )
   },
 
   arrays: {
@@ -7866,6 +7890,40 @@ AnalysisConfig(
         ),
       ]
     ),
+    "ranknorma": (
+      indices: [
+        (
+          substitute: { 0: Group("rank") }
+        )
+      ]
+    ),
+    "rpdata": (
+      indices: [
+        (
+          substitute: { 0: GroupRecursive("rpdata", Lhs("+")) }
+        )
+      ]
+    ),
+    "rpdatan": (
+      indices: [
+        (
+          substitute: { 0: Group("rpdatan") }
+        )
+      ]
+    ),
+    "rfnameorg": (
+      indices: [
+        (
+          substitute: {
+            0: Group("rfnameorg"),
+            1: Multi([
+                GroupRecursive("rf_id", Lhs("-")),
+                VariantRecursive("ext", ["EXT_RF"], Rhs("-")),
+              ])
+          }
+        )
+      ]
+    )
   },
 
   expressions: {
@@ -7906,11 +7964,19 @@ AnalysisConfig(
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
           substitute: (rhs: { 0: Group("role") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARA_PIC"]) })),
+          substitute: (rhs: { 0: XY2Pic })
         ))
       ]
     ),
     "inv": (
       indices: [
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_PIC"]) })),
+          substitute: (rhs: { 0: XY2Pic })
+        )),
         MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_ID"]) })),
           substitute: (rhs: { 0: Group("item_id") })
@@ -7927,6 +7993,10 @@ AnalysisConfig(
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
           substitute: (rhs: { 0: Group("skill_id") })
         )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_CHARA_PIC"]) })),
+          substitute: (rhs: { 0: XY2Pic })
+        ))
         // (
         //   rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_FILE"]) })),
         //   substitute: (rhs: { 0: Group("item_file") })
@@ -7986,6 +8056,10 @@ AnalysisConfig(
         MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA"]) }) ),
           substitute: ( rhs: { 0: Group("area_id") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
+          substitute: ( rhs: { 0: Group("weather") } )
         ))
       ]
     ),
@@ -8142,6 +8216,85 @@ AnalysisConfig(
       indices: [
         MatchAll((
           substitute: ( rhs: { 0: Group("enchant_ammo") } )
+        ))
+      ]
+    ),
+    "rplistdef": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RECIPES"], Any) } )
+        ))
+      ]
+    ),
+    "rpdata": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_ITEM"]) }) ),
+          substitute: ( rhs: { 0: Group("item_or_recipe_blend_id") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_SKILL"]) }) ),
+          substitute: ( rhs: { 0: Group("skill_id") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_MAT"]) }) ),
+          substitute: (
+              rhs: {
+                0: Group("recipe_ingredient"),
+                1: Group("recipe_ingredient"),
+                2: Group("recipe_ingredient"),
+                3: Group("recipe_ingredient"),
+                4: Group("recipe_ingredient"),
+                5: Group("recipe_ingredient"),
+                6: Group("recipe_ingredient"),
+                7: Group("recipe_ingredient"),
+                8: Group("recipe_ingredient"),
+                9: Group("recipe_ingredient"),
+                10: Group("recipe_ingredient"),
+                11: Group("recipe_ingredient"),
+                12: Group("recipe_ingredient"),
+                13: Group("recipe_ingredient"),
+                14: Group("recipe_ingredient"),
+                15: Group("recipe_ingredient"),
+                16: Group("recipe_ingredient"),
+                17: Group("recipe_ingredient"),
+                18: Group("recipe_ingredient"),
+                19: Group("recipe_ingredient")
+              }
+            )
+        )),
+      ]
+    ),
+    "rplistshop": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RECIPES"], Any) })
+          ))
+      ]
+    ),
+    "rpid": (
+      indices: [
+        MatchAll((
+            rules: ( rhs: { 0: VariantRecursive("rpdata", ["STARTING_RPID"], Lhs("+")) } ),
+            substitute: ( rhs: { 0: VariantRecursive("rpdata", ["STARTING_RPID"], Lhs("+")), } )
+          )),
+        MatchAll((
+            rules: ( rhs: { 0: VariantRecursive("ext", ["EXT_RP"], Rhs("+")) } ),
+            substitute: (
+              rhs: {
+                0: Multi([
+                    GroupRecursive("item_id", Lhs("+")),
+                    VariantRecursive("ext", ["EXT_RP"], Rhs("+")),
+                  ])
+              }
+            )
+          ))
+      ]
+    ),
+    "picp": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("item_id") } )
         ))
       ]
     ),
@@ -11030,9 +11183,9 @@ AnalysisConfig(
     ),
     "matgetmain": (
       args: {
-        0: (name: "arg1", type: Int),
-        1: (name: "arg2", type: Int),
-        2: (name: "arg3", type: Int),
+        0: (name: "matid", type: Int, indices: [ ( substitute: Group("material_id")) ]),
+        1: (name: "amount", type: Int),
+        2: (name: "message_type", type: Int, indices: [ ( substitute: Group("matget_type")) ]),
       }
     ),
     "matdelmain": (
