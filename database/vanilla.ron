@@ -227,16 +227,16 @@ AnalysisConfig(
         ( name: "INV_ITEM_COL", value: 22 ),
         ( name: "INV_ITEM_SUB_NAME", value: 23 ),
         ( name: "INV_ITEM_MATERIAL", value: 24 ),
-        ( name: "INV_ITEM_PARAM1", value: 25 ),
+        ( name: "INV_ITEM_PARAM1", value: 25, primary: true ),
         ( name: "INV_ITEM_GOD", value: 25 ),
         ( name: "INV_ITEM_BOOK_ID", value: 25 ),
         ( name: "INV_ITEM_GROWTH", value: 25 ),
-        ( name: "INV_ITEM_PARAM2", value: 26 ),
+        ( name: "INV_ITEM_PARAM2", value: 26, primary: true ),
         ( name: "INV_ITEM_EXP", value: 26 ),
-        ( name: "INV_ITEM_PARAM3", value: 27 ),
+        ( name: "INV_ITEM_PARAM3", value: 27, primary: true ),
         ( name: "INV_ITEM_ROT", value: 27 ),
         ( name: "INV_ITEM_INTERVAL", value: 27 ),
-        ( name: "INV_ITEM_PARAM4", value: 28 ),
+        ( name: "INV_ITEM_PARAM4", value: 28, primary: true ),
         ( name: "INV_ITEM_FISHING_BAIT", value: 28 ),
         ( name: "INV_ITEM_IDENTIFY_LEVEL", value: 29 ),
         ( name: "INV_ITEM_TURN", value: 30 ),
@@ -245,11 +245,11 @@ AnalysisConfig(
         ( name: "INV_ITEM_NEED_SLEEP", value: 33 ),
         ( name: "INV_ITEM_CHARA_PIC", value: 34 ),
         ( name: "STARTING_INV_ITEM_BIT", value: 35 ),
-        ( name: "RANGE_INV_ITEM_BIT", value: 5 ),
+        ( name: "RANGE_INV_ITEM_BIT", value: 5, exclude: true ),
 
         ( name: "STARTING_INV_ITEM_ENCHANT", value: 40 ),
-        ( name: "RANGE_INV_ITEM_ENCHANT", value: 15 ),
-        ( name: "RANGE_INV_ITEM_FIXED_ENCHANT", value: 10 ),
+        ( name: "RANGE_INV_ITEM_ENCHANT", value: 15, exclude: true ),
+        ( name: "RANGE_INV_ITEM_FIXED_ENCHANT", value: 10, exclude: true ),
 
         ( name: "INV_ITEM_MAX", value: 70 ),
       ]
@@ -279,8 +279,9 @@ AnalysisConfig(
         ( name: "ITEM_BIT_HAZARD", value: 20 ),
       ]
     ),
-    "inv_file": (
+    "item_file": (
       variables: [
+        ( name: "ITEM_ROLE_FILE_NONE2", value: -1 ),
         ( name: "ITEM_ROLE_FILE_NONE", value: 0 ),
         ( name: "ITEM_ROLE_FILE_WANDER", value: 1 ),
         ( name: "ITEM_ROLE_FILE_TXT_ADV", value: 2 ),
@@ -297,14 +298,15 @@ AnalysisConfig(
         ( name: "STARTING_ITEM_ROLE_FILE_SHELTER", value: 100 ),
       ]
     ),
-    "item_prop": (
+    "item_property": (
       variables: [
-        ( name: "PROP_NONE", value: 0 ),
-        ( name: "PROP_NPC", value: 1 ),
-        ( name: "PROP_SHOP", value: 2 ),
-        ( name: "PROP_CONSTRUCT", value: 3 ),
-        ( name: "PROP_QUEST", value: 4 ),
-        ( name: "PROP_SPECIAL", value: 5 ),
+        ( name: "PROPERTY_INHERITED", value: -2 ),
+        ( name: "PROPERTY_NONE", value: 0 ),
+        ( name: "PROPERTY_NPC", value: 1 ),
+        ( name: "PROPERTY_SHOP", value: 2 ),
+        ( name: "PROPERTY_CONSTRUCT", value: 3 ),
+        ( name: "PROPERTY_QUEST", value: 4 ),
+        ( name: "PROPERTY_SPECIAL", value: 5 ),
       ]
     ),
     "item_known": (
@@ -724,7 +726,7 @@ AnalysisConfig(
         ( name: "MAX_ENCHANTMENT", value: "ENCHANT_BANE_FLYING + 1" ),
       ]
     ),
-    "enchant_proc": (
+    "enchant_proc_id": (
       variables: [
         ( name: "ENCHANT_PROC_ELEMENT_SCAR", value: 0 ),
         ( name: "ENCHANT_PROC_DRAW_SHADOW", value: 1 ),
@@ -1457,8 +1459,8 @@ AnalysisConfig(
         ( name: "FEAT_CELL_PIC", value: 0 ),
         ( name: "FEAT_CELL_FEATURE_ID", value: 1 ),
         ( name: "FEAT_CELL_SUB_FEATURE_ID", value: 2 ),
-        ( name: "FEAT_CELL_PARAM_1", value: 2 ),
-        ( name: "FEAT_CELL_PARAM_2", value: 3 ),
+        ( name: "FEAT_CELL_PARAM_1", value: 3 ),
+        ( name: "FEAT_CELL_PARAM_2", value: 4 ),
       ]
     ),
     "feat_object": (
@@ -2275,12 +2277,12 @@ AnalysisConfig(
         ( name: "CDATA_CONDITION_BRAINWASH", value: 269 ),
 
         ( name: "STARTING_CDATA_FOOD_EXP", value: 270 ),
-        ( name: "RANGE_CDATA_FOOD_EXP", value: 10 ),
+        ( name: "RANGE_CDATA_FOOD_EXP", value: 10, exclude: true ),
 
         ( name: "STARTING_CDATA_BUFF", value: 280 ),
-        ( name: "ARRAY_CDATA_BUFF", value: 3 ),
-        ( name: "MAX_BLESSINGS", value: 8 ),
-        ( name: "MAX_HEXES", value: 8 ),
+        ( name: "ARRAY_CDATA_BUFF", value: 3, exclude: true ),
+        ( name: "MAX_BLESSINGS", value: 8, exclude: true ),
+        ( name: "MAX_HEXES", value: 8, exclude: true ),
 
         ( name: "CDATA_JOIN_DATE_MONTH", value: 400 ),
         ( name: "CDATA_JOIN_DATE_DAY", value: 401 ),
@@ -2563,7 +2565,7 @@ AnalysisConfig(
         ( name: "GDATA_LEARNED", value: 39 ),
 
         ( name: "STARTING_GDATA_SHORTCUT", value: 40 ),
-        ( name: "RANGE_GDATA_SHORTCUT", value: 20 ),
+        ( name: "RANGE_GDATA_SHORTCUT", value: 20, exclude: true ),
 
         ( name: "GDATA_LAST_EDGE_X", value: 60 ),
         ( name: "GDATA_LAST_EDGE_Y", value: 61 ),
@@ -7505,11 +7507,11 @@ AnalysisConfig(
         ),
         (
           rules: { 0: Expr },
-          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"]) }
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"], Any) }
         ),
         (
           rules: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"]) },
-          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF", "ARRAY_CDATA_BUFF"]) }
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF", "ARRAY_CDATA_BUFF"], Any) }
         ),
         (
           rules: { 1: InGroup("chara"), },
@@ -7562,10 +7564,73 @@ AnalysisConfig(
         )
       ]
     ),
-    "refitem": (
+    "ioriginalnameref": (
       indices: [
         (
-          substitute: { 1: Group("dbspec") }
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "ioriginalnameref2": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "iorgweight": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "ipicref": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "icolref": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "ilight": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "ialphanameref": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "filter_item": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "rffilter_item": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "iknownnameref": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
         )
       ]
     ),
@@ -7646,7 +7711,7 @@ AnalysisConfig(
         (
           substitute: {
             0: Group("encprocref"),
-            1: Group("enchant_proc")
+            1: Group("enchant_proc_id")
           }
         )
       ]
@@ -7801,24 +7866,24 @@ AnalysisConfig(
 
     "dbmode": (
       indices: [
-        (
-          substitute: ( rhs: { 0: GroupRecursive("dbmode") } )
-        )
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("dbmode", Any) } )
+        ))
       ]
     ),
     "tid": (
       indices: [
-        (
-          substitute: ( rhs: { 0: GroupRecursive("trait") } )
-        )
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("trait", Any) } )
+        ))
       ]
     ),
     "matid": (
       indices: [
-        (
+        MatchAll((
           rules: (rhs: {}),
           substitute: (rhs: { 0: Group("item_id") })
-        )
+        ))
       ]
     ),
 
@@ -7826,133 +7891,220 @@ AnalysisConfig(
 
     "cdata": (
       indices: [
-        (
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
           substitute: (rhs: { 0: Group("creature_id") })
-        ),
-        (
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
           substitute: (rhs: { 0: Group("role") })
-        )
+        ))
       ]
     ),
     "inv": (
       indices: [
-        (
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_ID"]) })),
           substitute: (rhs: { 0: Group("item_id") })
-        ),
-        (
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_STATUS"]) })),
           substitute: (rhs: { 0: Group("item_status") })
-        )
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_PROPERTY"]) })),
+          substitute: (rhs: { 0: Group("item_property") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
+          substitute: (rhs: { 0: Group("skill_id") })
+        )),
+        // (
+        //   rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_FILE"]) })),
+        //   substitute: (rhs: { 0: Group("item_file") })
+        // )
       ]
     ),
     "mdata": (
       indices: [
-        (
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TYPE"]) }) ),
           substitute: ( rhs: { 0: Group("map_type") } )
-        ),
-        (
+        )),
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_MUSIC"]) }) ),
           substitute: ( rhs: { 0: Group("music_id") } )
-        ),
-        (
+        )),
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_FIELD"]) }) ),
           substitute: ( rhs: { 0: Group("map_field") } )
-        ),
-        (
+        )),
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TILESET"]) }) ),
           substitute: ( rhs: { 0: Group("map_tileset") } )
-        )
+        ))
       ]
     ),
     "adata": (
       indices: [
-        (
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ID", "ADATA_PARENT"]) }) ),
           substitute: ( rhs: { 0: Group("area_id") } )
-        ),
-        (
+        )),
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ICON"]) }) ),
           substitute: ( rhs: { 0: XY2Pic } )
-        ),
-        (
+        )),
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_TYPE"]) }) ),
           substitute: ( rhs: { 0: Group("map_type") } )
-        )
+        ))
       ]
     ),
     "feat": (
       indices: [
-        (
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_FEATURE_ID"]) }) ),
           substitute: ( rhs: { 0: Group("cell_feature") } )
-        ),
-        (
+        )),
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_SUB_FEATURE_ID"]) }) ),
           substitute: ( rhs: { 0: Group("cell_sub_feature") } )
-        ),
+        )),
       ]
     ),
     "gdata": (
       indices: [
-        (
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA"]) }) ),
           substitute: ( rhs: { 0: Group("area_id") } )
-        )
+        ))
       ]
     ),
     "sdataref": (
       indices: [
-        (
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("skill_dataref", ["SKILL_DATAREF_USE"]) }), rhs: { 4: Any } ),
           substitute: ( rhs: { 0: Group("skill_id"), 1: Group("skill_type"), 3: Group("target_type") } )
-        )
+        ))
       ]
     ),
     "bdataref": (
       indices: [
-        (
+        MatchAll((
           rules: ( lhs: Array({ 0: Variant("bdataref", ["BDATAREF_BUFF_TYPE"]) }) ),
           substitute: ( rhs: { 0: Group("buff_type") } )
-        )
+        ))
       ]
     ),
     "matspot": (
       indices: [
-        (
+        MatchAll((
           substitute: ( rhs: { 0: Group("atx") } )
-        )
+        ))
       ]
     ),
     "fixlv": (
       indices: [
-        (
+        MatchAll((
           substitute: ( rhs: { 0: Group("fix_quality") } )
-        )
+        ))
       ]
     ),
     "efid": (
       indices: [
-        (
+        MatchAll((
           substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
-        )
+        ))
       ]
     ),
     "act": (
       indices: [
-        (
+        MatchAll((
           substitute: ( rhs: { 0: Group("ai_action_or_skill") } )
-        )
+        ))
       ]
     ),
     "music": (
       indices: [
-        (
+        MatchAll((
           substitute: ( rhs: { 0: Group("music_id") } )
-        )
+        ))
+      ]
+    ),
+    "levelexitby": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("map_exit") } )
+        ))
+      ]
+    ),
+    "reftype": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("filter") } )
+        ))
+      ]
+    ),
+    "reftypeminor": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("filter") } )
+        ))
+      ]
+    ),
+    "fixeditemenc": (
+      indices: [
+        MatchAll((
+          substitute: (
+            rhs: {
+              0: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              2: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              4: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              6: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              8: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              10: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              12: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              14: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              16: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+              18: Multi([
+                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                  GroupRecursive("enchant_id", Lhs("*"))
+                ]),
+            }
+          )
+        )),
+        MatchAny((
+          rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"]),
+          substitute: GroupRecursive("enchant_proc_id", Any),
+        ))
       ]
     )
   },
@@ -9268,7 +9420,7 @@ AnalysisConfig(
     "item_identify": (
       args: {
         0: (name: "itemid", type: Int),
-        1: (name: "idlevel", type: Int),
+        1: (name: "idlevel", type: Int, indices: [ ( rules: { 1: InGroup("item_known") }, substitute: Group("item_known")) ]),
         2: (name: "power", type: Int),
       }
     ),

@@ -6,6 +6,7 @@ extern crate exe2ax;
 
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
+use std::io::Write;
 use anyhow::Result;
 use serde_derive::{Serialize, Deserialize};
 use exe2ax::as_::ax3::Hsp3As;
@@ -53,7 +54,10 @@ struct VariableDefinition {
     #[serde(default)]
     code_value: Option<String>,
     #[serde(default)]
-    exclude: bool
+    exclude: bool,
+
+    #[serde(default)]
+    primary: bool
 }
 
 type ArrayRules = HashMap<usize, Rule>;
@@ -70,12 +74,20 @@ enum Rule {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+enum RecursiveCondition {
+    Any,
+    Rhs(String),
+    Lhs(String),
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 enum Substitute {
     Group(GroupName),
-    GroupRecursive(GroupName),
-    VariantRecursive(GroupName, HashSet<String>),
+    GroupRecursive(GroupName, RecursiveCondition),
+    VariantRecursive(GroupName, HashSet<String>, RecursiveCondition),
     #[allow(non_snake_case)]
-    XY2Pic
+    XY2Pic,
+    Multi(Vec<Substitute>)
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -96,14 +108,20 @@ struct ExprDefinition {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct ExprIndex {
-    #[serde(default)]
-    rules: ExprRuleset,
-    substitute: ExprSubstitutes
+enum ExprIndex {
+    MatchAll(ExprIndexAll),
+    MatchAny(ExprIndexAny),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct ExprRuleset {
+struct ExprIndexAll {
+    #[serde(default)]
+    rules: ExprRulesetAll,
+    substitute: ExprSubstitutesAll
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ExprRulesetAll {
     #[serde(default)]
     lhs: Option<Rule>,
 
@@ -111,9 +129,9 @@ struct ExprRuleset {
     rhs: ArrayRules,
 }
 
-impl Default for ExprRuleset {
+impl Default for ExprRulesetAll {
     fn default() -> Self {
-        ExprRuleset {
+        ExprRulesetAll {
             lhs: None,
             rhs: HashMap::new()
         }
@@ -121,9 +139,16 @@ impl Default for ExprRuleset {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct ExprSubstitutes {
+struct ExprSubstitutesAll {
     #[serde(default)]
     rhs: ArraySubstitutes
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ExprIndexAny {
+    #[serde(default)]
+    rule: Option<Rule>,
+    substitute: Substitute
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -161,26 +186,58 @@ fn make_variable(name: String) -> ast::AstNodeKind {
     })
 }
 
+fn generate_ambiguous_constant(names: &Vec<String>, i: i32) -> String {
+    let mut buf = Vec::new();
+    write!(&mut buf, "({} /*!!!@[", i).unwrap();
+    for (i, name) in names.iter().enumerate() {
+        write!(&mut buf, "{}", name).unwrap();
+        if i < names.len() - 1 {
+            write!(&mut buf, " @@@ ").unwrap();
+        }
+    }
+    write!(&mut buf, "]@!!! */)").unwrap();
+    std::str::from_utf8(buf.as_slice()).unwrap().to_string()
+}
+
 fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>) -> ast::AstNode {
-    let mut prevented = false;
+    let mut found = Vec::new();
+    let mut primary = None;
     for var in group.iter_resolved_variables() {
         if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
             if i == j as i32 {
                 if allow.map_or(false, |a| !a.contains(&var.name)) {
-                    prevented = true;
                     continue;
                 }
-                let kind = make_variable(var.name.clone());
-                return ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
+                found.push(var.name.clone());
+                if var.primary {
+                    primary = Some(var.name.clone());
+                    break;
+                }
             }
         }
     }
 
-    if prevented || group.ignore.contains(&ron::Value::Number(ron::value::Number::Integer(i.into()))) {
+    if found.len() > 0 {
+        let name = if found.len() > 1 {
+            if let Some(p) = primary {
+                p
+            } else {
+                println!("Ambiguous constant {} in group '{}'. Please correct manually.", i, group_name);
+                generate_ambiguous_constant(&found, i)
+            }
+        } else {
+            found.pop().unwrap()
+        };
+        let kind = make_variable(name);
+        return ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
+    }
+
+    if allow.is_some() || group.ignore.contains(&ron::Value::Number(ron::value::Number::Integer(i.into()))) {
         return exp;
     }
 
-    panic!("Could not find constant {} in group {}.", i, group_name)
+    println!("Could not find constant {} in group {}.", i, group_name);
+    exp
 }
 
 fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &HashSet<String>) -> bool {
@@ -201,7 +258,7 @@ fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &
                 _ => ()
             },
             ast::AstNodeKind::Variable(v) => match &v.ident.kind {
-                PrimitiveTokenKind::GlobalVariable(s) => if s == &var.name { return true; },
+                PrimitiveTokenKind::GlobalVariable(s) => { if s == &var.name { return true; } },
                 _ => (),
             },
             _ => ()
@@ -240,18 +297,62 @@ impl Visitor for GroupRecursiveFindVisitor {
 struct GroupRecursiveVisitor  {
     group: VariableGroup,
     group_name: String,
-    variants: Option<HashSet<String>>
+    variants: Option<HashSet<String>>,
+    condition: RecursiveCondition
 }
 
 impl VisitorMut for GroupRecursiveVisitor {
     fn visit_node(&mut self, mut node: ast::AstNode) -> ast::AstNode {
-        match &node.kind {
+        let n = node.clone();
+        match &mut node.kind {
             ast::AstNodeKind::Literal(lit) => match lit {
                 ast::LiteralNode::Integer(i) => {
-                    substitute_integer_constant(&self.group, &self.group_name, node.clone(), *i, self.variants.as_ref())
+                    substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref())
                 },
                 _ => visitor::visit_node_mut(self, node)
             },
+            ast::AstNodeKind::Expression(ref mut exp) => {
+                let proceed = if let ast::AstNodeKind::Literal(_) = &exp.lhs.kind {
+                    match &self.condition {
+                        RecursiveCondition::Any => true,
+                        RecursiveCondition::Lhs(reqop) => {
+                            if let Some(op) = &exp.op {
+                                &op.dict_value.name == reqop
+                            } else {
+                                false
+                            }
+                        },
+                        _ => false
+                    }
+                } else {
+                    true
+                };
+                if proceed {
+                    exp.lhs = Box::new(self.visit_node(*exp.lhs.clone()));
+                } 
+
+                if let Some(ref mut rhs) = &mut exp.rhs {
+                    let proceed = if let ast::AstNodeKind::Literal(_) = &rhs.kind {
+                        match &self.condition {
+                            RecursiveCondition::Any => true,
+                            RecursiveCondition::Rhs(reqop) => {
+                                if let Some(op) = &exp.op {
+                                    &op.dict_value.name == reqop
+                                } else {
+                                    false
+                                }
+                            },
+                            _ => false
+                        }
+                    } else {
+                        true
+                    };
+                    if proceed {
+                        *rhs = Box::new(self.visit_node(*rhs.clone()));
+                    }
+                }
+                node
+            }
             _ => visitor::visit_node_mut(self, node)
         }
     }
@@ -359,14 +460,14 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => ()
                 }
             },
-            Substitute::GroupRecursive(group_name) => {
+            Substitute::GroupRecursive(group_name, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: None };
+                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: None, condition: condition.clone() };
                 *exp = visitor.visit_node(exp.clone());
             },
-            Substitute::VariantRecursive(group_name, variants) => {
+            Substitute::VariantRecursive(group_name, variants, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: Some(variants.clone()) };
+                let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: Some(variants.clone()), condition: condition.clone() };
                 *exp = visitor.visit_node(exp.clone());
             },
             Substitute::XY2Pic => {
@@ -377,6 +478,11 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     },
                     _ => ()
                 }
+            },
+            Substitute::Multi(substs) => {
+                for subst in substs.iter() {
+                    self.substitute_array_index(exp, subst);
+                }
             }
         }
     }
@@ -384,7 +490,8 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     fn substitute_array_indices(&self, arg: &mut ast::ArgumentNode, substitute: &ArraySubstitutes) {
         for (index, subst) in substitute.iter() {
             if arg.exps.len() <= *index {
-                panic!("Wanted to substitute index {}, but there are only {} arguments.", index, arg.exps.len());
+                // panic!("Wanted to substitute index {}, but there are only {} arguments.", index, arg.exps.len());
+                continue;
             }
 
             self.substitute_array_index(&mut arg.exps[*index], subst);
@@ -404,7 +511,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn expr_index_matches(&self, lhs: &ast::AstNode, rhs: &ast::AstNode, rules: &ExprRuleset) -> bool {
+    fn expr_index_matches_all(&self, lhs: &ast::AstNode, rhs: &ast::AstNode, rules: &ExprRulesetAll) -> bool {
         if let Some(rule) = &rules.lhs {
             if !self.array_index_rule_matches(lhs, &rule) {
                 return false;
@@ -433,12 +540,59 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn substitute_expr_indices(&self, rhs: &mut ast::AstNode, substitute: &ExprSubstitutes) {
+    fn substitute_expr_indices_all(&self, rhs: &mut ast::AstNode, substitute: &ExprSubstitutesAll) {
         match &mut rhs.kind {
             ast::AstNodeKind::Argument(ref mut arg) => {
                 self.substitute_array_indices(arg, &substitute.rhs);
             },
             _ => self.substitute_array_index(rhs, substitute.rhs.get(&0).unwrap())
+        }
+    }
+
+    fn expr_index_matches_any(&self, rhs: &ast::AstNode, rule: &Option<Rule>) -> Vec<usize> {
+        let mut result = Vec::new();
+
+        match &rhs.kind {
+            ast::AstNodeKind::Argument(arg) => {
+                for (index, exp) in arg.exps.iter().enumerate() {
+                    if rule.as_ref().map_or(true, |r| self.array_index_rule_matches(&exp, &r)) {
+                        result.push(index);
+                    }
+                }
+            },
+            _ => if rule.as_ref().map_or(true, |r| self.array_index_rule_matches(&rhs, &r)) {
+                result.push(0);
+            }
+        }
+
+        result
+    }
+
+    fn substitute_expr_indices_any(&self, rhs: &mut ast::AstNode, matching_indices: &Vec<usize>, substitute: &Substitute) {
+        match &mut rhs.kind {
+            ast::AstNodeKind::Argument(ref mut arg) => {
+                for index in matching_indices.iter() {
+                    let exp = arg.exps.get_mut(*index).unwrap();
+                    self.substitute_array_index(exp, &substitute);
+                }
+            },
+            _ => if matching_indices.len() > 0 {
+                self.substitute_array_index(rhs, substitute)  
+            } 
+        }
+    }
+
+    fn match_expr_index(&self, a: &ast::AstNode, arg: &mut ast::AstNode, index: &ExprIndex) {
+        match &index {
+            ExprIndex::MatchAll(index) => {
+                if self.expr_index_matches_all(a, &arg, &index.rules) {
+                    self.substitute_expr_indices_all(arg, &index.substitute);
+                }
+            },
+            ExprIndex::MatchAny(index) => {
+                let matching_indices = self.expr_index_matches_any(&arg, &index.rule);
+                self.substitute_expr_indices_any(arg, &matching_indices, &index.substitute);
+            }
         }
     }
 }
@@ -470,9 +624,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
             if let Some(lhs_name) = self.get_variable_name(&node.var) {
                 if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
                     for index in expr_def.indices.iter() {
-                        if self.expr_index_matches(&node.var, &arg, &index.rules) {
-                            self.substitute_expr_indices(arg, &index.substitute);
-                        }
+                        self.match_expr_index(&node.var, arg, index);
                     }
                 }
             }
@@ -488,9 +640,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                     if let Some(lhs_name) = self.get_variable_name(&node.lhs) {
                         if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
                             for index in expr_def.indices.iter() {
-                                if self.expr_index_matches(&node.lhs, &rhs, &index.rules) {
-                                    self.substitute_expr_indices(rhs, &index.substitute);
-                                }
+                                self.match_expr_index(&node.lhs, rhs, index);
                             }
                         }
                     }
@@ -498,9 +648,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                     if let Some(rhs_name) = self.get_variable_name(rhs) {
                         if let Some(expr_def) = &self.config.expressions.get(&rhs_name) {
                             for index in expr_def.indices.iter() {
-                                if self.expr_index_matches(&rhs, &node.lhs, &index.rules) {
-                                    self.substitute_expr_indices(&mut node.lhs, &index.substitute);
-                                }
+                                self.match_expr_index(&rhs, &mut node.lhs, index);
                             }
                         }
                     }

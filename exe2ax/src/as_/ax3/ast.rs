@@ -11,6 +11,12 @@ pub trait AstPrintable<'a> {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error>;
 }
 
+impl<'a, T: AstPrintable<'a>> AstPrintable<'a> for Box<T> {
+    fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
+        (**self).print_code(f, tab_count, ctxt)
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct ProgramNode {
     pub block: AstNodeRef
