@@ -1232,7 +1232,7 @@ AnalysisConfig(
         ( name: "DB_RACE_BEHICLE", value: 76 ),
       ]
     ),
-    "animation": (
+    "animation_id": (
       variables: [
         ( name: "ANIMATION_BOLT", value: 0 ),
         ( name: "ANIMATION_ARROW", value: 1 ),
@@ -1276,6 +1276,7 @@ AnalysisConfig(
         ( name: "ANIMATION_UNISON_IMPACT2", value: 40 ),
         ( name: "ANIMATION_UNISON_IMPACT3", value: 41 ),
         ( name: "ANIMATION_UNISON_IMPACT4", value: 42 ),
+        ( name: "ANIMATION_SOLIDIFIED_VENOM", value: 43 ),
 
         ( name: "ANIMATION_UNUSED1", value: 108 ),
         ( name: "ANIMATION_UNUSED2", value: 109 ),
@@ -5949,12 +5950,14 @@ AnalysisConfig(
     ),
     "limits": (
       variables: [
-        ( name: "RANGE_PLAYER_PIC", value: "xy2pic(1, 2)", ),
+        ( name: "RANGE_PLAYER_PIC", value: 67, code_value: "xy2pic(1, 2)", ),
 
         ( name: "MAX_CDATAN", value: 10, ),
         ( name: "MAX_ITEMN", value: 6, ),
         ( name: "MAX_MDATAN", value: 2, ),
         ( name: "MAX_GDATAN", value: 50, ),
+
+        ( name: "MAX_DB", value: "1199", ),
       ]
     ),
     "skill_id": (
@@ -6017,7 +6020,7 @@ AnalysisConfig(
         ( name: "SKILL_RES_CHAOS", value: 59, ),
         ( name: "SKILL_RES_MAGIC", value: 60, ),
 
-        ( name: "MAX_SKILL_RESIST", value: 71, code_value: "SKILL_RES_MAGIC + 1", exclude: true ),
+        ( name: "MAX_SKILL_RESIST", value: 71, code_value: "SKILL_RES_MAGIC + 1" ),
       ]
     ),
     "skill_damage_resist": (
@@ -6029,13 +6032,19 @@ AnalysisConfig(
         ( name: "SKILL_RESDMG_CHESTNUT", value: 65, ),
         ( name: "SKILL_RESDMG_BRAIN", value: 66, ),
         ( name: "SKILL_RESDMG_TOFU", value: 67, ),
+
+        ( name: "MAX_SKILL_RESDMG", value: 68, code_value: "SKILL_RESDMG_TOFU + 1" ),
       ]
     ),
     "skill_all_resist": (
       includes: [
         "skill_resist",
         "skill_damage_resist",
-      ]
+      ],
+      variables: [
+        ( name: "SKILL_NONE", value: 0 ),
+      ],
+      ignore: [ 11, 200, 250, 300 ]
     ),
     "skill_weapon": (
       variables: [
@@ -6202,7 +6211,7 @@ AnalysisConfig(
     ),
     "skill_spact": (
       variables: [
-        ( name: "STARTING_SKILL_SPACT", value: 600, exclude: true ),
+        ( name: "STARTING_SKILL_SPACT", value: 600 ),
 
         ( name: "SKILL_SPACT_DRAIN_BLOOD", value: 601, ),
         ( name: "SKILL_SPACT_FIRE_BREATH", value: 602, ),
@@ -8040,6 +8049,15 @@ AnalysisConfig(
           }
         )
       ]
+    ),
+    "spact": (
+      indices: [
+        (
+          substitute: {
+            0: GroupRecursive("skill_spact", Any),
+          }
+        )
+      ]
     )
   },
 
@@ -8103,6 +8121,34 @@ AnalysisConfig(
         ))
       ]
     ),
+    "nocubl": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("item_status", Any) } )
+        ))
+      ]
+    ),
+    "animeid": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("animation_id", Any) } )
+        ))
+      ]
+    ),
+    "ele": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("skill_all_resist") } )
+        ))
+      ]
+    ),
+    "attackskill": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("skill_id") } )
+        ))
+      ]
+    ),
 
     // Arrays
 
@@ -8127,6 +8173,14 @@ AnalysisConfig(
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ATTACK_STYLE"]) })),
           substitute: (rhs: { 0: Group("wield_style") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_GOD"]) })),
+          substitute: (rhs: { 0: Group("god") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ELEMENT"]) })),
+          substitute: (rhs: { 0: GroupRecursive("skill_all_resist", Lhs("*")) })
         )),
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
@@ -8225,7 +8279,7 @@ AnalysisConfig(
     "atxid": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 1: Variant("atxid", ["ATXID_ATX_ID"]) }) ),
+          rules: ( lhs: Array({ 0: Variant("atxid", ["ATXID_ATX_ID"]) }) ),
           substitute: ( rhs: { 0: Group("atx") } )
         )),
       ]
@@ -8593,6 +8647,10 @@ AnalysisConfig(
               }
             )
         )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: VariantRecursive("rpdata", ["RPDATA_MAT"], Lhs("+")) }) ),
+          substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RF", "EXT_RP"], Any) } )
+        )),
       ]
     ),
     "rplistshop": (
@@ -8749,7 +8807,7 @@ AnalysisConfig(
     ),
     "sorg": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
@@ -9628,8 +9686,8 @@ AnalysisConfig(
     ),
     "txtgod": (
       args: {
-        0: (name: "godid", type: Int, indices: [ ( substitute: Group("god" )) ]),
-        1: (name: "flavor", type: Int),
+        0: (name: "godid", type: Int, indices: [ ( substitute: Group("god")) ]),
+        1: (name: "flavor", type: Int, indices: [ ( substitute: Group("god_text")) ]),
       }
     ),
     "create_pcpic": (
@@ -10164,7 +10222,7 @@ AnalysisConfig(
     "modgrowth": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "skillid", type: Int),
+        1: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         2: (name: "arg3", type: Int),
       }
     ),
@@ -10185,7 +10243,7 @@ AnalysisConfig(
     ),
     "skillexp": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "amount", type: Int),
         3: (name: "arg4", type: Int),
@@ -10696,7 +10754,7 @@ AnalysisConfig(
     "customtalk": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "dbmode", type: Int),
+        1: (name: "dbmode", type: Int, indices: [ ( substitute: Group("dbmode_flavor")) ]),
       }
     ),
     "findchara": (
@@ -10870,13 +10928,13 @@ AnalysisConfig(
     "findbuff": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "buffid", type: Int),
+        1: (name: "buffid", type: Int, indices: [ ( substitute: Group("buff_id")) ]),
       }
     ),
     "addbuff": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "buffid", type: Int),
+        1: (name: "buffid", type: Int, indices: [ ( substitute: Group("buff_id")) ]),
         2: (name: "arg3", type: Int),
         3: (name: "arg4", type: Int),
       }
@@ -10884,12 +10942,12 @@ AnalysisConfig(
     "delbuff": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "buffid", type: Int),
+        1: (name: "buffid", type: Int, indices: [ ( substitute: Group("buff_id")) ]),
       }
     ),
     "animeload": (
       args: {
-        0: (name: "arg1", type: Int),
+        0: (name: "animid", type: Int),
         1: (name: "arg2", type: Int),
       }
     ),
@@ -10934,8 +10992,8 @@ AnalysisConfig(
     "dmgcon": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "cond", type: Int),
-        2: (name: "arg3", type: Int),
+        1: (name: "cond", type: Int, indices: [ ( substitute: Group("condition")) ]),
+        2: (name: "power", type: Int),
       }
     ),
     "healhp": (

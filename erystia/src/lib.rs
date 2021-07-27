@@ -855,6 +855,10 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
     }
 }
 
+struct TxtUnrollVisitor {
+
+}
+
 fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<VariableDefinition> {
     let mut result = Vec::new();
 
