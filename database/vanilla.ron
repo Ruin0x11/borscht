@@ -637,6 +637,7 @@ AnalysisConfig(
     ),
     "enchant_ammo": (
       variables: [
+        ( name: "ENCHANT_AMMO_NONE", value: -1 ),
         ( name: "ENCHANT_AMMO_RAPID", value: 0 ),
         ( name: "ENCHANT_AMMO_EXPLOSIVE", value: 1 ),
         ( name: "ENCHANT_AMMO_PIERCING", value: 2 ),
@@ -1123,6 +1124,7 @@ AnalysisConfig(
         ( name: "FILTER_CARGO_TRADE", value: 92000 ),
 
         ( name: "FILTER_NONE", value: 99999 ),
+        ( name: "FILTER_NONE2", value: 99999999 ),
       ]
     ),
     "race": (
@@ -1571,7 +1573,7 @@ AnalysisConfig(
       variables: [
         ( name: "MAX_AREA_COUNT", value: 500 ),
         ( name: "MAX_AREA_OLD", value: 200 ),
-        ( name: "MAX_AREA_DATA", value: 40 ),
+        ( name: "MAX_AREA_DATA", value: 40, exclude: true ),
         ( name: "STARTING_USER_AREA", value: 300 ),
         ( name: "STARTING_RANDOM_AREA", value: 450 ),
         ( name: "STARTING_USER_AREA_OLD", value: 100 ),
@@ -5989,6 +5991,12 @@ AnalysisConfig(
         ( name: "SKILL_RESDMG_TOFU", value: 67, ),
       ]
     ),
+    "skill_all_resist": (
+      includes: [
+        "skill_resist",
+        "skill_damage_resist",
+      ]
+    ),
     "skill_weapon": (
       variables: [
         ( name: "STARTING_SKILL_WEAPON", value: 100, exclude: true ),
@@ -7510,7 +7518,7 @@ AnalysisConfig(
           substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"], Any) }
         ),
         (
-          rules: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"]) },
+          rules: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"], Any) },
           substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF", "ARRAY_CDATA_BUFF"], Any) }
         ),
         (
@@ -8102,11 +8110,41 @@ AnalysisConfig(
           )
         )),
         MatchAny((
-          rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"]),
-          substitute: GroupRecursive("enchant_proc_id", Any),
+          rule: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")),
+          substitute: GroupRecursive("skill_attribute", Rhs("+")),
+        )),
+        MatchAny((
+          rule: VariantRecursive("enchant_id", ["ENCHANT_RESISTANCE", "ENCHANT_ELEMENTAL_DMG"], Lhs("*")),
+          substitute: GroupRecursive("skill_all_resist", Rhs("+")),
+        )),
+        MatchAny((
+          rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"], Lhs("*")),
+          substitute: GroupRecursive("enchant_proc_id", Rhs("+")),
+        )),
+        MatchAny((
+          rule: VariantRecursive("enchant_id", ["ENCHANT_SKILL"], Lhs("*")),
+          substitute: GroupRecursive("skill_id", Rhs("+")),
+        )),
+        MatchAny((
+          rule: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")),
+          substitute: GroupRecursive("skill_spell", Rhs("+")),
+        )),
+      ]
+    ),
+    "ammoproc": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("enchant_ammo") } )
         ))
       ]
-    )
+    ),
+    "amp": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("enchant_ammo") } )
+        ))
+      ]
+    ),
   },
 
   functions: {

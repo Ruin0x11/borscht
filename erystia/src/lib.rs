@@ -68,7 +68,7 @@ enum Rule {
     Any,
     InGroup(String),
     Variant(GroupName, HashSet<String>),
-    VariantRecursive(GroupName, HashSet<String>),
+    VariantRecursive(GroupName, HashSet<String>, RecursiveCondition),
     Array(ArrayRules),
     Expr
 }
@@ -236,8 +236,7 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
         return exp;
     }
 
-    println!("Could not find constant {} in group {}.", i, group_name);
-    exp
+    panic!("Could not find constant {} in group {}.", i, group_name)
 }
 
 fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &HashSet<String>) -> bool {
@@ -281,15 +280,72 @@ struct GroupRecursiveFindVisitor  {
     group: VariableGroup,
     group_name: String,
     variants: HashSet<String>,
+    condition: RecursiveCondition,
     found: bool
 }
 
 impl Visitor for GroupRecursiveFindVisitor {
     fn visit_node(&mut self, node: &ast::AstNode) {
-        if expression_has_variant(node, &self.group, &self.variants) {
-            self.found = true
-        } else {
-            visitor::visit_node(self, node);
+        match &node.kind {
+            ast::AstNodeKind::Literal(lit) => match lit {
+                ast::LiteralNode::Integer(_) => {
+                    if expression_has_variant(node, &self.group, &self.variants) {
+                        self.found = true
+                    }
+                },
+                _ => visitor::visit_node(self, node)
+            },
+            ast::AstNodeKind::Variable(_) => {
+                if expression_has_variant(node, &self.group, &self.variants) {
+                    self.found = true
+                } else {
+                    visitor::visit_node(self, node)
+                }
+            },
+            ast::AstNodeKind::Expression(ref exp) => {
+                let proceed = if let ast::AstNodeKind::Literal(_) = &exp.lhs.kind {
+                    match &self.condition {
+                        RecursiveCondition::Any => true,
+                        RecursiveCondition::Lhs(reqop) => {
+                            if let Some(op) = &exp.op {
+                                &op.dict_value.name == reqop
+                            } else {
+                                false
+                            }
+                        },
+                        _ => false
+                    }
+                } else {
+                    true
+                };
+                if proceed {
+                    println!("LHS {:?}", exp.lhs);
+                    self.visit_node(&exp.lhs);
+                }
+
+                if let Some(ref rhs) = &exp.rhs {
+                    let proceed = if let ast::AstNodeKind::Literal(_) = &rhs.kind {
+                        match &self.condition {
+                            RecursiveCondition::Any => true,
+                            RecursiveCondition::Rhs(reqop) => {
+                                if let Some(op) = &exp.op {
+                                    &op.dict_value.name == reqop
+                                } else {
+                                    false
+                                }
+                            },
+                            _ => false
+                        }
+                    } else {
+                        true
+                    };
+                    if proceed {
+                        println!("RHS {:?}", exp.rhs);
+                        self.visit_node(&rhs);
+                    }
+                }
+            },
+            _ => visitor::visit_node(self, node)
         }
     }
 }
@@ -406,9 +462,10 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
                 expression_has_variant(exp, &group, &variants)
             },
-            Rule::VariantRecursive(group_name, variants) => {
+            Rule::VariantRecursive(group_name, variants, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
-                let mut visitor = GroupRecursiveFindVisitor { group: group.clone(), group_name: group_name.clone(), variants: variants.clone(), found: false };
+                println!("REC {}", self.hsp3as.print_ast_node(exp).unwrap());
+                let mut visitor = GroupRecursiveFindVisitor { group: group.clone(), group_name: group_name.clone(), variants: variants.clone(), found: false, condition: condition.clone() };
                 visitor.visit_node(&exp);
                 visitor.found
             },
@@ -462,6 +519,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Substitute::GroupRecursive(group_name, condition) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                println!("{}", self.hsp3as.print_ast_node(exp).unwrap());
                 let mut visitor = GroupRecursiveVisitor { group: group.clone(), group_name: group_name.clone(), variants: None, condition: condition.clone() };
                 *exp = visitor.visit_node(exp.clone());
             },
