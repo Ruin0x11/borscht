@@ -51,13 +51,36 @@ impl VariableGroup {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct VariableDefinition {
+    /// Name of the variable to be used in the replacement. (`CDATA_ID`)
     name: String,
+
+    /// Constant literal value to be searched for in the code, usually an
+    /// integer. (`27`)
     value: ron::Value,
+
+    /// Source code to output when writing the definition of the variable to a
+    /// file.
+    ///
+    /// This is used for constants like `252`, which should actually resolve to
+    /// `GDATA_FLAG_VISITED_LARNA = (STARTING_GDATA_FLAG + 2)` in the source
+    /// code.
+    ///
+    /// The two expressions must be equivalent in HSP, or it is programmer
+    /// error.
     #[serde(default)]
     code_value: Option<String>,
+
+    /// Exclude this variant from being considered in group rules or
+    /// substitutions, but still output it when the source code is written.
     #[serde(default)]
     exclude: bool,
 
+    /// If true, and there is more than one variable with the same value, this
+    /// variable will be used instead of outputting an ambiguous variable
+    /// comment.
+    ///
+    /// There can only be at most one variable with `primary` set to true among
+    /// variables with the same value.
     #[serde(default)]
     primary: bool
 }
@@ -67,31 +90,112 @@ type ArraySubstitutes = HashMap<usize, Substitute>;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum Rule {
+    /// Matches anything.
     Any,
+
+    /// Matches a constant or named variant in a group.
+    ///
+    /// `InGroup("cdata")` matches `32` and the variable name
+    /// `CDATA_ATTACK_STYLE`.
     InGroup(String),
+
+    /// Matches an integer constant.
     Constant(i32),
+
+    /// Matches if any of the given variants in the group are found.
+    ///
+    /// `Variant("cdata", ["CDATA_PIC", "CDATA_PIC_ORG"])` matches `7`, `95`,
+    /// `CDATA_PIC` and `CDATA_PIC_ORG`
     Variant(GroupName, HashSet<String>),
+
+    /// Matches if any of the given variants in the group are found somewhere in
+    /// the node or its children.
+    ///
+    /// This is for matching things like `(8 * 10000 + 4)`, meaning
+    /// `(ENCHANT_PROC * EXT_ENCHANT + ENCHANT_PROC_CHAOS_BALL.)`
+    ///
+    /// The `RecursiveCondition` is for specifying where in the expression
+    /// should count as a match. For example, Lhs("*") would match the `8` to
+    /// the left hand side of `8 * 10000`. This same logic also applies to the
+    /// substitution rules.
+    ///
+    /// In the above expression, `VariantRecursive("enchant_id", ["ENCHANT_PROC"],
+    /// Lhs("*"))` would match.
     VariantRecursive(GroupName, HashSet<String>, RecursiveCondition),
+
+    /// Matches if the node looks like a flag, e.g. `(X + Y)`.
+    ///
+    /// Hackish workaround for expressions like `(250 + 4)`, which is supposed
+    /// to be the constant `GDATA_FLAG_MAIN_SAGE`, where the terms are combined.
+    Flag,
+
+    /// Matches if the node is a variable, like `cc` or `cdata(0)`.
     Variable,
+
+    /// Matches if the index or function arguments in the node all match.
+    ///
+    /// `Array({0: Variant("cdata", ["CDATA_ID"])})` matches the expression
+    /// `cdata(27, cc)`.
     Array(ArrayRules),
+
+    /// Matches if the node is an expression like `(8 + 16)`, and not if it's a
+    /// constant literal like `8`.
     Expr
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 enum RecursiveCondition {
+    /// The constant can be anywhere in the expression.
     Any,
-    Rhs(String),
+
+    /// The constant must be to the left hand side or in the unary position of
+    /// an expression with the specified operator ("+", "-", etc.)
     Lhs(String),
+
+    /// The constant must be to the right hand side of an expression with the
+    /// specified operator ("+", "-", etc.)
+    Rhs(String),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum Substitute {
+    /// Replace constant literals with the corresponding constant names found in
+    /// this group.
+    ///
+    /// `Group("cdata")` replaces `27` with `CDATA_ID`.
     Group(GroupName),
+
+    /// Replace constant literals with the corresponding constant names found in
+    /// this group, recursively.
+    ///
+    /// `Group("cdata", Lhs("+"))` replaces `(100 + 100)` with
+    /// `(CDATA_STARTING_EQUIP_SLOTS + 100)`.
     GroupRecursive(GroupName, RecursiveCondition),
+
+    /// Replace constant literals with the specific variants from this group,
+    /// recursively.
+    ///
+    /// `VariantRecursive("cdata", ["CDATA_STARTING_EQUIP_SLOTS"], Lhs("+"))`
+    /// replaces `(100 + 100)` with `(CDATA_STARTING_EQUIP_SLOTS + 100)`, but
+    /// leaves `(100 * 100)` unchanged.
     VariantRecursive(GroupName, HashSet<String>, RecursiveCondition),
+
+    /// Replaces an integer constant with a call to `xy2pic(x, y)`.
+    ///
+    /// The formula is (i / 33, i % 33).
+    ///
+    /// `XY2Pic` replaces `67` with `xy2pic(2, 1)`.
     #[allow(non_snake_case)]
     XY2Pic,
-    Multi(Vec<Substitute>)
+
+    /// Runs each of the replacements in the specified order.
+    Multi(Vec<Substitute>),
+
+    /// Replaces flag expressions with the corresponding constant names from
+    /// this group.
+    ///
+    /// Flag("gdata") replaces `(250 + 3)` with `(GDATA_FLAG_MAIN_FOOL)`.
+    Flag(GroupName),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -213,7 +317,7 @@ fn generate_ambiguous_constant(names: &Vec<String>, i: i32) -> String {
     std::str::from_utf8(buf.as_slice()).unwrap().to_string()
 }
 
-fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>) -> ast::AstNode {
+fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>, errors: &mut Vec<String>) -> ast::AstNode {
     let mut found = Vec::new();
     let mut primary = None;
     for var in group.iter_resolved_variables() {
@@ -250,7 +354,8 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
         return exp;
     }
 
-    panic!("Could not find constant {} in group {}.", i, group_name)
+    errors.push(format!("Could not find constant {} in group {}.", i, group_name));
+    exp
 }
 
 fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &HashSet<String>) -> bool {
@@ -365,15 +470,16 @@ impl Visitor for GroupRecursiveFindVisitor {
     }
 }
 
-struct GroupRecursiveVisitor  {
+struct GroupRecursiveVisitor<'a>  {
     group: VariableGroup,
     group_name: String,
     variants: Option<HashSet<String>>,
     condition: RecursiveCondition,
-    stack: Vec<RecursiveCondition>
+    stack: Vec<RecursiveCondition>,
+    errors: &'a mut Vec<String>
 }
 
-impl VisitorMut for GroupRecursiveVisitor {
+impl<'a> VisitorMut for GroupRecursiveVisitor<'a> {
     fn visit_node(&mut self, mut node: ast::AstNode) -> ast::AstNode {
         let n = node.clone();
         match &mut node.kind {
@@ -384,7 +490,7 @@ impl VisitorMut for GroupRecursiveVisitor {
                         x => self.stack.last().map_or(false, |c| x == c)
                     };
                     if proceed {
-                        substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref())
+                        substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref(), self.errors)
                     } else {
                         node
                     }
@@ -436,6 +542,7 @@ struct ConstantSubstitutionVisitor<'a> {
     config: &'a AnalysisConfig,
     hsp3as: &'a Hsp3As,
     visiting_function: Option<(FunctionDefinition, String)>,
+    errors: Vec<String>
 }
 
 impl<'a> ConstantSubstitutionVisitor<'a> {
@@ -507,6 +614,23 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 ast::AstNodeKind::Variable(var) => var.arg.is_none(),
                 _ => false
             },
+            Rule::Flag => match &exp.kind {
+                ast::AstNodeKind::Expression(exp) => {
+                    if let Some(rhs) = &exp.rhs {
+                        if let Some(op) = &exp.op {
+                            if op.dict_value.name == "+" {
+                                if matches!(&exp.lhs.kind, ast::AstNodeKind::Literal(_))
+                                    && matches!(&rhs.kind, ast::AstNodeKind::Literal(_))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    false
+                },
+                _ => false
+            },
             Rule::Array(array_rules) => {
                 match &exp.kind {
                     ast::AstNodeKind::Variable(var) => {
@@ -556,13 +680,13 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         *exp = ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
     }
 
-    fn substitute_array_index(&self, exp: &mut ast::AstNode, subst: &Substitute) {
+    fn substitute_array_index(&mut self, exp: &mut ast::AstNode, subst: &Substitute) {
         match subst {
             Substitute::Group(group_name) => {
                 let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
-                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, None),
+                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, None, &mut self.errors),
                         _ => ()
                     },
                     _ => ()
@@ -575,7 +699,8 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     group_name: group_name.clone(),
                     variants: None,
                     condition: condition.clone(),
-                    stack: Vec::new()
+                    stack: Vec::new(),
+                    errors: &mut self.errors
                 };
                 *exp = visitor.visit_node(exp.clone());
             },
@@ -586,7 +711,8 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     group_name: group_name.clone(),
                     variants: Some(variants.clone()),
                     condition: condition.clone(),
-                    stack: Vec::new()
+                    stack: Vec::new(),
+                    errors: &mut self.errors
                 };
                 *exp = visitor.visit_node(exp.clone());
             },
@@ -599,6 +725,28 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => ()
                 }
             },
+            Substitute::Flag(group_name) => {
+                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+
+                let mut flag = None;
+                if let ast::AstNodeKind::Expression(exp) = &exp.kind {
+                    let rhs = exp.rhs.as_ref().expect("Flag expression does not have a right hand side.");
+                    if let ast::AstNodeKind::Literal(ast::LiteralNode::Integer(lhs_i)) = &exp.lhs.kind {
+                        if let ast::AstNodeKind::Literal(ast::LiteralNode::Integer(rhs_i)) = rhs.kind {
+                            flag = Some(lhs_i + rhs_i);
+                        }
+                    }
+                }
+
+                match flag {
+                    Some(flag) => {
+                        *exp = substitute_integer_constant(&group, &group_name, exp.clone(), flag, None, &mut self.errors);
+                    },
+                    None => {
+                        panic!("Expression does not look like a flag: {}", self.hsp3as.print_ast_node(exp).unwrap());
+                    }
+                }
+            },
             Substitute::Multi(substs) => {
                 for subst in substs.iter() {
                     self.substitute_array_index(exp, subst);
@@ -607,7 +755,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn substitute_array_indices(&self, arg: &mut ast::ArgumentNode, substitute: &ArraySubstitutes) {
+    fn substitute_array_indices(&mut self, arg: &mut ast::ArgumentNode, substitute: &ArraySubstitutes) {
         for (index, subst) in substitute.iter() {
             if arg.exps.len() <= *index {
                 // panic!("Wanted to substitute index {}, but there are only {} arguments.", index, arg.exps.len());
@@ -661,7 +809,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn substitute_expr_indices_all(&self, rhs: &mut ast::AstNode, substitute: &ExprSubstitutesAll) {
+    fn substitute_expr_indices_all(&mut self, rhs: &mut ast::AstNode, substitute: &ExprSubstitutesAll) {
         match &mut rhs.kind {
             ast::AstNodeKind::Argument(ref mut arg) => {
                 self.substitute_array_indices(arg, &substitute.rhs);
@@ -691,7 +839,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         result
     }
 
-    fn substitute_expr_indices_any(&self, rhs: &mut ast::AstNode, matching_indices: &Vec<usize>, substitute: &Substitute) {
+    fn substitute_expr_indices_any(&mut self, rhs: &mut ast::AstNode, matching_indices: &Vec<usize>, substitute: &Substitute) {
         match &mut rhs.kind {
             ast::AstNodeKind::Argument(ref mut arg) => {
                 for index in matching_indices.iter() {
@@ -705,7 +853,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn match_expr_index(&self, a: &ast::AstNode, arg: &mut ast::AstNode, index: &ExprIndex) {
+    fn match_expr_index(&mut self, a: &ast::AstNode, arg: &mut ast::AstNode, index: &ExprIndex) {
         match &index {
             ExprIndex::MatchAll(index) => {
                 if self.expr_index_matches_all(a, &arg, &index.rules) {
@@ -914,6 +1062,10 @@ struct TxtUnrollVisitor {
 
 }
 
+struct ChatListUnrollVisitor {
+
+}
+
 fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<VariableDefinition> {
     let mut result = Vec::new();
 
@@ -930,6 +1082,8 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
 pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     let file = File::open("database/vanilla.ron")?;
     let mut config: AnalysisConfig = ron::de::from_reader(file)?;
+
+    let strict = true;
 
     let mut resolved_vars = HashMap::new();
     for (name, group) in config.variable_groups.iter() {
@@ -960,7 +1114,29 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             config: &config,
             hsp3as: &hsp3as,
             visiting_function: None,
+            errors: Vec::new()
         };
+
+        let node = visitor.visit_node(node);
+
+        if strict && visitor.errors.len() > 0 {
+            for error in visitor.errors.iter() {
+                println!("Error: {}", error);
+            }
+            panic!("Errors occurred.");
+        }
+
+        node
+    };
+
+    let node = {
+        let mut visitor = TxtUnrollVisitor {};
+
+        visitor.visit_node(node)
+    };
+
+    let node = {
+        let mut visitor = ChatListUnrollVisitor {};
 
         visitor.visit_node(node)
     };

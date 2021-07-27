@@ -2715,7 +2715,7 @@ AnalysisConfig(
         ( name: "GDATA_SPINDLE_COMBINATION", value: 198 ),
         ( name: "GDATA_SPEEDSUM_RESET", value: 199 ),
 
-        ( name: "STARTING_GDATA_HELP", value: 200, exclude: true ),
+        ( name: "STARTING_GDATA_HELP", value: 200 ),
 
         ( name: "STARTING_GDATA_FLAG", value: 250, exclude: true ),
         (
@@ -3386,6 +3386,11 @@ AnalysisConfig(
         ),
 
         (
+          name: "GDATA_FLAG_SUB_NINE_HEAD_DRAGON", // Has no journal name.
+          value: 525,
+          code_value: "STARTING_GDATA_FLAG + 275"
+        ),
+        (
           name: "GDATA_FLAG_GOD_REWARD_LULWY",
           value: 526,
           code_value: "STARTING_GDATA_FLAG + 276"
@@ -3600,7 +3605,31 @@ AnalysisConfig(
           value: 568,
           code_value: "STARTING_GDATA_FLAG + 318"
         ),
-
+        (
+          name: "GDATA_FLAG_ENCOUNTER_LARNNEIRE_IN_ULM_LESON",
+          value: 569,
+          code_value: "STARTING_GDATA_FLAG + 319"
+        ),
+        (
+          name: "GDATA_FLAG_ENCOUNTER_HALION_IN_RUOZA",
+          value: 570,
+          code_value: "STARTING_GDATA_FLAG + 320"
+        ),
+        (
+          name: "GDATA_FLAG_TALK_RYUTYE",
+          value: 571,
+          code_value: "STARTING_GDATA_FLAG + 321"
+        ),
+        (
+          name: "GDATA_FLAG_INFORMER_BIRTHDAY_MONTH",
+          value: 572,
+          code_value: "STARTING_GDATA_FLAG + 322"
+        ),
+        (
+          name: "GDATA_FLAG_INFORMER_BIRTHDAY_DAY",
+          value: 573,
+          code_value: "STARTING_GDATA_FLAG + 323"
+        ),
         (
           name: "GDATA_FLAG_MAIN_CHAOS_CRADLE_30",
           value: 574,
@@ -3611,13 +3640,161 @@ AnalysisConfig(
           value: 575,
           code_value: "STARTING_GDATA_FLAG + 325"
         ),
-
+        (
+          name: "GDATA_FLAG_ZISILION_SIDEQUEST",
+          value: 576,
+          code_value: "STARTING_GDATA_FLAG + 326"
+        ),
+        (
+          name: "GDATA_FLAG_BIRTHDAY_CURRENT_YEAR",
+          value: 577,
+          code_value: "STARTING_GDATA_FLAG + 327"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_ID",
+          value: 578,
+          code_value: "STARTING_GDATA_FLAG + 328"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_LEVEL",
+          value: 579,
+          code_value: "STARTING_GDATA_FLAG + 329"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_STATE",
+          value: 580,
+          code_value: "STARTING_GDATA_FLAG + 330"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_1",
+          value: 581,
+          code_value: "STARTING_GDATA_FLAG + 331"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_2",
+          value: 582,
+          code_value: "STARTING_GDATA_FLAG + 332"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_3",
+          value: 583,
+          code_value: "STARTING_GDATA_FLAG + 333"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_4",
+          value: 584,
+          code_value: "STARTING_GDATA_FLAG + 334"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_ITEM_1",
+          value: 585,
+          code_value: "STARTING_GDATA_FLAG + 335"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_ITEM_2",
+          value: 586,
+          code_value: "STARTING_GDATA_FLAG + 336"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_ITEM_3",
+          value: 587,
+          code_value: "STARTING_GDATA_FLAG + 337"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_ITEM_4",
+          value: 588,
+          code_value: "STARTING_GDATA_FLAG + 338"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_1",
+          value: 589,
+          code_value: "STARTING_GDATA_FLAG + 339"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_2",
+          value: 590,
+          code_value: "STARTING_GDATA_FLAG + 340"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_3",
+          value: 591,
+          code_value: "STARTING_GDATA_FLAG + 341"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_4",
+          value: 592,
+          code_value: "STARTING_GDATA_FLAG + 342"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_1",
+          value: 593,
+          code_value: "STARTING_GDATA_FLAG + 343"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_2",
+          value: 594,
+          code_value: "STARTING_GDATA_FLAG + 344"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_3",
+          value: 595,
+          code_value: "STARTING_GDATA_FLAG + 345"
+        ),
+        (
+          name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_4",
+          value: 596,
+          code_value: "STARTING_GDATA_FLAG + 346"
+        ),
         (
           name: "GDATA_FLAG_RARE_DROP",
           value: 597,
           code_value: "STARTING_GDATA_FLAG + 347"
         ),
-
+        (
+          name: "GDATA_FLAG_ACTION_TALON_SOLDIER",
+          value: 598,
+          code_value: "STARTING_GDATA_FLAG + 348"
+        ),
+        (
+          name: "GDATA_FLAG_REALTIME_MINUTES",
+          value: 599,
+          code_value: "STARTING_GDATA_FLAG + 349"
+        ),
+        (
+          name: "GDATA_FLAG_REALTIME_HOURS",
+          value: 600,
+          code_value: "STARTING_GDATA_FLAG + 350"
+        ),
+        (
+          name: "GDATA_FLAG_REALTIME_DAYS",
+          value: 601,
+          code_value: "STARTING_GDATA_FLAG + 351"
+        ),
+        (
+          name: "GDATA_FLAG_MAIN_SOPHIA_THE_WISE",
+          value: 602,
+          code_value: "STARTING_GDATA_FLAG + 352"
+        ),
+        (
+          name: "GDATA_FLAG_NEFIA_FEVER_ACTIVE",
+          value: 603,
+          code_value: "STARTING_GDATA_FLAG + 353"
+        ),
+        (
+          name: "GDATA_FLAG_NEFIA_FEVER_MONTH",
+          value: 604,
+          code_value: "STARTING_GDATA_FLAG + 354"
+        ),
+        (
+          name: "GDATA_FLAG_NEFIA_FEVER_HOURS_REMAINING",
+          value: 605,
+          code_value: "STARTING_GDATA_FLAG + 355"
+        ),
+        (
+          name: "GDATA_FLAG_NEFIA_DIARIES_READ_FOR_FOX_BROTHER",
+          value: 606,
+          code_value: "STARTING_GDATA_FLAG + 356"
+        ),
         (
           name: "GDATA_FLAG_SUB_ARASIEL_OF_THE_SANDSTORM",
           value: 607,
@@ -3628,25 +3805,117 @@ AnalysisConfig(
           value: 608,
           code_value: "STARTING_GDATA_FLAG + 358"
         ),
-
+        (
+          name: "GDATA_FLAG_TAX_PREPAID_BALANCE",
+          value: 609,
+          code_value: "STARTING_GDATA_FLAG + 359"
+        ),
+        (
+          name: "GDATA_FLAG_ENTHUMESIS_SPAWNED",
+          value: 610,
+          code_value: "STARTING_GDATA_FLAG + 360"
+        ),
+        (
+          name: "GDATA_FLAG_ASSASSIN_EVENTS_FOR_ALSAPIA_GILPHEM",
+          value: 611,
+          code_value: "STARTING_GDATA_FLAG + 361"
+        ),
+        (
+          name: "GDATA_FLAG_SKILL_TICKET_LEVEL_UPS",
+          value: 612,
+          code_value: "STARTING_GDATA_FLAG + 362"
+        ),
+        (
+          name: "GDATA_FLAG_SKILL_TICKET_PREVIOUS_AMOUNT",
+          value: 613,
+          code_value: "STARTING_GDATA_FLAG + 363"
+        ),
         (
           name: "GDATA_FLAG_SMOKING_FREQUENCY",
           value: 614,
           code_value: "STARTING_GDATA_FLAG + 364"
         ),
-
+        (
+          name: "GDATA_FLAG_MUSEUM_UNIQUE_LEVEL",
+          value: 615,
+          code_value: "STARTING_GDATA_FLAG + 365"
+        ),
+        (
+          name: "GDATA_FLAG_CHAOS_CHILD_FORGET",
+          value: 616,
+          code_value: "STARTING_GDATA_FLAG + 366"
+        ),
+        (
+          name: "GDATA_FLAG_BETHEL_THE_WHITE_HAWK_SPAWNED",
+          value: 617,
+          code_value: "STARTING_GDATA_FLAG + 367"
+        ),
+        (
+          name: "GDATA_FLAG_HAMBURGERS_CREATED_FOR_ANGRY_BURGER",
+          value: 618,
+          code_value: "STARTING_GDATA_FLAG + 368"
+        ),
+        (
+          name: "GDATA_FLAG_SUB_DOROTHIA_STANDING_IN_THE_WETLAND",
+          value: 619,
+          code_value: "STARTING_GDATA_FLAG + 369"
+        ),
+        (
+          name: "GDATA_FLAG_SUB_GRAVEED_THE_GRAVITY_VALLEY",
+          value: 620,
+          code_value: "STARTING_GDATA_FLAG + 370"
+        ),
+        (
+          name: "GDATA_FLAG_SUB_BEILGENA_THE_ARTIFICIAL_DRAGON",
+          value: 621,
+          code_value: "STARTING_GDATA_FLAG + 371"
+        ),
+        (
+          name: "GDATA_FLAG_FLESH_DOLL_LOOT_SPAWN",
+          value: 622,
+          code_value: "STARTING_GDATA_FLAG + 372"
+        ),
+        (
+          name: "GDATA_FLAG_ANTIEXPLOIT_GRAND_FINALE",
+          value: 623,
+          code_value: "STARTING_GDATA_FLAG + 373"
+        ),
         (
           name: "GDATA_FLAG_SUB_RESEARCH_DESTRUCTION_CRISIS",
           value: 624,
           code_value: "STARTING_GDATA_FLAG + 374"
         ),
-
+        (
+          name: "GDATA_FLAG_ENCOUNTER_CANCELLER_DISTANCE_REMAINING",
+          value: 625,
+          code_value: "STARTING_GDATA_FLAG + 375"
+        ),
+        (
+          name: "GDATA_FLAG_DATE_OF_LAST_BREAKFAST",
+          value: 626,
+          code_value: "STARTING_GDATA_FLAG + 376"
+        ),
         (
           name: "GDATA_FLAG_SUB_KARAVIKA_OF_SONG_AND_DANCE",
           value: 627,
           code_value: "STARTING_GDATA_FLAG + 377"
         ),
 
+        (
+          name: "GDATA_FLAG_MINEFIELD_QUEST_LEVEL",
+          value: 629,
+          code_value: "STARTING_GDATA_FLAG + 379"
+        ),
+        (
+          name: "GDATA_FLAG_PET_ANNIVERSARY_ACTIVE",
+          value: 630,
+          code_value: "STARTING_GDATA_FLAG + 379"
+        ),
+        (
+          name: "GDATA_FLAG_BOMB_BARRELS_EXPLODED",
+          value: 631,
+          code_value: "STARTING_GDATA_FLAG + 381"
+        ),
         (
           name: "GDATA_FLAG_LEOLD_JOB_TIER",
           value: 632,
@@ -7756,8 +8025,20 @@ AnalysisConfig(
     "gdata": (
       indices: [
         (
+          rules: { 0: VariantRecursive("gdata", ["STARTING_GDATA_HELP"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("gdata", ["STARTING_GDATA_HELP"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: VariantRecursive("gdata", ["STARTING_GDATA_SHORTCUT"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("gdata", ["STARTING_GDATA_SHORTCUT"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: Flag },
+          substitute: { 0: Flag("gdata") }
+        ),
+        (
           substitute: { 0: Group("gdata") }
-        )
+        ),
       ]
     ),
     "gdatan": (
@@ -8221,7 +8502,7 @@ AnalysisConfig(
           substitute: (rhs: { 0: Group("chara_tier") })
         )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_TIER"]) })),
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_FORM"]) })),
           substitute: (rhs: { 0: Group("shift_form") })
         )),
         MatchAll((
@@ -8340,10 +8621,11 @@ AnalysisConfig(
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
           substitute: ( rhs: { 0: Group("weather") } )
         )),
+
         MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
           substitute: ( rhs: { 0: Group("gamemode") } )
-        ))
+        )),
       ]
     ),
     "chipm": (
