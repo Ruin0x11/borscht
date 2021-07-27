@@ -2038,15 +2038,28 @@ AnalysisConfig(
         ( name: "DIRECTIVE_MODE_TALKING", value: 3 ),
       ]
     ),
-    "chara": (
+    "inv_id": (
+      includes: [
+        "chara"
+      ],
       variables: [
         ( name: "INV_GROUND", value: -1 ),
+      ]
+    ),
+    "chara": (
+      variables: [
         ( name: "CHARA_PLAYER", value: 0 ),
         ( name: "CHARA_TEMPORARY", value: 56 ),
-        (
-          name: "CHARA_TEMPORARY2",
-          value: 57
-        )
+        ( name: "CHARA_TEMPORARY2", value: 57 ),
+
+        ( name: "MAX_CHARA_NULL", value: 1, ),
+        ( name: "MAX_CHARA_ADVENTURER", value: 39, code_value: "40 - MAX_CHARA_NULL", ),
+        ( name: "MAX_CHARA_FOLLOWER", value: 16, ),
+        ( name: "MAX_CHARA_ALLY", value: 8, ),
+        ( name: "MAX_CHARA_SAVE", value: 57, code_value: "MAX_CHARA_FOLLOWER + MAX_CHARA_ADVENTURER + 1 + MAX_CHARA_NULL" ),
+        ( name: "MAX_CHARA_NC", value: 56, code_value: "MAX_CHARA_SAVE - MAX_CHARA_NULL" ),
+        ( name: "MAX_CHARA_TOTAL", value: 245, ),
+        ( name: "MAX_CHARA_DATA", value: 500, ),
       ],
     ),
     "cdata": (
@@ -5907,16 +5920,6 @@ AnalysisConfig(
       variables: [
         ( name: "RANGE_PLAYER_PIC", value: "xy2pic(1, 2)", ),
 
-        // Data limits
-        ( name: "MAX_CHARA_NULL", value: 1, ),
-        ( name: "MAX_CHARA_ADVENTURER", value: 39, code_value: "40 - MAX_CHARA_NULL", ),
-        ( name: "MAX_CHARA_FOLLOWER", value: 16, ),
-        ( name: "MAX_CHARA_ALLY", value: 8, ),
-        ( name: "MAX_CHARA_SAVE", value: 57, code_value: "MAX_CHARA_FOLLOWER + MAX_CHARA_ADVENTURER + 1 + MAX_CHARA_NULL" ),
-        ( name: "MAX_CHARA_NC", value: 56, code_value: "MAX_CHARA_SAVE - MAX_CHARA_NULL" ),
-        ( name: "MAX_CHARA_TOTAL", value: 245, ),
-        ( name: "MAX_CHARA_DATA", value: 500, ),
-
         ( name: "MAX_MAP_INV", value: 400, ),
         ( name: "SIZE_INV1", value: 200, ),
         ( name: "SIZE_INV2", value: 20, ),
@@ -7195,7 +7198,8 @@ AnalysisConfig(
         ( name: "SOUNDLIST_WATERM", value: 178, ),
 
         ( name: "SOUNDLIST_MAX", value: 179, code_value: "SOUNDLIST_WATERM + 1", exclude: true ),
-      ]
+      ],
+      ignore: [ 7 ]
     ),
     "item_effect": (
       variables: [
@@ -7527,6 +7531,16 @@ AnalysisConfig(
         ( name: "MATGET_TYPE_FIND", value: 5 ),
         ( name: "MATGET_TYPE_RECEIVE", value: 6 ),
         ( name: "MATGET_TYPE_GET", value: 7 ),
+      ],
+      ignore: [ 0 ]
+    ),
+    "calcbuff_chara": (
+      includes: [
+        "chara"
+      ],
+      variables: [
+        ( name: "CALCBUFF_DESCRIPTION", value: -2 ),
+        ( name: "CALCBUFF_DURATION", value: -1 ),
       ]
     )
   },
@@ -8405,8 +8419,8 @@ AnalysisConfig(
     ),
     "calcbuff": (
       args: {
-        0: (name: "charid", type: Int),
-        1: (name: "buffid", type: Int),
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("calcbuff_chara") ) ]),
+        1: (name: "buffid", type: Int, indices: [ ( substitute: Group("buff_id") ) ]),
         2: (name: "power", type: Int),
       }
     ),
@@ -9523,13 +9537,13 @@ AnalysisConfig(
     "inv_find": (
       args: {
         0: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
-        1: (name: "invid", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+        1: (name: "invid", type: Int, indices: [ ( substitute: Group("inv_id" )) ]),
       }
     ),
     "fix_find": (
       args: {
         0: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
-        1: (name: "invid", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+        1: (name: "invid", type: Int, indices: [ ( substitute: Group("inv_id" )) ]),
       }
     ),
     "item_find": (
@@ -9576,7 +9590,7 @@ AnalysisConfig(
     ),
     "itemlist": (
       args: {
-        0: (name: "inv", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+        0: (name: "inv", type: Int, indices: [ ( substitute: Group("inv_id" )) ]),
         1: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
       }
     ),
@@ -9801,6 +9815,9 @@ AnalysisConfig(
       args: {}
     ),
     "gohostile": (
+      args: {}
+    ),
+    "goneutral": (
       args: {}
     ),
     "modkarma": (
@@ -10592,6 +10609,12 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
       }
     ),
+    "fuel": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
     "dmgcon": (
       args: {
         0: (name: "charid", type: Int),
@@ -10953,6 +10976,11 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
       }
     ),
+    "calcidtlv": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
     "calcrestorecost": (
       args: {}
     ),
@@ -11120,6 +11148,11 @@ AnalysisConfig(
         2: (name: "arg3", type: Int),
         3: (name: "arg4", type: Int),
         4: (name: "arg5", type: Int),
+      }
+    ),
+    "map_makeroom": (
+      args: {
+        0: (name: "arg1", type: Int),
       }
     ),
     "map_setfog": (
@@ -11446,6 +11479,9 @@ AnalysisConfig(
       args: {}
     ),
     "cslinedown": (
+      args: {}
+    ),
+    "validaction": (
       args: {}
     ),
     "random_material": (

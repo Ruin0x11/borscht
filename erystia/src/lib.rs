@@ -1,3 +1,5 @@
+#![feature(entry_insert)]
+
 extern crate serde;
 extern crate serde_derive;
 extern crate ron;
@@ -425,7 +427,8 @@ impl VisitorMut for GroupRecursiveVisitor {
 
 struct ConstantSubstitutionVisitor<'a> {
     config: &'a AnalysisConfig,
-    hsp3as: &'a Hsp3As
+    hsp3as: &'a Hsp3As,
+    visiting_function: Option<(FunctionDefinition, String)>,
 }
 
 impl<'a> ConstantSubstitutionVisitor<'a> {
@@ -660,6 +663,25 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             }
         }
     }
+
+    fn find_func_indices(&self, var: &ast::AstNode) -> Option<Vec<FunctionArgIndex>> {
+        if let ast::AstNodeKind::Variable(node) = &var.kind {
+            if let PrimitiveTokenKind::Parameter(param) = &node.ident.kind {
+                let param_name = self.hsp3as.param_names.get(param).expect(&format!("No name for parameter {:?}", param));
+                if let Some((func, funcname)) = &self.visiting_function {
+                    let func_conf = self.config.functions.get(funcname).expect(&format!("No function named '{}' declared", funcname));
+                    for (_, arg) in func_conf.args.iter() {
+                        let name = format!("{}_{}", funcname, arg.name);
+                        if param_name == &name {
+                            return Some(arg.indices.clone());
+                        }
+                    }
+                }
+            }
+        }
+
+        None
+    }
 }
 
 impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
@@ -693,6 +715,11 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                     }
                 }
             }
+            if let Some(indices) = self.find_func_indices(&node.var) {
+                for index in indices.iter() {
+                    self.substitute_array_index(arg, &index.substitute);
+                }
+            }
         }
 
         node
@@ -709,6 +736,11 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                             }
                         }
                     }
+                    if let Some(indices) = self.find_func_indices(&node.lhs) {
+                        for index in indices.iter() {
+                            self.substitute_array_index(rhs, &index.substitute);
+                        }
+                    }
 
                     if let Some(rhs_name) = self.get_variable_name(rhs) {
                         if let Some(expr_def) = &self.config.expressions.get(&rhs_name) {
@@ -717,6 +749,12 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                             }
                         }
                     }
+                    if let Some(indices) = self.find_func_indices(&rhs) {
+                        for index in indices.iter() {
+                            self.substitute_array_index(&mut node.lhs, &index.substitute);
+                        }
+                    }
+
                 }
             }
         }
@@ -746,11 +784,25 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
 
         node
     }
+
+    fn visit_function_declaration(&mut self, funcdef: ast::FunctionDeclarationNode) -> ast::FunctionDeclarationNode {
+        match funcdef.func.get_type() {
+            Ax3FunctionType::DefFunc |
+            Ax3FunctionType::DefCFunc => {
+                let func_conf = self.config.functions.get(&funcdef.default_name).expect(&format!("No function named '{}' declared", funcdef.default_name));
+                self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
+                funcdef
+            },
+            _ => funcdef
+        }
+    }
 }
 
 struct FunctionRenameVisitor<'a> {
     config: &'a AnalysisConfig,
-    hsp3as: &'a Hsp3As
+    hsp3as: &'a mut Hsp3As,
+    visiting_function: Option<(FunctionDefinition, String)>,
+    seen_names: HashMap<String, String>
 }
 
 impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
@@ -759,9 +811,35 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
             Ax3FunctionType::DefFunc |
             Ax3FunctionType::DefCFunc => {
                 let func_conf = self.config.functions.get(&funcdef.default_name).expect(&format!("No function named '{}' declared", funcdef.default_name));
+                for (i, param) in funcdef.params.iter().enumerate() {
+                    let arg = func_conf.args.get(&i).expect(&format!("Missing argument {} for function '{}", i, funcdef.default_name));
+                    self.hsp3as.param_names.entry(param.clone()).insert(format!("{}_{}", funcdef.default_name, arg.name));
+                }
+                self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
                 funcdef
             },
             _ => funcdef
+        }
+    }
+
+    fn visit_variable(&mut self, mut var: ast::VariableNode) -> ast::VariableNode {
+        match &mut var.ident.kind {
+            PrimitiveTokenKind::GlobalVariable(ref mut name) => {
+                if let Some(pos) = name.find("@") {
+                    if !self.seen_names.contains_key(name) {
+                        if let Some((_func_conf, default_name)) = &self.visiting_function {
+                            let stripped = &name[..pos];
+                            let new_name = format!("locvar_{}_{}", default_name, stripped);
+                            self.seen_names.insert(name.clone(), new_name);
+                        }
+                    }
+                    if let Some(new_name) = self.seen_names.get(name) {
+                        *name = new_name.to_string();
+                    }
+                }
+                var
+            },
+            _ => var
         }
     }
 }
@@ -799,7 +877,9 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     let node = {
         let mut visitor = FunctionRenameVisitor {
             config: &config,
-            hsp3as: &hsp3as
+            hsp3as: hsp3as,
+            visiting_function: None,
+            seen_names: HashMap::new()
         };
 
         visitor.visit_node(node)
@@ -808,7 +888,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     let node = {
         let mut visitor = ConstantSubstitutionVisitor {
             config: &config,
-            hsp3as: &hsp3as
+            hsp3as: &hsp3as,
+            visiting_function: None,
         };
 
         visitor.visit_node(node)
