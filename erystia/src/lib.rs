@@ -9,7 +9,7 @@ use std::fs::File;
 use std::io::Write;
 use anyhow::Result;
 use serde_derive::{Serialize, Deserialize};
-use exe2ax::as_::ax3::Hsp3As;
+use exe2ax::as_::ax3::*;
 use exe2ax::as_::ax3::ast;
 use exe2ax::as_::dictionary::HspDictionaryValue;
 use exe2ax::as_::ax3::lexical::*;
@@ -169,6 +169,17 @@ struct FunctionArgIndex {
     #[serde(default)]
     rules: ArrayRules,
     substitute: Substitute
+}
+
+fn get_function_name(node: &ast::FunctionNode, hsp3as: &Hsp3As) -> String {
+    match node.ident.kind {
+        PrimitiveTokenKind::UserFunction(func) |
+        PrimitiveTokenKind::DllFunction(func) |
+        PrimitiveTokenKind::ComFunction(func) => {
+            hsp3as.function_names.get(&func).unwrap().to_string()
+        },
+        _ => node.ident.dict_value.name.clone()
+    }
 }
 
 fn make_variable(name: String) -> ast::AstNodeKind {
@@ -413,7 +424,7 @@ impl VisitorMut for GroupRecursiveVisitor {
 }
 
 struct ConstantSubstitutionVisitor<'a> {
-    config: AnalysisConfig,
+    config: &'a AnalysisConfig,
     hsp3as: &'a Hsp3As
 }
 
@@ -714,16 +725,9 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
     }
 
     fn visit_function(&mut self, mut node: ast::FunctionNode) -> ast::FunctionNode {
+        let name = get_function_name(&node, &self.hsp3as);
         if let Some(ref mut arg) = &mut node.arg {
             if let ast::AstNodeKind::Argument(ref mut arg) = arg.kind {
-                let name = match node.ident.kind {
-                    PrimitiveTokenKind::UserFunction(func) |
-                    PrimitiveTokenKind::DllFunction(func) |
-                    PrimitiveTokenKind::ComFunction(func) => {
-                        self.hsp3as.function_names.get(&func).unwrap().to_string()
-                    },
-                    _ => node.ident.dict_value.name.clone()
-                };
 
                 if let Some(func_def) = &self.config.functions.get(&name) {
                     for (i, funcarg) in func_def.args.iter() {
@@ -744,6 +748,24 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
     }
 }
 
+struct FunctionRenameVisitor<'a> {
+    config: &'a AnalysisConfig,
+    hsp3as: &'a Hsp3As
+}
+
+impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
+    fn visit_function_declaration(&mut self, funcdef: ast::FunctionDeclarationNode) -> ast::FunctionDeclarationNode {
+        match funcdef.func.get_type() {
+            Ax3FunctionType::DefFunc |
+            Ax3FunctionType::DefCFunc => {
+                let func_conf = self.config.functions.get(&funcdef.default_name).expect(&format!("No function named '{}' declared", funcdef.default_name));
+                funcdef
+            },
+            _ => funcdef
+        }
+    }
+}
+
 fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<VariableDefinition> {
     let mut result = Vec::new();
 
@@ -757,7 +779,7 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
     result
 }
 
-pub fn analyze<'a>(hsp3as: &'a Hsp3As) -> Result<AnalysisResult> {
+pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     let file = File::open("database/vanilla.ron")?;
     let mut config: AnalysisConfig = ron::de::from_reader(file)?;
 
@@ -773,12 +795,24 @@ pub fn analyze<'a>(hsp3as: &'a Hsp3As) -> Result<AnalysisResult> {
     }
 
     let node = hsp3as.program.clone();
-    let mut visitor = ConstantSubstitutionVisitor {
-        config: config,
-        hsp3as: &hsp3as
+
+    let node = {
+        let mut visitor = FunctionRenameVisitor {
+            config: &config,
+            hsp3as: &hsp3as
+        };
+
+        visitor.visit_node(node)
     };
 
-    let node = visitor.visit_node(node);
+    let node = {
+        let mut visitor = ConstantSubstitutionVisitor {
+            config: &config,
+            hsp3as: &hsp3as
+        };
+
+        visitor.visit_node(node)
+    };
 
     Ok(AnalysisResult {
         node: node

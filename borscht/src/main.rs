@@ -138,7 +138,7 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     println!("Decompiled bytecode in {:.2?}.", now.elapsed());
 
     let now = Instant::now();
-    let result = erystia::analyze(&as_)?;
+    let result = erystia::analyze(&mut as_)?;
     as_.program = result.node;
 
     println!("Analyzed in {:.2?}.", now.elapsed());

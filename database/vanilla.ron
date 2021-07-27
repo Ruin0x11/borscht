@@ -8326,6 +8326,12 @@ AnalysisConfig(
         2: (name: "arg3", type: Int),
       }
     ),
+    "tmset": (
+      args: {}
+    ),
+    "tmend": (
+      args: {}
+    ),
     "lang": (
       args: {
         0: (name: "jp", type: Str),
@@ -8394,6 +8400,9 @@ AnalysisConfig(
         0: (name: "rank", type: Int),
       }
     ),
+    "guildname": (
+      args: {}
+    ),
     "calcbuff": (
       args: {
         0: (name: "charid", type: Int),
@@ -8413,6 +8422,12 @@ AnalysisConfig(
         0: (name: "skillid", type: Int),
         1: (name: "charid", type: Int),
       }
+    ),
+    "randskill": (
+      args: {}
+    ),
+    "randattb": (
+      args: {}
     ),
     "ibit": (
       args: {
@@ -8460,6 +8475,9 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
       }
     ),
+    "evid": (
+      args: {}
+    ),
     "evfind": (
       args: {
         0: (name: "eventid", type: Int),
@@ -8502,6 +8520,9 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
       }
     ),
+    "keyrelease": (
+      args: {}
+    ),
     "press": (
       args: {
         0: (name: "arg1", type: Int),
@@ -8526,10 +8547,40 @@ AnalysisConfig(
         0: (name: "arg1", type: Var),
       }
     ),
+    "txtmore": (
+      args: {}
+    ),
+    "txtcontinue": (
+      args: {}
+    ),
+    "anime_halt": (
+      args: {}
+    ),
+    "msg_halt": (
+      args: {}
+    ),
+    "help_halt": (
+      args: {}
+    ),
     "txtef": (
       args: {
         0: (name: "color", type: Int),
       }
+    ),
+    "msg_newlog": (
+      args: {}
+    ),
+    "msg_newline": (
+      args: {}
+    ),
+    "txtnew": (
+      args: {}
+    ),
+    "msg_clear": (
+      args: {}
+    ),
+    "txt_conv": (
+      args: {}
     ),
     "name": (
       args: {
@@ -8682,10 +8733,19 @@ AnalysisConfig(
         0: (name: "waittime", type: Int),
       }
     ),
+    "text_set": (
+      args: {}
+    ),
     "elename": (
       args: {
         0: (name: "ele", type: Int),
       }
+    ),
+    "txttargetlevel": (
+      args: {}
+    ),
+    "txttargetsp": (
+      args: {}
     ),
     "sncnv": (
       args: {
@@ -8746,6 +8806,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Var),
       }
+    ),
+    "txtsetlastword": (
+      args: {}
     ),
     "txtsetwinword": (
       args: {
@@ -9281,10 +9344,19 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
       }
     ),
+    "showcardpile": (
+      args: {}
+    ),
+    "showcard": (
+      args: {}
+    ),
     "servecard": (
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "showcardholder": (
+      args: {}
     ),
     "opencard2": (
       args: {
@@ -9316,6 +9388,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "pileremain": (
+      args: {}
     ),
     "csvsort": (
       args: {
@@ -9361,6 +9436,15 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Str),
       }
+    ),
+    "discsetmc": (
+      args: {}
+    ),
+    "fltsetdungeon": (
+      args: {}
+    ),
+    "randomele": (
+      args: {}
     ),
     "putenclv": (
       args: {
@@ -9674,6 +9758,9 @@ AnalysisConfig(
         1: (name: "arg2", type: Str),
       }
     ),
+    "cargocheck": (
+      args: {}
+    ),
     "rndshuffle": (
       args: {
         0: (name: "arg1", type: Array),
@@ -9709,6 +9796,12 @@ AnalysisConfig(
         5: (name: "arg6", type: Int),
         6: (name: "arg7", type: Int),
       }
+    ),
+    "cs_listbk": (
+      args: {}
+    ),
+    "gohostile": (
+      args: {}
     ),
     "modkarma": (
       args: {
@@ -9789,6 +9882,9 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
       }
     ),
+    "calcshopreform": (
+      args: {}
+    ),
     "delmef": (
       args: {
         0: (name: "arg1", type: Int),
@@ -9859,6 +9955,9 @@ AnalysisConfig(
         2: (name: "arg3", type: Int),
       }
     ),
+    "breath_list": (
+      args: {}
+    ),
     "draw_emo": (
       args: {
         0: (name: "arg1", type: Int),
@@ -9884,6 +9983,9 @@ AnalysisConfig(
         1: (name: "y", type: Int),
         2: (name: "see", type: Int),
       }
+    ),
+    "cell_draw": (
+      args: {}
     ),
     "cell_itemlist": (
       args: {
@@ -9927,6 +10029,9 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
         2: (name: "arg3", type: Int),
       }
+    ),
+    "cursor_check": (
+      args: {}
     ),
     "lenfix": (
       args: {
@@ -10032,11 +10137,20 @@ AnalysisConfig(
         2: (name: "arg3", type: Int),
       }
     ),
+    "page_save": (
+      args: {}
+    ),
+    "page_load": (
+      args: {}
+    ),
     "fileadd": (
       args: {
         0: (name: "arg1", type: Str),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "arrayfile": (
+      args: {}
     ),
     "validatetmp": (
       args: {
@@ -10061,6 +10175,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Str),
       }
+    ),
+    "arrayfilewrapper": (
+      args: {}
     ),
     "dirlistwrapper": (
       args: {
@@ -10110,6 +10227,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "imeget": (
+      args: {}
     ),
     "_fdialog": (
       args: {
@@ -10196,6 +10316,9 @@ AnalysisConfig(
         2: (name: "arg3", type: Int),
         3: (name: "arg4", type: Int),
       }
+    ),
+    "prodcheck": (
+      args: {}
     ),
     "calcweaponfix": (
       args: {
@@ -10290,6 +10413,15 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
       }
     ),
+    "put_questtarget": (
+      args: {}
+    ),
+    "exist_questtarget": (
+      args: {}
+    ),
+    "check_quest": (
+      args: {}
+    ),
     "refreshspeed": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10310,6 +10442,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "ride_end": (
+      args: {}
     ),
     "chara_vanquish": (
       args: {
@@ -10332,6 +10467,15 @@ AnalysisConfig(
         4: (name: "arg5", type: Int),
         5: (name: "arg6", type: Int),
       }
+    ),
+    "get_freechara": (
+      args: {}
+    ),
+    "get_freeally": (
+      args: {}
+    ),
+    "get_freeallyne": (
+      args: {}
     ),
     "del_chara": (
       args: {
@@ -10360,6 +10504,15 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "wake_up": (
+      args: {}
+    ),
+    "incognitobegin": (
+      args: {}
+    ),
+    "incognitoend": (
+      args: {}
     ),
     "cell_setchara": (
       args: {
@@ -10747,11 +10900,29 @@ AnalysisConfig(
         0: (name: "charid", type: Int),
       }
     ),
+    "calccosthire": (
+      args: {}
+    ),
+    "calccostbuilding": (
+      args: {}
+    ),
+    "calccosttax": (
+      args: {}
+    ),
+    "calcmealvalue": (
+      args: {}
+    ),
     "calccostreload": (
       args: {
         0: (name: "arg1", type: Int),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "calccargoupdate": (
+      args: {}
+    ),
+    "calccargoupdatecost": (
+      args: {}
     ),
     "calcidentifyvalue": (
       args: {
@@ -10781,6 +10952,12 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "calcrestorecost": (
+      args: {}
+    ),
+    "calcrestorecostc": (
+      args: {}
     ),
     "calcinitgold": (
       args: {
@@ -10818,6 +10995,21 @@ AnalysisConfig(
         2: (name: "arg3", type: Int),
       }
     ),
+    "calcscore": (
+      args: {}
+    ),
+    "calcpartyscore": (
+      args: {}
+    ),
+    "calcpartyscore2": (
+      args: {}
+    ),
+    "eqweaponlight": (
+      args: {}
+    ),
+    "eqweaponheavy": (
+      args: {}
+    ),
     "eqrandweaponmage": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10839,6 +11031,9 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
       }
     ),
+    "map_converttile": (
+      args: {}
+    ),
     "map_tileset": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10854,6 +11049,9 @@ AnalysisConfig(
         0: (name: "arg1", type: Str),
       }
     ),
+    "map_initialize": (
+      args: {}
+    ),
     "map_placecharaonentrance": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10866,6 +11064,9 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "map_placeplayer": (
+      args: {}
     ),
     "map_randomtile": (
       args: {
@@ -10909,6 +11110,9 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
       }
     ),
+    "map_ovservemap": (
+      args: {}
+    ),
     "map_digtoentrance1": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10923,6 +11127,9 @@ AnalysisConfig(
         0: (name: "arg0", type: Int),
         1: (name: "arg1", type: Int),
       }
+    ),
+    "map_createroomdoor": (
+      args: {}
     ),
     "map_createroom": (
       args: {
@@ -10973,6 +11180,12 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "map_connectroom": (
+      args: {}
+    ),
+    "map_makedoor": (
+      args: {}
     ),
     "selectcoast": (
       args: {
@@ -11041,6 +11254,18 @@ AnalysisConfig(
         2: (name: "seton", type: Int),
       }
     ),
+    "cpflip": (
+      args: {}
+    ),
+    "cpisplayer": (
+      args: {}
+    ),
+    "cpisme": (
+      args: {}
+    ),
+    "cpisenemy": (
+      args: {}
+    ),
     "cnvrare": (
       args: {
         0: (name: "arg1", type: Int),
@@ -11050,6 +11275,12 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "dbghit": (
+      args: {}
+    ),
+    "makecardlist": (
+      args: {}
     ),
     "cardhelp": (
       args: {
@@ -11062,6 +11293,9 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "tcgdraw": (
+      args: {}
     ),
     "efllistadd": (
       args: {
@@ -11106,6 +11340,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "gameover": (
+      args: {}
     ),
     "getholdersum": (
       args: {
@@ -11159,11 +11396,23 @@ AnalysisConfig(
         1: (name: "arg1", type: Int),
       }
     ),
+    "actionchain": (
+      args: {}
+    ),
+    "actionproc": (
+      args: {}
+    ),
     "putcard": (
       args: {
         0: (name: "arg1", type: Int),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "tcgdrawbg": (
+      args: {}
+    ),
+    "tcginit": (
+      args: {}
     ),
     "calcstartcard": (
       args: {
@@ -11174,6 +11423,30 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Int),
       }
+    ),
+    "calcdomain": (
+      args: {}
+    ),
+    "calcdecksize": (
+      args: {}
+    ),
+    "decktest": (
+      args: {}
+    ),
+    "tcgdeck": (
+      args: {}
+    ),
+    "tcgmain": (
+      args: {}
+    ),
+    "csfix": (
+      args: {}
+    ),
+    "cslineup": (
+      args: {}
+    ),
+    "cslinedown": (
+      args: {}
     ),
     "random_material": (
       args: {
@@ -11193,6 +11466,15 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
         1: (name: "arg2", type: Int),
       }
+    ),
+    "atxinit": (
+      args: {}
+    ),
+    "begintempinv": (
+      args: {}
+    ),
+    "exittempinv": (
+      args: {}
     ),
     "modpiety": (
       args: {
@@ -11244,6 +11526,9 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
       }
     ),
+    "window_recipe2": (
+      args: {}
+    ),
     "window_recipe": (
       args: {
         0: (name: "arg0", type: Array),
@@ -11253,6 +11538,9 @@ AnalysisConfig(
         4: (name: "arg4", type: Int),
         5: (name: "arg5", type: Int),
       }
+    ),
+    "clear_rprefmat": (
+      args: {}
     ),
     "txtitemoncell": (
       args: {
@@ -11266,6 +11554,12 @@ AnalysisConfig(
         1: (name: "arg2", type: Int),
         2: (name: "arg3", type: Int),
       }
+    ),
+    "key_direction": (
+      args: {}
+    ),
+    "savecycle": (
+      args: {}
     ),
     "trimdesc": (
       args: {
@@ -11288,6 +11582,9 @@ AnalysisConfig(
       args: {
         0: (name: "arg1", type: Str),
       }
+    ),
+    "zipend2": (
+      args: {}
     ),
     "unzip2": (
       args: {
@@ -11341,6 +11638,12 @@ AnalysisConfig(
       args: {
         0: (name: "arg0", type: Int),
       }
+    ),
+    "randnameinit": (
+      args: {}
+    ),
+    "ai_check": (
+      args: {}
     ),
     "cnvjkey": (
       args: {

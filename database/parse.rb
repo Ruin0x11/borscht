@@ -621,7 +621,7 @@ ai_check
 cnvjkey str cnvjkey_arg1
 END
 
-input.lines.each do |line| 
+input.lines.each do |line|
   s = line.split(" ", 2)
   name = s[0]
   args = s[1].split(",")
@@ -651,6 +651,6 @@ END
   }
 ),
 END
-    puts s
   end
+  puts s
 end
