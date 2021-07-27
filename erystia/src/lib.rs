@@ -490,16 +490,29 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 visitor.found
             },
             Rule::Array(array_rules) => {
-                if let ast::AstNodeKind::Variable(var) = &exp.kind {
-                    if let Some(node) = &var.arg {
-                        if let ast::AstNodeKind::Argument(arg) = &node.kind {
-                            if self.array_index_matches(arg, array_rules) {
-                                return true;
+                match &exp.kind {
+                    ast::AstNodeKind::Variable(var) => {
+                        if let Some(node) = &var.arg {
+                            if let ast::AstNodeKind::Argument(arg) = &node.kind {
+                                if self.array_index_matches(arg, array_rules) {
+                                    return true;
+                                }
                             }
                         }
-                    }
+                        false
+                    },
+                    ast::AstNodeKind::Function(func) => {
+                        if let Some(node) = &func.arg {
+                            if let ast::AstNodeKind::Argument(arg) = &node.kind {
+                                if self.array_index_matches(arg, array_rules) {
+                                    return true;
+                                }
+                            }
+                        }
+                        false
+                    },
+                    _ => false
                 }
-                false
             }
             Rule::Expr => !matches!(exp.kind, ast::AstNodeKind::Literal(_))
         }

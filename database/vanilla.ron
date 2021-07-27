@@ -24,6 +24,7 @@ AnalysisConfig(
     ),
     "buff_id": (
       variables: [
+        ( name: "BUFF_NONE", value: 0 ),
         ( name: "BUFF_HOLY_SHIELD", value: 1 ),
         ( name: "BUFF_MIST_OF_SILENCE", value: 2 ),
         ( name: "BUFF_REGENERATION", value: 3 ),
@@ -622,21 +623,30 @@ AnalysisConfig(
       ]
     ),
     "dbspec": (
+      includes: [
+        "dbspec_item",
+        "dbspec_chara",
+      ]
+    ),
+    "dbspec_item": (
       variables: [
-        ( name: "DBSPEC_CAN_READ", value: 2 ),
-        ( name: "DBSPEC_CAN_ZAP", value: 3 ),
-        ( name: "DBSPEC_CAN_DRINK", value: 4 ),
-        ( name: "DBSPEC_TYPE", value: 5 ),
-        ( name: "DBSPEC_OBJ_LEVEL", value: 7 ),
-        ( name: "DBSPEC_RARE_LEVEL", value: 8 ),
-        ( name: "DBSPEC_TYPE_MINOR", value: 9 ),
-        ( name: "DBSPEC_CARGO", value: 10 ),
-        ( name: "DBSPEC_CAN_USE", value: 11 ),
-        ( name: "DBSPEC_OFFER", value: 12 ),
-        ( name: "DBSPEC_PCC", value: 18 ),
-        ( name: "DBSPEC_PARAM3_ORG", value: 19 ),
-        ( name: "DBSPEC_VALUE_ORG", value: 20 ),
-
+        ( name: "DBSPEC_ITEM_CAN_READ", value: 2 ),
+        ( name: "DBSPEC_ITEM_CAN_ZAP", value: 3 ),
+        ( name: "DBSPEC_ITEM_CAN_DRINK", value: 4 ),
+        ( name: "DBSPEC_ITEM_TYPE", value: 5 ),
+        ( name: "DBSPEC_ITEM_OBJ_LEVEL", value: 7 ),
+        ( name: "DBSPEC_ITEM_RARE_LEVEL", value: 8 ),
+        ( name: "DBSPEC_ITEM_TYPE_MINOR", value: 9 ),
+        ( name: "DBSPEC_ITEM_CARGO", value: 10 ),
+        ( name: "DBSPEC_ITEM_CAN_USE", value: 11 ),
+        ( name: "DBSPEC_ITEM_OFFER", value: 12 ),
+        ( name: "DBSPEC_ITEM_PCC", value: 18 ),
+        ( name: "DBSPEC_ITEM_PARAM3_ORG", value: 19 ),
+        ( name: "DBSPEC_ITEM_VALUE_ORG", value: 20 ),
+      ]
+    ),
+    "dbspec_chara": (
+      variables: [
         ( name: "DBSPEC_CHARA_NONE", value: 1 ),
         ( name: "DBSPEC_CHARA_NAME_ORG", value: 2 ),
         ( name: "DBSPEC_CHARA_LOOT", value: 3 ),
@@ -2036,11 +2046,13 @@ AnalysisConfig(
     ),
     "environment_effect": (
       variables: [
-
         ( name: "ENVIRONMENT_EFFECT_NONE", value: 0 ),
-        ( name: "ENVIRONMENT_EFFECT_ACID", value: 100 ),
-        ( name: "ENVIRONMENT_EFFECT_FIRE", value: 200 ),
-        ( name: "ENVIRONMENT_EFFECT_WATER", value: 400 ),
+        ( name: "ENVIRONMENT_EFFECT_ACID", value: -100 ),
+        ( name: "ENVIRONMENT_EFFECT_FIRE", value: -200 ),
+        ( name: "ENVIRONMENT_EFFECT_WATER", value: -400 ),
+        ( name: "ENVIRONMENT_EFFECT_ACID2", value: 100 ),
+        ( name: "ENVIRONMENT_EFFECT_FIRE2", value: 200 ),
+        ( name: "ENVIRONMENT_EFFECT_WATER2", value: 400 ),
       ]
     ),
     "directive_mode": (
@@ -6826,40 +6838,40 @@ AnalysisConfig(
         "ai_action"
       ]
     ),
-    "activity": (
+    "action": (
       variables: [
-        ( name: "ACTIVITY_NONE", value: 0, ),
-        ( name: "ACTIVITY_EAT", value: 1, ),
-        ( name: "ACTIVITY_READ", value: 2, ),
-        ( name: "ACTIVITY_TRAVEL", value: 3, ),
-        ( name: "ACTIVITY_REST", value: 4, ),
-        ( name: "ACTIVITY_DIG", value: 5, ),
-        ( name: "ACTIVITY_PERFORM", value: 6, ),
-        ( name: "ACTIVITY_FISH", value: 7, ),
-        ( name: "ACTIVITY_PLANT", value: 8, ),
-        ( name: "ACTIVITY_SEARCH", value: 9, ),
-        ( name: "ACTIVITY_GENERAL", value: 10, ),
-        ( name: "ACTIVITY_SEX", value: 11, ),
-        ( name: "ACTIVITY_BLEND", value: 12, ),
-        ( name: "ACTIVITY_CHARGE", value: 13, ),
-        ( name: "ACTIVITY_CUT_TREE", value: 14, ),
-        ( name: "ACTIVITY_PERFORM_PREACH", value: 15, ),
-        ( name: "ACTIVITY_MEAL", value: 16, ),
-        ( name: "ACTIVITY_PERFORM_DANCE", value: 17, ),
-        ( name: "ACTIVITY_XMAS_CAKE", value: 18, ),
-        ( name: "ACTIVITY_PERSUASION", value: 19, ),
-        ( name: "ACTIVITY_PECULIAR_JOKE", value: 20, ),
-        ( name: "ACTIVITY_BLENDED_LIE", value: 21, ),
-        ( name: "ACTIVITY_INTIMIDATION", value: 22, ),
-        ( name: "ACTIVITY_MYSTERIOUS_SONG", value: 23, ),
-        ( name: "ACTIVITY_TUIN_DER_LUSTEN", value: 24, ),
+        ( name: "ACTION_NONE", value: 0, ),
+        ( name: "ACTION_EAT", value: 1, ),
+        ( name: "ACTION_READ", value: 2, ),
+        ( name: "ACTION_TRAVEL", value: 3, ),
+        ( name: "ACTION_REST", value: 4, ),
+        ( name: "ACTION_DIG", value: 5, ),
+        ( name: "ACTION_PERFORM", value: 6, ),
+        ( name: "ACTION_FISH", value: 7, ),
+        ( name: "ACTION_PLANT", value: 8, ),
+        ( name: "ACTION_SEARCH", value: 9, ),
+        ( name: "ACTION_GENERAL", value: 10, ),
+        ( name: "ACTION_SEX", value: 11, ),
+        ( name: "ACTION_BLEND", value: 12, ),
+        ( name: "ACTION_CHARGE", value: 13, ),
+        ( name: "ACTION_CUT_TREE", value: 14, ),
+        ( name: "ACTION_PERFORM_PREACH", value: 15, ),
+        ( name: "ACTION_MEAL", value: 16, ),
+        ( name: "ACTION_PERFORM_DANCE", value: 17, ),
+        ( name: "ACTION_XMAS_CAKE", value: 18, ),
+        ( name: "ACTION_PERSUASION", value: 19, ),
+        ( name: "ACTION_PECULIAR_JOKE", value: 20, ),
+        ( name: "ACTION_BLENDED_LIE", value: 21, ),
+        ( name: "ACTION_INTIMIDATION", value: 22, ),
+        ( name: "ACTION_MYSTERIOUS_SONG", value: 23, ),
+        ( name: "ACTION_TUIN_DER_LUSTEN", value: 24, ),
 
-        ( name: "ACTIVITY_SLEEP", value: 100, ),
-        ( name: "ACTIVITY_CONSTRUCT", value: 101, ),
-        ( name: "ACTIVITY_OPEN_HATCH", value: 102, ),
-        ( name: "ACTIVITY_HARVEST", value: 103, ),
-        ( name: "ACTIVITY_TRAIN", value: 104, ),
-        ( name: "ACTIVITY_STEAL", value: 105, ),
+        ( name: "ACTION_SLEEP", value: 100, ),
+        ( name: "ACTION_CONSTRUCT", value: 101, ),
+        ( name: "ACTION_OPEN_HATCH", value: 102, ),
+        ( name: "ACTION_HARVEST", value: 103, ),
+        ( name: "ACTION_TRAIN", value: 104, ),
+        ( name: "ACTION_STEAL", value: 105, ),
       ]
     ),
     "skill_dataref": (
@@ -8175,6 +8187,10 @@ AnalysisConfig(
           substitute: (rhs: { 0: Group("wield_style") })
         )),
         MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_QUALITY"]) })),
+          substitute: (rhs: { 0: Group("fix_quality") })
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_GOD"]) })),
           substitute: (rhs: { 0: Group("god") })
         )),
@@ -8183,9 +8199,21 @@ AnalysisConfig(
           substitute: (rhs: { 0: GroupRecursive("skill_all_resist", Lhs("*")) })
         )),
         MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROW_ACT"]) })),
+          substitute: (rhs: { 0: Group("action") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"], Lhs("+")) })),
+          substitute: (rhs: { 0: Group("buff_id") })
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
           substitute: (rhs: { 0: Group("chara_tier") })
-        ))
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ENVIRONMENT_EFFECT"]) })),
+          substitute: (rhs: { 0: Group("environment_effect") })
+        )),
       ]
     ),
     "inv": (
@@ -8209,6 +8237,10 @@ AnalysisConfig(
         MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_KNOWN"]) })),
           substitute: (rhs: { 0: Group("item_known") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_QUALITY"]) })),
+          substitute: (rhs: { 0: Group("fix_quality") })
         )),
         MatchAll((
           rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
@@ -8293,6 +8325,10 @@ AnalysisConfig(
         MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
           substitute: ( rhs: { 0: Group("weather") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
+          substitute: ( rhs: { 0: Group("gamemode") } )
         ))
       ]
     ),
@@ -8478,6 +8514,13 @@ AnalysisConfig(
       ]
     ),
     "efid": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
+        ))
+      ]
+    ),
+    "efidprev": (
       indices: [
         MatchAll((
           substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
@@ -8686,6 +8729,17 @@ AnalysisConfig(
         ))
       ]
     ),
+
+    // Functions
+
+    "refitem": (
+      indices: [
+        MatchAll((
+            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_ITEM_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("filter") } )
+        ))
+      ]
+    ),
   },
 
   functions: {
@@ -8767,20 +8821,20 @@ AnalysisConfig(
     "refchara": (
       args: {
         0: (name: "dbid", indices: [ ( substitute: Group("chara_id" ) ) ]),
-        1: (name: "dbspec", indices: [ ( substitute: Group("dbspec" )) ]),
+        1: (name: "dbspec", indices: [ ( substitute: Group("dbspec_chara" )) ]),
         2: (name: "charid")
       }
     ),
     "refclass": (
       args: {
         0: (name: "dbid", type: Int),
-        1: (name: "dbspec", type: Int),
+        1: (name: "dbspec", type: Int, indices: [ ( substitute: Group("dbspec_chara" )) ]),
       }
     ),
     "refrace": (
       args: {
         0: (name: "dbidn", type: Str),
-        1: (name: "dbspec", type: Int),
+        1: (name: "dbspec", type: Int, indices: [ ( substitute: Group("dbspec_chara" )) ]),
       }
     ),
     "ranktitle": (
@@ -8833,7 +8887,7 @@ AnalysisConfig(
     "refitem": (
       args: {
         0: (name: "dbid", indices: [ ( substitute: Group("item_id" ) ) ]),
-        1: (name: "dbspec", indices: [ ( substitute: Group("dbspec" )) ]),
+        1: (name: "dbspec", indices: [ ( substitute: Group("dbspec_item" )) ]),
       }
     ),
     "iequiploc": (
