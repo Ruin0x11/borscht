@@ -8,7 +8,7 @@ extern crate exe2ax;
 extern crate erystia;
 
 use std::fs::{self, File};
-use std::io::{self, Write};
+use std::io::Write;
 use std::path::{Path};
 use std::time::Instant;
 use anyhow::Result;

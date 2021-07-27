@@ -3,6 +3,18 @@
 AnalysisConfig(
   // TODO Some of these are from Plus Custom-G
   variable_groups: {
+    "boolean": (
+      variables: [
+        ( name: "FALSEM", value: -1 ),
+        ( name: "FALSE", value: 0 ),
+        ( name: "TRUE", value: 1 ),
+      ]
+    ),
+    "bdataref": (
+      variables: [
+        ( name: "BDATAREF_BUFF_TYPE", value: 0 ),
+      ]
+    ),
     "buff_type": (
       variables: [
         ( name: "BUFF_TYPE_BUFF", value: 1 ),
@@ -10,7 +22,7 @@ AnalysisConfig(
         ( name: "BUFF_TYPE_FOOD", value: 3 ),
       ]
     ),
-    "buff": (
+    "buff_id": (
       variables: [
         ( name: "BUFF_HOLY_SHIELD", value: 1 ),
         ( name: "BUFF_MIST_OF_SILENCE", value: 2 ),
@@ -242,7 +254,7 @@ AnalysisConfig(
         ( name: "INV_ITEM_MAX", value: 70 ),
       ]
     ),
-    "ibit": (
+    "item_bit": (
       variables: [
         ( name: "ITEM_BIT_NONE", value: 0 ),
         ( name: "ITEM_BIT_ACIDPROOF", value: 1 ),
@@ -400,7 +412,7 @@ AnalysisConfig(
         ( name: "FISHDATAN_NAME", value: 0 ),
       ]
     ),
-    "material": (
+    "material_id": (
       variables: [
         ( name: "MATERIAL_GARBAGE", value: 0 ),
         ( name: "MATERIAL_CASINO_CHIP", value: 1 ),
@@ -632,7 +644,7 @@ AnalysisConfig(
         ( name: "ENCHANT_AMMO_MAX", value: 6 ),
       ]
     ),
-    "enchant": (
+    "enchant_id": (
       variables: [
         // ( name: "STARTING_ENCHANT_NORMAL", value: 20 ),
         // ( name: "MAX_ENCHANTMENT_LEVEL", value: 4 ),
@@ -1442,6 +1454,15 @@ AnalysisConfig(
     ),
     "feat": (
       variables: [
+        ( name: "FEAT_CELL_PIC", value: 0 ),
+        ( name: "FEAT_CELL_FEATURE_ID", value: 1 ),
+        ( name: "FEAT_CELL_SUB_FEATURE_ID", value: 2 ),
+        ( name: "FEAT_CELL_PARAM_1", value: 2 ),
+        ( name: "FEAT_CELL_PARAM_2", value: 3 ),
+      ]
+    ),
+    "feat_object": (
+      variables: [
         ( name: "OBJECT_UPSTAIRS", value: 10 ),
         ( name: "OBJECT_DOWNSTAIRS", value: 11 ),
         ( name: "OBJECT_DOWNLOCKED", value: 12 ),
@@ -1508,6 +1529,40 @@ AnalysisConfig(
           name: "MDATAN_NAME",
           value: 0
         )
+      ]
+    ),
+    "map_tileset": (
+      variables: [
+        ( name: "MAP_TILESET_DUNGEON", value: 0 ),
+        ( name: "MAP_TILESET_WORLD", value: 1 ),
+        ( name: "MAP_TILESET_TOWN", value: 2 ),
+        ( name: "MAP_TILESET_HOME", value: 3 ),
+        ( name: "MAP_TILESET_WILDERNESS", value: 4 ),
+        ( name: "MAP_TILESET_SNOW", value: 6 ),
+        ( name: "MAP_TILESET_TOWER_OF_FIRE", value: 7 ),
+        ( name: "MAP_TILESET_SF", value: 8 ),
+        ( name: "MAP_TILESET_EASTERN", value: 9 ),
+        ( name: "MAP_TILESET_WATER", value: 10 ),
+        ( name: "MAP_TILESET_CASTLE", value: 11 ),
+        ( name: "MAP_TILESET_JAIL", value: 12 ),
+        ( name: "MAP_TILESET_FOREST", value: 96 ),
+        ( name: "MAP_TILESET_TOWER", value: 97 ),
+        ( name: "MAP_TILESET_FORT", value: 98 ),
+        ( name: "MAP_TILESET_DUNGEON", value: 99 ),
+        ( name: "MAP_TILESET_NEFIA_TOWER", value: 100 ),
+        ( name: "MAP_TILESET_NEFIA_LESIMAS", value: 101 ),
+        ( name: "MAP_TILESET_NEFIA_FORT", value: 200 ),
+        ( name: "MAP_TILESET_NEFIA_FOREST", value: 300 ),
+        
+        // Plus Custom-G
+        ( name: "MAP_TILESET_NOYEL_MINEFIELD", value: 13 ),
+        ( name: "MAP_TILESET_UNKNOWN", value: 14 ),
+        ( name: "MAP_TILESET_NEST", value: 15 ),
+        ( name: "MAP_TILESET_CEMETERY", value: 16 ),
+        ( name: "MAP_TILESET_MINE", value: 17 ),
+        ( name: "MAP_TILESET_LAKE", value: 18 ),
+        ( name: "MAP_TILESET_MINEFIELD_TOWN", value: 19 ),
+        ( name: "MAP_TILESET_MINEFIELD_MINE", value: 20 ),
       ]
     ),
     "area_id": (
@@ -1622,7 +1677,8 @@ AnalysisConfig(
         ( name: "AREA_SHOP", value: 102 ),
         ( name: "AREA_CROP", value: 103 ),
         ( name: "AREA_STORAGE_HOUSE", value: 104 ),
-      ]
+      ],
+      ignore: [ 800, 900 ]
     ),
     "adata": (
       variables: [
@@ -1968,6 +2024,7 @@ AnalysisConfig(
     ),
     "chara": (
       variables: [
+        ( name: "INV_GROUND", value: -1 ),
         ( name: "CHARA_PLAYER", value: 0 ),
         ( name: "CHARA_TEMPORARY", value: 56 ),
         (
@@ -2292,10 +2349,10 @@ AnalysisConfig(
         ( name: "CDATAN_FORM_SHIFT_NAME", value: 9 ),
       ]
     ),
-    "cbit": (
+    "chara_bit": (
       variables:
       [
-        ( name: "RANGE_TEMP_CHARA_BIT", value: 30 ),
+        ( name: "RANGE_TEMP_CHARA_BIT", value: 30, exclude: true ),
         ( name: "MAX_CHARA_BIT", value: 50 ),
 
         ( name: "CHARA_BIT_FLOAT", value: 5 ),
@@ -4828,6 +4885,8 @@ AnalysisConfig(
         ( name: "ITEM_ID_GO_RENGE", value: 1168 ),
 
         ( name: "MAX_ITEM_ID", value: 1171, code_value: "ITEM_ID_GO_RENGE + 3", exclude: true ),
+
+        ( name: "MAX_ITEM_DBID", value: 1199, ),
       ]
     ),
     "creature_id": (
@@ -5841,9 +5900,6 @@ AnalysisConfig(
         ( name: "MAX_CHARA_TOTAL", value: 245, ),
         ( name: "MAX_CHARA_DATA", value: 500, ),
 
-        ( name: "MAX_SKILL_RANGE", value: 600, ),
-        ( name: "MAX_SKILL_DATA", value: 1200, code_value: "MAX_SKILL_RANGE * 2", ),
-
         ( name: "MAX_MAP_INV", value: 400, ),
         ( name: "SIZE_INV1", value: 200, ),
         ( name: "SIZE_INV2", value: 20, ),
@@ -5855,17 +5911,18 @@ AnalysisConfig(
         ( name: "MAX_ITEMN", value: 6, ),
         ( name: "MAX_MDATAN", value: 2, ),
         ( name: "MAX_GDATAN", value: 50, ),
-
-        ( name: "MAX_DB", value: 1199, ),
       ]
     ),
-    "skill": (
+    "skill_id": (
       variables: [
         ( name: "SKILL_NONE", value: 0 ),
 
         // Absolute skill limits
         ( name: "MAX_SPACT_COUNT", value: 500 ),
         ( name: "MAX_SPELL_COUNT", value: 200, code_value: "STARTING_SKILL_SPACT - STARTING_SKILL_SPELL", exclude: true ),
+
+        ( name: "MAX_SKILL_RANGE", value: 600, ),
+        ( name: "MAX_SKILL_DATA", value: 1200, code_value: "MAX_SKILL_RANGE * 2", ),
       ],
       includes: [
         "skill_attribute",
@@ -6319,81 +6376,372 @@ AnalysisConfig(
         ( name: "SKILL_SPACT_MYSTERIOUS_SONG", value: 820, ),
         ( name: "SKILL_SPACT_TUIN_DER_LUSTEN", value: 821, ),
 
-        ( name: "MAX_SKILL", value: 822, code_value: "SKILL_SPACT_TUIN_DER_LUSTEN + 1", exclude: true ),
+        ( name: "MAX_SKILL", value: 822, code_value: "SKILL_SPACT_TUIN_DER_LUSTEN + 1" ),
       ]
     ),
     "skill_effect": (
       variables: [
-        ( name: "SKILL_EFFECT_MIN", value: 1100, ),
-        ( name: "SKILL_EFFECT_POTION_MILK", value: 1101, ),
-        ( name: "SKILL_EFFECT_POTION_ALE", value: 1102, ),
-        ( name: "SKILL_EFFECT_POTION_WATER", value: 1103, ),
-        ( name: "SKILL_EFFECT_GAIN_SPELL", value: 1104, ),
-        ( name: "SKILL_EFFECT_GAIN_SKILL", value: 1105, ),
-        ( name: "SKILL_EFFECT_DECREASE_STAT", value: 1106, ),
-        ( name: "SKILL_EFFECT_GAIN_FAITH", value: 1107, ),
-        ( name: "SKILL_EFFECT_POISON", value: 1108, ),
-        ( name: "SKILL_EFFECT_CONFUSE", value: 1109, ),
-        ( name: "SKILL_EFFECT_PARALYZE", value: 1110, ),
-        ( name: "SKILL_EFFECT_BLIND", value: 1111, ),
-        ( name: "SKILL_EFFECT_SLEEP", value: 1112, ),
-        ( name: "SKILL_EFFECT_POTION_POTENTIAL", value: 1113, ),
-        ( name: "SKILL_EFFECT_CURSE", value: 1114, ),
-        ( name: "SKILL_EFFECT_CREATE_BUILDING", value: 1115, ),
-        ( name: "SKILL_EFFECT_POTION_SULFURIC", value: 1116, ),
-        ( name: "SKILL_EFFECT_CREATE_MATERIAL", value: 1117, ),
-        ( name: "SKILL_EFFECT_DECREASE_RESIST", value: 1118, ),
-        ( name: "SKILL_EFFECT_GAIN_GROWTH", value: 1119, ),
-        ( name: "SKILL_EFFECT_ELIXER", value: 1120, ),
-        ( name: "SKILL_EFFECT_LOSE_MUTATION", value: 1121, ),
-        ( name: "SKILL_EFFECT_GAIN_ALLY", value: 1122, ),
-        ( name: "SKILL_EFFECT_GAIN_SISTER", value: 1123, ),
-        ( name: "SKILL_EFFECT_ENCHANT_WEAPON", value: 1124, ),
-        ( name: "SKILL_EFFECT_ENCHANT_ARMOR", value: 1125, ),
-        ( name: "SKILL_EFFECT_GAIN_SPEED_2", value: 1126, ),
-        ( name: "SKILL_EFFECT_CHANGE_MATERIAL", value: 1127, ),
-        ( name: "SKILL_EFFECT_HEIR_DEED", value: 1128, ),
-        ( name: "SKILL_EFFECT_RECHARGE", value: 1129, ),
-        ( name: "SKILL_EFFECT_POTION_DIRTY_WATER", value: 1130, ),
-        ( name: "SKILL_EFFECT_POTION_CURE_CORRUPTION", value: 1131, ),
-        ( name: "SKILL_EFFECT_CHANGE_ITEM", value: 1132, ),
-        ( name: "SKILL_EFFECT_POTION_MOLOTOV", value: 1133, ),
-        ( name: "SKILL_EFFECT_POTION_LOVE", value: 1134, ),
-        ( name: "SKILL_EFFECT_TREASURE_MAP", value: 1135, ),
-        ( name: "SKILL_EFFECT_GAIN_GIRL", value: 1136, ),
-        ( name: "SKILL_EFFECT_GAIN_CAT_SISTER", value: 1137, ),
-        ( name: "SKILL_EFFECT_GAIN_SPEED", value: 1138, ),
-        ( name: "SKILL_EFFECT_DECREASE_WEIGHT", value: 1139, ),
-        ( name: "SKILL_EFFECT_ESCAPE", value: 1140, ),
-        ( name: "SKILL_EFFECT_POTION_SALT", value: 1141, ),
-        ( name: "SKILL_EFFECT_POTION_DESCENT", value: 1142, ),
-        ( name: "SKILL_EFFECT_POTION_EVOLUTION", value: 1143, ),
-        ( name: "SKILL_EFFECT_RENAME_ITEM", value: 1144, ),
-        ( name: "SKILL_EFFECT_POTION_SODA", value: 1145, ),
-        ( name: "SKILL_EFFECT_POTION_CAPSULE", value: 1146, ),
-        ( name: "SKILL_EFFECT_GAIN_OLDER_SISTER", value: 1147, ),
-        ( name: "SKILL_EFFECT_GAIN_DOG_SISTER", value: 1148, ),
-        ( name: "SKILL_EFFECT_VERNIS_ORIGINAL", value: 1149, ),
-        ( name: "SKILL_EFFECT_MUTATE", value: 1150, ),
-        ( name: "SKILL_EFFECT_GAIN_WRANGWRANG", value: 1151, ),
-        ( name: "SKILL_EFFECT_POTION_AQUA_SANCTIO", value: 1152, ),
-        ( name: "SKILL_EFFECT_POTION_DISASTER", value: 1153, ),
-        ( name: "SKILL_EFFECT_POTION_NEKTAR", value: 1154, ),
-        ( name: "SKILL_EFFECT_POTION_SOMA", value: 1155, ),
-        ( name: "SKILL_EFFECT_MYSTERIOUS_DIARY", value: 1156, ),
-        ( name: "SKILL_EFFECT_POTION_COFFEE", value: 1157, ),
-        ( name: "SKILL_EFFECT_POTION_JUICE", value: 1158, ),
-        ( name: "SKILL_EFFECT_POTION_KNEADED_SWEETS", value: 1159, ),
-        ( name: "SKILL_EFFECT_CONTINENT_MAP", value: 1160, ),
-        ( name: "SKILL_EFFECT_POTION_ESSENTIAL_OIL", value: 1161, ),
-        ( name: "SKILL_EFFECT_POTION_GASOLINE", value: 1162, ),
-        ( name: "SKILL_EFFECT_POTION_GREEN_TEA", value: 1163, ),
-        ( name: "SKILL_EFFECT_POTION_BLACK_TEA", value: 1164, ),
-        ( name: "SKILL_EFFECT_POTION_WISDOM", value: 1165, ),
-        ( name: "SKILL_EFFECT_BUTLERS_DIARY", value: 1166, ),
-        ( name: "SKILL_EFFECT_BARLEY_TEA", value: 1167, ),
-        ( name: "SKILL_EFFECT_COLA", value: 1168, ),
-        ( name: "SKILL_EFFECT_DISINFECTANT", value: 1169, ),
+        (
+          name: "SKILL_EFFECT_MIN",
+          value: 1100,
+          code_value: "STARTING_SKILL_SPACT + MAX_SPACT_COUNT"
+        ),
+
+        (
+          name: "SKILL_EFFECT_POTION_MILK",
+          value: 1101,
+          code_value: "SKILL_EFFECT_MIN + 1"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_ALE",
+          value: 1102,
+          code_value: "SKILL_EFFECT_MIN + 2"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_WATER",
+          value: 1103,
+          code_value: "SKILL_EFFECT_MIN + 3"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SPELL",
+          value: 1104,
+          code_value: "SKILL_EFFECT_MIN + 4"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SKILL",
+          value: 1105,
+          code_value: "SKILL_EFFECT_MIN + 5"
+        ),
+        (
+          name: "SKILL_EFFECT_DECREASE_STAT",
+          value: 1106,
+          code_value: "SKILL_EFFECT_MIN + 6"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_FAITH",
+          value: 1107,
+          code_value: "SKILL_EFFECT_MIN + 7"
+        ),
+        (
+          name: "SKILL_EFFECT_POISON",
+          value: 1108,
+          code_value: "SKILL_EFFECT_MIN + 8"
+        ),
+        (
+          name: "SKILL_EFFECT_CONFUSE",
+          value: 1109,
+          code_value: "SKILL_EFFECT_MIN + 9"
+        ),
+        (
+          name: "SKILL_EFFECT_PARALYZE",
+          value: 1110,
+          code_value: "SKILL_EFFECT_MIN + 10"
+        ),
+        (
+          name: "SKILL_EFFECT_BLIND",
+          value: 1111,
+          code_value: "SKILL_EFFECT_MIN + 11"
+        ),
+        (
+          name: "SKILL_EFFECT_SLEEP",
+          value: 1112,
+          code_value: "SKILL_EFFECT_MIN + 12"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_POTENTIAL",
+          value: 1113,
+          code_value: "SKILL_EFFECT_MIN + 13"
+        ),
+        (
+          name: "SKILL_EFFECT_CURSE",
+          value: 1114,
+          code_value: "SKILL_EFFECT_MIN + 14"
+        ),
+        (
+          name: "SKILL_EFFECT_CREATE_BUILDING",
+          value: 1115,
+          code_value: "SKILL_EFFECT_MIN + 15"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SULFURIC",
+          value: 1116,
+          code_value: "SKILL_EFFECT_MIN + 16"
+        ),
+        (
+          name: "SKILL_EFFECT_CREATE_MATERIAL",
+          value: 1117,
+          code_value: "SKILL_EFFECT_MIN + 17"
+        ),
+        (
+          name: "SKILL_EFFECT_DECREASE_RESIST",
+          value: 1118,
+          code_value: "SKILL_EFFECT_MIN + 18"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_GROWTH",
+          value: 1119,
+          code_value: "SKILL_EFFECT_MIN + 19"
+        ),
+        (
+          name: "SKILL_EFFECT_ELIXER",
+          value: 1120,
+          code_value: "SKILL_EFFECT_MIN + 20"
+        ),
+        (
+          name: "SKILL_EFFECT_LOSE_MUTATION",
+          value: 1121,
+          code_value: "SKILL_EFFECT_MIN + 21"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_ALLY",
+          value: 1122,
+          code_value: "SKILL_EFFECT_MIN + 22"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SISTER",
+          value: 1123,
+          code_value: "SKILL_EFFECT_MIN + 23"
+        ),
+        (
+          name: "SKILL_EFFECT_ENCHANT_WEAPON",
+          value: 1124,
+          code_value: "SKILL_EFFECT_MIN + 24"
+        ),
+        (
+          name: "SKILL_EFFECT_ENCHANT_ARMOR",
+          value: 1125,
+          code_value: "SKILL_EFFECT_MIN + 25"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SPEED_2",
+          value: 1126,
+          code_value: "SKILL_EFFECT_MIN + 26"
+        ),
+        (
+          name: "SKILL_EFFECT_CHANGE_MATERIAL",
+          value: 1127,
+          code_value: "SKILL_EFFECT_MIN + 27"
+        ),
+        (
+          name: "SKILL_EFFECT_HEIR_DEED",
+          value: 1128,
+          code_value: "SKILL_EFFECT_MIN + 28"
+        ),
+        (
+          name: "SKILL_EFFECT_RECHARGE",
+          value: 1129,
+          code_value: "SKILL_EFFECT_MIN + 29"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_DIRTY_WATER",
+          value: 1130,
+          code_value: "SKILL_EFFECT_MIN + 30"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_CURE_CORRUPTION",
+          value: 1131,
+          code_value: "SKILL_EFFECT_MIN + 31"
+        ),
+        (
+          name: "SKILL_EFFECT_CHANGE_ITEM",
+          value: 1132,
+          code_value: "SKILL_EFFECT_MIN + 32"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_MOLOTOV",
+          value: 1133,
+          code_value: "SKILL_EFFECT_MIN + 33"
+        ),
+
+        (
+          name: "SKILL_EFFECT_POTION_LOVE",
+          value: 1135,
+          code_value: "SKILL_EFFECT_MIN + 35"
+        ),
+        (
+          name: "SKILL_EFFECT_TREASURE_MAP",
+          value: 1136,
+          code_value: "SKILL_EFFECT_MIN + 36"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_GIRL",
+          value: 1137,
+          code_value: "SKILL_EFFECT_MIN + 37"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_CAT_SISTER",
+          value: 1138,
+          code_value: "SKILL_EFFECT_MIN + 38"
+        ),
+
+        (
+          name: "SKILL_EFFECT_GAIN_SPEED", // Plus Custom-G
+          value: 1139,
+          code_value: "SKILL_EFFECT_MIN + 39"
+        ),
+
+        (
+          name: "SKILL_EFFECT_DECREASE_WEIGHT",
+          value: 1140,
+          code_value: "SKILL_EFFECT_MIN + 40"
+        ),
+        (
+          name: "SKILL_EFFECT_ESCAPE",
+          value: 1141,
+          code_value: "SKILL_EFFECT_MIN + 41"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SALT",
+          value: 1142,
+          code_value: "SKILL_EFFECT_MIN + 42"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_DESCENT",
+          value: 1143,
+          code_value: "SKILL_EFFECT_MIN + 43"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_EVOLUTION",
+          value: 1144,
+          code_value: "SKILL_EFFECT_MIN + 44"
+        ),
+        (
+          name: "SKILL_EFFECT_RENAME_ITEM",
+          value: 1145,
+          code_value: "SKILL_EFFECT_MIN + 45"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SODA",
+          value: 1146,
+          code_value: "SKILL_EFFECT_MIN + 46"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_CAPSULE",
+          value: 1147,
+          code_value: "SKILL_EFFECT_MIN + 47"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_OLDER_SISTER",
+          value: 1148,
+          code_value: "SKILL_EFFECT_MIN + 48"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_DOG_SISTER",
+          value: 1149,
+          code_value: "SKILL_EFFECT_MIN + 49"
+        ),
+        (
+          name: "SKILL_EFFECT_VERNIS_ORIGINAL",
+          value: 1150,
+          code_value: "SKILL_EFFECT_MIN + 50"
+        ),
+
+        (
+          name: "SKILL_EFFECT_MUTATE",
+          value: 1152,
+          code_value: "SKILL_EFFECT_MIN + 52"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_WRANGWRANG",
+          value: 1153,
+          code_value: "SKILL_EFFECT_MIN + 53"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_AQUA_SANCTIO",
+          value: 1154,
+          code_value: "SKILL_EFFECT_MIN + 54"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_DISASTER",
+          value: 1155,
+          code_value: "SKILL_EFFECT_MIN + 55"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_NEKTAR",
+          value: 1156,
+          code_value: "SKILL_EFFECT_MIN + 56"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SOMA",
+          value: 1157,
+          code_value: "SKILL_EFFECT_MIN + 57"
+        ),
+        (
+          name: "SKILL_EFFECT_MYSTERIOUS_DIARY",
+          value: 1158,
+          code_value: "SKILL_EFFECT_MIN + 58"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_COFFEE",
+          value: 1159,
+          code_value: "SKILL_EFFECT_MIN + 59"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_JUICE",
+          value: 1160,
+          code_value: "SKILL_EFFECT_MIN + 60"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_KNEADED_SWEETS",
+          value: 1161,
+          code_value: "SKILL_EFFECT_MIN + 61"
+        ),
+        (
+          name: "SKILL_EFFECT_CONTINENT_MAP",
+          value: 1162,
+          code_value: "SKILL_EFFECT_MIN + 62"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_ESSENTIAL_OIL",
+          value: 1163,
+          code_value: "SKILL_EFFECT_MIN + 63"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_GASOLINE",
+          value: 1164,
+          code_value: "SKILL_EFFECT_MIN + 64"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_GREEN_TEA",
+          value: 1165,
+          code_value: "SKILL_EFFECT_MIN + 65"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_BLACK_TEA",
+          value: 1166,
+          code_value: "SKILL_EFFECT_MIN + 66"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_WISDOM",
+          value: 1167,
+          code_value: "SKILL_EFFECT_MIN + 67"
+        ),
+        (
+          name: "SKILL_EFFECT_BUTLERS_DIARY",
+          value: 1168,
+          code_value: "SKILL_EFFECT_MIN + 68"
+        ),
+        (
+          name: "SKILL_EFFECT_BARLEY_TEA",
+          value: 1169,
+          code_value: "SKILL_EFFECT_MIN + 69"
+        ),
+        (
+          name: "SKILL_EFFECT_COLA",
+          value: 1170,
+          code_value: "SKILL_EFFECT_MIN + 70"
+        ),
+        (
+          name: "SKILL_EFFECT_DISINFECTANT",
+          value: 1171,
+          code_value: "SKILL_EFFECT_MIN + 71"
+        ),
+      ]
+    ),
+    "skill_or_buff_id": (
+      includes: [
+        "skill_id",
+        "buff_id"
       ]
     ),
     "ai_action": (
@@ -6410,8 +6758,14 @@ AnalysisConfig(
         ( name: "AI_ACTION_THROW_POTION_MAJOR", value: -9998, ),
         ( name: "AI_ACTION_THROW_POTION_GREATER", value: -9997, ),
         ( name: "AI_ACTION_THROW_POTION_SALT", value: -9996, ),
-        ( name: "MAX_AI_ACTION_THROW", value: -9995, exclude: true ),
+        ( name: "MAX_AI_ACTION_THROW", value: -9995 ),
       ],
+    ),
+    "ai_action_or_skill": (
+      includes: [
+        "skill_or_buff_id",
+        "ai_action"
+      ]
     ),
     "activity": (
       variables: [
@@ -6497,7 +6851,10 @@ AnalysisConfig(
       ],
       ignore: [ 1, 2, 3, 4, 5, 6 ]
     ),
-    "damage_from": (
+    "damage_source": (
+      includes: [
+        "chara"
+      ],
       variables: [
         ( name: "DAMAGE_FROM_CHARA", value: 0, ),
         ( name: "DAMAGE_FROM_TRAP", value: -1, ),
@@ -6544,6 +6901,7 @@ AnalysisConfig(
       variables: [
         ( name: "STARTING_MUSICLIST", value: 50, exclude: true ),
 
+        ( name: "MUSICLIST_NONE2", value: -1, ),
         ( name: "MUSICLIST_NONE", value: 0, ),
         ( name: "MUSICLIST_MCTOWN1", value: 51, ),
         ( name: "MUSICLIST_MCTOWN2", value: 52, ),
@@ -6629,7 +6987,7 @@ AnalysisConfig(
         ( name: "MUSICLIST_MCHOME0", value: 132, ),
         ( name: "MUSICLIST_SCENE_MUSIC", value: 133, ),
 
-        ( name: "MUSICLIST_MAX", value: 134, code_value: "MUSICLIST_SCENE_MUSIC + 1", exclude: true ),
+        ( name: "MUSICLIST_MAX", value: 134, code_value: "MUSICLIST_SCENE_MUSIC + 1" ),
       ]
     ),
     "sound_id": (
@@ -7120,77 +7478,51 @@ AnalysisConfig(
         ( name: "MAP_CHIP_ROLE_DISPLAY_SPACE", value: 37, ),
       ],
     ),
+    "item_find_mode": (
+      variables: [
+        ( name: "ITEM_FIND_MODE_TYPE", value: 0 ),
+        ( name: "ITEM_FIND_MODE_SKILL_REF", value: 1 ),
+        ( name: "ITEM_FIND_MODE_TYPE_MINOR", value: 2 ),
+        ( name: "ITEM_FIND_MODE_DBID", value: 3 ),
+        ( name: "ITEM_FIND_MODE_PARAM2_GT_3", value: 4 ),
+        ( name: "ITEM_FIND_MODE_CHARGE_EQ_6666", value: 5 ),
+      ]
+    ),
+    "item_find_location": (
+      variables: [
+        ( name: "ITEM_FIND_LOCATION_GROUND", value: -1 ),
+        ( name: "ITEM_FIND_LOCATION_GROUND_AND_CHARAS", value: 0 ),
+        ( name: "ITEM_FIND_LOCATION_CHARAS", value: 1 ),
+      ]
+    ),
   },
 
   arrays: {
     "cdata": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            0: Group("cdata")
-          }
+          substitute: { 0: Group("cdata") }
         ),
         (
-          rules: {
-            0: Expr,
-          },
-          substitute: {
-            0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"])
-          }
+          rules: { 0: Expr },
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"]) }
         ),
         (
-          rules: {
-            1: InGroup("chara"),
-          },
-          substitute: {
-            1: Group("chara")
-          }
+          rules: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"]) },
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF", "ARRAY_CDATA_BUFF"]) }
+        ),
+        (
+          rules: { 1: InGroup("chara"), },
+          substitute: { 1: Group("chara") }
         )
       ]
     ),
     "cdatan": (
       indices: [
+        ( substitute: { 0: Group("cdatan") } ),
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            0: Group("cdatan")
-          }
-        ),
-        (
-          rules: {
-            1: InGroup("chara"),
-          },
-          substitute: {
-            1: Group("chara")
-          }
-        )
-      ]
-    ),
-    "cbit": (
-      indices: [
-        (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            0: Group("cbit")
-          }
-        ),
-        (
-          rules: {
-            1: InGroup("chara"),
-          },
-          substitute: {
-            1: Group("chara")
-          }
+          rules: { 1: InGroup("chara"), },
+          substitute: { 1: Group("chara") }
         )
       ]
     ),
@@ -7210,36 +7542,20 @@ AnalysisConfig(
     "pcc": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            0: Group("pcc")
-          }
+          substitute: { 0: Group("pcc") }
         )
       ]
     ),
     "c_col": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            1: Group("color")
-          }
+          substitute: { 1: Group("color") }
         )
       ]
     ),
     "inv": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
           substitute: {
             0: Group("inv")
           }
@@ -7249,87 +7565,57 @@ AnalysisConfig(
     "refitem": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            1: Group("dbspec")
-          }
+          substitute: { 1: Group("dbspec") }
         )
       ]
     ),
     "gdata": (
       indices: [
         (
-          rules: {
-            0: Any
-          },
-          substitute: {
-            0: Group("gdata")
-          }
+          substitute: { 0: Group("gdata") }
         )
       ]
     ),
     "gdatan": (
       indices: [
         (
-          rules: {
-            0: Any
-          },
-          substitute: {
-            0: Group("gdatan")
-          }
+          substitute: { 0: Group("gdatan") }
         )
       ]
     ),
     "mdata": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("mdata")
-          }
+          substitute: { 0: Group("mdata") }
+        )
+      ]
+    ),
+    "feat": (
+      indices: [
+        (
+          substitute: { 0: Group("feat"), }
         )
       ]
     ),
     "adata": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            0: Group("adata")
-          }
+          substitute: { 0: Group("adata") }
         )
       ]
     ),
     "qdata": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            0: Group("qdata")
-          }
+          substitute: { 0: Group("qdata") }
         )
       ]
     ),
     "sdata": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
           substitute: {
-            0: Group("skill"),
+            0: Group("skill_id"),
             1: Group("chara")
           }
         )
@@ -7338,13 +7624,9 @@ AnalysisConfig(
     "encref": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
           substitute: {
             0: Group("encref"),
-            1: Group("enchant")
+            1: Group("enchant_id")
           }
         )
       ]
@@ -7352,10 +7634,6 @@ AnalysisConfig(
     "encammoref": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
           substitute: {
             0: Group("encammoref"),
             1: Group("enchant_ammo")
@@ -7366,10 +7644,6 @@ AnalysisConfig(
     "encprocref": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
           substitute: {
             0: Group("encprocref"),
             1: Group("enchant_proc")
@@ -7380,63 +7654,34 @@ AnalysisConfig(
     "tname": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("chipm_role")
-          }
+          substitute: { 0: Group("chipm_role") }
         )
       ]
     ),
     "cloud": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any
-          },
-          substitute: {
-            0: Group("cloud"),
-          }
+          substitute: { 0: Group("cloud"), }
         )
       ]
     ),
     "chipi": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any
-          },
-          substitute: {
-            0: Group("chipi"),
-            1: XY2Pic
-          }
+          substitute: { 0: Group("chipi"), 1: XY2Pic }
         )
       ]
     ),
     "chipc": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any
-          },
-          substitute: {
-            0: Group("chipc"),
-            1: XY2Pic
-          }
+          substitute: { 0: Group("chipc"), 1: XY2Pic }
         )
       ]
     ),
     "chipm": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any
-          },
           substitute: {
             0: Group("chipm"),
             1: XY2Pic
@@ -7447,51 +7692,30 @@ AnalysisConfig(
     "mefsubref": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any
-          },
-          substitute: {
-            0: Group("mefsubref"),
-          }
+          substitute: { 0: Group("mefsubref"), }
         )
       ]
     ),
     "lightdata": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any
-          },
-          substitute: {
-            0: Group("lightdata"),
-          }
+          substitute: { 0: Group("lightdata"), }
         )
       ]
     ),
     "trait": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("trait"),
-          }
+          substitute: { 0: Group("trait"), }
         )
       ]
     ),
     "sdataref": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
           substitute: {
             0: Group("skill_dataref"),
-            1: Group("skill"),
+            1: Group("skill_id"),
           }
         )
       ]
@@ -7499,132 +7723,79 @@ AnalysisConfig(
     "skillname": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("skill"),
-          }
+          substitute: { 0: Group("skill_id"), }
         )
       ]
     ),
     "skilldesc": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("skill"),
-          }
+          substitute: { 0: Group("skill_id"), }
         )
       ]
     ),
     "skillencdesc": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("skill"),
-          }
+          substitute: { 0: Group("skill_id"), }
         )
       ]
     ),
     "bdataref": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            1: Group("buff"),
-          }
+          substitute: { 0: Group("bdataref"), 1: Group("buff_id"), }
         )
       ]
     ),
     "buffname": (
       indices: [
         (
-          rules: {
-            0: Any,
-          },
-          substitute: {
-            0: Group("buff"),
-          }
+          substitute: { 0: Group("buff_id"), }
         )
       ]
     ),
     "bufftxt": (
       indices: [
         (
-          rules: {
-            0: Any,
-            1: Any,
-          },
-          substitute: {
-            1: Group("buff"),
-          }
+          substitute: { 1: Group("buff_id"), }
         )
+      ]
+    ),
+    "matref": (
+      indices: [
+        (
+          substitute: {
+            0: Group("matref"),
+            1: Group("material_id"),
+          }
+        ),
+      ]
+    ),
+    "matname": (
+      indices: [
+        (
+          substitute: { 0: Group("material_id"), }
+        ),
+      ]
+    ),
+    "matdesc": (
+      indices: [
+        (
+          substitute: { 0: Group("material_id"), }
+        ),
+      ]
+    ),
+    "matspot": (
+      indices: [
+        (
+          substitute: { 1: Group("material_id"), }
+        ),
       ]
     ),
   },
 
   expressions: {
-    "matid": (
-      indices: [
-        (
-          rules: (rhs: {}),
-          substitute: (rhs: { 0: Group("item_id") })
-        )
-      ]
-    ),
-    "cdata": (
-      indices: [
-        (
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
-          substitute: (rhs: { 0: Group("creature_id") })
-        ),
-        (
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
-          substitute: (rhs: { 0: Group("role") })
-        )
-      ]
-    ),
-    "mdata": (
-      indices: [
-        (
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TYPE"]) }) ),
-          substitute: ( rhs: { 0: Group("map_type") } )
-        ),
-        (
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_MUSIC"]) }) ),
-          substitute: ( rhs: { 0: Group("music_id") } )
-        ),
-        (
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_FIELD"]) }) ),
-          substitute: ( rhs: { 0: Group("map_field") } )
-        )
-      ]
-    ),
-    "gdata": (
-      indices: [
-        (
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA"]) }) ),
-          substitute: ( rhs: { 0: Group("area_id") } )
-        )
-      ]
-    ),
-    "sdataref": (
-      indices: [
-        (
-          rules: ( lhs: Array({ 0: Variant("skill_dataref", ["SKILL_DATAREF_USE"]) }), rhs: { 4: Any } ),
-          substitute: ( rhs: { 0: Group("skill"), 1: Group("skill_type"), 3: Group("target_type") } )
-        )
-      ]
-    ),
 
     // Variables
 
@@ -7641,15 +7812,3196 @@ AnalysisConfig(
           substitute: ( rhs: { 0: GroupRecursive("trait") } )
         )
       ]
+    ),
+    "matid": (
+      indices: [
+        (
+          rules: (rhs: {}),
+          substitute: (rhs: { 0: Group("item_id") })
+        )
+      ]
+    ),
+
+    // Arrays
+
+    "cdata": (
+      indices: [
+        (
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
+          substitute: (rhs: { 0: Group("creature_id") })
+        ),
+        (
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
+          substitute: (rhs: { 0: Group("role") })
+        )
+      ]
+    ),
+    "inv": (
+      indices: [
+        (
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_ID"]) })),
+          substitute: (rhs: { 0: Group("item_id") })
+        ),
+        (
+          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_STATUS"]) })),
+          substitute: (rhs: { 0: Group("item_status") })
+        )
+      ]
+    ),
+    "mdata": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TYPE"]) }) ),
+          substitute: ( rhs: { 0: Group("map_type") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_MUSIC"]) }) ),
+          substitute: ( rhs: { 0: Group("music_id") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_FIELD"]) }) ),
+          substitute: ( rhs: { 0: Group("map_field") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TILESET"]) }) ),
+          substitute: ( rhs: { 0: Group("map_tileset") } )
+        )
+      ]
+    ),
+    "adata": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ID", "ADATA_PARENT"]) }) ),
+          substitute: ( rhs: { 0: Group("area_id") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ICON"]) }) ),
+          substitute: ( rhs: { 0: XY2Pic } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_TYPE"]) }) ),
+          substitute: ( rhs: { 0: Group("map_type") } )
+        )
+      ]
+    ),
+    "feat": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_FEATURE_ID"]) }) ),
+          substitute: ( rhs: { 0: Group("cell_feature") } )
+        ),
+        (
+          rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_SUB_FEATURE_ID"]) }) ),
+          substitute: ( rhs: { 0: Group("cell_sub_feature") } )
+        ),
+      ]
+    ),
+    "gdata": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA"]) }) ),
+          substitute: ( rhs: { 0: Group("area_id") } )
+        )
+      ]
+    ),
+    "sdataref": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("skill_dataref", ["SKILL_DATAREF_USE"]) }), rhs: { 4: Any } ),
+          substitute: ( rhs: { 0: Group("skill_id"), 1: Group("skill_type"), 3: Group("target_type") } )
+        )
+      ]
+    ),
+    "bdataref": (
+      indices: [
+        (
+          rules: ( lhs: Array({ 0: Variant("bdataref", ["BDATAREF_BUFF_TYPE"]) }) ),
+          substitute: ( rhs: { 0: Group("buff_type") } )
+        )
+      ]
+    ),
+    "matspot": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: Group("atx") } )
+        )
+      ]
+    ),
+    "fixlv": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: Group("fix_quality") } )
+        )
+      ]
+    ),
+    "efid": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
+        )
+      ]
+    ),
+    "act": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: Group("ai_action_or_skill") } )
+        )
+      ]
+    ),
+    "music": (
+      indices: [
+        (
+          substitute: ( rhs: { 0: Group("music_id") } )
+        )
+      ]
     )
   },
 
   functions: {
+    "netload": (
+      args: {
+        0: (name: "filename", type: Str),
+      }
+    ),
+    "xy2pic": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+      }
+    ),
+    "hantozen": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Var),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "zentohan": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Var),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "lang": (
+      args: {
+        0: (name: "jp", type: Str),
+        1: (name: "en", type: Str),
+      }
+    ),
+    "cnvrank": (
+      args: {
+        0: (name: "rank", type: Int),
+      }
+    ),
+    "cnvtalk": (
+      args: {
+        0: (name: "str", type: Str),
+      }
+    ),
+    "cnvarticle": (
+      args: {
+        0: (name: "str", type: Str),
+      }
+    ),
+    "cnvitemname": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "cnven": (
+      args: {
+        0: (name: "str", type: Str),
+      }
+    ),
+    "cbit": (
+      args: {
+        0: (name: "bit", indices: [ ( substitute: Group("chara_bit" ) ) ]),
+        1: (name: "charid", indices: [ ( substitute: Group("chara" ) ) ]),
+      }
+    ),
+    "cbitmod": (
+      args: {
+        0: (name: "bit", indices: [ ( substitute: Group("chara_bit" ) ) ]),
+        1: (name: "charid", indices: [ ( substitute: Group("chara" ) ) ]),
+        2: (name: "seton", indices: [ ( substitute: Group("boolean" )) ])
+      }
+    ),
     "refchara": (
       args: {
-        0: (name: "dbid", expressions: [(substitute: ( rhs: { 0: Group("chara") } ))]),
-        1: (name: "dbspec"),
+        0: (name: "dbid", indices: [ ( substitute: Group("creature_id" ) ) ]),
+        1: (name: "dbspec", indices: [ ( substitute: Group("dbspec" )) ]),
         2: (name: "charid")
+      }
+    ),
+    "refclass": (
+      args: {
+        0: (name: "dbid", type: Int),
+        1: (name: "dbspec", type: Int),
+      }
+    ),
+    "refrace": (
+      args: {
+        0: (name: "dbidn", type: Str),
+        1: (name: "dbspec", type: Int),
+      }
+    ),
+    "ranktitle": (
+      args: {
+        0: (name: "rank", type: Int),
+      }
+    ),
+    "calcbuff": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "buffid", type: Int),
+        2: (name: "power", type: Int),
+      }
+    ),
+    "calcskill": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+        2: (name: "spellpower", type: Int),
+      }
+    ),
+    "sorg": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "ibit": (
+      args: {
+        0: (name: "bit", indices: [ ( substitute: Group("item_bit" ) ) ]),
+        1: (name: "itemid")
+      }
+    ),
+    "ibitmod": (
+      args: {
+        0: (name: "bit", indices: [ ( substitute: Group("item_bit" ) ) ]),
+        1: (name: "itemid"),
+        2: (name: "seton", indices: [ ( substitute: Group("boolean" )) ])
+      }
+    ),
+    "refitem": (
+      args: {
+        0: (name: "dbid", indices: [ ( substitute: Group("item_id" ) ) ]),
+        1: (name: "dbspec", indices: [ ( substitute: Group("dbspec" )) ]),
+      }
+    ),
+    "iequiploc": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "setunid": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "unid", type: Int),
+      }
+    ),
+    "getunid": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "findunid": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "synccheck": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "evfind": (
+      args: {
+        0: (name: "eventid", type: Int),
+      }
+    ),
+    "evadd": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "sndload": (
+      args: {
+        0: (name: "filepath", type: Str),
+        1: (name: "sound_id", type: Int, indices: [ ( substitute: Group("sound_id")) ]),
+      }
+    ),
+    "musicload": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "snd": (
+      args: {
+        0: (name: "sound_id", type: Int),
+        1: (name: "looping", type: Int, indices: [ ( substitute: Group("boolean")) ]),
+        2: (name: "stop_if_playing", type: Int, indices: [ ( substitute: Group("boolean")) ]),
+      }
+    ),
+    // "GetTStatus": (
+    //   args: {
+    //     0: (name: "TweakCategory", type: Int),
+    //     1: (name: "TweakNumber", type: Int),
+    //   }
+    // ),
+    "key_check": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "press": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "bmes": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "talk_conv": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "msg_write": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "txtef": (
+      args: {
+        0: (name: "color", type: Int),
+      }
+    ),
+    "name": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "aln": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "npcn": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "_s": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "_s2": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "is2": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "is": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "was": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "have": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "does": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "he": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "_s3": (
+      args: {
+        0: (name: "num", type: Int),
+      }
+    ),
+    "his2": (
+      args: {
+        0: (name: "EntityID", type: Int),
+      }
+    ),
+    "him2": (
+      args: {
+        0: (name: "EntityID", type: Int),
+      }
+    ),
+    "his": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "him": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "your2": (
+      args: {
+        0: (name: "EntityID2", type: Int),
+      }
+    ),
+    "your": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg1", type: Int),
+      }
+    ),
+    "yourself": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "txt_check": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txt_select": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+        2: (name: "arg3", type: Str),
+        3: (name: "arg4", type: Str),
+        4: (name: "arg5", type: Str),
+        5: (name: "arg6", type: Str),
+        6: (name: "arg7", type: Str),
+        7: (name: "arg8", type: Str),
+        8: (name: "arg9", type: Str),
+      }
+    ),
+    "cnvfix": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "stxt": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "cnvdate": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cnvplaytime": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "roundmargin": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "at": (
+      args: {
+        0: (name: "waittime", type: Int),
+      }
+    ),
+    "elename": (
+      args: {
+        0: (name: "ele", type: Int),
+      }
+    ),
+    "sncnv": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "sngeneral": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "sninn": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "sntrade": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "sngoods": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "snbakery": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "snmagic": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "snarmor": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "sntrainer": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "snfish": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "snblack": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "snfood": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "txtsetwinword": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetwinwordc": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz0": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz1": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz2": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz3": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz4": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz5": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz6": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz7": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz8": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz9": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz10": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz11": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz12": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz13": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz14": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz15": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz16": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz17": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz18": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz19": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz20": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz21": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz22": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz23": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz24": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz25": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz26": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz27": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz28": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz29": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz30": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz31": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz32": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz33": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetquiz34": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetnecrom": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsettamer": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetshop": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetshopkazu": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetshopfeat": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetybank": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetride": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsettezca": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtselecttc": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtselectride": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtseteyes": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetbirth": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetnecro": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetnefia": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtplusbody": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsettactical": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetequipw": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetchocoword": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetchocoword2": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txtsetchocoword3": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "limitmax": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "maplevel": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "mapfile": (
+      args: {
+        0: (name: "mapid", type: Int),
+      }
+    ),
+    "mapname": (
+      args: {
+        0: (name: "mapid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "txtbuilding": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "txtskillchange": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "negative", type: Int),
+        2: (name: "charid", type: Int),
+      }
+    ),
+    "foodname": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Str),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "_yoro": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_dozo": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_thanks": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_birth": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_rob": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_ka": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_da": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_nda": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_noka": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_kana": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_kimi": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_miruna": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_ru": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_tanomu": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_ore": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_ga": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_dana": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_siro": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_kure": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_daro": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_yo": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_aru": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_u": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_na": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_ta": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_trick": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cnvweight": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "fltname": (
+      args: {
+        0: (name: "type", type: Int),
+      }
+    ),
+    "addnews2": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "addnewstopic": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "addnews": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "txtgod": (
+      args: {
+        0: (name: "godid", type: Int),
+        1: (name: "flavor", type: Int),
+      }
+    ),
+    "create_pcpic": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "addefmap": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "cardplayerinit": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cardplayeradd": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "initcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg2", type: Int),
+      }
+    ),
+    "showcard2": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "servecard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "opencard2": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "trashcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cpscore": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "lastcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cpblackcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cpcardnum": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "csvsort": (
+      args: {
+        0: (name: "arg1", type: Array),
+        1: (name: "arg2", type: Var),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "randomname": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "random_title": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "getinheritance": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Array),
+        2: (name: "arg3", type: Var),
+      }
+    ),
+    "calcobjlv": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcfixlv": (
+      args: {
+        0: (name: "startquality", type: Int),
+      }
+    ),
+    "flt": (
+      args: {
+        0: (name: "objlv", type: Int),
+        1: (name: "qualitylv", type: Int),
+      }
+    ),
+    "fltn": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "putenclv": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "encflt": (
+      args: {
+        0: (name: "filter1", type: Int),
+        1: (name: "filter2", type: Int),
+      }
+    ),
+    "randomenc": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "randomenclv": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "randomencp": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "sortenc": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "encremove": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "encadd": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+        6: (name: "arg7", type: Int),
+      }
+    ),
+    "egoadd": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "itemcreate": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
+        2: (name: "x", type: Int),
+        3: (name: "y", type: Int),
+        4: (name: "num", type: Int),
+      }
+    ),
+    "inv_getheader": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "inv_getowner": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "inv_find": (
+      args: {
+        0: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
+        1: (name: "invid", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+      }
+    ),
+    "fix_find": (
+      args: {
+        0: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
+        1: (name: "invid", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+      }
+    ),
+    "item_find": (
+      args: {
+        0: (
+          name: "query",
+          type: Int,
+          indices: [
+            (
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_TYPE", "ITEM_FIND_MODE_TYPE_MINOR"]) },
+              substitute: Group("filter")
+            ),
+            (
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_DBID", "ITEM_FIND_MODE_PARAM2_GT_3", "ITEM_FIND_MODE_CHARGE_EQ_6666"]) },
+              substitute: Group("item_id")
+            ),
+            (
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_SKILL_REF"]) },
+              substitute: Group("skill_id")
+            )
+          ]
+        ),
+        1: (name: "mode", type: Int, indices: [ ( substitute: Group("item_find_mode" ) ) ]),
+        2: (name: "inv", type: Int, indices: [ ( substitute: Group("item_find_location" )) ]),
+      }
+    ),
+    "encfind": (
+      args: {
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+        1: (name: "encid", type: Int, indices: [ ( substitute: Group("enchant_id" )) ]),
+      }
+    ),
+    "encfindpower": (
+      args: {
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+        1: (name: "encid", type: Int, indices: [ ( substitute: Group("enchant_id" )) ]),
+      }
+    ),
+    "encfindspec": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "encid", type: Int, indices: [ ( substitute: Group("enchant_id" )) ]),
+      }
+    ),
+    "itemlist": (
+      args: {
+        0: (name: "inv", type: Int, indices: [ ( substitute: Group("chara" )) ]),
+        1: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
+      }
+    ),
+    "itemusingfind": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "arg2", type: Int, indices: [ ( substitute: Group("boolean" )) ]),
+      }
+    ),
+    "itemfind": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+        2: (name: "item_dbid", type: Int, indices: [ ( substitute: Group("item_id" )) ]),
+      }
+    ),
+    "allitemfind": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "mapfoodtypefind": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "mapitemfind": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+        2: (name: "itemid", type: Int),
+      }
+    ),
+    "cell_refresh": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+      }
+    ),
+    "itemturn": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "removeitem": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "item_copy": (
+      args: {
+        0: (name: "src", type: Int),
+        1: (name: "dst", type: Int),
+      }
+    ),
+    "item_exchange": (
+      args: {
+        0: (name: "itemid1", type: Int),
+        1: (name: "itemid2", type: Int),
+      }
+    ),
+    "item_delete": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "inv_getspace": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "inv_sum": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "item_compress": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "inv_getfreeid": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "inv_weight": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "item_num": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "item_separate": (
+      args: {
+        0: (name: "itemid", type: Var),
+      }
+    ),
+    "item_separatefish": (
+      args: {
+        0: (name: "itemid", type: Var),
+      }
+    ),
+    "chara_unequip": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "item_identify": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "idlevel", type: Int),
+        2: (name: "power", type: Int),
+      }
+    ),
+    "item_checkknown": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "rpname": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "itemowner": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "itemname": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "remain_make": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "make_dish": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "item_stack": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "itemid", type: Int),
+        2: (name: "mode", type: Int),
+      }
+    ),
+    "colorres": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "equipinfo": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "csvstr2": (
+      args: {
+        0: (name: "arg1", type: Array),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "rndshuffle": (
+      args: {
+        0: (name: "arg1", type: Array),
+      }
+    ),
+    "dist": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "winposy": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cutname": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cs_list": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+        6: (name: "arg7", type: Int),
+      }
+    ),
+    "modkarma": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "modrank": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "sexp": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "sgrowth": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "modgrowth": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "skillid", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "skillgain": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "skillid", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "skillmod": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "skillexp": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+        2: (name: "amount", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+      }
+    ),
+    "calcfame": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "decfame": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "getworker": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "removeworker": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "delmef": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "addmef": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+        6: (name: "arg7", type: Int),
+        7: (name: "arg8", type: Int),
+        8: (name: "arg9", type: Int),
+        9: (name: "arg10", type: Int),
+      }
+    ),
+    "cell_featset": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "cell_featread": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg2", type: Int),
+      }
+    ),
+    "cell_featclear": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cell_check": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cell_swap": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "cell_movechara": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "route_info": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Var),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "draw_emo": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "chara_preparepic": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cell_shownull": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+      }
+    ),
+    "cell_show": (
+      args: {
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+        2: (name: "see", type: Int),
+      }
+    ),
+    "cell_itemlist": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cell_itemoncell": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "fov_los": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "get_route": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "display_customkey": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg3", type: Int),
+      }
+    ),
+    "display_key": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "lenfix": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "showscroll": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "window": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg4", type: Int),
+        5: (name: "arg5", type: Int),
+      }
+    ),
+    "window2": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "display_window2": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "display_window": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "display_note": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "display_topic": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg3", type: Int),
+      }
+    ),
+    "display_msg": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "id_crlf": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "conv_crlf": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "rm_crlf": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "role": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "rolemax": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "fileadd": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "validatetmp": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "zopenwrapper": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Str),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "existwrapper": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "deletewrapper": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "dirlistwrapper": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "fmode13replacer": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "del_str": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "cnv_str": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Str),
+        2: (name: "arg3", type: Str),
+      }
+    ),
+    "fix_wish": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "fix_input_chat": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "fix_input_chat2": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "cnv_filestr": (
+      args: {
+        0: (name: "arg1", type: Var),
+      }
+    ),
+    "imeset": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "_fdialog": (
+      args: {
+        0: (name: "arg1", type: Array),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Array),
+        3: (name: "arg4", type: Str),
+        4: (name: "arg5", type: Str),
+      }
+    ),
+    "gmes": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "boxl": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "topicbox": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "fixtxt": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "windowanime": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "windowanimecorner": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "showtitle": (
+      args: {
+        0: (name: "arg0", type: Str),
+        1: (name: "arg1", type: Str),
+        2: (name: "arg2", type: Int),
+        3: (name: "arg3", type: Int),
+      }
+    ),
+    "drawmenu": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "fillbg": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+      }
+    ),
+    "direction": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "calcweaponfix": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "fixaiact": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "eleinfo": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "mode", type: Int),
+      }
+    ),
+    "characreate": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "dbid", type: Int, indices: [ ( substitute: Group("creature_id" )) ]),
+        2: (name: "x", type: Int),
+        3: (name: "y", type: Int),
+      }
+    ),
+    "relationbetween": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg1", type: Int),
+      }
+    ),
+    "calcage": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "rowactend": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "customtalk": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "dbmode", type: Int),
+      }
+    ),
+    "findchara": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "findcharaaz": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "findcharala": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "findallyguard": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "findally": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "implevel": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "modimp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "implevel2": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "modimp2": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "refreshspeed": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "tag_begin": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "tag_end": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "ride_begin": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "chara_vanquish": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "turn_aggro": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "make_sound": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "del_chara": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "relocate_chara": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "hostileaction": (
+      args: {
+        0: (name: "target", type: Int),
+        1: (name: "source", type: Int),
+      }
+    ),
+    "rowact_check": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "rowact_item": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cell_setchara": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "cell_removechara": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cell_findspace": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "findbuff": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "buffid", type: Int),
+      }
+    ),
+    "addbuff": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "buffid", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "delbuff": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "buffid", type: Int),
+      }
+    ),
+    "animeload": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "animeblood": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "resistmod": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "ele", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "resistmodh": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "ele", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "modcorrupt": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "wet": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "dmgcon": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "cond", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "healhp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "healmp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "healsp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "healcon": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "cond", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "spillblood": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "spillfrag": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "check_talk": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "check_kill": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "item_acid": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "item_fire": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "mapitem_fire": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "item_cold": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "mapitem_cold": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "copy_chara": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "txteledmg": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "ele", type: Int),
+      }
+    ),
+    "dmghp": (
+      args: {
+        0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
+        1: (name: "amount", type: Int),
+        2: (name: "source", type: Int, indices: [ ( substitute: Group("damage_source")) ]),
+        3: (name: "element", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
+        4: (name: "element_power", type: Int),
+      }
+    ),
+    "dmgmp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "dmgsp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "dmgspt": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "dmgsptalk": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "healsan": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "dmgsan": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "actionsp": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "advfavoriteskill": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "advfavoritestat": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "modweight": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "modheight": (
+      args: {
+        0: (name: "charid", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cure_anorexia": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "chara_vomit": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "chara_morasi": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "eatstatus": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "chara_anorexia": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "sickifcursed": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "net_send": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "net_read": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "net_dllist": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "net_dl": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "carmor": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cnveqweight": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcexpalive": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcattackhit": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcattackdmg": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cnvbonus": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "calcmedalvalue": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "calcmusicticketvalue": (
+      args: {
+        0: (name: "itemid", type: Int),
+      }
+    ),
+    "calcitemvalue": (
+      args: {
+        0: (name: "itemid", type: Int),
+        1: (name: "mode", type: Int),
+      }
+    ),
+    "calcinvestvalue": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "calcinvestvalue50": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "calcguiltvalue": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "calchireadv": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calchirecost": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "generatemoney": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "calccostreload": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "calcidentifyvalue": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calctraincost": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "calclearncost": (
+      args: {
+        0: (name: "arg0", type: Int),
+        1: (name: "arg1", type: Int),
+        2: (name: "arg1", type: Int),
+      }
+    ),
+    "calcresurrectvalue": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcslavevalue": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcinitgold": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcspellpower": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "calcspellfail": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "calcspellcostmp": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "calcspellcoststock": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "skillinit": (
+      args: {
+        0: (name: "skillid", type: Int),
+        1: (name: "charid", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "eqrandweaponmage": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "convertartifact": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "lovemiracle": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "lovemiracle2": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "map_tileset": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "map_initcustom": (
+      args: {
+        0: (name: "mapname", type: Str),
+      }
+    ),
+    "map_reload": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "map_placecharaonentrance": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "map_placearena": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_randomtile": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_line": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "map_makesimpleroom": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "map_digcheck": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_nextdir1": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_nextdir2": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_digtoentrance1": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+      }
+    ),
+    "map_setfog": (
+      args: {
+        0: (name: "arg0", type: Int),
+        1: (name: "arg1", type: Int),
+      }
+    ),
+    "map_createroom": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "map_placeupstairs": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_placedownstairs": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_randsite": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_fever": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "map_trap": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg2", type: Int),
+        3: (name: "arg3", type: Int),
+      }
+    ),
+    "map_web": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "map_barrel": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "selectcoast": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "dimmix": (
+      args: {
+        0: (name: "arg1", type: Array),
+      }
+    ),
+    "GetTabbedParameter": (
+      args: {
+        0: (name: "FilePath", type: Str),
+        1: (name: "SearchString", type: Str),
+      }
+    ),
+    "RemoveTabs": (
+      args: {
+        0: (name: "RTInput", type: Str),
+      }
+    ),
+    "RemoveLineBreaks": (
+      args: {
+        0: (name: "RLBInput", type: Str),
+      }
+    ),
+    "AddLineBreaks": (
+      args: {
+        0: (name: "ALBInput", type: Str),
+      }
+    ),
+    "AddTabs": (
+      args: {
+        0: (name: "ATInput", type: Str),
+      }
+    ),
+    "ParseString": (
+      args: {
+        0: (name: "InputString", type: Str),
+      }
+    ),
+    "equipinfo2": (
+      args: {
+        0: (name: "eq2_itempos", type: Int),
+        1: (name: "eq2_posx", type: Int),
+        2: (name: "eq2_posy", type: Int),
+        3: (name: "eq2_setnum", type: Int),
+      }
+    ),
+    "cbreeder": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "cdbit": (
+      args: {
+        0: (name: "bit", type: Int),
+        1: (name: "charid", type: Int),
+      }
+    ),
+    "cdbitmod": (
+      args: {
+        0: (name: "bit", type: Int),
+        1: (name: "charid", type: Int),
+        2: (name: "seton", type: Int),
+      }
+    ),
+    "cnvrare": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "card_ref": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cardhelp": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "tcgdrawcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "efllistadd": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+        4: (name: "arg5", type: Int),
+        5: (name: "arg6", type: Int),
+      }
+    ),
+    "create_card": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "cardpos": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "gravecard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "dmgcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "dmgplayer": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "delbottomcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "getholdersum": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "getspotsum": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "getdecksum": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cardcandeclareattack": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cardcanblock": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "cardcanuseskill": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "getrandomcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "saccard": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "opencard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "activatecard": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg1", type: Int),
+      }
+    ),
+    "putcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "calcstartcard": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcstartattb": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "random_material": (
+      args: {
+        0: (name: "matlv", type: Int),
+        1: (name: "matrare", type: Int),
+      }
+    ),
+    "matgetmain": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "matdelmain": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "modpiety": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "calcincome": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "rpmatname": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "blendcheckext": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "rpsuccessrate": (
+      args: {
+        0: (name: "rate", type: Int),
+      }
+    ),
+    "rpdiff": (
+      args: {
+        0: (name: "arg0", type: Int),
+        1: (name: "arg1", type: Int),
+        2: (name: "arg2", type: Int),
+      }
+    ),
+    "blendcheckmat": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+    "blendmatnum": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "blendlist": (
+      args: {
+        0: (name: "arg1", type: Array),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "window_recipe": (
+      args: {
+        0: (name: "arg0", type: Array),
+        1: (name: "itemid", type: Int),
+        2: (name: "arg2", type: Int),
+        3: (name: "arg3", type: Int),
+        4: (name: "arg4", type: Int),
+        5: (name: "arg5", type: Int),
+      }
+    ),
+    "txtitemoncell": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "txttargetnpc": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+      }
+    ),
+    "trimdesc": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "zipadd": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "zipinit2": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "zipadd2": (
+      args: {
+        0: (name: "arg1", type: Str),
+      }
+    ),
+    "unzip2": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "getnpctxt": (
+      args: {
+        0: (name: "arg1", type: Str),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "cnvvar": (
+      args: {
+        0: (name: "arg1", type: Var),
+        1: (name: "arg2", type: Str),
+      }
+    ),
+    "efstatusfix": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+        2: (name: "arg3", type: Int),
+        3: (name: "arg4", type: Int),
+      }
+    ),
+    "calcmagiccontrol": (
+      args: {
+        0: (name: "arg1", type: Int),
+        1: (name: "arg2", type: Int),
+      }
+    ),
+    "dipcursed": (
+      args: {
+        0: (name: "item", type: Int),
+        1: (name: "arg1", type: Int),
+      }
+    ),
+    "clientguide": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "tradecheck": (
+      args: {
+        0: (name: "charid", type: Int),
+      }
+    ),
+    "randname": (
+      args: {
+        0: (name: "arg0", type: Int),
+      }
+    ),
+    "cnvjkey": (
+      args: {
+        0: (name: "arg1", type: Str),
       }
     ),
   },

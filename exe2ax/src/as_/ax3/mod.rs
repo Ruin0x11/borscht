@@ -1312,11 +1312,11 @@ impl Hsp3As {
         self.write_ast_node(w, &self.program)
     }
 
-    pub fn write_ast_node<W: Write>(&self, w: &mut W, node: &AstNode) -> Result<(), io::Error> {
+    pub fn write_ast_node<'a, W: Write, P: AstPrintable<'a>>(&'a self, w: &mut W, node: &'a P) -> Result<(), io::Error> {
         node.print_code(w, self.program.tab_count, &self)
     }
 
-    pub fn print_ast_node(&self, node: &AstNode) -> anyhow::Result<String> {
+    pub fn print_ast_node<'a, P: AstPrintable<'a>>(&'a self, node: &'a P) -> anyhow::Result<String> {
         let mut buf = Vec::new();
         self.write_ast_node(&mut buf, node)?;
         Ok(std::str::from_utf8(buf.as_slice())?.to_string())
