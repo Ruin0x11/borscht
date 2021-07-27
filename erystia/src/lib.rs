@@ -278,6 +278,20 @@ struct FunctionArgIndex {
     substitute: Substitute
 }
 
+fn get_variable_name(node: &ast::AstNode, hsp3as: &Hsp3As) -> Option<String> {
+    match &node.kind {
+        ast::AstNodeKind::Variable(var) => {
+            match &var.ident.kind {
+                PrimitiveTokenKind::GlobalVariable(ref name) => Some(name.clone()),
+                PrimitiveTokenKind::Parameter(ref param) => Some(hsp3as.param_names.get(&param).unwrap().to_string()),
+                _ => None
+            }
+        },
+        ast::AstNodeKind::Function(func) => Some(get_function_name(&func, &hsp3as)),
+        _ => None
+    }
+}
+
 fn get_function_name(node: &ast::FunctionNode, hsp3as: &Hsp3As) -> String {
     match node.ident.kind {
         PrimitiveTokenKind::UserFunction(func) |
@@ -289,17 +303,21 @@ fn get_function_name(node: &ast::FunctionNode, hsp3as: &Hsp3As) -> String {
     }
 }
 
+fn make_blank_token(kind: PrimitiveTokenKind) -> PrimitiveToken {
+    PrimitiveToken {
+        token_offset: 0,
+        type_: 0,
+        flag: PrimitiveTokenFlags::None,
+        value: 0,
+        // name: &'a str,
+        dict_value: HspDictionaryValue::default(),
+        kind: kind
+    }
+}
+
 fn make_variable(name: String) -> ast::AstNodeKind {
     ast::AstNodeKind::Variable(ast::VariableNode {
-        ident: PrimitiveToken {
-            token_offset: 0,
-            type_: 0,
-            flag: PrimitiveTokenFlags::None,
-            value: 0,
-            // name: &'a str,
-            dict_value: HspDictionaryValue::default(),
-            kind: PrimitiveTokenKind::GlobalVariable(name)
-        },
+        ident: make_blank_token(PrimitiveTokenKind::GlobalVariable(name)),
         arg: None
     })
 }
@@ -766,20 +784,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn get_variable_name(&self, node: &ast::AstNode) -> Option<String> {
-        match &node.kind {
-            ast::AstNodeKind::Variable(var) => {
-                match &var.ident.kind {
-                    PrimitiveTokenKind::GlobalVariable(ref name) => Some(name.clone()),
-                    PrimitiveTokenKind::Parameter(ref param) => Some(self.hsp3as.param_names.get(&param).unwrap().to_string()),
-                    _ => None
-                }
-            },
-            ast::AstNodeKind::Function(func) => Some(get_function_name(&func, &self.hsp3as)),
-            _ => None
-        }
-    }
-
     fn expr_index_matches_all(&self, lhs: &ast::AstNode, rhs: &ast::AstNode, rules: &ExprRulesetAll) -> bool {
         if let Some(rule) = &rules.lhs {
             if !self.array_index_rule_matches(lhs, &rule) {
@@ -911,7 +915,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
 
     fn visit_assignment(&mut self, mut node: ast::AssignmentNode) -> ast::AssignmentNode {
         if let Some(ref mut arg) = &mut node.argument {
-            if let Some(lhs_name) = self.get_variable_name(&node.var) {
+            if let Some(lhs_name) = get_variable_name(&node.var, &self.hsp3as) {
                 if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
                     for index in expr_def.indices.iter() {
                         self.match_expr_index(&node.var, arg, index);
@@ -932,7 +936,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
         if let Some(ref op) = node.op {
             if op_is_comparison(op) {
                 if let Some(ref mut rhs) = &mut node.rhs {
-                    if let Some(lhs_name) = self.get_variable_name(&node.lhs) {
+                    if let Some(lhs_name) = get_variable_name(&node.lhs, &self.hsp3as) {
                         if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
                             for index in expr_def.indices.iter() {
                                 self.match_expr_index(&node.lhs, rhs, index);
@@ -945,7 +949,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                         }
                     }
 
-                    if let Some(rhs_name) = self.get_variable_name(rhs) {
+                    if let Some(rhs_name) = get_variable_name(rhs, &self.hsp3as) {
                         if let Some(expr_def) = &self.config.expressions.get(&rhs_name) {
                             for index in expr_def.indices.iter() {
                                 self.match_expr_index(&rhs, &mut node.lhs, index);
@@ -1058,8 +1062,138 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
     }
 }
 
-struct TxtUnrollVisitor {
+struct TxtUnrollVisitor<'a> {
+    hsp3as: &'a Hsp3As,
+    txt_function: Ax3Function
+}
 
+#[derive(Debug)]
+enum TxtUnrollState {
+    None,
+    FoundTxtvalid(u32, u32),  // txtvalid = 0
+    FoundTxtc1(u32, u32),     // txtc = 1 + ("" != "") + ("" != "") + ("" != "") + ("" != "") + ("" != "") + ("" != "") + ("" != "") + ("" != "")
+    FoundTxtc2(u32, u32),     // txtc = rnd(txtc)
+    FoundTxtSelect(u32, u32, ast::AstNodeRef), // txt_select lang("「Ｑ．九頭竜の城に住む深海の姫の名前は？」", "Which is correct name of turtle in Valm?"), "", "", "", "", "", "", "", ""
+    FoundTcol(u32, u32, ast::AstNodeRef)       // tcol@txtfunc = 255, 255, 255
+}
+
+fn trim_arguments(args: &mut ast::ArgumentNode) {
+    let mut index = None;
+    for i in (0..args.exps.len()-1).rev() {
+        let is_blank_string = match &args.exps[i].kind {
+            ast::AstNodeKind::Literal(ast::LiteralNode::String(s)) => {
+                s == ""
+            },
+            _ => false
+        };
+
+        if !is_blank_string {
+            index = Some(i);
+            break;
+        }
+    }
+
+    let index = match index {
+        Some(i) => i,
+        None => 0
+    };
+
+    args.exps.drain(index+1..args.exps.len());
+}
+
+fn make_txt_node(token_offset: u32, tab_count: u32, args: ast::AstNode, txt_function: Ax3Function) -> ast::AstNode {
+    let args_token_offset = args.token_offset;
+    let args_tab_count = args.tab_count;
+    let mut args = args.kind.into_argument().unwrap();
+
+    trim_arguments(&mut args);
+    let args_node = ast::AstNode::new(args_token_offset, ast::AstNodeKind::Argument(args), args_tab_count);
+
+    // Macros aren't compiled into the bytecode, so cheat by creating a function
+    // definition. The `#define global` will get added in by hand.
+    let kind = ast::AstNodeKind::Function(ast::FunctionNode {
+        ident: make_blank_token(PrimitiveTokenKind::UserFunction(txt_function)),
+        arg: Some(Box::new(args_node))
+    });
+    ast::AstNode::new(token_offset, kind, tab_count)
+
+}
+
+impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
+    fn visit_block_statement_end(&mut self, mut block: ast::BlockStatementNode) -> ast::BlockStatementNode {
+        let mut exps = Vec::new();
+        let mut state = TxtUnrollState::None;
+
+        for mut exp in block.nodes.into_iter() {
+            let (exp, new_state) = match state {
+                TxtUnrollState::FoundTxtc1(to, tc) => {
+                    let assign = exp.kind.as_assignment().unwrap();
+                    assert!(get_variable_name(&assign.var, &self.hsp3as).unwrap() == "txtc");
+                    (None, TxtUnrollState::FoundTxtc2(to, tc))
+                },
+                TxtUnrollState::FoundTxtc2 (to, tc) => {
+                    let func = exp.kind.into_function().unwrap();
+                    assert!(get_function_name(&func, self.hsp3as) == "txt_select");
+                    (None, TxtUnrollState::FoundTxtSelect(to, tc, func.arg.unwrap()))
+                },
+                TxtUnrollState::FoundTxtSelect(to, tc, args) => {
+                    let assign = exp.kind.into_assignment().unwrap();
+                    assert!(get_variable_name(&assign.var, self.hsp3as).unwrap() == "tcol@txtfunc");
+                    (None, TxtUnrollState::FoundTcol(to, tc, args))
+                },
+                TxtUnrollState::FoundTcol(to, tc, args) => {
+                    (Some(Box::new(make_txt_node(to, tc, *args, self.txt_function.clone()))), TxtUnrollState::None)
+                },
+                state => {
+                    if let ast::AstNodeKind::Assignment(assign) = &exp.kind {
+                        if let ast::AstNodeKind::Variable(var) = &assign.var.kind {
+                            if let PrimitiveTokenKind::GlobalVariable(ref name) = var.ident.kind {
+                                if name == "txtvalid" {
+                                    let to = exp.token_offset;
+                                    let tc = exp.tab_count;
+                                    (Some(exp), TxtUnrollState::FoundTxtvalid(to, tc))
+                                } else {
+                                    if name == "txtc" {
+                                        if let TxtUnrollState::FoundTxtvalid(to, tc) = state {
+                                            exps.pop().unwrap(); // discard previous `txtvalid = 0`
+                                            (None, TxtUnrollState::FoundTxtc1(to, tc))
+                                        } else {
+                                            (Some(exp), TxtUnrollState::None)
+                                        }
+                                    } else {
+                                        (Some(exp), TxtUnrollState::None)
+                                    }
+                                }
+                            } else {
+                                (Some(exp), TxtUnrollState::None)
+                            }
+                        } else {
+                            (Some(exp), TxtUnrollState::None)
+                        }
+                    } else {
+                        (Some(exp), TxtUnrollState::None)
+                    }
+                }
+            };
+            state = new_state;
+
+            if let Some(exp) = exp {
+                exps.push(exp);
+            }
+        }
+
+        match state {
+            TxtUnrollState::None |
+            TxtUnrollState::FoundTxtvalid(_, _) => (),
+            TxtUnrollState::FoundTcol(to, tc, args) => {
+                exps.push(Box::new(make_txt_node(to, tc, *args, self.txt_function.clone())));
+            },
+            state => panic!("Block ended in middle of txt call: {:?}", state)
+        }
+
+        block.nodes = exps;
+        block
+    }
 }
 
 struct ChatListUnrollVisitor {
@@ -1099,6 +1233,17 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     let node = hsp3as.program.clone();
 
     let node = {
+        let txt = hsp3as.add_function("txt".into(), Ax3FunctionType::DefFunc);
+
+        let mut visitor = TxtUnrollVisitor {
+            hsp3as: &hsp3as,
+            txt_function: txt
+        };
+
+        visitor.visit_node(node)
+    };
+
+    let node = {
         let mut visitor = FunctionRenameVisitor {
             config: &config,
             hsp3as: hsp3as,
@@ -1129,17 +1274,11 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         node
     };
 
-    let node = {
-        let mut visitor = TxtUnrollVisitor {};
+    // let node = {
+    //     let mut visitor = ChatListUnrollVisitor {};
 
-        visitor.visit_node(node)
-    };
-
-    let node = {
-        let mut visitor = ChatListUnrollVisitor {};
-
-        visitor.visit_node(node)
-    };
+    //     visitor.visit_node(node)
+    // };
 
     Ok(AnalysisResult {
         node: node

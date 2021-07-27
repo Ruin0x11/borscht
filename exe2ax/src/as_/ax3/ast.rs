@@ -2,6 +2,7 @@ use std::borrow::Cow;
 use std::fmt;
 use std::io::{Write, self};
 use encoding_rs::SHIFT_JIS;
+use enum_as_inner::EnumAsInner;
 use super::lexical::{PrimitiveToken, PrimitiveTokenKind};
 use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType, Ax3Label, ResolvedLabel, ResolvedParameter};
 
@@ -163,7 +164,7 @@ fn escape_string_inner(start: &[u8], rest: &[u8]) -> String {
     unsafe { String::from_utf8_unchecked(escaped) }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, EnumAsInner)]
 pub enum LiteralNode {
     Integer(i32),
     Double(f64),
@@ -171,7 +172,6 @@ pub enum LiteralNode {
     Label(ResolvedLabel),
     Symbol(String),
 }
-
 
 impl<'a> AstPrintable<'a> for LiteralNode {
     fn print_code<W: Write>(&self, f: &mut W, _tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
@@ -628,7 +628,7 @@ impl<'a> AstPrintable<'a> for CommandStatementNode {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, EnumAsInner)]
 pub enum AstNodeKind {
     Program(ProgramNode),
     CommentLine(CommentLineNode),

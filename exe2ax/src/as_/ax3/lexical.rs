@@ -4,6 +4,7 @@ use std::fmt;
 use std::io::{Read, Seek, SeekFrom};
 use byteorder::{LittleEndian, ReadBytesExt};
 use bitflags::bitflags;
+use enum_as_inner::EnumAsInner;
 
 use super::{Ax3Label, Ax3Function, Ax3Cmd, Ax3Parameter, Ax3File, ResolvedLabel, ResolvedParameter};
 
@@ -31,7 +32,7 @@ bitflags! {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, EnumAsInner)]
 pub enum PrimitiveTokenKind {
     Label(ResolvedLabel),
     Integer,

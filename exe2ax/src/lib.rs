@@ -10,6 +10,7 @@ extern crate encoding_rs;
 extern crate encoding_rs_io;
 extern crate enum_utils;
 extern crate paste;
+extern crate enum_as_inner;
 
 pub mod dpm;
 pub mod crypt;

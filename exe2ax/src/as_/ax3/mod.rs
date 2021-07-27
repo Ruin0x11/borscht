@@ -9,6 +9,7 @@ use std::fs::File;
 use std::borrow::Cow;
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
+use std::convert::TryInto;
 use std::fmt;
 use std::io::{self, Read, Write, Seek, Cursor};
 use encoding_rs::SHIFT_JIS;
@@ -1322,6 +1323,32 @@ impl Hsp3As {
         let (cow, _encoding_used, had_errors) = SHIFT_JIS.decode(&buf);
         assert!(!had_errors);
         Ok(cow.to_string())
+    }
+
+    pub fn add_function(&mut self, name: String, kind: Ax3FunctionType) -> Ax3Function {
+        let dll_index = match kind {
+            Ax3FunctionType::DefFunc => -1,
+            Ax3FunctionType::DefCFunc => -2,
+            Ax3FunctionType::Module => -3,
+            x => panic!("Unsupported function kind {:?}", x)
+        };
+
+        let function_index: i16 = (self.function_names.len() + 1).try_into().expect("Maximum number of functions exceeded.");
+        let function = Ax3Function {
+            dll_index: dll_index,
+            function_index: function_index,
+            param_start: 0,
+            param_count: 0,
+            str_index: 0,
+            param_size_sum: 0,
+            label_index: 0,
+            _unknown1: 0,
+            flags: Ax3FunctionFlags::None,
+        };
+
+        assert!(self.function_names.insert(function, name).is_none(), "Function already exists");
+
+        function
     }
 }
 

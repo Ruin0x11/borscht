@@ -409,6 +409,8 @@ impl VisitMut for BlockStatementNode {
 
         self.nodes = self.nodes.into_iter().map(|n| n.visit_mut(visitor)).collect::<_>();
 
+        self = visitor.visit_block_statement_end(self);
+
         self
     }
 }
