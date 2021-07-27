@@ -117,6 +117,7 @@ AnalysisConfig(
     ),
     "cell_feature": (
       variables: [
+        ( name: "CELL_FEATURE_NONE", value: 0 ),
         ( name: "CELL_FEATURE_UPSTAIRS", value: 10 ),
         ( name: "CELL_FEATURE_DOWNSTAIRS", value: 11 ),
         ( name: "CELL_FEATURE_TRAP", value: 14 ),
@@ -935,7 +936,7 @@ AnalysisConfig(
       variables: [
         ( name: "STARTING_RECIPE_BLEND_ACTION", value: 10000 ),
 
-        ( name: "RECIPE_BLEND_ACTION_HERBED_FOOD", value: "STARTING_RECIPE_BLEND_ACTION" ),
+        ( name: "RECIPE_BLEND_ACTION_HERBED_FOOD", value: 10000, code_value: "STARTING_RECIPE_BLEND_ACTION" ),
         ( name: "RECIPE_BLEND_ACTION_ANOTHER_HEART", value: 10001 ),
         ( name: "RECIPE_BLEND_ACTION_COFFIN", value: 10002 ),
         ( name: "RECIPE_BLEND_ACTION_FIRE_FROOF", value: 10003 ),
@@ -944,6 +945,7 @@ AnalysisConfig(
         ( name: "RECIPE_BLEND_ACTION_BLESS", value: 10006 ),
         ( name: "RECIPE_BLEND_ACTION_WELL", value: 10007 ),
         ( name: "RECIPE_BLEND_ACTION_WELL_DRAW", value: 10008 ),
+        ( name: "RECIPE_BLEND_ACTION_UNUSED", value: 10009 ),
         ( name: "RECIPE_BLEND_ACTION_INSTANT_ALE", value: 10010 ),
         ( name: "RECIPE_BLEND_ACTION_WOODCRAFT", value: 10011 ),
         ( name: "RECIPE_BLEND_ACTION_STONECRAFT", value: 10012 ),
@@ -4950,7 +4952,7 @@ AnalysisConfig(
 
         ( name: "MAX_ITEM_DBID", value: 1199, ),
       ],
-      ignore: [ 9999 ]
+      ignore: [ -1, 9999 ]
     ),
     "chara_id": (
       variables: [
@@ -8732,6 +8734,13 @@ AnalysisConfig(
 
     // Functions
 
+    "cbit": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("boolean") } )
+        ))
+      ]
+    ),
     "refitem": (
       indices: [
         MatchAll((
@@ -12114,6 +12123,26 @@ AnalysisConfig(
         0: (name: "arg1", type: Str),
       }
     ),
+
+    // Vanilla
+
+    "dist_town": (
+      args: {}
+    ),
+    "addbuilding": (
+      args: {
+        0: (name: "arg1"),
+        1: (name: "arg2"),
+        2: (name: "arg3"),
+        3: (name: "arg3"),
+      }
+    ),
+    "showeconomy": (
+      args: {
+        0: (name: "arg1"),
+        1: (name: "arg2"),
+      }
+    )
   },
 
   labels: {

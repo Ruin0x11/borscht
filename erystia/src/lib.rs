@@ -597,6 +597,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => None
                 }
             },
+            ast::AstNodeKind::Function(func) => Some(get_function_name(&func, &self.hsp3as)),
             _ => None
         }
     }
@@ -834,13 +835,24 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
         match funcdef.func.get_type() {
             Ax3FunctionType::DefFunc |
             Ax3FunctionType::DefCFunc => {
-                let func_conf = self.config.functions.get(&funcdef.default_name).expect(&format!("No function named '{}' declared", funcdef.default_name));
-                for (i, param) in funcdef.params.iter().enumerate() {
-                    let arg = func_conf.args.get(&i).expect(&format!("Missing argument {} for function '{}", i, funcdef.default_name));
-                    self.hsp3as.param_names.entry(param.clone()).insert(format!("{}_{}", funcdef.default_name, arg.name));
+                match self.config.functions.get(&funcdef.default_name) {
+                    Some(func_conf) => {
+                        for (i, param) in funcdef.params.iter().enumerate() {
+                            match func_conf.args.get(&i) {
+                                Some(arg) => {
+                                    self.hsp3as.param_names.entry(param.clone()).insert(format!("{}_{}", funcdef.default_name, arg.name));
+                                },
+                                None => println!("Missing argument {} for function '{}", i, funcdef.default_name),
+                            }
+                        }
+                        self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
+                        funcdef
+                    },
+                    None =>{
+                        println!("No function named '{}' declared", funcdef.default_name);
+                        funcdef
+                    }
                 }
-                self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
-                funcdef
             },
             _ => funcdef
         }
