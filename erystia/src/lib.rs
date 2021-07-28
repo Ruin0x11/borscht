@@ -1277,7 +1277,7 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
                     if source.is_none() {
                         source = Some(self.hsp3as.print_ast_node(node).unwrap());
                     }
-                    if source.map_or(false, |s| s.contains(&rule.match_)) {
+                    if source.as_ref().map_or(false, |s| s.contains(&rule.match_)) {
                         defn._matched_so_far += 1;
                         if defn._matched_so_far == defn.rules.len() {
                             println!("ALL MATCH {:?}", defn);
@@ -1373,7 +1373,7 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
 }
 
 pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
-    let file = File::open("database/vanilla.ron")?;
+    let file = File::open("database/plus1.90.ron")?;
     let mut config: AnalysisConfig = ron::de::from_reader(file)?;
 
     let strict = true;
@@ -1390,12 +1390,6 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     }
 
     let mut labels = config.labels.clone();
-
-    for label in labels.iter_mut() {
-        for rule in label.rules.iter_mut() {
-            rule._compiled = Some(Regex::new(&rule.regex).unwrap());
-        }
-    }
 
     let node = hsp3as.program.clone();
 
