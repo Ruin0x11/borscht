@@ -2,6 +2,11 @@
 
 AnalysisConfig(
   // TODO Some of these are from Plus Custom-G
+  meta: (
+     variant_name: "Elona+",
+     version: "1.90",
+     ax_sha256: "e3dca7fe66eed586b2da31159390f8ac86b48e17a61291eaac41c996b59864b9"
+  ),
   variable_groups: {
     "boolean": (
       variables: [
@@ -8444,14 +8449,21 @@ AnalysisConfig(
         ))
       ]
     ),
-    // "invctrl": (
-    //   indices: [
-    //     MatchAll((
-    //         rules: ( lhs: Variable ),
-    //         substitute: ( rhs: { 0: Group("invctrl") } )
-    //     ))
-    //   ]
-    // ),
+    "haveweapon": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("boolean") } )
+        ))
+      ]
+    ),
+    "invctrl": (
+      indices: [
+        MatchAll((
+            rules: ( lhs: Variable ),
+            substitute: ( rhs: { 0: Group("invctrl") } )
+        ))
+      ]
+    ),
 
     // Arrays
 
@@ -8830,10 +8842,38 @@ AnalysisConfig(
         ))
       ]
     ),
+    "bitp": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("chara_bit") } )
+        ))
+      ]
+    ),
+    "sound": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("sound_id") } )
+        ))
+      ]
+    ),
     "music": (
       indices: [
         MatchAll((
           substitute: ( rhs: { 0: Group("music_id") } )
+        ))
+      ]
+    ),
+    "scenemode": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("boolean") } )
+        ))
+      ]
+    ),
+    "chatpicloaded": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("boolean") } )
         ))
       ]
     ),
@@ -10185,7 +10225,7 @@ AnalysisConfig(
     "flt": (
       args: {
         0: (name: "objlv", type: Int),
-        1: (name: "qualitylv", type: Int),
+        1: (name: "qualitylv", type: Int, indices: [ ( substitute: Group("fix_quality") )]),
       }
     ),
     "fltn": (
@@ -12483,20 +12523,795 @@ AnalysisConfig(
 
   labels: [
     (
-      name: "*db_creature",
+      name: "*rank_init",
       rules: [
         (
-          kind: If,
-          regex: "if \\( dbmode != DBMODE_FIND \\)"
-        ),
+          kind: Function,
+          match: "sdim rankn,"
+        )
+      ]
+    ),
+    (
+      name: "*politics_init",
+      rules: [
         (
-          kind: Assignment,
-          regex: "dbsum = 0"
-        ),
+          kind: Function,
+          match: "sdim popostname,"
+        )
+      ]
+    ),
+    (
+      name: "*building_init",
+      rules: [
         (
-          kind: Assignment,
-          regex: "dbmax = 0"
-        ),
+          kind: Function,
+          match: "dim bddata,"
+        )
+      ]
+    ),
+    (
+      name: "*bRefDefine",
+      rules: [
+        (
+          kind: Function,
+          match: "dim bdataref,"
+        )
+      ]
+    ),
+    (
+      name: "*sRefDefine",
+      rules: [
+        (
+          kind: Function,
+          match: "dim sdataref,"
+        )
+      ]
+    ),
+    (
+      name: "*trait_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim traitref, 10"
+        )
+      ]
+    ),
+    (
+      name: "*trait_ref",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( tid == TRAIT_NORMAL_STAT_STAMINA ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cm_putTrait",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdatan(CDATAN_RACE, CHARA_PLAYER) == "dwarf" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*sound_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim soundlist, 6"
+        )
+      ]
+    ),
+    (
+      name: "*music_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	s = exedir + "user\\music\\musiclist.txt""
+        )
+      ]
+    ),
+    (
+      name: "*music_play",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*map_randNameInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim mapnamerd, 20, 2, 5"
+        )
+      ]
+    ),
+    (
+      name: "*item_foodInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim picfood, 10, 9"
+        )
+      ]
+    ),
+    (
+      name: "*convert_word",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat 30"
+        )
+      ]
+    ),
+    (
+      name: "*convert_talk",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = strmid(buff, p, instr(buff, p, "%END"))"
+        )
+      ]
+    ),
+    (
+      name: "*spec_talk",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = """
+        )
+      ]
+    ),
+    (
+      name: "*random_talk",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = """
+        )
+      ]
+    ),
+    (
+      name: "*quest_info",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_FLAG_MAIN) < 210 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*quest_info2",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( val == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*quest_item",
+      rules: [
+        (
+          kind: Function,
+          match: "	noteadd lang("[古びたお守り]", "[An old talisman]")"
+        )
+      ]
+    ),
+    (
+      name: "*talk_quest_load",
+      rules: [
+        (
+          kind: Function,
+          match: "	notesel buffboard"
+        )
+      ]
+    ),
+    (
+      name: "*talk_quest",
+      rules: [
+        (
+          kind: Function,
+          match: "	randomize qdata(QDATA_CLIENT, rq) + 1"
+        )
+      ]
+    ),
+    (
+      name: "*talktxt_conv",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( val == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*system_init",
+      rules: [
+        (
+          kind: Function,
+          match: ""
+        )
+      ]
+    ),
+    (
+      name: "*exit_game",
+      rules: [
+        (
+          kind: Function,
+          match: "	buffer 3, 1440, 800"
+        )
+      ]
+    ),
+    (
+      name: "*exit_game_error",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( errorhack > 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*pcc_wear",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*cloud_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_CLOUD"
+        )
+      ]
+    ),
+    (
+      name: "*mapchip_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim chipm, 8, SPRITE_SHEET_COLS_MAP * SPRITE_SHEET_ROWS_MAP"
+        )
+      ]
+    ),
+    (
+      name: "*chip_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim cloud, 6, MAX_CLOUD"
+        )
+      ]
+    ),
+    (
+      name: "*random_titleInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim randn1, 30, 20"
+        )
+      ]
+    ),
+    (
+      name: "*randomName_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	locvar_randomname_s = rn1(rnd(length(rn1)))"
+        )
+      ]
+    ),
+    (
+      name: "*randomname_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*randomName_BREAK",
+      rules: [
+        (
+          kind: Function,
+          match: "*randomname_WHILE1_CONTINUE"
+        )
+      ]
+    ),
+    (
+      name: "*random_title_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat 1"
+        )
+      ]
+    ),
+    (
+      name: "*end_name",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*time_warn_talk",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( hour_played == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_encInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim encref, 8, MAX_ENCHANTMENT"
+        )
+      ]
+    ),
+    (
+      name: "*item_encdetail",
+      rules: [
+        (
+          kind: Function,
+          match: "	rtval = 4, 0"
+        )
+      ]
+    ),
+    (
+      name: "*item_egoInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim egoname"
+        )
+      ]
+    ),
+    (
+      name: "*item_egoMinor",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat rnd(rnd(5) + 1) + 1"
+        )
+      ]
+    ),
+    (
+      name: "*item_ego",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 0"
+        )
+      ]
+    ),
+    (
+      name: "*item_enc",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( reftype == FILTER_AMMO ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_materialInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim mtname, 18, 2, ITEM_MATERIAL_MAX"
+        )
+      ]
+    ),
+    (
+      name: "*item_material",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *choose_material"
+        )
+      ]
+    ),
+    (
+      name: "*choose_material",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *apply_material"
+        )
+      ]
+    ),
+    (
+      name: "*remake_material",
+      rules: [
+        (
+          kind: Function,
+          match: "	inv(INV_ITEM_COL, ci) = COLOR_DEFAULT"
+        )
+      ]
+    ),
+    (
+      name: "*apply_material",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*apply_materialEnc",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*fish_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 0"
+        )
+      ]
+    ),
+    (
+      name: "*itemNameSub",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_ID, itemowner_itemid) == ITEM_ID_KITTY_BANK ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skipName",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*skip_stack",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*skipitemDraw",
+      rules: [
+        (
+          kind: Function,
+          match: "					}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( ty@modfov < fov_los_arg4 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE2",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( ty@modfov > fov_los_arg4 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND2",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE3",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( tx@modfov < fov_los_arg3 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND3",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE4",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( tx@modfov > fov_los_arg3 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND4",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE5",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( ty@modfov < fov_los_arg4 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND5",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE6",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( ty@modfov > fov_los_arg4 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND6",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE7",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( tx@modfov < fov_los_arg3 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND7",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE8",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( tx@modfov > fov_los_arg3 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND8",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE9",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( fov_los_arg3 - tx@modfov == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND9",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE10",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( fov_los_arg4 - ty@modfov == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WEND10",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( ty@modfov < get_route_arg4 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WHILE2",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( ty@modfov > get_route_arg4 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WEND2",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WHILE3",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( tx@modfov < get_route_arg3 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WEND3",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WHILE4",
+      rules: [
+        (
+          kind: Function,
+          match: "			if ( tx@modfov > get_route_arg3 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WEND4",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WHILE5",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( get_route_arg3 - tx@modfov == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WEND5",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WHILE6",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( get_route_arg4 - ty@modfov == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_route_WEND6",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*conv_crlf_@",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*mRefDefine",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim matval, 4"
+        )
       ]
     ),
     (
@@ -12504,24 +13319,6935 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          regex: "if \\( dbmode != DBMODE_FIND \\)"
+          match: "if \\( dbmode != DBMODE_FIND \\)"
         ),
         (
           kind: Assignment,
-          regex: "dbmax = 0"
+          match: "dbmax = 0"
         ),
         (
           kind: Assignment,
-          regex: "dbsum = 0"
+          match: "dbsum = 0"
         ),
       ]
     ),
     (
-      name: "*db_class",
+      name: "*db_setFilterItem",
+      rules: [
+        (
+          kind: Function,
+          match: "	filter_item(ITEM_ID_GO_RENGE) = """
+        )
+      ]
+    ),
+    (
+      name: "*db_setItem",
+      rules: [
+        (
+          kind: Function,
+          match: "	ilight(ITEM_ID_GO_RENGE) = LIGHT_TYPE_ITEM"
+        )
+      ]
+    ),
+    (
+      name: "*recipe_ref",
+      rules: [
+        (
+          kind: Function,
+          match: "	matneed = -1, -1, -1, -1, -1, -1, -1, -1, -1, -1"
+        )
+      ]
+    ),
+    (
+      name: "*conCalc",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( f@con == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skipDmgTxt",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*exit_death",
+      rules: [
+        (
+          kind: Function,
+          match: ""
+        )
+      ]
+    ),
+    (
+      name: "*net_read_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	await 0"
+        )
+      ]
+    ),
+    (
+      name: "*net_read_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*net_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim cgiurl2"
+        )
+      ]
+    ),
+    (
+      name: "*net_chat",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( jp ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_new",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mdata(MDATA_WEREWOLF_STAGE) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_new_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_new_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*uploader",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_SPELL"
+        )
+      ]
+    ),
+    (
+      name: "*uploader_load",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 0"
+        )
+      ]
+    ),
+    (
+      name: "*uploader_main",
+      rules: [
+        (
+          kind: Function,
+          match: "	await 20"
+        )
+      ]
+    ),
+    (
+      name: "*uploader_event",
+      rules: [
+        (
+          kind: Function,
+          match: "	dispid = comevdisp(ie_event)"
+        )
+      ]
+    ),
+    (
+      name: "*OnNavigateComplete2",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*browser",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_SPELL"
+        )
+      ]
+    ),
+    (
+      name: "*browser_load",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 0"
+        )
+      ]
+    ),
+    (
+      name: "*browser_main",
+      rules: [
+        (
+          kind: Function,
+          match: "	await 20"
+        )
+      ]
+    ),
+    (
+      name: "*browser_event",
+      rules: [
+        (
+          kind: Function,
+          match: "	dispid = comevdisp(ie_event)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	selcur = 0"
+        )
+      ]
+    ),
+    (
+      name: "*screen_txtAdv",
+      rules: [
+        (
+          kind: Function,
+          match: "	gmode 0"
+        )
+      ]
+    ),
+    (
+      name: "*screen_refresh",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*screen_refreshFull",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*screen_raderRefresh",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat mdata(MDATA_HEIGHT)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_draw",
+      rules: [
+        (
+          kind: Function,
+          match: "	screendrawhack = 1"
+        )
+      ]
+    ),
+    (
+      name: "*screen_sync",
+      rules: [
+        (
+          kind: Function,
+          match: "	gmode 2"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawStatus",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 1"
+        )
+      ]
+    ),
+    (
+      name: "*autoTurn_pic",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 9"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawAutoTurn",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( racount == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawMsg2",
+      rules: [
+        (
+          kind: Function,
+          match: "	gmode 0"
+        )
+      ]
+    ),
+    (
+      name: "*anime",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mode == MODELIST_TXT_ADV ) {"
+        )
+      ]
+    ),
+    (
+      name: "*anime_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*screen_setPos",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( scposval == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*los",
+      rules: [
+        (
+          kind: Function,
+          match: "	memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+        )
+      ]
+    ),
+    (
+      name: "*los_jump",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*los_jump2",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*los_Loc",
+      rules: [
+        (
+          kind: Function,
+          match: "	memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+        )
+      ]
+    ),
+    (
+      name: "*los_draw",
+      rules: [
+        (
+          kind: Function,
+          match: "	screendrawhack = 2"
+        )
+      ]
+    ),
+    (
+      name: "*screen_rain",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*screen_hardRain",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*screen_snow",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*screen_ether",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*screen_scroll",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( abs(cdata(CDATA_X_NEW, CHARA_PLAYER) - cdata(CDATA_X, CHARA_PLAYER)) > 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*rader_preDraw",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 3"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawRader",
+      rules: [
+        (
+          kind: Function,
+          match: "	sy(1) = 84 * sy / mdata(MDATA_HEIGHT)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_fade",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 4"
+        )
+      ]
+    ),
+    (
+      name: "*screen_fadeIn",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat 50"
+        )
+      ]
+    ),
+    (
+      name: "*screen_fadeOut",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat 30"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawEventFull",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawEventMap",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 1"
+        )
+      ]
+    ),
+    (
+      name: "*fishing_draw",
+      rules: [
+        (
+          kind: Function,
+          match: "	fishdir = 0, 1, 3, 2"
+        )
+      ]
+    ),
+    (
+      name: "*calcBodyFix",
+      rules: [
+        (
+          kind: Function,
+          match: "	cdata(CDATA_BODY_SPEED_FIX, r1) = 0"
+        )
+      ]
+    ),
+    (
+      name: "*calcBodyGain",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_EQUIP_SLOT_TOTAL, CDATA_STARTING_EQUIP_SLOTS"
+        )
+      ]
+    ),
+    (
+      name: "*calcLevelUp",
+      rules: [
+        (
+          kind: Function,
+          match: "	cdata(CDATA_EXP, r1) -= cdata(CDATA_EXP_TO_NEXT_LVL, r1)"
+        )
+      ]
+    ),
+    (
+      name: "*calcGodRecruitingPenalty",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
+        )
+      ]
+    ),
+    (
+      name: "*calcMaileINITService",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
+        )
+      ]
+    ),
+    (
+      name: "*calcAdvRecruitingPenalty",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
+        )
+      ]
+    ),
+    (
+      name: "*calcSoulSpindlePenalty",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
+        )
+      ]
+    ),
+    (
+      name: "*calcPowerUp",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
+        )
+      ]
+    ),
+    (
+      name: "*calcExpToNextLevel",
+      rules: [
+        (
+          kind: Function,
+          match: "	cdata(CDATA_EXP_TO_NEXT_LVL, r1) = limit(cdata(CDATA_LEVEL, r1), 1, 200) * (limit(cdata(CDATA_LEVEL, r1), 1, 200) + 1) * (limit(cdata(CDATA_LEVEL, r1), 1, 200) + 2) * (limit(cdata(CDATA_LEVEL, r1), 1, 200) + 3) + 3000"
+        )
+      ]
+    ),
+    (
+      name: "*expDig",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_MINING, CHARA_PLAYER, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expLiteracy",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_LITERACY, CHARA_PLAYER, 15, 10, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expTrade",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( r2 >= limit((sdata(SKILL_NORMAL_NEGOTIATION, r1) + 10) * (sdata(SKILL_NORMAL_NEGOTIATION, r1) + 10), 1, 15000) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expOpenLock",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_LOCK_PICKING, r1, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expDetection",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_DETECTION, cc, gdata(GDATA_LEVEL) * 2 + 20"
+        )
+      ]
+    ),
+    (
+      name: "*expCasting",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( tc != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expMagicCapacity",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cdata(CDATA_MP, r1)) * 400 / (cdata(CDATA_MAX_MP, r1) + 1), 1, 2000)"
+        )
+      ]
+    ),
+    (
+      name: "*expRegen",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_HP, r1) != cdata(CDATA_MAX_HP, r1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expStealth",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expInvesting",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_INVESTING, CHARA_PLAYER, 600"
+        )
+      ]
+    ),
+    (
+      name: "*expWeightLifting",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_BURDEN, CHARA_PLAYER) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expSwimming",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_CONDITION_WET, r1) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expArmor",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expRiding",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expMagicDevice",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( tc != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expFishing",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_FISHING, CHARA_PLAYER, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expMemorize",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_MEMORIZATION, CHARA_PLAYER, 10 + sdataref(SKILL_DATAREF_DIFF, efid) / 5"
+        )
+      ]
+    ),
+    (
+      name: "*expProduct",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp r1, CHARA_PLAYER, limit(100 + r2 * 30, 100, 1500)"
+        )
+      ]
+    ),
+    (
+      name: "*charaRefresh",
+      rules: [
+        (
+          kind: Function,
+          match: "			snd SOUNDLIST_BOLT1"
+        )
+      ]
+    ),
+    (
+      name: "*calcInitialSkill",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_SKILL_RESIST - STARTING_SKILL_RESIST, STARTING_SKILL_RESIST"
+        )
+      ]
+    ),
+    (
+      name: "*calcReadCheck",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ens2 != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcSearch",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rnd(sdata(SKILL_NORMAL_DETECTION, cc) * 15 + 20 + sdata(SKILL_ATTR_PER, cc)) > rnd(gdata(GDATA_LEVEL) * 8 + 60) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcTrap",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( feat(2) == CELL_SUB_FEATURE_TRAP_QUEST_MINE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expDisarm",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_DISARM_TRAP, cc, 50"
+        )
+      ]
+    ),
+    (
+      name: "*calcDisarm",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rnd(sdata(SKILL_NORMAL_DISARM_TRAP, cc) * 15 + 20 + sdata(SKILL_ATTR_DEX, cc)) > rnd(gdata(GDATA_LEVEL) * 12 + 100) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcStealth",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_CONDITION_SEPPUKU, r2) > 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcHunger",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( trait(TRAIT_RACE_SLOW_DIGESTION) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcThirst",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_THIRST, r1) <= 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcCondition",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( tarudmg != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcBurdenPc",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( findbuff(CHARA_PLAYER, BUFF_GRAVITY_ACCEL) != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*learn_sp",
+      rules: [
+        (
+          kind: Function,
+          match: "	overp = 0"
+        )
+      ]
+    ),
+    (
+      name: "*chara_initEquip",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ID, rc) == CREATURE_ID_HYPER_YACATECT | cdata(CDATA_ID, rc) == CREATURE_ID_YACATECT ) {"
+        )
+      ]
+    ),
+    (
+      name: "*set_figure",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 100"
+        )
+      ]
+    ),
+    (
+      name: "*place_chara",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rc == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*place_necro",
+      rules: [
+        (
+          kind: Function,
+          match: "	hitugi = 0"
+        )
+      ]
+    ),
+    (
+      name: "*chara_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rc == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*chara_fix",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( fixlv == FIX_QUALITY_MIRACLE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cm_finish",
+      rules: [
+        (
+          kind: Function,
+          match: "	cdata(CDATA_LEVEL, rc) = limit(cdata(CDATA_LEVEL, rc), 1, 6666)"
+        )
+      ]
+    ),
+    (
+      name: "*cm_finishPC",
+      rules: [
+        (
+          kind: Function,
+          match: "	cdata(CDATA_QUALITY, rc) = FIX_QUALITY_GOOD"
+        )
+      ]
+    ),
+    (
+      name: "*resurrect_ally",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *resurrect"
+        )
+      ]
+    ),
+    (
+      name: "*resurrect",
+      rules: [
+        (
+          kind: Function,
+          match: "	cxinit = cdata(CDATA_X, CHARA_PLAYER)"
+        )
+      ]
+    ),
+    (
+      name: "*renewStatus",
+      rules: [
+        (
+          kind: Function,
+          match: "	cbitmod CHARA_BIT_CONTINGENCY, rc, 0"
+        )
+      ]
+    ),
+    (
+      name: "*chara_respawn",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *resurrect"
+        )
+      ]
+    ),
+    (
+      name: "*cm_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cfg_wizard ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cm_init_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "		key_check"
+        )
+      ]
+    ),
+    (
+      name: "*cm_init_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_aka",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_aka_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_aka_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_past",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_past_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	page_check"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race_name_change",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race_name_change_input",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_sex",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_sex_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_sex_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_class",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_class_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cs != cs_bk ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cm_class_change_name",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_class_change_name_input",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_skill",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_stats",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_stats_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_feat",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_portrait",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cmSubTxt",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_gamemode",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_confirm",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cm_birth",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_CHARA"
+        )
+      ]
+    ),
+    (
+      name: "*cm_birth_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_end",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_name_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	val = (windoww - 230) / 2 + inf_screenx, winposy(120), 10, 0, 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_bg",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*cm_refer",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( val == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*convertartifact_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	inv(INV_ITEM_NUM, convertartifact_arg1) = 0"
+        )
+      ]
+    ),
+    (
+      name: "*convertartifact_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*item_fltInit",
+      rules: [
+        (
+          kind: Function,
+          match: "	fsetincome = FILTER_ITEM_POTION, FILTER_ITEM_SCROLL, FILTER_ITEM_SCROLL, FILTER_ITEM_ROD, FILTER_ITEM_SPELLBOOK, FILTER_ORE, FILTER_ITEM_FOOD, FILTER_ITEM_FOOD"
+        )
+      ]
+    ),
+    (
+      name: "*item_loot",
+      rules: [
+        (
+          kind: Function,
+          match: "	items_lost_on_death = """
+        )
+      ]
+    ),
+    (
+      name: "*item_loot_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*item_loot_SWEND2",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*item_rot",
+      rules: [
+        (
+          kind: Function,
+          match: "	i = gdata(GDATA_HOUR) + gdata(GDATA_DAY) * 24 + gdata(GDATA_MONTH) * 24 * 30 + gdata(GDATA_YEAR) * 24 * 30 * 12"
+        )
+      ]
+    ),
+    (
+      name: "*curse",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rnd(4) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*pregnant",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rnd(15) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*curse_enc",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_EQUIP_SLOT_TOTAL, CDATA_STARTING_EQUIP_SLOTS"
+        )
+      ]
+    ),
+    (
+      name: "*item_senseQuality",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_CONDITION_CONFUSE, CHARA_PLAYER) != 0 | cdata(CDATA_CONDITION_SLEEP, CHARA_PLAYER) != 0 | cdata(CDATA_CONDITION_PARALYZE, CHARA_PLAYER) != 0 | cdata(CDATA_CONDITION_SUFFOCATION, CHARA_PLAYER) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_fix",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( reftype < FILTER_FURNITURE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( val == 0 | val == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_value",
+      rules: [
+        (
+          kind: Function,
+          match: "	itemturn ci"
+        )
+      ]
+    ),
+    (
+      name: "*foodRotten",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cbit(CHARA_BIT_EAT_ROTTEN, cc) == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_cook",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_COOK1"
+        )
+      ]
+    ),
+    (
+      name: "*eatEffect",
+      rules: [
+        (
+          kind: Function,
+          match: "	tc = cc"
+        )
+      ]
+    ),
+    (
+      name: "*eatHard",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatInsane",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatHorse",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatHoly",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatPlayer",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatGuard",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc != CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatVesda",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_AMUR_CAGE, ci) != 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatIssizzle",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_AMUR_CAGE, ci) != 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatPutit",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatCupid",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatPoison",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatTroll",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatRotten",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatBeetle",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatMandrake",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatGhost",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatHealSan",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatYith",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatChaos",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatEye",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatCat",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc != CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatEther",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc != CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatEND",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatMAG",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatSTR",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatWIL",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatQuickling",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eatAlien",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( synccheck(cc, -1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*alien_effect",
+      rules: [
+        (
+          kind: Function,
+          match: "	return"
+        )
+      ]
+    ),
+    (
+      name: "*setCellObj",
+      rules: [
+        (
+          kind: Function,
+          match: "	tile_trap = 234"
+        )
+      ]
+    ),
+    (
+      name: "*map_createRoom_FOR1",
+      rules: [
+        (
+          kind: Function,
+          match: "		exgoto p, 1, roomsum, *map_createRoom_FOR1_BREAK1"
+        )
+      ]
+    ),
+    (
+      name: "*map_createRoom_FOR1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*map_createRoom_FOR1_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "		roomsum++"
+        )
+      ]
+    ),
+    (
+      name: "*map_trap_FOR1",
+      rules: [
+        (
+          kind: Function,
+          match: "	exgoto locvar_map_trap_p, 1, 3, *map_trap_FOR1_BREAK1"
+        )
+      ]
+    ),
+    (
+      name: "*map_trap_FOR1_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( map_trap_arg1 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*map_web_FOR1",
+      rules: [
+        (
+          kind: Function,
+          match: "	exgoto locvar_map_trap_p, 1, 3, *map_web_FOR1_BREAK1"
+        )
+      ]
+    ),
+    (
+      name: "*map_web_FOR1_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( map_web_arg1 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*map_barrel_FOR1",
+      rules: [
+        (
+          kind: Function,
+          match: "	exgoto locvar_map_trap_p, 1, 3, *map_barrel_FOR1_BREAK1"
+        )
+      ]
+    ),
+    (
+      name: "*map_barrel_FOR1_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( map_barrel_arg1 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*map_connectroom_FOR1",
+      rules: [
+        (
+          kind: Function,
+          match: "	exgoto cr, 1, roomsum - 1, *map_connectroom_FOR1_BREAK1"
+        )
+      ]
+    ),
+    (
+      name: "*map_connectroom_FOR1_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = cr + 1"
+        )
+      ]
+    ),
+    (
+      name: "*map_makedoor_FOR1",
+      rules: [
+        (
+          kind: Function,
+          match: "	exgoto cr, 1, roomsum, *map_makedoor_FOR1_BREAK1"
+        )
+      ]
+    ),
+    (
+      name: "*map_makedoor_FOR1_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "	tx = 0"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_new",
+      rules: [
+        (
+          kind: Function,
+          match: "	dialog "Unsaved data will be lost. Create a new map?", 3"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_menu",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( lparam == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	inf_screeny = 0"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_main",
+      rules: [
+        (
+          kind: Function,
+          match: "	map_tileset 0"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_main_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	tt++"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_main_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*cmap_init1",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = """
+        )
+      ]
+    ),
+    (
+      name: "*cmap_search1",
+      rules: [
+        (
+          kind: Function,
+          match: "	meditsearchenabled = 1"
+        )
+      ]
+    ),
+    (
+      name: "*cmap_refresh1",
+      rules: [
+        (
+          kind: Function,
+          match: "	meditsearchenabled = 0"
+        )
+      ]
+    ),
+    (
+      name: "*cmap_init2",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = """
+        )
+      ]
+    ),
+    (
+      name: "*cmap_init3",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = """
+        )
+      ]
+    ),
+    (
+      name: "*cmap_init_list",
+      rules: [
+        (
+          kind: Function,
+          match: "	notesel buff2"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_editMode",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( meditmode == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_delObj",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_changeProperty",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mproperty == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_fill",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat mdata(MDATA_HEIGHT)"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_setFog",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat mdata(MDATA_HEIGHT)"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_resize",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mwidth2 < inf_screenw ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_save1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( fmapfile == "" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_save2",
+      rules: [
+        (
+          kind: Function,
+          match: "		return"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_load",
+      rules: [
+        (
+          kind: Function,
+          match: "	fileext = "map""
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_renewList",
+      rules: [
+        (
+          kind: Function,
+          match: "	map_tileset 0"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_setCoast",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mdata(MDATA_TILE_FILE) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_setCoast2",
+      rules: [
+        (
+          kind: Function,
+          match: "	coasttile = 285"
+        )
+      ]
+    ),
+    (
+      name: "*mapEditor_export",
+      rules: [
+        (
+          kind: Function,
+          match: "	mapeditorrader++"
+        )
+      ]
+    ),
+    (
+      name: "*map_randomDungeon",
+      rules: [
+        (
+          kind: Function,
+          match: "	randomize"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonHunt",
+      rules: [
+        (
+          kind: Function,
+          match: "		return"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonMinefield",
+      rules: [
+        (
+          kind: Function,
+          match: "	gdata(GDATA_TIME_LIMIT) = 60"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonHarvest",
+      rules: [
+        (
+          kind: Function,
+          match: "	gdata(GDATA_TIME_LIMIT) = 120"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonStandard",
+      rules: [
+        (
+          kind: Function,
+          match: "	map_initialize"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonResident",
+      rules: [
+        (
+          kind: Function,
+          match: "	rdroomsizemin = 8"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonJail",
+      rules: [
+        (
+          kind: Function,
+          match: "	rdroomsizemin = 8"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonWide",
+      rules: [
+        (
+          kind: Function,
+          match: "	rdroomsizemax = 3"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonBigRoom",
+      rules: [
+        (
+          kind: Function,
+          match: "	mdata(MDATA_WIDTH) = 48 + rnd(20)"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonPerform",
+      rules: [
+        (
+          kind: Function,
+          match: "	gdata(GDATA_TIME_LIMIT) = 60"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonConquer",
+      rules: [
+        (
+          kind: Function,
+          match: "	mdata(MDATA_MODERATE_CROWD) = 0"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonHighPass",
+      rules: [
+        (
+          kind: Function,
+          match: "	mdata(MDATA_WIDTH) = 30"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonMaze",
+      rules: [
+        (
+          kind: Function,
+          match: "	mdata(MDATA_WIDTH) = _mclass * (_bold * 2) - _bold + 8"
+        )
+      ]
+    ),
+    (
+      name: "*dighole",
+      rules: [
+        (
+          kind: Function,
+          match: "	rdsecond = 1"
+        )
+      ]
+    ),
+    (
+      name: "*map_createDungeonDog",
+      rules: [
+        (
+          kind: Function,
+          match: "	mdata(MDATA_WIDTH) = _mclass * (_bold * 2) - _bold + 8"
+        )
+      ]
+    ),
+    (
+      name: "*/",
+      rules: [
+        (
+          kind: Function,
+          match: "	mdata(MDATA_HEIGHT) = mdata(MDATA_WIDTH)"
+        )
+      ]
+    ),
+    (
+      name: "*ExportItemDB",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat maxitemid - 2"
+        )
+      ]
+    ),
+    (
+      name: "*ExportCardDescriptions",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat maxnpcid - 2"
+        )
+      ]
+    ),
+    (
+      name: "*/",
+      rules: [
+        (
+          kind: Function,
+          match: "		noteadd "npc_ID.\t" + cnt"
+        )
+      ]
+    ),
+    (
+      name: "*Load_Item_Highlights",
+      rules: [
+        (
+          kind: Function,
+          match: "	//Verify that the ItemList file exists, displaying an error message and returning if not."
+        )
+      ]
+    ),
+    (
+      name: "*home_setup",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_HOME_LEVEL) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*building_new",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_DEED_PROPERTY_TRANSFER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*setHome",
+      rules: [
+        (
+          kind: Function,
+          match: "		midbk = mid"
+        )
+      ]
+    ),
+    (
+      name: "*com_home",
+      rules: [
+        (
+          kind: Function,
+          match: "	txtnew"
+        )
+      ]
+    ),
+    (
+      name: "*com_home_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "		redraw 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_home_WHILE2",
+      rules: [
+        (
+          kind: Function,
+          match: "		txtnew"
+        )
+      ]
+    ),
+    (
+      name: "*com_home_WHILE3",
+      rules: [
+        (
+          kind: Function,
+          match: "		txtnew"
+        )
+      ]
+    ),
+    (
+      name: "*com_home_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*home_setWallTile",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 0"
+        )
+      ]
+    ),
+    (
+      name: "*shop_turn",
+      rules: [
+        (
+          kind: Function,
+          match: "	area = -1"
+        )
+      ]
+    ),
+    (
+      name: "*shop_turn_main",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*shop_update",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*museum_value",
+      rules: [
+        (
+          kind: Function,
+          match: "	rc = MAX_CHARA_NC"
+        )
+      ]
+    ),
+    (
+      name: "*museum_unique_level",
+      rules: [
+        (
+          kind: Function,
+          match: "	rtval = 0"
+        )
+      ]
+    ),
+    (
+      name: "*museum_update",
+      rules: [
+        (
+          kind: Function,
+          match: "	rankorg = gdata(GDATA_RANK_MUSEUM)"
+        )
+      ]
+    ),
+    (
+      name: "*house_value",
+      rules: [
+        (
+          kind: Function,
+          match: "	a = refitem(inv(INV_ITEM_ID, val), DBSPEC_TYPE)"
+        )
+      ]
+    ),
+    (
+      name: "*house_update",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_LEVEL) != 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*ranch_update",
+      rules: [
+        (
+          kind: Function,
+          match: "	worker = getworker(gdata(GDATA_AREA))"
+        )
+      ]
+    ),
+    (
+      name: "*skipBreeder",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*fltChara",
+      rules: [
+        (
+          kind: Function,
+          match: "	dbid = 0"
+        )
+      ]
+    ),
+    (
+      name: "*chara_spawn",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( adata(ADATA_ID, gdata(GDATA_AREA)) == AREA_MUSEUM | adata(ADATA_ID, gdata(GDATA_AREA)) == AREA_SHOP ) {"
+        )
+      ]
+    ),
+    (
+      name: "*map_exit",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*map_clean",
+      rules: [
+        (
+          kind: Function,
+          match: "		existwrapper exedir + "tmp\\mdata_" + mid + ".s2""
+        )
+      ]
+    ),
+    (
+      name: "*map_save",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *map_clean"
+        )
+      ]
+    ),
+    (
+      name: "*map_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*map_init_main",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*map_preBegin",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*skip_advPlace",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*map_begin",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_ADVENTURER_ORACLE) == 100 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*check_renew",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*map_prepareTile",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *rader_preDraw"
+        )
+      ]
+    ),
+    (
+      name: "*world_newRandArea",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*world_update",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*world_refresh",
+      rules: [
+        (
+          kind: Function,
+          match: "	return 1"
+        )
+      ]
+    ),
+    (
+      name: "*world_setArea",
+      rules: [
+        (
+          kind: Function,
+          match: "	return"
+        )
+      ]
+    ),
+    (
+      name: "*world_clear",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat mdata(MDATA_HEIGHT)"
+        )
+      ]
+    ),
+    (
+      name: "*setArea",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = AREA_AIMWELL"
+        )
+      ]
+    ),
+    (
+      name: "*map_createRandArea",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_AREA_COUNT - STARTING_RANDOM_AREA, STARTING_RANDOM_AREA"
+        )
+      ]
+    ),
+    (
+      name: "*mapEvent",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_AREA) == AREA_NOYEL ) {"
+        )
+      ]
+    ),
+    (
+      name: "*ludus_festival",
+      rules: [
+        (
+          kind: Function,
+          match: "	inv_getheader -1"
+        )
+      ]
+    ),
+    (
+      name: "*noyel_festival",
+      rules: [
+        (
+          kind: Function,
+          match: "	inv_getheader -1"
+        )
+      ]
+    ),
+    (
+      name: "*db_card",
+      rules: [
+        (
+          kind: Function,
+          match: ""
+        )
+      ]
+    ),
+    (
+      name: "*dbghit_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	await"
+        )
+      ]
+    ),
+    (
+      name: "*dbghit_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "#deffunc makecardlist"
+        )
+      ]
+    ),
+    (
+      name: "*tcgdraw_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	t@tcg++"
+        )
+      ]
+    ),
+    (
+      name: "*tcgdraw_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*getrandomcard_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	c@tcg = rnd(maxcard@tcg)"
+        )
+      ]
+    ),
+    (
+      name: "*getrandomcard_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*actionchain_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	tcgdraw"
+        )
+      ]
+    ),
+    (
+      name: "*actionchain_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*actionproc_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( stack@tcg > 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*actionproc_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		_switch_sw@tcg++"
+        )
+      ]
+    ),
+    (
+      name: "*actionproc_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "	goto *actionproc_WHILE1"
+        )
+      ]
+    ),
+    (
+      name: "*actionproc_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	stack@tcg = 0"
+        )
+      ]
+    ),
+    (
+      name: "*tcgDeck_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	tcgdrawbg"
+        )
+      ]
+    ),
+    (
+      name: "*tcgmain_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	cpisme"
+        )
+      ]
+    ),
+    (
+      name: "*tcgmain_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*phase_begin",
+      rules: [
+        (
+          kind: Function,
+          match: "	phase@tcg = 0"
+        )
+      ]
+    ),
+    (
+      name: "*phase_draw",
+      rules: [
+        (
+          kind: Function,
+          match: "	phase@tcg = 1"
+        )
+      ]
+    ),
+    (
+      name: "*phase_main",
+      rules: [
+        (
+          kind: Function,
+          match: "	phase@tcg = 2"
+        )
+      ]
+    ),
+    (
+      name: "*phase_end",
+      rules: [
+        (
+          kind: Function,
+          match: "	phase@tcg = 3"
+        )
+      ]
+    ),
+    (
+      name: "*refresh_bg",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 4"
+        )
+      ]
+    ),
+    (
+      name: "*tcg_drawDeck",
+      rules: [
+        (
+          kind: Function,
+          match: "	font lang(cfg_font1, cfg_font2), 10 + en - en * 2, 0"
+        )
+      ]
+    ),
+    (
+      name: "*tcg_drawInterface",
+      rules: [
+        (
+          kind: Function,
+          match: "	gmode 0"
+        )
+      ]
+    ),
+    (
+      name: "*tcg_initBg",
+      rules: [
+        (
+          kind: Function,
+          match: "	gmode 4, , , 180"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_pos",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( dsc@tcg < 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 4"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	dlistmax@tcg = 0"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop_WHILE2",
+      rules: [
+        (
+          kind: Function,
+          match: "			redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop_WHILE2_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop_WEND2",
+      rules: [
+        (
+          kind: Function,
+          match: "*select_deck_loop_WHILE2_CONTINUE"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*select_deck_loop_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*card_player",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( selectmode@tcg == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*card_player_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	tcgdraw"
+        )
+      ]
+    ),
+    (
+      name: "*card_player_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*card_player_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*select_action",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*select_action_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	p@tcg++"
+        )
+      ]
+    ),
+    (
+      name: "*select_action_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*ai_evaluate",
+      rules: [
+        (
+          kind: Function,
+          match: "	emax@tcg = 0"
+        )
+      ]
+    ),
+    (
+      name: "*ai_sac",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( sac@tcg > 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*card_ai",
+      rules: [
+        (
+          kind: Function,
+          match: "	spellused@tcg = 0"
+        )
+      ]
+    ),
+    (
+      name: "*card_ai_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gameover() ) {"
+        )
+      ]
+    ),
+    (
+      name: "*card_ai_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_product",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_product_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_material",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_material_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_material_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_txtadv",
+      rules: [
+        (
+          kind: Function,
+          match: "	begintempinv"
+        )
+      ]
+    ),
+    (
+      name: "*com_txtadv_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_txtadv_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_adv_anime1",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *com_adv_animeSub"
+        )
+      ]
+    ),
+    (
+      name: "*com_adv_anime2",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *com_adv_animeSub"
+        )
+      ]
+    ),
+    (
+      name: "*com_adv_animeSub",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat 11"
+        )
+      ]
+    ),
+    (
+      name: "*com_txtAdvQuit",
+      rules: [
+        (
+          kind: Function,
+          match: "	mtilefilecur = -1"
+        )
+      ]
+    ),
+    (
+      name: "*atx_RE",
+      rules: [
+        (
+          kind: Function,
+          match: "	atxap = 10"
+        )
+      ]
+    ),
+    (
+      name: "*atx_RE_main",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( atxap <= 0 | cdata(CDATA_HP, CHARA_PLAYER) < 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*atx_RE_search",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*atx_RE_end",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*adv_casinoCard",
+      rules: [
+        (
+          kind: Function,
+          match: "	atxbg = "bg14""
+        )
+      ]
+    ),
+    (
+      name: "*adv_casinoBlackJack",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*set_npcGod",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_GOD, tc) != GOD_EYTH | cbit(CHARA_BIT_NO_GOD, tc) | tc == CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*god_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim godname, 20, 9"
+        )
+      ]
+    ),
+    (
+      name: "*god_effect",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_GOD, r1) == GOD_MANI ) {"
+        )
+      ]
+    ),
+    (
+      name: "*god_detail",
+      rules: [
+        (
+          kind: Function,
+          match: "	buff = " ""
+        )
+      ]
+    ),
+    (
+      name: "*god_select",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*god_select_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*god_select_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*change_god",
+      rules: [
+        (
+          kind: Function,
+          match: "		msg_halt"
+        )
+      ]
+    ),
+    (
+      name: "*god_pray",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_GOD, CHARA_PLAYER) == GOD_EYTH ) {"
+        )
+      ]
+    ),
+    (
+      name: "*god_offer",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*god_punish",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*random_event",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*random_eventProc",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*random_eventProc_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*re_select",
+      rules: [
+        (
+          kind: Function,
+          match: "		goto *random_eventProc_SWEND1"
+        )
+      ]
+    ),
+    (
+      name: "*re_select_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*re_select_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*event_income",
+      rules: [
+        (
+          kind: Function,
+          match: "	invfile = 4"
+        )
+      ]
+    ),
+    (
+      name: "*initial_recipe",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat length(rplistdef)"
+        )
+      ]
+    ),
+    (
+      name: "*recipe_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim rpdata, 100, 1599"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_step",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( step != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_recipe_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_recipe_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_recipe_loop_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_material_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	windowshadow(1) = 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_material_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	page_check"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_material_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( p != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_material_loop_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	goto *pc_turn"
+        )
+      ]
+    ),
+    (
+      name: "*blend_checkMat",
+      rules: [
+        (
+          kind: Function,
+          match: "	f = 1"
+        )
+      ]
+    ),
+    (
+      name: "*blend_deleteMat",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 0"
+        )
+      ]
+    ),
+    (
+      name: "*blend_complete",
+      rules: [
+        (
+          kind: Function,
+          match: "	rpresult = 1"
+        )
+      ]
+    ),
+    (
+      name: "*blend",
+      rules: [
+        (
+          kind: Function,
+          match: "	rpid = rpref(0)"
+        )
+      ]
+    ),
+    (
+      name: "*blend_act",
+      rules: [
+        (
+          kind: Function,
+          match: "	ci = rpref(10 + 0 * 2)"
+        )
+      ]
+    ),
+    (
+      name: "*blend_act_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_import",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*com_import_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0			}"
+        )
+      ]
+    ),
+    (
+      name: "*com_import_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*findLocation",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( tlocinitx != 0 | tlocinity != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*findLocation_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( tlochomex != 0 | tlochomey != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*findLocation_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*com_target",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_target_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_target_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cs != cs_bk ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_target_loop_BREAK1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_mapset",
+      rules: [
+        (
+          kind: Function,
+          match: "	ww = 33"
+        )
+      ]
+    ),
+    (
+      name: "*com_mapset_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_mapset_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*com_mapset_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_ally",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*com_ally_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_ally_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_ally_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowOther",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowOther_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowOther_pgchg",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowSelf",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowSelf_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowSelf_pgchg",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_trait",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_trait_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_trait_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_journal",
+      rules: [
+        (
+          kind: Function,
+          match: "	curmenu = 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_journal_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_journal_loop_pgchg",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_quest",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cfg_extrahelp ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_quest_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_quest_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_listNpc",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*com_listNpc_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_listNpc_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_reserve",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*com_reserve_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_reserve_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_jukebox",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*com_jukebox_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_jukebox_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_listAdv",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_listAdv_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_listAdv_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*wish_fix",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( jp ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_aka",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_aka_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_aka_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	return"
+        )
+      ]
+    ),
+    (
+      name: "*com_wish_end",
+      rules: [
+        (
+          kind: Function,
+          match: "	s = lang(cdatan(CDATAN_AKA, CHARA_PLAYER) + cdatan(CDATAN_NAME, CHARA_PLAYER) + "は狂喜して叫んだ。「" + inputlog + "！！」" + txtcopy, cdatan(CDATAN_AKA, CHARA_PLAYER) + " " + cdatan(CDATAN_NAME, CHARA_PLAYER) + " goes wild with joy, \"" + inputlog + "!!\" " + cnven(txtcopy))"
+        )
+      ]
+    ),
+    (
+      name: "*com_wish",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*wish_item",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*wish_skill",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *wish_fix"
+        )
+      ]
+    ),
+    (
+      name: "*wish_card",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *wish_monster"
+        )
+      ]
+    ),
+    (
+      name: "*wish_figure",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *wish_monster"
+        )
+      ]
+    ),
+    (
+      name: "*wish_monster",
+      rules: [
+        (
+          kind: Function,
+          match: "	flt"
+        )
+      ]
+    ),
+    (
+      name: "*com_shortcut",
+      rules: [
+        (
+          kind: Function,
+          match: "	menucycle = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_dig",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang("どの方向を掘る？ ", "Which direction do you want to dig? ")"
+        )
+      ]
+    ),
+    (
+      name: "*com_bash",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang("どの方向に体当たりする？ ", "Which direction do you want to bash? ")"
+        )
+      ]
+    ),
+    (
+      name: "*com_skill",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *action"
+        )
+      ]
+    ),
+    (
+      name: "*com_applySkill",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_applySkill_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_applySkill_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_applyWideSkill",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*com_applyWideSkill_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_applyWideSkill_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_stack",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang("同じアイテムを、鮮度や価値の低いほうにあわせてまとめる？", "Stack items of the same type and sort by increasing freshness and value?")"
+        )
+      ]
+    ),
+    (
+      name: "*com_give",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang("どの方向に？ ", "Which direction? ")"
+        )
+      ]
+    ),
+    (
+      name: "*com_interact",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang("操作する対象の方向は？", "Choose the direction of the target.")"
+        )
+      ]
+    ),
+    (
+      name: "*com_name",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_tone",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*com_tone_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_tone_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_userNpc",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_CHARA"
+        )
+      ]
+    ),
+    (
+      name: "*com_userNpc_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_userNpc_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_book",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_BOOK1"
+        )
+      ]
+    ),
+    (
+      name: "*com_book_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_book_loop_pgchg",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_spellcast",
+      rules: [
+        (
+          kind: Function,
+          match: "	tc = cc"
+        )
+      ]
+    ),
+    (
+      name: "*com_spell",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_spell_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_spell_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*skill_desc",
+      rules: [
+        (
+          kind: Function,
+          match: "		s = strmid(s, 0, 40)"
+        )
+      ]
+    ),
+    (
+      name: "*trainer_skill",
+      rules: [
+        (
+          kind: Function,
+          match: "	dbmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*notable_skill",
+      rules: [
+        (
+          kind: Function,
+          match: "	dbmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ohanasi1 == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory2",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ohanasi2 == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory3",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ohanasi3 == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory4",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ohanasi4 == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory5",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ohanasi5 == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_charainfo",
+      rules: [
+        (
+          kind: Function,
+          match: "	dbg_showallskill = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_charainfo_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( csctrl != 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_charainfo_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_charainfo_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*portrait_item",
+      rules: [
+        (
+          kind: Function,
+          match: "	rtval = -2"
+        )
+      ]
+    ),
+    (
+      name: "*get_pic_selection",
+      rules: [
+        (
+          kind: Function,
+          match: "	rtval = -2"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark",
+      rules: [
+        (
+          kind: Function,
+          match: "	bkitemx = cdata(CDATA_MARK_ITEM_X, tc)"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *screen_draw"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark_adjust",
+      rules: [
+        (
+          kind: Function,
+          match: "	bkitemz = cdata(CDATA_MARK_ITEM_ADJUST_Z, tc)"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark_adjust_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *screen_draw"
+        )
+      ]
+    ),
+    (
+      name: "*com_shape_change",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_PIC, cc) < 693 | cdata(CDATA_PIC, cc) > 724 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_shape_change_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_shape_change_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*com_portrait",
+      rules: [
+        (
+          kind: Function,
+          match: "	create_pcpic cc, 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_portrait_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_portrait_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_portrait_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*com_mirror",
+      rules: [
+        (
+          kind: Function,
+          match: "	create_pcpic cc, 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_mirror_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_calcAttack",
+      rules: [
+        (
+          kind: Function,
+          match: "	p(1) = 0, 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_skill_calcAttack",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*show_weaponStat",
+      rules: [
+        (
+          kind: Function,
+          match: "	attacknum = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_wear",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_wear_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	page_check"
+        )
+      ]
+    ),
+    (
+      name: "*com_wear_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_get",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( map(cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 6) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_allyInventory",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ACTION_PERIOD, tc) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*sort_list",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( listmax < 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*sort_list2",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( listmax < 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( invsc != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*inv_skipSc",
+      rules: [
+        (
+          kind: Function,
+          match: "		cargocheck"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_end",
+      rules: [
+        (
+          kind: Function,
+          match: "					}"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "	goto *com_inventory_loop_WHILE1"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	goto *com_identify"
+        )
+      ]
+    ),
+    (
+      name: "*com_identify",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_identify_loop_pgchk",
+      rules: [
+        (
+          kind: Function,
+          match: "	key_list = key_enter"
+        )
+      ]
+    ),
+    (
+      name: "*com_identify_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*findTarget",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_EXIST, cdata(CDATA_TARGET, cc)) != CHAR_STATE_ALIVE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_confirmAttack",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( efid == SKILL_SPACT_DIRECTIVE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_fire",
+      rules: [
+        (
+          kind: Function,
+          match: "	cc = CHARA_PLAYER"
+        )
+      ]
+    ),
+    (
+      name: "*FindRangeWeapon",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( stat == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_findTarget",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_rest",
+      rules: [
+        (
+          kind: Function,
+          match: "	r1 = 50"
+        )
+      ]
+    ),
+    (
+      name: "*com_rowActCancel",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang(actlistn(cdata(CDATA_ROW_ACT, cc)) + "を中断したほうがいいだろうか？ ", "Do you want to cancel " + actlistn(cdata(CDATA_ROW_ACT, cc)) + "? ")"
+        )
+      ]
+    ),
+    (
+      name: "*com_save",
+      rules: [
+        (
+          kind: Function,
+          match: "	txtnew"
+        )
+      ]
+    ),
+    (
+      name: "*check_return",
+      rules: [
+        (
+          kind: Function,
+          match: "	f = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_return",
+      rules: [
+        (
+          kind: Function,
+          match: "	gosub *check_return"
+        )
+      ]
+    ),
+    (
+      name: "*com_gasha",
+      rules: [
+        (
+          kind: Function,
+          match: "	screenupdate = -1"
+        )
+      ]
+    ),
+    (
+      name: "*com_train",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_SKILLBOOK ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_dump",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_WIZARD) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*dump_chara",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*com_ammo",
+      rules: [
+        (
+          kind: Function,
+          match: "	f = 0"
+        )
+      ]
+    ),
+    (
+      name: "*gene_itemfix",
+      rules: [
+        (
+          kind: Function,
+          match: "	inv_getheader -1"
+        )
+      ]
+    ),
+    (
+      name: "*fixOnMapEnter",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*fixSave",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_VERSION) != int(double("3.21") * 1000) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*mapReset",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*apply_gene",
+      rules: [
+        (
+          kind: Function,
+          match: "	file = "shop" + 3 + ".s2""
+        )
+      ]
+    ),
+    (
+      name: "*load_gene",
+      rules: [
+        (
+          kind: Function,
+          match: "	fmode = 15"
+        )
+      ]
+    ),
+    (
+      name: "*generate_gene",
+      rules: [
+        (
+          kind: Function,
+          match: "	fmode = 14"
+        )
+      ]
+    ),
+    (
+      name: "*unzip",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 12"
+        )
+      ]
+    ),
+    (
+      name: "*set_userNpc",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( initunid ) {"
+        )
+      ]
+    ),
+    (
+      name: "*userNpc_update",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*user_npc",
+      rules: [
+        (
+          kind: Function,
+          match: "	fread = 0"
+        )
+      ]
+    ),
+    (
+      name: "*game_ctrlFile",
+      rules: [
+        (
+          kind: Function,
+          match: "	notesel filemod"
+        )
+      ]
+    ),
+    (
+      name: "*export_map",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim headtemp, 1024"
+        )
+      ]
+    ),
+    (
+      name: "*AnnaCustomAI",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( AIData(6, cc-1) >= 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*GetFatigue",
+      rules: [
+        (
+          kind: Function,
+          match: "	LoopCount = 0"
+        )
+      ]
+    ),
+    (
+      name: "*IncrementFatigue",
+      rules: [
+        (
+          kind: Function,
+          match: "	LoopCount = 0"
+        )
+      ]
+    ),
+    (
+      name: "*ProcessFatigue",
+      rules: [
+        (
+          kind: Function,
+          match: "	LoopCount = 0"
+        )
+      ]
+    ),
+    (
+      name: "*AILearnAbility",
+      rules: [
+        (
+          kind: Function,
+          match: "	ActionToFind = act"
+        )
+      ]
+    ),
+    (
+      name: "*ProcessTactic",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( act == AIData(3, cc-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*PrintAIInfo",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( AIData(0, tc-1) == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*AIMainMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	HeldTactic = -1"
+        )
+      ]
+    ),
+    (
+      name: "*AITeachConfigMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*AIDeleteAbilityMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*AISpellLearnMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*AIAbilityLearnMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*AIConfigMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	GoConfig = 0"
+        )
+      ]
+    ),
+    (
+      name: "*AITacticConfigMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*AIActionSetMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*AIFindAction",
+      rules: [
+        (
+          kind: Function,
+          match: "	FoundAction = 0"
+        )
+      ]
+    ),
+    (
+      name: "*AIInitActions",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( AIData(2, tc-1) == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*AIAddAction",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*AIGetEvolveActions",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_EVOLUTION_STAGE, tc) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*GetActionName",
+      rules: [
+        (
+          kind: Function,
+          match: "	ActionName = """
+        )
+      ]
+    ),
+    (
+      name: "*AIValueSetMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*GetValueName",
+      rules: [
+        (
+          kind: Function,
+          match: "	ValueName = """
+        )
+      ]
+    ),
+    (
+      name: "*AIEntitySetMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*AIConditionSetMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*AIComparatorSetMenu",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*DeleteAIInfo",
+      rules: [
+        (
+          kind: Function,
+          match: "	LoopCount = 0"
+        )
+      ]
+    ),
+    (
+      name: "*export_chara",
+      rules: [
+        (
+          kind: Function,
+          match: "	sdim headtemp, 1024"
+        )
+      ]
+    ),
+    (
+      name: "*del_userNpc",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*del_userTemp",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*game_load",
+      rules: [
+        (
+          kind: Function,
+          match: "	filemod = """
+        )
+      ]
+    ),
+    (
+      name: "*game_save",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_AREA) == AREA_SHOW_HOUSE | (gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*extract_map",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_EXITMAP1"
+        )
+      ]
+    ),
+    (
+      name: "*game_title",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cfg_titledialog ) {"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cfg_autonumlock ) {"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_selectID",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_selectID_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_selectGen",
+      rules: [
+        (
+          kind: Function,
+          match: "	cs = 0"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_selectGen_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*define_los",
+      rules: [
+        (
+          kind: Function,
+          match: "	dim fovlist, 2, 17"
+        )
+      ]
+    ),
+    (
+      name: "*esc_check",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( wparam == 27 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*prompt_word",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*prompt_direction",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*prompt_direction_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	t++"
+        )
+      ]
+    ),
+    (
+      name: "*prompt_direction_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*prompt_key",
+      rules: [
+        (
+          kind: Function,
+          match: "	snd SOUNDLIST_POP2"
+        )
+      ]
+    ),
+    (
+      name: "*prompt_key_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*game_debug",
+      rules: [
+        (
+          kind: Function,
+          match: "	notesel dbm"
+        )
+      ]
+    ),
+    (
+      name: "*game_debug_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "	await 20"
+        )
+      ]
+    ),
+    (
+      name: "*game_debug_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*dbg_GetInfo",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*console_write",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*mutexobj",
+      rules: [
+        (
+          kind: Function,
+          match: "	CreateMutexA 0, 0, "ElonaPlus 1.90""
+        )
+      ]
+    ),
+    (
+      name: "*randomSite",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( map(cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 6) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*disarmTrap",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( feat(2) != CELL_SUB_FEATURE_TRAP_HOSTILE_BLADE_STRINGS & feat(2) != CELL_SUB_FEATURE_TRAP_PITFALL ) {"
+        )
+      ]
+    ),
+    (
+      name: "*procMove",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cfg_scroll ) {"
+        )
+      ]
+    ),
+    (
+      name: "*perform",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*perform_dance",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*perform_preach",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_charge",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_persuasion",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_peculiar_joke",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_blended_lie",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_intimidation",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_mysterious_song",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eat_meal",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eat_meal_xmas_cake",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*sexsex",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*skill_tuin_der_lusten",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*generalAct",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc != CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*sleep_draw",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*sleep_draw_init",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 4"
+        )
+      ]
+    ),
+    (
+      name: "*sleep",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_AREA) == AREA_QUEST | (gdata(GDATA_AREA) == AREA_OL_DRAN & gdata(GDATA_LEVEL) == 5) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*rest",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*travel",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*choose_fish",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rowactre != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*get_fish",
+      rules: [
+        (
+          kind: Function,
+          match: "	flt"
+        )
+      ]
+    ),
+    (
+      name: "*fishing",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rowactre != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*plant",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rowactre != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*search",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rowactre != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*dig",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( rowactre != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*eat",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*insta_eat",
+      rules: [
+        (
+          kind: Function,
+          match: "	rowactend cc"
+        )
+      ]
+    ),
+    (
+      name: "*eat_finish",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*readSpellbook",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*read",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_CONDITION_BLIND, cc) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cast",
+      rules: [
+        (
+          kind: Function,
+          match: "	spellbk = efid"
+        )
+      ]
+    ),
+    (
+      name: "*cast_proc",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( stat == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*drinkPotion",
+      rules: [
+        (
+          kind: Function,
+          match: "	tc = cc"
+        )
+      ]
+    ),
+    (
+      name: "*drinkWell",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_PARAM1, ci) < (-5) | inv(INV_ITEM_PARAM3, ci) >= 20 | (inv(INV_ITEM_ID, ci) == ITEM_ID_HOLY_WELL & gdata(GDATA_FLAG_HOLY_WELL) <= 0) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*readScroll",
+      rules: [
+        (
+          kind: Function,
+          match: "	tc = cc"
+        )
+      ]
+    ),
+    (
+      name: "*zapStaff",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_CHARGE, ci) <= 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*zapStaffSkip",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*action",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( efid == SKILL_SPACT_DEATH_WORD ) {"
+        )
+      ]
+    ),
+    (
+      name: "*effect_selectTg",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( stat == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*effect",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( stat == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*chainBomb_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "				cbitmod CHARA_BIT_SUICIDE_SWITCH, cc, 0"
+        )
+      ]
+    ),
+    (
+      name: "*chainBomb_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "					chainbomb--"
+        )
+      ]
+    ),
+    (
+      name: "*chainBomb_loop_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "					}"
+        )
+      ]
+    ),
+    (
+      name: "*effect_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "			}"
+        )
+      ]
+    ),
+    (
+      name: "*effect2",
+      rules: [
+        (
+          kind: Function,
+          match: "*effect_SWEND1"
+        )
+      ]
+    ),
+    (
+      name: "*delMutation_cursed",
+      rules: [
+        (
+          kind: Function,
+          match: "		f = 0"
+        )
+      ]
+    ),
+    (
+      name: "*spUncurse_cursed",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*jump_changeCreature",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( tc == CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*effect_end",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*effect_heal",
+      rules: [
+        (
+          kind: Function,
+          match: "	subloop = 1"
+        )
+      ]
+    ),
+    (
+      name: "*effect_directive",
+      rules: [
+        (
+          kind: Function,
+          match: "	signal = 0"
+        )
+      ]
+    ),
+    (
+      name: "*effect_elixer",
+      rules: [
+        (
+          kind: Function,
+          match: "	cdata(CDATA_CONDITION_MPOISON, tc) = 0"
+        )
+      ]
+    ),
+    (
+      name: "*act_throw",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_PROPERTY, ci) == PROP_NPC | inv(INV_ITEM_PROPERTY, ci) == PROP_SPECIAL ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_pray",
+      rules: [
+        (
+          kind: Function,
+          match: "	item_find FILTER_FURNITURE_ALTAR"
+        )
+      ]
+    ),
+    (
+      name: "*act_exchange",
+      rules: [
+        (
+          kind: Function,
+          match: "	item_exchange ci, ti"
+        )
+      ]
+    ),
+    (
+      name: "*act_get",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_drop",
+      rules: [
+        (
+          kind: Function,
+          match: "	inumbk = inv(INV_ITEM_NUM, ci) - in"
+        )
+      ]
+    ),
+    (
+      name: "*act_equip",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( ci == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_unequip",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = cdata(body, r1) \ EXT_EQUIP_SLOTS"
+        )
+      ]
+    ),
+    (
+      name: "*act_unequip_part",
+      rules: [
+        (
+          kind: Function,
+          match: "	repeat MAX_EQUIP_SLOT_TOTAL, CDATA_STARTING_EQUIP_SLOTS"
+        )
+      ]
+    ),
+    (
+      name: "*act_read",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_RECIPE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_eat",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc == CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_drink",
+      rules: [
+        (
+          kind: Function,
+          match: "	dbmode = DBMODE_ON_DRINK"
+        )
+      ]
+    ),
+    (
+      name: "*act_zap",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cc != CHARA_PLAYER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_bash",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( map(x, y, 5) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*search_for_chara",
+      rules: [
+        (
+          kind: Function,
+          match: "	return"
+        )
+      ]
+    ),
+    (
+      name: "*act_movePC",
+      rules: [
+        (
+          kind: Function,
+          match: "	f = 0"
+        )
+      ]
+    ),
+    (
+      name: "*move_skip",
+      rules: [
+        (
+          kind: Function,
+          match: "				}"
+        )
+      ]
+    ),
+    (
+      name: "*act_move",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*cell_info",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_moveLevel",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( dbg_freemove ) {"
+        )
+      ]
+    ),
+    (
+      name: "*lockpick_val",
+      rules: [
+        (
+          kind: Function,
+          match: "	nannido = val"
+        )
+      ]
+    ),
+    (
+      name: "*lockpick",
+      rules: [
+        (
+          kind: Function,
+          match: "	item_find ITEM_ID_LOCKPICK, 3"
+        )
+      ]
+    ),
+    (
+      name: "*lockpick_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*lockpick_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "*lockpick_WHILE1_CONTINUE"
+        )
+      ]
+    ),
+    (
+      name: "*act_open",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_SHOPKEEPERS_TRUNK ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_open_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*open_chest",
+      rules: [
+        (
+          kind: Function,
+          match: "		goto *act_open_SWEND1"
+        )
+      ]
+    ),
+    (
+      name: "*open_newYear",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*open_catbox",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*act_openDoor",
+      rules: [
+        (
+          kind: Function,
+          match: "	cell_featread dx, dy"
+        )
+      ]
+    ),
+    (
+      name: "*act_close",
+      rules: [
+        (
+          kind: Function,
+          match: "	txt lang("何を閉める？", "Which door do you want to close? ")"
+        )
+      ]
+    ),
+    (
+      name: "*act_fire",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cbit(CHARA_BIT_AWAKE_MAGIC_ATTACK, cc) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_melee",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cbit(CHARA_BIT_AWAKE_MAGIC_ATTACK, cc) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_attack",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*act_attackSub",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*act_search",
+      rules: [
+        (
+          kind: Function,
+          match: "	msgdup++"
+        )
+      ]
+    ),
+    (
+      name: "*revealTrap",
+      rules: [
+        (
+          kind: Function,
+          match: "								txt lang("罠を発見した。", "You discover a trap.")"
+        )
+      ]
+    ),
+    (
+      name: "*revealHiddenPath",
+      rules: [
+        (
+          kind: Function,
+          match: "							txt lang("隠れた通路を発見した。", "You discover a hidden path.")"
+        )
+      ]
+    ),
+    (
+      name: "*act_dig",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_SP, cc) < 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*act_dip",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*act_use",
+      rules: [
+        (
+          kind: Function,
+          match: "	procid = (procid + 1) \ 4"
+        )
+      ]
+    ),
+    (
+      name: "*act_use_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*gene_skill",
+      rules: [
+        (
+          kind: Function,
+          match: "		if ( stat != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*gene_body",
+      rules: [
+        (
+          kind: Function,
+          match: "	dbmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*item_seed",
+      rules: [
+        (
+          kind: Function,
+          match: "	screenupdate = -1"
+        )
+      ]
+    ),
+    (
+      name: "*item_seedGrowth",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( feat == tile_plant + 6 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_seedNextGrowth",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*item_seedRegrowth",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 15"
+        )
+      ]
+    ),
+    (
+      name: "*item_seedRegrowth_custom",
+      rules: [
+        (
+          kind: Function,
+          match: "	p = 15"
+        )
+      ]
+    ),
+    (
+      name: "*item_seedPick_custom",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_GARDENING, CHARA_PLAYER, 300"
+        )
+      ]
+    ),
+    (
+      name: "*item_seedPick",
+      rules: [
+        (
+          kind: Function,
+          match: "	skillexp SKILL_NORMAL_GARDENING, CHARA_PLAYER, 300"
+        )
+      ]
+    ),
+    (
+      name: "*act_pickpocket",
+      rules: [
+        (
+          kind: Function,
+          match: "	gdata(GDATA_ROW_ACT) = ACTION_STEAL"
+        )
+      ]
+    ),
+    (
+      name: "*chat_refresh",
+      rules: [
+        (
+          kind: Function,
+          match: "	gsel 4"
+        )
+      ]
+    ),
+    (
+      name: "*chat",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( cdata(CDATA_TONE_SEX, tc) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*chat_scene",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*chat_event",
+      rules: [
+        (
+          kind: Function,
+          match: "	}"
+        )
+      ]
+    ),
+    (
+      name: "*chat_event_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique",
+      rules: [
+        (
+          kind: Function,
+          match: "	listmax = 0"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_mizuki",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_SWEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "	chatMore lang("…(あなたの言葉を聞いていない)", "(" + he(tc) + " ignores you...)"), strbye"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_leold_limb",
+      rules: [
+        (
+          kind: Function,
+          match: "	if ( gdata(GDATA_FLAG_DIALOG_LEOLD) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_change_gamemode",
+      rules: [
+        (
+          kind: Function,
+          match: "	pos 0, 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_change_gamemode_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "	redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_change_gamemode_finish",
+      rules: [
+        (
+          kind: Function,
+          match: "		}"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_leold_maxspeed",
+      rules: [
+        (
+          kind: Function,
+          match: "すまん。今の俺ではこれ以上鍛えることができないようだ。"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_leold_lack_ap",
+      rules: [
+        (
+          kind: Function,
+          match: "…こりゃもっとAP貯めないと無理だな。"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_leold_done",
       rules: [
         (
           kind: Assignment,
-          regex: "listn\\(1, listmax\\) = \"warrior\""
+          match: "bitp = CHARA_BIT_AWAKE_INSULT"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_leold_awaken",
+      rules: [
+        (
+          kind: Function,
+          match: "速度20上昇(消費AP"
+        )
+      ]
+    ),
+    (
+      name: "*evochat_portrait",
+      rules: [
+        (
+          kind: Function,
+          match: "chatList 1, lang(\"次へ>>>\", \">>>\")"
+        )
+      ]
+    ),
+    (
+      name: "*sqMother_1",
+      rules: [
+        (
+          kind: Function,
+          match: "(Hand her a potion of cure corruption.)"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_enthumesis",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_FLAG_MAIN) = 710"
+        )
+      ]
+    ),
+    (
+      name: "*chat_unique_lankata",
+      rules: [
+        (
+          kind: Function,
+          match: "chara_vanquish findchara(CREATURE_ID_ALFRED_THE_CANGNAN_WIND)"
+        )
+      ]
+    ),
+    (
+      name: "*chat_evOpening",
+      rules: [
+        (
+          kind: Function,
+          match: "itemcreate -1, ITEM_ID_BEGGARS_PENDANT, 28, 6, 0"
+        )
+      ]
+    ),
+    (
+      name: "*chat_evReached",
+      rules: [
+        (
+          kind: Function,
+          match: "We made it! Thank you!"
+        )
+      ]
+    ),
+    (
+      name: "*chat_default",
+      rules: [
+        (
+          kind: Function,
+          match: "cdata(CDATA_INTEREST, tc) -= rnd(30)"
+        )
+      ]
+    ),
+    (
+      name: "*chat_slave",
+      rules: [
+        (
+          kind: Function,
+          match: "Okay. Let me check the stable..."
+        )
+      ]
+    ),
+    (
+      name: "*chat_quest",
+      rules: [
+        (
+          kind: Function,
+          match: "Thanks. I'm counting on you."
+        )
+      ]
+    ),
+    (
+      name: "*chat_instaQuest",
+      rules: [
+        (
+          kind: If,
+          match: "if ( qdata(QDATA_EXIST, rq) == QUEST_TYPE_HUNT | qdata(QDATA_EXIST, rq) == QUEST_TYPE_HUNTEX ) {"
+        )
+      ]
+    ),
+    (
+      name: "*chat_train",
+      rules: [
+        (
+          kind: Function,
+          match: "訓練が必要なときは、声をかけて"
+        )
+      ]
+    ),
+    (
+      name: "*chat_invest",
+      rules: [
+        (
+          kind: Function,
+          match: "投資をしてくれる"
+        )
+      ]
+    ),
+    (
+      name: "*chat_end",
+      rules: [
+        (
+          kind: Assignment,
+          match: "questteleport = 0"
+        ),
+        (
+          kind: Assignment,
+          match: "hyouzyou = 0"
+        ),
+        (
+          kind: Function,
+          match: "return"
+        ),
+      ]
+    ),
+    // (
+    //   name: "*chat_select",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	cs_bk = -1"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*chat_select_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "color 100, 160, 250"
+        )
+      ]
+    ),
+    // (
+    //   name: "*chat_select_WEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "		}"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*chat_draw",
+      rules: [
+        (
+          kind: Assignment,
+          match: "chatpicloaded = FALSE"
+        )
+      ]
+    ),
+    (
+      name: "*chat_draw2",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdata(CDATA_PORTRAIT, tc) >= 0 | scenemode & cdata(CDATA_FACE, tc) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*shop_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "invfile = cdata(CDATA_ROLE_FILE_ID, tc)"
+        ),
+        (
+          kind: Function,
+          match: "goto *shop_end"
+        )
+      ]
+    ),
+    (
+      name: "*shop",
+      rules: [
+        (
+          kind: Assignment,
+          match: "shoptrade = 1"
+        )
+      ]
+    ),
+    (
+      name: "*shop_end",
+      rules: [
+        (
+          kind: Assignment,
+          match: "file = \"shoptmp.s2\""
+        ),
+        (
+          kind: Assignment,
+          match: "mode = MODELIST_MAIN"
+        ),
+        (
+          kind: Assignment,
+          match: "fmode = 3"
+        ),
+        (
+          kind: Function,
+          match: "return"
+        )
+      ]
+    ),
+    (
+      name: "*shop_restock",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_ROLE_RESTOCK, tc) ="
+        )
+      ]
+    ),
+    (
+      name: "*item_quantity",
+      rules: [
+        (
+          kind: Function,
+          match: "rtval = i / 200"
+        )
+      ]
+    ),
+    (
+      name: "*shop_tradePrice",
+      rules: [
+        (
+          kind: Function,
+          match: "dim trate, 9"
+        )
+      ]
+    ),
+    (
+      name: "*renew_economy",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_CAPITAL) = 15"
+        )
+      ]
+    ),
+    (
+      name: "*com_politics_chart",
+      rules: [
+        (
+          kind: Assignment,
+          match: "picload exedir + \"graphic\\\\deco_politics.bmp\", 1"
+        ),
+        (
+          kind: Assignment,
+          match: "lv = 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_politics_chart_loop",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s = lang(\"ポストチャート\", \"City Chart\"), strhint3b"
+        )
+      ]
+    ),
+    (
+      name: "*com_politics_economy",
+      rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\deco_politics.bmp\", 1"
+        ),
+        (
+          kind: Assignment,
+          match: "ww = 540"
+        )
+      ]
+    ),
+    (
+      name: "*com_politics_economy_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "mdata(MDATA_CITY_PROPERTY_VALUE) = 300"
+        )
+      ]
+    ),
+    (
+      name: "*com_politics_rule",
+      rules: [
+        (
+          kind: Function,
+          match: "この街の消費税は"
+        )
+      ]
+    ),
+    (
+      name: "*skip_rule",
+      rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\deco_politics.bmp\", 1"
+        ),
+        (
+          kind: Assignment,
+          match: "ww = 480"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_politics_rule_loop_pgchk",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	page_check"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*com_politics_rule_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "display_topic lang(\"法律\", \"Law\"), wx + 65, wy + 45"
+        )
+      ]
+    ),
+    (
+      name: "*com_build",
+      rules: [
+        (
+          kind: Assignment,
+          match: "city = adata(ADATA_ECONOMY, area)"
+        )
+      ]
+    ),
+    (
+      name: "*com_build_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "その場所には建てられない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_build_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "goto *com_build_WHILE1"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_build_WEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	}"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*com_select_building",
+      rules: [
+        (
+          kind: Function,
+          match: "snd SOUNDLIST_CHAT"
+        ),
+        (
+          kind: Assignment,
+          match: "cc = CHARA_PLAYER"
+        ),
+        (
+          kind: Function,
+          match: "repeat 7"
+        )
+      ]
+    ),
+    (
+      name: "*com_select_building_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "どの設備を建設する？"
+        )
+      ]
+    ),
+    (
+      name: "*com_select_building_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "予算が足りない…"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_select_building_loop_WHILE1_CONTINUE",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "		}"
+    //     )
+    //   ]
+    // ),
+    // (
+    //   name: "*com_select_building_loop_WEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	tlocinitx = 0"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*draw_budget",
+      rules: [
+        (
+          kind: Function,
+          match: "\"Budget:\""
+        )
+      ]
+    ),
+    (
+      name: "*raceID_fix",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_RACE_ID, r1) = DB_RACE_KOBOLT"
+        )
+      ]
+    ),
+    (
+      name: "*db_setFilterRace",
+      rules: [
+        (
+          kind: Function,
+          match: "dim racebit, 10, 78"
         )
       ]
     ),
@@ -12530,7 +20256,800 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          regex: "listn\\(1, listmax\\) = \"wasp\""
+          match: "listn(1, listmax) = \"wasp\""
+        )
+      ]
+    ),
+    (
+      name: "*db_class",
+      rules: [
+        (
+          kind: Assignment,
+          match: "listn(1, listmax) = \"warrior\""
+        )
+      ]
+    ),
+    (
+      name: "*db_creature",
+      rules: [
+        (
+          kind: If,
+          match: "if ( dbmode != DBMODE_FIND )"
+        ),
+        (
+          kind: Assignment,
+          match: "dbsum = 0"
+        ),
+        (
+          kind: Assignment,
+          match: "dbmax = 0"
+        ),
+      ]
+    ),
+    (
+      name: "*db_creature2",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdatan(CDATAN_NAME, rc) = lang(\"プラチナベル\", \"platina bell\")"
+        )
+      ]
+    ),
+    (
+      name: "*db_setFilterCreature",
+      rules: [
+        (
+          kind: Assignment,
+          match: "maxnpcid = MAX_CREATURE_ID"
+        )
+      ]
+    ),
+    (
+      name: "*randname_test",
+      rules: [
+        (
+          kind: Function,
+          match: "randnameinit"
+        )
+      ]
+    ),
+    (
+      name: "*add_ally",
+      rules: [
+        (
+          kind: Expression,
+          match: "gdata(GDATA_ACTIVE_GOD_PETS)--"
+        )
+      ]
+    ),
+    (
+      name: "*adv_init",
+      rules: [
+        (
+          kind: Function,
+          match: "repeat"
+        )
+        (
+          kind: Assignment,
+          match: "rc = cnt"
+        ),
+        (
+          kind: Function,
+          match: "gosub *adv_generate"
+        ),
+        (
+          kind: Function,
+          match: "gosub *loop"
+        )
+      ]
+    ),
+    (
+      name: "*adv_generate",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_EXIST, rc) = CHAR_STATE_ADV"
+        )
+      ]
+    ),
+    (
+      name: "*adv_action",
+      rules: [
+        (
+          kind: Function,
+          match: "cbitmod CHARA_BIT_HIRED, rc, 0"
+        )
+      ]
+    ),
+    (
+      name: "*chara_item",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_AI_ITEM, rc) = ci"
+        )
+      ]
+    ),
+    (
+      name: "*adv_gainItem",
+      rules: [
+        (
+          kind: Assignment,
+          match: "f = 0"
+        ),
+        (
+          kind: Function,
+          match: "inv_getheader rc"
+        ),
+        (
+          kind: Assignment,
+          match: "repeat 10"
+        ),
+        (
+          kind: Function,
+          match: "gosub *chara_equip"
+        )
+      ]
+    ),
+    (
+      name: "*chara_adjustInv",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = inv_getfreeid(tc)"
+        ),
+        (
+          kind: Function,
+          match: "repeat 100"
+        )
+      ]
+    ),
+    (
+      name: "*chara_equipFull",
+      rules: [
+        (
+          kind: If,
+          match: "if ( inv(INV_ITEM_NUM, cnt) == 0 | inv(INV_ITEM_EQUIP, cnt) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*chara_equip",
+      rules: [
+        (
+          kind: Assignment,
+          match: "i = iequiploc(ci)"
+        )
+      ]
+    ),
+    (
+      name: "*supplyEquip",
+      rules: [
+        (
+          kind: Assignment,
+          match: "haveweapon = FALSE"
+        )
+      ]
+    ),
+    (
+      name: "*client_update",
+      rules: [
+        (
+          kind: Assignment
+          match: "qdata(QDATA_MAP, i) = gdata(GDATA_AREA)"
+        )
+      ]
+    ),
+    (
+      name: "*quest_reward",
+      rules: [
+        (
+          kind: If,
+          match: "if ( qdata(QDATA_TYPE, rq) == QUEST_SUBTYPE_SUPPLY | qdata(QDATA_TYPE, rq) == QUEST_SUBTYPE_DELIVER ) {"
+        )
+      ]
+    ),
+    (
+      name: "*quest_update",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *quest_create"
+        ),
+        (
+          kind: Function,
+          match: "gosub *quest_reward"
+        )
+      ]
+    ),
+    (
+      name: "*quest_create",
+      rules: [
+        (
+          kind: Assignment,
+          match: "qdata(QDATA_TYPE, rq) = QUEST_TYPE_NONE"
+        )
+      ]
+    ),
+    (
+      name: "*quest_check",
+      rules: [
+        (
+          kind: Expression,
+          match: "qdata(QDATA_DEADLINE, rq)--"
+        )
+      ]
+    ),
+    (
+      name: "*quest_exit",
+      rules: [
+        (
+          kind: Assignment,
+          match: "val = gdata(GDATA_QUEST)"
+        )
+      ]
+    ),
+    (
+      name: "*quest_death",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *chara_respawn"
+        ),
+        (
+          kind: Function,
+          match: "skillexp SKILL_ATTR_CHA, CHARA_PLAYER, -500"
+        )
+      ]
+    ),
+    (
+      name: "*quest_fail",
+      rules: [
+        (
+          kind: Assignment,
+          match: "adata(ADATA_ARENA_WIN, gdata(GDATA_RETURN_AREA)) = 0"
+        )
+      ]
+    ),
+    (
+      name: "*quest_petArenaWin",
+      rules: [
+        (
+          kind: If,
+          match: "if ( petarenawin == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*quest_eliminate",
+      rules: [
+        (
+          kind: If,
+          match: "if ( gdata(GDATA_QUEST) == QUEST_SUBTYPE_ELIMINATE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*quest_success",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = qdata(QDATA_REWARD, rq)"
+        )
+      ]
+    ),
+    (
+      name: "*scene",
+      rules: [
+        (
+          kind: Assignment,
+          match: "scidx = instr(buff, 0, s)"
+        )
+      ]
+    ),
+    (
+      name: "*scene_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "noteload lang(\"scene1.hsp\", \"scene2.hsp\")"
+        ),
+        (
+          kind: Assignment,
+          match: "scidxtop = scidx"
+        )
+      ]
+    ),
+    (
+      name: "*scene_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "instr(buff, scidx, \"{\")"
+        )
+      ]
+    ),
+    (
+      name: "*scene_loop_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          match: "goto \*scene_loop_WHILE1"
+        )
+      ]
+    ),
+    (
+      name: "*scene_loop_WEND1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "buff = strmid(buff, scidxtop, scidx - scidxtop)"
+        )
+      ]
+    ),
+    (
+      name: "*scene_end",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *screen_fadeOut"
+        ),
+        (
+          kind: Assignment,
+          match: "msgtempprev = \"\""
+        ),
+      ]
+    ),
+    (
+      name: "*ai_turn",
+      rules: [
+        (
+          kind: Assignment,
+          match: "petarenawin = 1"
+        )
+      ]
+    ),
+    (
+      name: "*ai_item",
+      rules: [
+        (
+          kind: If,
+          match: "if ( a == FILTER_ITEM_ROD ) {"
+        ),
+        (
+          kind: Function,
+          match: "goto *act_zap"
+        )
+      ]
+    ),
+    (
+      name: "*ai_action",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cbit(CHARA_BIT_NO_TARGET, cc) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*ai_calmMove",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdatan(CDATAN_RACE, cc) == \"cat\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*ai_calmMove_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "tlocx = cdata(CDATA_X, gdata(GDATA_FLAG_GIANT_ID))"
+        )
+      ]
+    ),
+    (
+      name: "*ai_followMove",
+      rules: [
+        (
+          kind: Assignment,
+          match: "\" displace\" + _s(cc) + \" \" + name(tc) + \".\")"
+        )
+      ]
+    ),
+    (
+      name: "*ai_moveH",
+      rules: [
+        (
+          kind: Assignment,
+          match: "dir = 2, 0, 3"
+        )
+      ]
+    ),
+    (
+      name: "*ai_moveV",
+      rules: [
+        (
+          kind: Assignment,
+          match: "dir = 1, 0, 3"
+        )
+      ]
+    ),
+    (
+      name: "*ai_actMain",
+      rules: [
+        (
+          kind: Assignment,
+          match: "act = AI_ACTION_THROW_POTION_GREATER"
+        )
+      ]
+    ),
+    (
+      name: "*com_quick",
+      rules: [
+        (
+          kind: Assignment,
+          match: "page = quickpage"
+        )
+      ]
+    ),
+    (
+      name: "*com_quick_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "setCom \"\", \"aaa\""
+        )
+      ]
+    ),
+    (
+      name: "*com_quick_loop_WHILE1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "x = 25, 50, 50, 100, 100, 100, 150, 150, 175"
+        )
+      ]
+    ),
+    (
+      name: "*com_quick_loop_WEND1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "quickpage = page"
+        )
+      ]
+    ),
+    (
+      name: "*elona_help",
+      rules: [
+        (
+          kind: Function,
+          match: "noteload exedir + \"dataexhelp.txt\""
+        )
+      ]
+    ),
+    (
+      name: "*convertHelp",
+      rules: [
+        (
+          kind: If,
+          match: "if ( instr(s(cnt), 0, \"(\") == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_help",
+      rules: [
+        (
+          kind: Function,
+          match: "lang(\"manual_JP.txt\", \"manual_ENG.txt\")"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_help_loop_pgchk",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	redraw 0"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*com_help_loop",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s = \"Elona In-Game Help\", strhint2 + strhint3b"
+        )
+      ]
+    ),
+    (
+      name: "*com_chatlog",
+      rules: [
+        (
+          kind: Assignment,
+          match: "header = instr(netbuf, 0, \"<!--START-->\")"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_chatlog_WHILE1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "goto *com_chatlog	await cfg_wait1"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*com_log",
+      rules: [
+        (
+          kind: Function,
+          match: "snd SOUNDLIST_LOG"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_log_WHILE1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	await cfg_wait1"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*cfg_write",
+      rules: [
+        (
+          kind: Function,
+          match: "notesave exedir + \"config.txt\""
+        )
+      ]
+    ),
+    (
+      name: "*config_init",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim key_buff, 4, 65"
+        )
+      ]
+    ),
+    (
+      name: "*config_loadCore",
+      rules: [
+        (
+          kind: Function,
+          match: "cfgRead \"language.\", cfg_language = int(rtvaln)"
+        )
+      ]
+    ),
+    (
+      name: "*config_load",
+      rules: [
+        (
+          kind: Function,
+          match: "cfgRead \"anime_wait.\", cfg_animewait = int(rtvaln)"
+        )
+      ]
+    ),
+    (
+      name: "*config_load_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "gcopy 4, 0, 0, 340, 100"
+        )
+      ]
+    ),
+    (
+      name: "*config_load_WEND1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "valn = \"language.\", \"\" + p"
+        )
+      ]
+    ),
+    (
+      name: "*dump_config",
+      rules: [
+        (
+          kind: Function,
+          match: "noteload exedir + \"userexport.txt\""
+        )
+      ]
+    ),
+    (
+      name: "*dump_config_import",
+      rules: [
+        (
+          kind: Assignment,
+          match: "userrelation = int(s)"
+        )
+      ]
+    ),
+    (
+      name: "*com_config",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cfg_fullscreen2 = cfg_fullscreen"
+        )
+      ]
+    ),
+    (
+      name: "*com_config_loop",
+      rules: [
+        (
+          kind: Assignment,
+          match: "key_quickinv = \"X\""
+        ),
+        (
+          kind: Function,
+          match: "redraw 0"
+        )
+      ]
+    ),
+    (
+      name: "*com_config_loop_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "mes s(cfg_extrahelp)"
+        )
+      ]
+    ),
+    (
+      name: "*com_story",
+      rules: [
+        (
+          kind: Function,
+          match: "\"Which scene do you want to replay?\")"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_story_loop_pgchk",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	redraw 0"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*com_story_loop",
+      rules: [
+        (
+          kind: Function,
+          match: "mes \"Elona - Scene playback\""
+        )
+      ]
+    ),
+    (
+      name: "*com_story_loop_UNUSED",
+      rules: [
+        (
+          kind: Assignment,
+          match: "i = refitem(inv(INV_ITEM_ID, cnt), DBSPEC_TYPE)"
+        )
+      ]
+    ),
+    (
+      name: "*game_init",
+      rules: [
+        (
+          kind: If,
+          match: "if ( dirinfo(4) == \"medit\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*world_init",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *define_los"
+        ),
+        (
+          kind: Function,
+          match: "goto *map_init"
+        )
+      ]
+    ),
+    (
+      name: "*main_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "evproc = 1"
+        )
+      ]
+    ),
+    (
+      name: "*spdSkip",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *item_senseQuality"
+        )
+      ]
+    ),
+    (
+      name: "*weather_change",
+      rules: [
+        (
+          kind: If,
+          match: "if ( gdata(GDATA_AREA) == AREA_NORTH_TYRIS & gdata(GDATA_WORLD_X) < 65 & gdata(GDATA_WORLD_Y) > 10 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*advance_hour",
+      rules: [
+        (
+          kind: Expression,
+          match: "gdata(GDATA_NEXT_WEATHER)--"
+        )
+      ]
+    ),
+    (
+      name: "*game_main",
+      rules: [
+        (
+          kind: Expression,
+          match: "cdata(CDATA_SPEED_SUM, ct) -= mdata(MDATA_TIMESCALE)"
+        )
+      ]
+    ),
+    (
+      name: "*game_main_redo",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_TIME_SCALE, cc) = cdata(CDATA_SPEED_FIX, cc)"
+        )
+      ]
+    ),
+    (
+      name: "*game_main_redo_WHILE1",
+      rules: [
+        (
+          kind: Expression,
+          match: "gdata(GDATA_RETURN)--"
+        )
+      ]
+    ),
+    (
+      name: "*game_main_redo_WEND1",
+      rules: [
+        (
+          kind: Function,
+          match: "modcorrupt 5"
+        )
+      ]
+    ),
+    (
+      name: "*turn_init",
+      rules: [
+        (
+          kind: Function,
+          match: "if ( cdata(CDATA_EXP, cc) >= cdata(CDATA_EXP_TO_NEXT_LVL, cc) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*turn_end",
+      rules: [
+        (
+          kind: Function,
+          match: "gdata(GDATA_TIME_STOP_TIME)--"
         )
       ]
     ),
@@ -12539,7 +21058,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          regex: "proclist\\(procid\\) = \"pc_turn_init\" \\+ \" ct:\" \\+ ct"
+          match: "dmghp CHARA_PLAYER, 999999, DAMAGE_FROM_CORRUPT"
         )
       ]
     ),
@@ -12548,7 +21067,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          regex: "p = 16 - 1 - cnt"
+          match: "p = 16 - 1 - cnt"
         ),
       ]
     ),
@@ -12557,7 +21076,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          regex: "goto \\*pc_turn_init_WHILE1"
+          match: "goto *pc_turn_init_WHILE1"
         )
       ]
     ),
@@ -12566,7 +21085,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          regex: "if \\( trait\\(TRAIT_ETHER_ADDICTED_POTION\\) != 0 \\) \\{"
+          match: "if ( trait(TRAIT_ETHER_ADDICTED_POTION) != 0 ) {"
         )
       ]
     ),
@@ -12575,9 +21094,135 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          regex: "if \\( firstturn == 1 \\) \\{"
+          match: "if ( firstturn == 1 ) {"
         )
       ]
     ),
+    (
+      name: "*pcQuitY",
+      rules: [
+        (
+          kind: Function,
+          match: "if ( gdata(GDATA_QUIT_Y) != (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*game_win",
+      rules: [
+        (
+          kind: Function,
+          match: "Unbelievable! You conquered Lesimas!"
+        )
+      ]
+    ),
+    // (
+    //   name: "*game_win_WHILE1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	await cfg_wait1"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*game_win_WEND1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_FLAG_MAIN) = 180"
+        )
+      ]
+    ),
+    (
+      name: "*game_win2",
+      rules: [
+        (
+          kind: Function,
+          match: "Unbelievable! You conquered Remido!"
+        )
+      ]
+    ),
+    // (
+    //   name: "*game_win2_WHILE1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	await cfg_wait1"
+    //     )
+    //   ]
+    // ),
+    // (
+      name: "*game_win2_WEND1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_FLAG_MAIN) = 340"
+        )
+      ]
+    ),
+    (
+      name: "*game_win3",
+      rules: [
+        (
+          kind: Function,
+          match: "Unbelievable! You conquered God's Prison!"
+        )
+      ]
+    ),
+    // (
+    //   name: "*game_win3_WHILE1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	await cfg_wait1"
+    //     )
+    //   ]
+    // ),
+    // (
+    //   name: "*game_win3_WEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	}"
+    //     )
+    //   ]
+    // ),
+    (
+      name: "*pc_dead",
+      rules: [
+        (
+          kind: Function,
+          match: "txt lang(\"遺言は？\", \"You leave a dying message.\")"
+        )
+      ]
+    ),
+    (
+      name: "*dead_draw",
+      rules: [
+        (
+          kind: Function,
+          match: "s = \"New!\""
+        )
+      ]
+    ),
+    (
+      name: "*event",
+      rules: [
+        (
+          kind: Function,
+          match: "_switch_val = evid()"
+        )
+      ]
+    ),
+    // (
+    //   name: "*event_SWEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	}"
+    //     )
+    //   ]
+    // ),
   ]
 )

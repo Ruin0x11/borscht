@@ -3,7 +3,6 @@
 extern crate serde;
 extern crate serde_derive;
 extern crate ron;
-extern crate regex;
 extern crate anyhow;
 extern crate exe2ax;
 
@@ -11,7 +10,6 @@ use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::Write;
 use anyhow::Result;
-use regex::Regex;
 use serde_derive::{Serialize, Deserialize};
 use exe2ax::as_::ax3::*;
 use exe2ax::as_::ax3::ast;
@@ -1230,7 +1228,7 @@ fn ast_node_matches(node: &ast::AstNode, kind: &SourceMatchKind) -> bool {
     }
 }
 
-fn regex_matches(node: &ast::AstNode, regex: &Regex, hsp3as: &Hsp3As) -> bool {
+fn regex_matches(node: &ast::AstNode, substring: &str, hsp3as: &Hsp3As) -> bool {
     let source = hsp3as.print_ast_node(node).unwrap();
     regex.is_match(&source)
 }
