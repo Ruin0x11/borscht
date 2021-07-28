@@ -12533,6 +12533,51 @@ AnalysisConfig(
           regex: "listn\\(1, listmax\\) = \"wasp\""
         )
       ]
-    )
+    ),
+    (
+      name: "*pc_turn_init",
+      rules: [
+        (
+          kind: Assignment,
+          regex: "proclist\\(procid\\) = \"pc_turn_init\" \\+ \" ct:\" \\+ ct"
+        )
+      ]
+    ),
+    (
+      name: "*pc_turn_init_WHILE1",
+      rules: [
+        (
+          kind: Assignment,
+          regex: "p = 16 - 1 - cnt"
+        ),
+      ]
+    ),
+    (
+      name: "*pc_turn_init_WHILE1_CONTINUE",
+      rules: [
+        (
+          kind: Function,
+          regex: "goto \\*pc_turn_init_WHILE1"
+        )
+      ]
+    ),
+    (
+      name: "*pc_turn_init_WEND1",
+      rules: [
+        (
+          kind: If,
+          regex: "if \\( trait\\(TRAIT_ETHER_ADDICTED_POTION\\) != 0 \\) \\{"
+        )
+      ]
+    ),
+    (
+      name: "*pc_turn",
+      rules: [
+        (
+          kind: If,
+          regex: "if \\( firstturn == 1 \\) \\{"
+        )
+      ]
+    ),
   ]
 )

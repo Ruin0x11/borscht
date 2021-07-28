@@ -1254,7 +1254,7 @@ struct LabelDefinition {
 }
 
 struct LabelRenameVisitor<'a> {
-    hsp3as: &'a Hsp3As,
+    hsp3as: &'a mut Hsp3As,
     labels_remaining: Vec<LabelDefinition>,
     resolved_labels: HashMap<ResolvedLabel, LabelDefinition>,
     visiting_label: Option<ResolvedLabel>,
@@ -1298,6 +1298,7 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
                     let label = self.visiting_label.unwrap();
                     self.visiting_label = None;
                     let rule = self.labels_remaining.remove(i);
+                    self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
                     if let Some(existing_rule) = self.resolved_labels.insert(label.clone(), rule) {
                         panic!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
                                self.hsp3as.label_names.get(&label).unwrap(), existing_rule)
@@ -1393,6 +1394,14 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         group._resolved_variables = vars;
     }
 
+    let mut labels = config.labels.clone();
+
+    for label in labels.iter_mut() {
+        for rule in label.rules.iter_mut() {
+            rule._compiled = Some(Regex::new(&rule.regex).unwrap());
+        }
+    }
+
     let node = hsp3as.program.clone();
 
     let node = {
@@ -1446,16 +1455,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     };
 
     {
-        let mut labels = config.labels.clone();
-
-        for label in labels.iter_mut() {
-            for rule in label.rules.iter_mut() {
-                rule._compiled = Some(Regex::new(&rule.regex).unwrap());
-            }
-        }
-
         let mut visitor = LabelRenameVisitor {
-            hsp3as: &hsp3as,
+            hsp3as: hsp3as,
             labels_remaining: labels,
             resolved_labels: HashMap::new(),
             visiting_label: None
@@ -1468,10 +1469,6 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
                 println!("Error: No match for label rule {}", rule.name);
             }
             panic!("Errors occurred.");
-        }
-
-        for (label, rule) in visitor.resolved_labels.iter() {
-            hsp3as.label_names.insert(label.clone(), rule.name.clone());
         }
     };
 
