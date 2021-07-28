@@ -1233,12 +1233,18 @@ struct LabelRenameRule {
     kind: SourceMatchKind,
     #[serde(rename = "match")]
     match_: String,
+    #[serde(default)]
+    exact: bool
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct LabelDefinition {
     name: String,
+    #[serde(default)]
     rules: Vec<LabelRenameRule>,
+
+    #[serde(default)]
+    after: Option<String>,
 
     #[serde(skip_serializing, default)]
     _matched_so_far: usize
@@ -1249,17 +1255,61 @@ struct LabelRenameVisitor<'a> {
     labels_remaining: Vec<LabelDefinition>,
     resolved_labels: HashMap<ResolvedLabel, LabelDefinition>,
     visiting_label: Option<ResolvedLabel>,
+    previous_label: Option<ResolvedLabel>,
 }
 
 impl<'a> LabelRenameVisitor<'a> {
+    fn check_after_labels(&mut self) {
+        if self.visiting_label.is_some() {
+            let mut found_after = None;
+
+            for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
+                defn._matched_so_far = 0;
+
+                if defn.rules.len() == 0 {
+                    if let Some(prev) = &self.previous_label {
+                        if let Some(after) = &defn.after {
+                            if let Some(prev_resolved) = self.resolved_labels.get(prev) {
+                                println!("AFTERCHECK {} {:?}", after, prev_resolved);
+                                if &prev_resolved.name == after {
+                                    println!("AFTER {} {:?}", after, prev_resolved);
+                                    assert!(found_after.is_none(), "More than one label with same 'after' field found.");
+                                    found_after = Some(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if let Some(found) = found_after {
+                let rule = self.labels_remaining.remove(found);
+                let label = self.visiting_label.unwrap();
+                self.associate_label(rule, &label);
+            }
+        }
+    }
+
     fn set_label(&mut self, label: ResolvedLabel) {
         // Exclude ghost labels
         if self.hsp3as.label_names.contains_key(&label) {
-            println!("LABEL {:?}", self.hsp3as.label_names.get(&label));
-            self.visiting_label = Some(label);
-            for defn in self.labels_remaining.iter_mut() {
-                defn._matched_so_far = 0;
-            }
+            self.check_after_labels();
+        }
+
+        println!("LABEL {:?}", self.hsp3as.label_names.get(&label));
+        if self.visiting_label.is_some() {
+            self.previous_label = self.visiting_label.clone();
+        }
+        self.visiting_label = Some(label);
+    }
+
+    fn associate_label(&mut self, rule: LabelDefinition, label: &ResolvedLabel) {
+        self.previous_label = Some(label.clone());
+        self.visiting_label = None;
+        self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
+        if let Some(existing_rule) = self.resolved_labels.insert(label.clone(), rule) {
+            panic!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
+                   self.hsp3as.label_names.get(&label).unwrap(), existing_rule)
         }
     }
 }
@@ -1271,18 +1321,27 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
             let mut found = None;
             let mut source = None;
             for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
-                let rule = defn.rules.get_mut(defn._matched_so_far).unwrap();
-                if ast_node_matches(&node, &rule.kind) {
-                    matched = true;
-                    if source.is_none() {
-                        source = Some(self.hsp3as.print_ast_node(node).unwrap());
-                    }
-                    if source.as_ref().map_or(false, |s| s.contains(&rule.match_)) {
-                        defn._matched_so_far += 1;
-                        if defn._matched_so_far == defn.rules.len() {
-                            println!("ALL MATCH {:?}", defn);
-                            found = Some(i);
-                            break;
+                if defn.rules.len() > 0 {
+                    let rule = defn.rules.get_mut(defn._matched_so_far).unwrap();
+                    if ast_node_matches(&node, &rule.kind) {
+                        matched = true;
+                        if source.is_none() {
+                            source = Some(self.hsp3as.print_ast_node(node).unwrap());
+                        }
+                        let get = source.as_ref().map_or(false, |s| {
+                            if rule.exact {
+                                s == &rule.match_
+                            } else {
+                                s.contains(&rule.match_)
+                            }
+                        });
+                        if get {
+                            defn._matched_so_far += 1;
+                            if defn._matched_so_far == defn.rules.len() {
+                                println!("ALL MATCH {:?}", defn);
+                                found = Some(i);
+                                break;
+                            }
                         }
                     }
                 }
@@ -1290,14 +1349,9 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
 
             if matched {
                 if let Some(i) = found {
-                    let label = self.visiting_label.unwrap();
-                    self.visiting_label = None;
                     let rule = self.labels_remaining.remove(i);
-                    self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
-                    if let Some(existing_rule) = self.resolved_labels.insert(label.clone(), rule) {
-                        panic!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
-                               self.hsp3as.label_names.get(&label).unwrap(), existing_rule)
-                    }
+                    let label = self.visiting_label.unwrap();
+                    self.associate_label(rule, &label);
                 } else {
                     visitor::visit_node(self, node);
                 }
@@ -1315,6 +1369,10 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
 
     fn visit_function_declaration(&mut self, node: &ast::FunctionDeclarationNode) {
         self.visiting_label = None;
+    }
+
+    fn visit_program_end(&mut self, node: &ast::ProgramNode) {
+        self.check_after_labels();
     }
 }
 
@@ -1448,7 +1506,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             hsp3as: hsp3as,
             labels_remaining: labels,
             resolved_labels: HashMap::new(),
-            visiting_label: None
+            visiting_label: None,
+            previous_label: None
         };
 
         visitor.visit_node(&node);
@@ -1457,7 +1516,7 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             for rule in visitor.labels_remaining.iter() {
                 println!("Error: No match for label rule {}", rule.name);
             }
-            panic!("Errors occurred.");
+            // panic!("Errors occurred.");
         }
     };
 

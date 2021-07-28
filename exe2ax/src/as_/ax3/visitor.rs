@@ -180,6 +180,8 @@ impl Visit for ProgramNode {
         visitor.visit_program(self);
 
         self.block.visit(visitor);
+
+        visitor.visit_program_end(self);
     }
 }
 

@@ -276,6 +276,67 @@ AnalysisConfig(
         ( name: "INV_ITEM_MAX", value: 70 ),
       ]
     ),
+    "invctrl": (
+      variables: [
+        ( name: "INVCTRL_INFO", value: 1 ),
+        ( name: "INVCTRL_DROP", value: 2 ),
+        ( name: "INVCTRL_GET", value: 3 ),
+        ( name: "INVCTRL_EAT", value: 5 ),
+        ( name: "INVCTRL_EQUIP", value: 6 ),
+        ( name: "INVCTRL_READ", value: 7 ),
+        ( name: "INVCTRL_DRINK", value: 8 ),
+        ( name: "INVCTRL_ZAP", value: 9 ),
+        ( name: "INVCTRL_GIVE", value: 10 ),
+        ( name: "INVCTRL_SHOP_BUY", value: 11 ),
+        ( name: "INVCTRL_SHOP_SELL", value: 12 ),
+        ( name: "INVCTRL_IDENTIFY", value: 13 ),
+        ( name: "INVCTRL_USE", value: 14 ),
+        ( name: "INVCTRL_OPEN", value: 15 ),
+        ( name: "INVCTRL_COOK", value: 16 ),
+        ( name: "INVCTRL_DIP_SOURCE", value: 17 ),
+        ( name: "INVCTRL_DIP", value: 18 ),
+        ( name: "INVCTRL_OFFER", value: 19 ),
+        ( name: "INVCTRL_TRADE_TARGET", value: 20 ),
+        ( name: "INVCTRL_TRADE_OFFER", value: 21 ),
+        ( name: "INVCTRL_INV_FILE_GET", value: 22 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT", value: 23 ),
+        ( name: "INVCTRL_PUT", value: 24 ),
+        ( name: "INVCTRL_ALLYGET", value: 25 ),
+        ( name: "INVCTRL_THROW", value: 26 ),
+        ( name: "INVCTRL_PICKPOCKET", value: 27 ),
+        ( name: "INVCTRL_METAL", value: 28 ),
+        ( name: "INVCTRL_BOOK_RESERVE", value: 29 ),
+        ( name: "INVCTRL_BOOK_RESERVE", value: 32 ),
+      ],
+      ignore: [ 0 ]
+    ),
+    "invctrl_get": (
+      variables: [
+        ( name: "INVCTRL_GET_SUB_DEFAULT", value: 0 ),
+        ( name: "INVCTRL_GET_SUB_HEIR", value: 1 ),
+        ( name: "INVCTRL_GET_SUB_CONTAINER", value: 3 ),
+        ( name: "INVCTRL_GET_SUB_LITTLE_SISTER_REWARD", value: 4 ),
+        ( name: "INVCTRL_GET_SUB_FOUR_DIMENSIONAL_POCKET", value: 5 ),
+      ]
+    ),
+    "invctrl_material_enchant": (
+      variables: [
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_CHANGE_MATERIAL", value: 0 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_ENC_WEAPON", value: 1 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_ENC_ARMOR", value: 2 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_CHARGE", value: 3 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_CHANGE_ITEM", value: 4 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_ABSORB", value: 5 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_FLIGHT", value: 6 ),
+        ( name: "INVCTRL_MATERIAL_ENCHANT_SUB_GAROKS_HAMMER", value: 7 ),
+      ]
+    ),
+    "invctrl_put": (
+      variables: [
+        ( name: "INVCTRL_PUT_SUB_PAY", value: 0 ),
+        ( name: "INVCTRL_PUT_SUB_CONTAINER", value: 3 ),
+      ]
+    ),
     "item_bit": (
       variables: [
         ( name: "ITEM_BIT_NONE", value: 0 ),
@@ -311,7 +372,7 @@ AnalysisConfig(
         ( name: "ITEM_ROLE_FILE_INCOME", value: 4 ),
         ( name: "ITEM_ROLE_FILE_SHOP_INCOME", value: 5 ),
         ( name: "ITEM_ROLE_FILE_FREEZER", value: 6 ),
-        ( name: "ITEM_ROLE_FILE_COOLER_BOX", value: 7 ),
+        ( name: "ITEM_ROLE_FILE_COOLER_BOX", value: 7 ),
         ( name: "ITEM_ROLE_FILE_POCKET", value: 8 ),
         ( name: "ITEM_ROLE_FILE_DD_CEMETERY_KEY", value: 9 ),
         ( name: "ITEM_ROLE_FILE_POTION_RACK", value: 10 ),
@@ -2103,8 +2164,8 @@ AnalysisConfig(
     "chara": (
       variables: [
         ( name: "CHARA_PLAYER", value: 0 ),
-        ( name: "CHARA_TEMPORARY", value: 56 ),
-        ( name: "CHARA_TEMPORARY2", value: 57 ),
+        // ( name: "CHARA_TEMPORARY", value: 56 ),
+        // ( name: "CHARA_TEMPORARY2", value: 57 ),
 
         ( name: "MAX_CHARA_NULL", value: 1, ),
         ( name: "MAX_CHARA_ADVENTURER", value: 39, code_value: "40 - MAX_CHARA_NULL", ),
@@ -8471,11 +8532,10 @@ AnalysisConfig(
         ))
       ]
     ),
-    "invctrl": (
+    "maxnpcid": (
       indices: [
         MatchAll((
-            rules: ( lhs: Variable ),
-            substitute: ( rhs: { 0: Group("invctrl") } )
+          substitute: ( rhs: { 0: Group("chara_id") } )
         ))
       ]
     ),
@@ -9087,6 +9147,26 @@ AnalysisConfig(
         ))
       ]
     ),
+    "invctrl": (
+      indices: [
+        MatchAll((
+            rules: ( lhs: Variable ),
+            substitute: ( rhs: { 0: Group("invctrl") } )
+        )),
+        MatchAll((
+            rules: ( lhs: Array({0: Variant("invctrl", ["INVCTRL_GET"])}) ),
+            substitute: ( rhs: { 1: Group("invctrl_get") } )
+        )),
+        MatchAll((
+            rules: ( lhs: Array({0: Variant("invctrl", ["INVCTRL_MATERIAL_ENCHANT"])}) ),
+            substitute: ( rhs: { 1: Group("invctrl_material_enchant") } )
+        )),
+        MatchAll((
+            rules: ( lhs: Array({0: Variant("invctrl", ["INVCTRL_PUT"])}) ),
+            substitute: ( rhs: { 1: Group("invctrl_put") } )
+        )),
+      ]
+    ),
 
     // Functions
 
@@ -9327,9 +9407,9 @@ AnalysisConfig(
     ),
     "evadd": (
       args: {
-        0: (name: "arg1", type: Int),
-        1: (name: "arg2", type: Int),
-        2: (name: "arg3", type: Int),
+        0: (name: "evid", type: Int, indices: [ ( substitute: Group("event") ) ]),
+        1: (name: "param1", type: Int),
+        2: (name: "param2", type: Int),
       }
     ),
     "sndload": (
@@ -13836,33 +13916,29 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    // (
-    //   name: "*screen_fade",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gsel 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_fadeIn",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat 50"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_fadeOut",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat 30"
-    //     )
-    //   ]
-    // ),
+    (
+       name: "*screen_fade",
+       rules: [
+         (
+           kind: Function,
+           match: "gfini windoww, windowh - 88"
+         )
+       ]
+    ),
+    (
+      name: "*screen_fadeIn",
+      rules: [
+        (
+          kind: Function,
+          match: "gfini windoww, windowh",
+          exact: true
+        )
+      ]
+    ),
+    (
+      name: "*screen_fadeOut",
+      after: "*screen_fadeIn"
+    ),
     // (
     //   name: "*screen_drawEventFull",
     //   rules: [
@@ -18705,15 +18781,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*game_debug_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await 20"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*game_debug_WHILE1",
+      after: "*game_debug"
+    ),
     (
       name: "*game_debug_WEND1",
       rules: [
@@ -18903,15 +18974,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*sleep_draw",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*sleep_draw",
+      after: "*generalAct"
+    ),
     (
       name: "*sleep_draw_init",
       rules: [
@@ -19176,15 +19242,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*effect_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*effect_SWEND1",
+      after: "*chainBomb_loop_WEND1"
+    ),
     (
       name: "*effect2",
       rules: [
@@ -19260,15 +19321,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*effect_elixer",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cdata(CDATA_CONDITION_MPOISON, tc) = 0"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*effect_elixer",
+      after: "*effect_directive"
+    ),
     (
       name: "*act_throw",
       rules: [
@@ -19363,19 +19419,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*act_drink",
-    //   rules: [
-    //     (
-    //       kind: Assignment,
-    //       match: "dbmode = DBMODE_ON_DRINK"
-    //     ),
-    //     (
-    //       kind: Assignment,
-    //       match: "dbid = inv(INV_ITEM_ID, ci)"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*act_drink",
+      after: "*act_eat"
+    ),
     (
       name: "*act_zap",
       rules: [
@@ -19466,23 +19513,13 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*lockpick_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*lockpick_WHILE1_CONTINUE",
+      after: "*lockpick"
+    ),
     (
       name: "*lockpick_WEND1",
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "開錠に成功した。"
-        )
-      ]
+      after: "*lockpick_WHILE1_CONTINUE"
     ),
     (
       name: "*act_open",
@@ -19493,15 +19530,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*act_open_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*act_open_SWEND1",
+      after: "*act_open"
+    ),
     (
       name: "*open_chest",
       rules: [
@@ -19645,15 +19677,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*act_use_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*act_use_SWEND1",
+      after: "*act_use"
+    ),
     (
       name: "*gene_skill",
       rules: [
@@ -19754,7 +19781,7 @@ AnalysisConfig(
         (
           kind: Function,
           match: "picload exedir + \"graphic\\\\face1.bmp\", 1"
-        )
+        ),
         (
           kind: Function,
           match: "picload exedir + \"graphic\\\\ie_chat.bmp\""
@@ -19770,15 +19797,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*chat_scene",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*chat_scene",
+      after: "*chat"
+    ),
     (
       name: "*chat_event",
       rules: [
@@ -19788,15 +19810,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*chat_event_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*chat_event_SWEND1",
+      after: "*chat_event"
+    ),
     (
       name: "*chat_unique",
       rules: [
@@ -20021,33 +20038,18 @@ AnalysisConfig(
         ),
       ]
     ),
-    // (
-    //   name: "*chat_select",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cs_bk = -1"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*chat_select",
+      after: "*chat_end"
+    ),
     (
       name: "*chat_select_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "color 100, 160, 250"
-        )
-      ]
+      after: "*chat_select_WHILE1"
     ),
-    // (
-    //   name: "*chat_select_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*chat_select_WEND1",
+      after: "*chat_select_WHILE1"
+    ),
     (
       name: "*chat_draw",
       rules: [
@@ -20211,15 +20213,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*com_politics_rule_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	page_check"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_politics_rule_loop_pgchk",
+      after: "*skip_rule"
+    ),
     (
       name: "*com_politics_rule_loop",
       rules: [
@@ -20249,22 +20246,12 @@ AnalysisConfig(
     ),
     (
       name: "*com_build_WHILE1_CONTINUE",
-      rules: [
-        (
-          kind: Function,
-          match: "goto *com_build_WHILE1"
-        )
-      ]
+      after: "*com_build_WHILE1"
     ),
-    // (
-    //   name: "*com_build_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_build_WEND1",
+      after: "*com_build_WHILE1_CONTINUE"
+    ),
     (
       name: "*com_select_building",
       rules: [
@@ -20300,24 +20287,14 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*com_select_building_loop_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_select_building_loop_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	tlocinitx = 0"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_select_building_loop_WHILE1_CONTINUE",
+      after: "*com_select_building_loop_WHILE1"
+    ),
+    (
+      name: "*com_select_building_loop_WHILE1_CONTINUE",
+      after: "*com_select_building_loop_WHILE1"
+    ),
     (
       name: "*draw_budget",
       rules: [
@@ -20422,7 +20399,7 @@ AnalysisConfig(
         (
           kind: Function,
           match: "repeat"
-        )
+        ),
         (
           kind: Assignment,
           match: "rc = cnt"
@@ -20529,7 +20506,7 @@ AnalysisConfig(
       name: "*client_update",
       rules: [
         (
-          kind: Assignment
+          kind: Assignment,
           match: "qdata(QDATA_MAP, i) = gdata(GDATA_AREA)"
         )
       ]
@@ -20668,7 +20645,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "goto \*scene_loop_WHILE1"
+          match: "goto *scene_loop_WHILE1"
         )
       ]
     ),
@@ -20708,20 +20685,20 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( a == FILTER_ITEM_ROD ) {"
+          match: "if ( a == 52000 ) {"
         ),
         (
-          kind: Function,
-          match: "goto *act_zap"
-        )
+          kind: If,
+          match: "if ( a == 53000 ) {"
+        ),
       ]
     ),
     (
       name: "*ai_action",
       rules: [
         (
-          kind: If,
-          match: "if ( cbit(CHARA_BIT_NO_TARGET, cc) == 0 ) {"
+          kind: Assignment,
+          match: "retreat = 0"
         )
       ]
     ),
@@ -20738,7 +20715,7 @@ AnalysisConfig(
       name: "*ai_calmMove_WEND1",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "tlocx = cdata(CDATA_X, gdata(GDATA_FLAG_GIANT_ID))"
         )
       ]
@@ -20747,8 +20724,9 @@ AnalysisConfig(
       name: "*ai_followMove",
       rules: [
         (
-          kind: Assignment,
-          match: "\" displace\" + _s(cc) + \" \" + name(tc) + \".\")"
+          kind: StringLiteral,
+          match: "\" displace\"",
+          exact: true
         )
       ]
     ),
@@ -20766,7 +20744,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "dir = 1, 0, 3"
+          match: "dir = 0, 1, 2"
         )
       ]
     ),
@@ -20792,9 +20770,10 @@ AnalysisConfig(
       name: "*com_quick_loop",
       rules: [
         (
-          kind: Function,
-          match: "setCom \"\", \"aaa\""
-        )
+          kind: StringLiteral,
+          match: "\"aaa\"",
+          exact: true
+        ),
       ]
     ),
     (
@@ -20820,7 +20799,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "noteload exedir + \"dataexhelp.txt\""
+          match: "noteload exedir + \"data\\\\exhelp.txt\""
         )
       ]
     ),
@@ -20842,21 +20821,16 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*com_help_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_help_loop_pgchk",
+      after: "*com_help"
+    ),
     (
       name: "*com_help_loop",
       rules: [
         (
-          kind: Assignment,
-          match: "s = \"Elona In-Game Help\", strhint2 + strhint3b"
+          kind: StringLiteral,
+          match: "Elona In-Game Help"
         )
       ]
     ),
@@ -20869,15 +20843,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*com_chatlog_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "goto *com_chatlog	await cfg_wait1"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_chatlog_WHILE1",
+      after: "*com_chatlog"
+    ),
     (
       name: "*com_log",
       rules: [
@@ -20887,21 +20856,16 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*com_log_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await cfg_wait1"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_log_WHILE1",
+      after: "*com_log"
+    ),
     (
       name: "*cfg_write",
       rules: [
         (
           kind: Function,
-          match: "notesave exedir + \"config.txt\""
+          match: "notesave exedir + \"\\\\config.txt\""
         )
       ]
     ),
@@ -20918,8 +20882,8 @@ AnalysisConfig(
       name: "*config_loadCore",
       rules: [
         (
-          kind: Function,
-          match: "cfgRead \"language.\", cfg_language = int(rtvaln)"
+          kind: StringLiteral,
+          match: "infVerType."
         )
       ]
     ),
@@ -20927,8 +20891,8 @@ AnalysisConfig(
       name: "*config_load",
       rules: [
         (
-          kind: Function,
-          match: "cfgRead \"anime_wait.\", cfg_animewait = int(rtvaln)"
+          kind: StringLiteral,
+          match: "key_sCancel."
         )
       ]
     ),
@@ -20937,7 +20901,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "gcopy 4, 0, 0, 340, 100"
+          match: "gcopy BUFFER_BUF, 0, 0, 340, 100"
         )
       ]
     ),
@@ -20955,7 +20919,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "noteload exedir + \"userexport.txt\""
+          match: "noteload exedir + \"\\\\user\\\\export.txt\""
         )
       ]
     ),
@@ -21008,15 +20972,10 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*com_story_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*com_story_loop_pgchk",
+      after: "*com_story"
+    ),
     (
       name: "*com_story_loop",
       rules: [
@@ -21030,8 +20989,8 @@ AnalysisConfig(
       name: "*com_story_loop_UNUSED",
       rules: [
         (
-          kind: Assignment,
-          match: "i = refitem(inv(INV_ITEM_ID, cnt), DBSPEC_TYPE)"
+          kind: If,
+          match: "if ( idtresult == 5 ) {"
         )
       ]
     ),
@@ -21049,11 +21008,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "gosub *define_los"
-        ),
-        (
-          kind: Function,
-          match: "goto *map_init"
+          match: "evadd EVENT_OPENING"
         )
       ]
     ),
@@ -21070,8 +21025,8 @@ AnalysisConfig(
       name: "*spdSkip",
       rules: [
         (
-          kind: Function,
-          match: "gosub *item_senseQuality"
+          kind: StringLiteral,
+          match: "クエスト[残り"
         )
       ]
     ),
@@ -21088,7 +21043,7 @@ AnalysisConfig(
       name: "*advance_hour",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "gdata(GDATA_NEXT_WEATHER)--"
         )
       ]
@@ -21097,7 +21052,7 @@ AnalysisConfig(
       name: "*game_main",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "cdata(CDATA_SPEED_SUM, ct) -= mdata(MDATA_TIMESCALE)"
         )
       ]
@@ -21115,7 +21070,7 @@ AnalysisConfig(
       name: "*game_main_redo_WHILE1",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "gdata(GDATA_RETURN)--"
         )
       ]
@@ -21133,7 +21088,7 @@ AnalysisConfig(
       name: "*turn_init",
       rules: [
         (
-          kind: Function,
+          kind: If,
           match: "if ( cdata(CDATA_EXP, cc) >= cdata(CDATA_EXP_TO_NEXT_LVL, cc) ) {"
         )
       ]
@@ -21142,7 +21097,7 @@ AnalysisConfig(
       name: "*turn_end",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "gdata(GDATA_TIME_STOP_TIME)--"
         )
       ]
@@ -21151,7 +21106,7 @@ AnalysisConfig(
       name: "*pc_turn_init",
       rules: [
         (
-          kind: Assignment,
+          kind: Function,
           match: "dmghp CHARA_PLAYER, 999999, DAMAGE_FROM_CORRUPT"
         )
       ]
@@ -21196,7 +21151,7 @@ AnalysisConfig(
       name: "*pcQuitY",
       rules: [
         (
-          kind: Function,
+          kind: If,
           match: "if ( gdata(GDATA_QUIT_Y) != (-1) ) {"
         )
       ]
@@ -21205,83 +21160,53 @@ AnalysisConfig(
       name: "*game_win",
       rules: [
         (
-          kind: Function,
+          kind: StringLiteral,
           match: "Unbelievable! You conquered Lesimas!"
         )
       ]
     ),
-    // (
-    //   name: "*game_win_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await cfg_wait1"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*game_win_WHILE1",
+      after: "*game_win"
+    ),
     (
       name: "*game_win_WEND1",
-      rules: [
-        (
-          kind: Assignment,
-          match: "gdata(GDATA_FLAG_MAIN) = 180"
-        )
-      ]
+      after: "*game_win_WHILE1"
     ),
     (
       name: "*game_win2",
       rules: [
         (
-          kind: Function,
-          match: "Unbelievable! You conquered Remido!"
+          kind: StringLiteral,
+          match: "Unbelievable! You conquered Rehmido!"
         )
       ]
     ),
-    // (
-    //   name: "*game_win2_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await cfg_wait1"
-    //     )
-    //   ]
-    // ),
-    // (
+    (
+      name: "*game_win2_WHILE1",
+      after: "*game_win2"
+    ),
+    (
       name: "*game_win2_WEND1",
-      rules: [
-        (
-          kind: Assignment,
-          match: "gdata(GDATA_FLAG_MAIN) = 340"
-        )
-      ]
+      after: "*game_win2_WHILE1"
     ),
     (
       name: "*game_win3",
       rules: [
         (
-          kind: Function,
-          match: "Unbelievable! You conquered God's Prison!"
+          kind: StringLiteral,
+          match: "Unbelievable! You conquered God's prison!"
         )
       ]
     ),
-    // (
-    //   name: "*game_win3_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await cfg_wait1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_win3_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*game_win3_WHILE1",
+      after: "*game_win3",
+    ),
+    (
+      name: "*game_win3_WEND1",
+      after: "*game_win3_WHILE1",
+    ),
     (
       name: "*pc_dead",
       rules: [
@@ -21295,7 +21220,7 @@ AnalysisConfig(
       name: "*dead_draw",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "s = \"New!\""
         )
       ]
@@ -21304,19 +21229,14 @@ AnalysisConfig(
       name: "*event",
       rules: [
         (
-          kind: Function,
-          match: "_switch_val = evid()"
+          kind: StringLiteral,
+          match: "無事に納入を終えた！"
         )
       ]
     ),
-    // (
-    //   name: "*event_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*event_SWEND1",
+      after: "*event"
+    ),
   ]
 )
