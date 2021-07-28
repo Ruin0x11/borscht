@@ -256,6 +256,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "exe2ax",
+ "regex",
  "ron",
  "serde",
  "serde_derive",

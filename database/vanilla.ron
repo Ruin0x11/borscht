@@ -12481,7 +12481,58 @@ AnalysisConfig(
     )
   },
 
-  labels: {
-    "*label_2257": (name: "*db_creature", file: "db/db_creature.hsp")
-  }
+  labels: [
+    (
+      name: "*db_creature",
+      rules: [
+        (
+          kind: If,
+          regex: "if \\( dbmode != DBMODE_FIND \\)"
+        ),
+        (
+          kind: Assignment,
+          regex: "dbsum = 0"
+        ),
+        (
+          kind: Assignment,
+          regex: "dbmax = 0"
+        ),
+      ]
+    ),
+    (
+      name: "*db_item",
+      rules: [
+        (
+          kind: If,
+          regex: "if \\( dbmode != DBMODE_FIND \\)"
+        ),
+        (
+          kind: Assignment,
+          regex: "dbmax = 0"
+        ),
+        (
+          kind: Assignment,
+          regex: "dbsum = 0"
+        ),
+      ]
+    ),
+    (
+      name: "*db_class",
+      rules: [
+        (
+          kind: Assignment,
+          regex: "listn\\(1, listmax\\) = \"warrior\""
+        )
+      ]
+    ),
+    (
+      name: "*db_race",
+      rules: [
+        (
+          kind: Assignment,
+          regex: "listn\\(1, listmax\\) = \"wasp\""
+        )
+      ]
+    )
+  ]
 )

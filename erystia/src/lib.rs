@@ -3,6 +3,7 @@
 extern crate serde;
 extern crate serde_derive;
 extern crate ron;
+extern crate regex;
 extern crate anyhow;
 extern crate exe2ax;
 
@@ -10,6 +11,7 @@ use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::Write;
 use anyhow::Result;
+use regex::Regex;
 use serde_derive::{Serialize, Deserialize};
 use exe2ax::as_::ax3::*;
 use exe2ax::as_::ax3::ast;
@@ -26,7 +28,8 @@ struct AnalysisConfig {
     variable_groups: HashMap<GroupName, VariableGroup>,
     arrays: HashMap<String, ArrayDefinition>,
     expressions: HashMap<String, ExprDefinition>,
-    functions: HashMap<String, FunctionDefinition>
+    functions: HashMap<String, FunctionDefinition>,
+    labels: Vec<LabelDefinition>
 }
 
 type GroupName = String;
@@ -37,10 +40,11 @@ struct VariableGroup {
     includes: Vec<GroupName>,
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     variables: Vec<VariableDefinition>,
-    #[serde(skip_serializing_if = "Vec::is_empty", default)]
-    _resolved_variables: Vec<VariableDefinition>,
     #[serde(skip_serializing_if = "HashSet::is_empty", default)]
     ignore: HashSet<ron::Value>,
+
+    #[serde(skip_serializing, default)]
+    _resolved_variables: Vec<VariableDefinition>,
 }
 
 impl VariableGroup {
@@ -495,7 +499,7 @@ struct GroupRecursiveVisitor<'a>  {
     condition: RecursiveCondition,
     stack: Vec<RecursiveCondition>,
     errors: &'a mut Vec<String>
-}
+}
 
 impl<'a> VisitorMut for GroupRecursiveVisitor<'a> {
     fn visit_node(&mut self, mut node: ast::AstNode) -> ast::AstNode {
@@ -1196,8 +1200,167 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
     }
 }
 
-struct ChatListUnrollVisitor {
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+enum SourceMatchKind {
+    If,
+    Assignment,
+    Literal,
+    Variable,
+    Expression,
+    Argument,
+    Function,
+    On,
+    OnEvent
+}
 
+fn ast_node_matches(node: &ast::AstNode, kind: &SourceMatchKind) -> bool {
+    use SourceMatchKind::*;
+
+    match &node.kind {
+        ast::AstNodeKind::IfStatement(_) => *kind == If,
+        ast::AstNodeKind::Assignment(_) => *kind == Assignment,
+        ast::AstNodeKind::Literal(_) => *kind == Literal,
+        ast::AstNodeKind::Variable(_) => *kind == Variable,
+        ast::AstNodeKind::Expression(_) => *kind == Expression,
+        ast::AstNodeKind::Argument(_) => *kind == Argument,
+        ast::AstNodeKind::Function(_) => *kind == Function,
+        ast::AstNodeKind::OnStatement(_) => *kind == On,
+        ast::AstNodeKind::OnEventStatement(_) => *kind == OnEvent,
+        _ => false
+    }
+}
+
+fn regex_matches(node: &ast::AstNode, regex: &Regex, hsp3as: &Hsp3As) -> bool {
+    let source = hsp3as.print_ast_node(node).unwrap();
+    regex.is_match(&source)
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct LabelRenameRule {
+    kind: SourceMatchKind,
+    regex: String,
+
+    #[serde(skip_serializing, skip_deserializing, default)]
+    _compiled: Option<Regex>
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct LabelDefinition {
+    name: String,
+    rules: Vec<LabelRenameRule>,
+
+    #[serde(skip_serializing, default)]
+    _matched_so_far: usize
+}
+
+struct LabelRenameVisitor<'a> {
+    hsp3as: &'a Hsp3As,
+    labels_remaining: Vec<LabelDefinition>,
+    resolved_labels: HashMap<ResolvedLabel, LabelDefinition>,
+    visiting_label: Option<ResolvedLabel>,
+}
+
+impl<'a> LabelRenameVisitor<'a> {
+    fn set_label(&mut self, label: ResolvedLabel) {
+        // Exclude ghost labels
+        if self.hsp3as.label_names.contains_key(&label) {
+            println!("LABEL {:?}", self.hsp3as.label_names.get(&label));
+            self.visiting_label = Some(label);
+            for defn in self.labels_remaining.iter_mut() {
+                defn._matched_so_far = 0;
+            }
+        }
+    }
+}
+
+impl<'a> Visitor for LabelRenameVisitor<'a> {
+    fn visit_node(&mut self, node: &ast::AstNode) {
+        if self.visiting_label.is_some() {
+            let mut matched = false;
+            let mut found = None;
+            for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
+                let rule = defn.rules.get_mut(defn._matched_so_far).unwrap();
+                if ast_node_matches(&node, &rule.kind) {
+                    matched = true;
+                    if regex_matches(&node, &rule._compiled.as_ref().unwrap(), self.hsp3as) {
+                        defn._matched_so_far += 1;
+                        if defn._matched_so_far == defn.rules.len() {
+                            println!("ALL MATCH {:?}", defn);
+                            found = Some(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if matched {
+                if let Some(i) = found {
+                    let label = self.visiting_label.unwrap();
+                    self.visiting_label = None;
+                    let rule = self.labels_remaining.remove(i);
+                    if let Some(existing_rule) = self.resolved_labels.insert(label.clone(), rule) {
+                        panic!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
+                               self.hsp3as.label_names.get(&label).unwrap(), existing_rule)
+                    }
+                } else {
+                    visitor::visit_node(self, node);
+                }
+            } else {
+                visitor::visit_node(self, node);
+            }
+        } else {
+            visitor::visit_node(self, node);
+        }
+    }
+
+    fn visit_label_declaration(&mut self, node: &ast::LabelDeclarationNode) {
+        self.set_label(node.label.clone());
+    }
+
+    fn visit_function_declaration(&mut self, node: &ast::FunctionDeclarationNode) {
+        self.visiting_label = None;
+    }
+}
+
+struct LabelMergeVisitor<'a> {
+    hsp3as: &'a mut Hsp3As,
+}
+
+impl<'a> VisitorMut for LabelMergeVisitor<'a> {
+    fn visit_block_statement(&mut self, mut node: ast::BlockStatementNode) -> ast::BlockStatementNode {
+        let mut merging_label = None;
+
+        let mut result = Vec::new();
+
+        for exp in node.nodes.into_iter() {
+            let exp = match &exp.kind {
+                ast::AstNodeKind::LabelDeclaration(label) => {
+                    if self.hsp3as.label_names.contains_key(&label.label) {
+                        if let Some(merging_label) = merging_label {
+                            let name = self.hsp3as.label_names.get(&merging_label).unwrap().to_string();
+                            self.hsp3as.label_names.entry(label.label.clone()).insert(name);
+                            None
+                        } else {
+                            merging_label = Some(label.label.clone());
+                            Some(exp)
+                        }
+                    } else {
+                        None
+                    }
+                },
+                _ => {
+                    merging_label = None;
+                    Some(exp)
+                }
+            };
+            if let Some(exp) = exp {
+                result.push(exp);
+            }
+        }
+
+        node.nodes = result;
+        node
+    }
 }
 
 fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<VariableDefinition> {
@@ -1272,6 +1435,44 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         }
 
         node
+    };
+
+    let node = {
+        let mut visitor = LabelMergeVisitor {
+            hsp3as: hsp3as,
+        };
+
+        visitor.visit_node(node)
+    };
+
+    {
+        let mut labels = config.labels.clone();
+
+        for label in labels.iter_mut() {
+            for rule in label.rules.iter_mut() {
+                rule._compiled = Some(Regex::new(&rule.regex).unwrap());
+            }
+        }
+
+        let mut visitor = LabelRenameVisitor {
+            hsp3as: &hsp3as,
+            labels_remaining: labels,
+            resolved_labels: HashMap::new(),
+            visiting_label: None
+        };
+
+        visitor.visit_node(&node);
+
+        if strict && visitor.labels_remaining.len() > 0 {
+            for rule in visitor.labels_remaining.iter() {
+                println!("Error: No match for label rule {}", rule.name);
+            }
+            panic!("Errors occurred.");
+        }
+
+        for (label, rule) in visitor.resolved_labels.iter() {
+            hsp3as.label_names.insert(label.clone(), rule.name.clone());
+        }
     };
 
     // let node = {
