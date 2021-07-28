@@ -1202,7 +1202,7 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
 enum SourceMatchKind {
     If,
     Assignment,
-    Literal,
+    StringLiteral,
     Variable,
     Expression,
     Argument,
@@ -1217,7 +1217,7 @@ fn ast_node_matches(node: &ast::AstNode, kind: &SourceMatchKind) -> bool {
     match &node.kind {
         ast::AstNodeKind::IfStatement(_) => *kind == If,
         ast::AstNodeKind::Assignment(_) => *kind == Assignment,
-        ast::AstNodeKind::Literal(_) => *kind == Literal,
+        ast::AstNodeKind::Literal(ast::LiteralNode::String(_)) => *kind == StringLiteral,
         ast::AstNodeKind::Variable(_) => *kind == Variable,
         ast::AstNodeKind::Expression(_) => *kind == Expression,
         ast::AstNodeKind::Argument(_) => *kind == Argument,
@@ -1228,18 +1228,11 @@ fn ast_node_matches(node: &ast::AstNode, kind: &SourceMatchKind) -> bool {
     }
 }
 
-fn regex_matches(node: &ast::AstNode, substring: &str, hsp3as: &Hsp3As) -> bool {
-    let source = hsp3as.print_ast_node(node).unwrap();
-    regex.is_match(&source)
-}
-
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct LabelRenameRule {
     kind: SourceMatchKind,
-    regex: String,
-
-    #[serde(skip_serializing, skip_deserializing, default)]
-    _compiled: Option<Regex>
+    #[serde(rename = "match")]
+    match_: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -1276,11 +1269,15 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
         if self.visiting_label.is_some() {
             let mut matched = false;
             let mut found = None;
+            let mut source = None;
             for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
                 let rule = defn.rules.get_mut(defn._matched_so_far).unwrap();
                 if ast_node_matches(&node, &rule.kind) {
                     matched = true;
-                    if regex_matches(&node, &rule._compiled.as_ref().unwrap(), self.hsp3as) {
+                    if source.is_none() {
+                        source = Some(self.hsp3as.print_ast_node(node).unwrap());
+                    }
+                    if source.map_or(false, |s| s.contains(&rule.match_)) {
                         defn._matched_so_far += 1;
                         if defn._matched_so_far == defn.rules.len() {
                             println!("ALL MATCH {:?}", defn);

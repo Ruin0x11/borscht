@@ -8,6 +8,21 @@ AnalysisConfig(
      ax_sha256: "e3dca7fe66eed586b2da31159390f8ac86b48e17a61291eaac41c996b59864b9"
   ),
   variable_groups: {
+      "gsel_buffer": (
+          variables: [
+          ( name: "BUFFER_SCREEN", value: 0 ),
+          ( name: "BUFFER_ITEM", value: 1 ),
+          ( name: "BUFFER_MAP", value: 2 ),
+          ( name: "BUFFER_INF", value: 3 ),
+          ( name: "BUFFER_BUF", value: 4 ),
+          ( name: "BUFFER_CHR", value: 5 ),
+          ( name: "BUFFER_MAP_S", value: 6 ),
+          ( name: "BUFFER_PIC", value: 7 ),
+          ( name: "BUFFER_LOG", value: 8 ),
+          ( name: "BUFFER_PIC2", value: 9 ),
+          ( name: "BUFFER_PCC", value: 10 ),
+          ]
+    ),
     "boolean": (
       variables: [
         ( name: "FALSEM", value: -1 ),
@@ -8884,6 +8899,13 @@ AnalysisConfig(
         ))
       ]
     ),
+    "movelevelbystairs": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: Group("boolean") } )
+        ))
+      ]
+    ),
     "reftype": (
       indices: [
         MatchAll((
@@ -9097,6 +9119,30 @@ AnalysisConfig(
   },
 
   functions: {
+    "gsel": (
+      args: {
+        0: (name: "buffer", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+      }
+    ),
+    "gcopy": (
+      args: {
+        0: (name: "buffer", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        1: (name: "x", type: Int),
+        2: (name: "y", type: Int),
+        3: (name: "width", type: Int),
+        4: (name: "height", type: Int),
+      }
+    ),
+    "grotate": (
+      args: {
+        0: (name: "buffer", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        1: (name: "x", type: Int),
+        2: (name: "y", type: Int),
+        3: (name: "rot", type: Int),
+        4: (name: "width", type: Int),
+        5: (name: "height", type: Int),
+      }
+    ),
     "netload": (
       args: {
         0: (name: "filename", type: Str),
@@ -18556,7 +18602,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	redraw 0"
+          match: "を削除していいのかい？"
         )
       ]
     ),
@@ -18564,8 +18610,8 @@ AnalysisConfig(
       name: "*game_title_selectGen",
       rules: [
         (
-          kind: Function,
-          match: "	cs = 0"
+          kind: StringLiteral,
+          match: "どの遺伝子を引き継ぐ？"
         )
       ]
     ),
@@ -18573,8 +18619,8 @@ AnalysisConfig(
       name: "*game_title_selectGen_WHILE1",
       rules: [
         (
-          kind: Function,
-          match: "	redraw 0"
+          kind: StringLiteral,
+          match: "No gene files found"
         )
       ]
     ),
@@ -18583,7 +18629,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	dim fovlist, 2, 17"
+          match: "dim fovlist, 2, 17"
         )
       ]
     ),
@@ -18591,8 +18637,8 @@ AnalysisConfig(
       name: "*esc_check",
       rules: [
         (
-          kind: Function,
-          match: "	if ( wparam == 27 ) {"
+          kind: If,
+          match: "if ( wparam == 27 ) {"
         )
       ]
     ),
@@ -18600,8 +18646,8 @@ AnalysisConfig(
       name: "*prompt_word",
       rules: [
         (
-          kind: Function,
-          match: "	snd SOUNDLIST_POP2"
+          kind: Assignment,
+          match: "p(3) = peek(inputlog, p(4))"
         )
       ]
     ),
@@ -18610,7 +18656,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	snd SOUNDLIST_POP2"
+          match: "gcopy BUFFER_SCREEN, x, y, 48 * 3, 48 * 3"
         )
       ]
     ),
@@ -18619,7 +18665,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	t++"
+          match: "grotate BUFFER_INF, 212, 432, 1.0 * 3.14, 28, 28"
         )
       ]
     ),
@@ -18628,7 +18674,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	}"
+          match: "goto *prompt_direction_WHILE1"
         )
       ]
     ),
@@ -18636,8 +18682,8 @@ AnalysisConfig(
       name: "*prompt_key",
       rules: [
         (
-          kind: Function,
-          match: "	snd SOUNDLIST_POP2"
+          kind: If,
+          match: "if ( promptl(1, cnt) == "null" ) {"
         )
       ]
     ),
@@ -18646,7 +18692,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	redraw 0"
+          match: "window2 dx(1) + sx + 20, dy, dx - 40, 36, 0, 2"
         )
       ]
     ),
@@ -18654,26 +18700,26 @@ AnalysisConfig(
       name: "*game_debug",
       rules: [
         (
-          kind: Function,
-          match: "	notesel dbm"
+          kind: StringLiteral,
+          match: "Debug Console"
         )
       ]
     ),
-    (
-      name: "*game_debug_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "	await 20"
-        )
-      ]
-    ),
+    // (
+    //   name: "*game_debug_WHILE1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	await 20"
+    //     )
+    //   ]
+    // ),
     (
       name: "*game_debug_WEND1",
       rules: [
         (
           kind: Function,
-          match: "	}"
+          match: "dbg_exitshowroom = 0"
         )
       ]
     ),
@@ -18681,8 +18727,8 @@ AnalysisConfig(
       name: "*dbg_GetInfo",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: StringLiteral,
+          match: "Shows charainfo."
         )
       ]
     ),
@@ -18691,7 +18737,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	}"
+          match: "objprm 1, dbm"
         )
       ]
     ),
@@ -18699,8 +18745,8 @@ AnalysisConfig(
       name: "*mutexobj",
       rules: [
         (
-          kind: Function,
-          match: "	CreateMutexA 0, 0, "ElonaPlus 1.90""
+          kind: Assignment,
+          match: "mutex_handle = stat"
         )
       ]
     ),
@@ -18708,8 +18754,8 @@ AnalysisConfig(
       name: "*randomSite",
       rules: [
         (
-          kind: Function,
-          match: "	if ( map(cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 6) == 0 ) {"
+          kind: StringLiteral,
+          match: "採掘に失敗した。"
         )
       ]
     ),
@@ -18717,8 +18763,8 @@ AnalysisConfig(
       name: "*disarmTrap",
       rules: [
         (
-          kind: Function,
-          match: "	if ( feat(2) != CELL_SUB_FEATURE_TRAP_HOSTILE_BLADE_STRINGS & feat(2) != CELL_SUB_FEATURE_TRAP_PITFALL ) {"
+          kind: StringLiteral,
+          match: "罠を解除した。"
         )
       ]
     ),
@@ -18726,8 +18772,8 @@ AnalysisConfig(
       name: "*procMove",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cfg_scroll ) {"
+          kind: Assignment,
+          match: "槍が地面から飛び出した。"
         )
       ]
     ),
@@ -18735,8 +18781,8 @@ AnalysisConfig(
       name: "*perform",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM"
         )
       ]
     ),
@@ -18744,8 +18790,8 @@ AnalysisConfig(
       name: "*perform_dance",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM_DANCE"
         )
       ]
     ),
@@ -18753,8 +18799,8 @@ AnalysisConfig(
       name: "*perform_preach",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM_PREACH"
         )
       ]
     ),
@@ -18762,8 +18808,8 @@ AnalysisConfig(
       name: "*skill_charge",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_CHARGE"
         )
       ]
     ),
@@ -18771,8 +18817,8 @@ AnalysisConfig(
       name: "*skill_persuasion",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERSUASION"
         )
       ]
     ),
@@ -18780,8 +18826,8 @@ AnalysisConfig(
       name: "*skill_peculiar_joke",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PECULIAR_JOKE"
         )
       ]
     ),
@@ -18789,8 +18835,8 @@ AnalysisConfig(
       name: "*skill_blended_lie",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_BLENDED_LIE"
         )
       ]
     ),
@@ -18798,8 +18844,8 @@ AnalysisConfig(
       name: "*skill_intimidation",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_INTIMIDATION"
         )
       ]
     ),
@@ -18807,8 +18853,8 @@ AnalysisConfig(
       name: "*skill_mysterious_song",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_MYSTERIOUS_SONG"
         )
       ]
     ),
@@ -18816,8 +18862,8 @@ AnalysisConfig(
       name: "*eat_meal",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_MEAL"
         )
       ]
     ),
@@ -18825,8 +18871,8 @@ AnalysisConfig(
       name: "*eat_meal_xmas_cake",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_XMAS_CAKE"
         )
       ]
     ),
@@ -18834,8 +18880,8 @@ AnalysisConfig(
       name: "*sexsex",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_SEX"
         )
       ]
     ),
@@ -18843,8 +18889,8 @@ AnalysisConfig(
       name: "*skill_tuin_der_lusten",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_TUIN_DER_LUSTEN"
         )
       ]
     ),
@@ -18852,26 +18898,26 @@ AnalysisConfig(
       name: "*generalAct",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cc != CHARA_PLAYER ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_GENERAL"
         )
       ]
     ),
-    (
-      name: "*sleep_draw",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
-    ),
+    // (
+    //   name: "*sleep_draw",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	redraw 0"
+    //     )
+    //   ]
+    // ),
     (
       name: "*sleep_draw_init",
       rules: [
         (
           kind: Function,
-          match: "	gsel 4"
+          match: "picload exedir + \"\\\\graphic\\\\bg_night.bmp\", 1"
         )
       ]
     ),
@@ -18879,8 +18925,8 @@ AnalysisConfig(
       name: "*sleep",
       rules: [
         (
-          kind: Function,
-          match: "	if ( gdata(GDATA_AREA) == AREA_QUEST | (gdata(GDATA_AREA) == AREA_OL_DRAN & gdata(GDATA_LEVEL) == 5) ) {"
+          kind: StringLiteral,
+          match: "しかし、大事な用を思い出して飛び起きた。"
         )
       ]
     ),
@@ -18888,8 +18934,8 @@ AnalysisConfig(
       name: "*rest",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: StringLiteral,
+          match: "あなたは横になった。"
         )
       ]
     ),
@@ -18897,8 +18943,8 @@ AnalysisConfig(
       name: "*travel",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: Assignment,
+          match: "traveldone = 1"
         )
       ]
     ),
@@ -18906,8 +18952,8 @@ AnalysisConfig(
       name: "*choose_fish",
       rules: [
         (
-          kind: Function,
-          match: "	if ( rowactre != 0 ) {"
+          kind: Expression,
+          match: "dbsum += fishdata(FISHDATA_RARE, cnt)"
         )
       ]
     ),
@@ -18915,8 +18961,8 @@ AnalysisConfig(
       name: "*get_fish",
       rules: [
         (
-          kind: Function,
-          match: "	flt"
+          kind: StringLiteral,
+          match: "を釣り上げた！"
         )
       ]
     ),
@@ -18924,8 +18970,8 @@ AnalysisConfig(
       name: "*fishing",
       rules: [
         (
-          kind: Function,
-          match: "	if ( rowactre != 0 ) {"
+          kind: StringLiteral,
+          match: "何も釣れなかった…"
         )
       ]
     ),
@@ -18933,8 +18979,8 @@ AnalysisConfig(
       name: "*plant",
       rules: [
         (
-          kind: Function,
-          match: "	if ( rowactre != 0 ) {"
+          kind: StringLiteral,
+          match: "採取を始めた。"
         )
       ]
     ),
@@ -18942,8 +18988,8 @@ AnalysisConfig(
       name: "*search",
       rules: [
         (
-          kind: Function,
-          match: "	if ( rowactre != 0 ) {"
+          kind: StringLiteral,
+          match: "探索を始めた。"
         )
       ]
     ),
@@ -18951,8 +18997,8 @@ AnalysisConfig(
       name: "*dig",
       rules: [
         (
-          kind: Function,
-          match: "	if ( rowactre != 0 ) {"
+          kind: StringLiteral,
+          match: "鉱石を掘り始めた。"
         )
       ]
     ),
@@ -18960,8 +19006,8 @@ AnalysisConfig(
       name: "*eat",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: StringLiteral,
+          match: "「いただきマンモス」"
         )
       ]
     ),
@@ -18969,8 +19015,8 @@ AnalysisConfig(
       name: "*insta_eat",
       rules: [
         (
-          kind: Function,
-          match: "	rowactend cc"
+          kind: Assignment,
+          match: "cieat = ci"
         )
       ]
     ),
@@ -18979,7 +19025,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	}"
+          match: "もう当分食べなくてもいい。"
         )
       ]
     ),
@@ -18987,8 +19033,8 @@ AnalysisConfig(
       name: "*readSpellbook",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_ROW_ACT, cc) == ACTION_NONE ) {"
+          kind: StringLiteral,
+          match: "は塵となって崩れ落ちた。"
         )
       ]
     ),
@@ -18996,8 +19042,8 @@ AnalysisConfig(
       name: "*read",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_CONDITION_BLIND, cc) != 0 ) {"
+          kind: If,
+          match: "if ( inv(INV_ITEM_ID, ci) == ITEM_ID_SKILLBOOK ) {"
         )
       ]
     ),
@@ -19005,8 +19051,8 @@ AnalysisConfig(
       name: "*cast",
       rules: [
         (
-          kind: Function,
-          match: "	spellbk = efid"
+          kind: Assignment,
+          match: "spellbk = efid"
         )
       ]
     ),
@@ -19014,8 +19060,8 @@ AnalysisConfig(
       name: "*cast_proc",
       rules: [
         (
-          kind: Function,
-          match: "	if ( stat == 1 ) {"
+          kind: Assignment,
+          match: "efsource = 3"
         )
       ]
     ),
@@ -19023,8 +19069,8 @@ AnalysisConfig(
       name: "*drinkPotion",
       rules: [
         (
-          kind: Function,
-          match: "	tc = cc"
+          kind: If,
+          match: "if ( potionthrow ) {"
         )
       ]
     ),
@@ -19032,8 +19078,8 @@ AnalysisConfig(
       name: "*drinkWell",
       rules: [
         (
-          kind: Function,
-          match: "	if ( inv(INV_ITEM_PARAM1, ci) < (-5) | inv(INV_ITEM_PARAM3, ci) >= 20 | (inv(INV_ITEM_ID, ci) == ITEM_ID_HOLY_WELL & gdata(GDATA_FLAG_HOLY_WELL) <= 0) ) {"
+          kind: StringLiteral,
+          match: " falls in the well!"
         )
       ]
     ),
@@ -19042,7 +19088,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	tc = cc"
+          match: "skillexp SKILL_NORMAL_LITERACY, cc, 25, 2"
         )
       ]
     ),
@@ -19051,7 +19097,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	if ( inv(INV_ITEM_CHARGE, ci) <= 0 ) {"
+          match: "name(cc) + \" zap \" +"
         )
       ]
     ),
@@ -19059,8 +19105,20 @@ AnalysisConfig(
       name: "*zapStaffSkip",
       rules: [
         (
+          kind: Assignment,
+          match: "efsource = 0"
+        ),
+        (
+          kind: If,
+          match: "if ( ci >= RANGE_INV2 ) {"
+        ),
+        (
           kind: Function,
-          match: "		}"
+          match: "cell_refresh inv(INV_ITEM_X, ci), inv(INV_ITEM_Y, ci)"
+        ),
+        (
+          kind: Expression,
+          match: "inv(INV_ITEM_CHARGE, ci)--"
         )
       ]
     ),
@@ -19068,8 +19126,8 @@ AnalysisConfig(
       name: "*action",
       rules: [
         (
-          kind: Function,
-          match: "	if ( efid == SKILL_SPACT_DEATH_WORD ) {"
+          kind: If,
+          match: "if ( efid == SKILL_SPACT_DEATH_WORD ) {"
         )
       ]
     ),
@@ -19077,8 +19135,8 @@ AnalysisConfig(
       name: "*effect_selectTg",
       rules: [
         (
-          kind: Function,
-          match: "	if ( stat == 0 ) {"
+          kind: Assignment,
+          match: "noeffect = 0"
         )
       ]
     ),
@@ -19086,8 +19144,8 @@ AnalysisConfig(
       name: "*effect",
       rules: [
         (
-          kind: Function,
-          match: "	if ( stat == 0 ) {"
+          kind: Assignment,
+          match: "obvious = 1"
         )
       ]
     ),
@@ -19096,7 +19154,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "				cbitmod CHARA_BIT_SUICIDE_SWITCH, cc, 0"
+          match: "chainbomb++"
         )
       ]
     ),
@@ -19104,8 +19162,8 @@ AnalysisConfig(
       name: "*chainBomb_loop_WHILE1",
       rules: [
         (
-          kind: Function,
-          match: "					chainbomb--"
+          kind: Expression,
+          match: "chainbomb--"
         )
       ]
     ),
@@ -19113,26 +19171,26 @@ AnalysisConfig(
       name: "*chainBomb_loop_WEND1",
       rules: [
         (
-          kind: Function,
-          match: "					}"
+          kind: StringLiteral,
+          match: "の傷はふさがった。"
         )
       ]
     ),
-    (
-      name: "*effect_SWEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "			}"
-        )
-      ]
-    ),
+    // (
+    //   name: "*effect_SWEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "			}"
+    //     )
+    //   ]
+    // ),
     (
       name: "*effect2",
       rules: [
         (
-          kind: Function,
-          match: "*effect_SWEND1"
+          kind: StringLiteral,
+          match: "There's a mark on the map..."
         )
       ]
     ),
@@ -19140,8 +19198,8 @@ AnalysisConfig(
       name: "*delMutation_cursed",
       rules: [
         (
-          kind: Function,
-          match: "		f = 0"
+          kind: StringLiteral,
+          match: "あなたは変容した！ "
         )
       ]
     ),
@@ -19149,8 +19207,8 @@ AnalysisConfig(
       name: "*spUncurse_cursed",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: If,
+          match: "if ( efid == SKILL_SPACT_CURSE ) {"
         )
       ]
     ),
@@ -19158,8 +19216,8 @@ AnalysisConfig(
       name: "*jump_changeCreature",
       rules: [
         (
-          kind: Function,
-          match: "		if ( tc == CHARA_PLAYER ) {"
+          kind: StringLiteral,
+          match: "は変化した。"
         )
       ]
     ),
@@ -19167,17 +19225,29 @@ AnalysisConfig(
       name: "*effect_end",
       rules: [
         (
+          kind: Assignment,
+          match: "ci = efcibk"
+        ),
+        (
+          kind: Assignment,
+          match: "efstatus = 0"
+        ),
+        (
+          kind: Assignment,
+          match: "efsource = 0"
+        ),
+        (
           kind: Function,
-          match: "		}"
-        )
+          match: "return 1"
+        ),
       ]
     ),
     (
       name: "*effect_heal",
       rules: [
         (
-          kind: Function,
-          match: "	subloop = 1"
+          kind: Assignment,
+          match: "subloop = 1"
         )
       ]
     ),
@@ -19185,26 +19255,26 @@ AnalysisConfig(
       name: "*effect_directive",
       rules: [
         (
-          kind: Function,
-          match: "	signal = 0"
+          kind: Assignment,
+          match: "cdata(CDATA_DIRECTIVE_MODE, tc) = DIRECTIVE_MODE_INTERCEPT"
         )
       ]
     ),
-    (
-      name: "*effect_elixer",
-      rules: [
-        (
-          kind: Function,
-          match: "	cdata(CDATA_CONDITION_MPOISON, tc) = 0"
-        )
-      ]
-    ),
+    // (
+    //   name: "*effect_elixer",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	cdata(CDATA_CONDITION_MPOISON, tc) = 0"
+    //     )
+    //   ]
+    // ),
     (
       name: "*act_throw",
       rules: [
         (
-          kind: Function,
-          match: "	if ( inv(INV_ITEM_PROPERTY, ci) == PROP_NPC | inv(INV_ITEM_PROPERTY, ci) == PROP_SPECIAL ) {"
+          kind: StringLiteral,
+          match: "それは地面に落ちて砕けた。"
         )
       ]
     ),
@@ -19213,7 +19283,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	item_find FILTER_FURNITURE_ALTAR"
+          match: "goto *god_pray"
         )
       ]
     ),
@@ -19222,7 +19292,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	item_exchange ci, ti"
+          match: "item_exchange ci, ti"
         )
       ]
     ),
@@ -19230,8 +19300,8 @@ AnalysisConfig(
       name: "*act_get",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cc != (-1) ) {"
+          kind: StringLiteral,
+          match: "を撤去する？ "
         )
       ]
     ),
@@ -19239,8 +19309,8 @@ AnalysisConfig(
       name: "*act_drop",
       rules: [
         (
-          kind: Function,
-          match: "	inumbk = inv(INV_ITEM_NUM, ci) - in"
+          kind: StringLiteral,
+          match: "を地面に置いた。"
         )
       ]
     ),
@@ -19248,8 +19318,8 @@ AnalysisConfig(
       name: "*act_equip",
       rules: [
         (
-          kind: Function,
-          match: "	if ( ci == (-1) ) {"
+          kind: Assignment,
+          match: "inv(INV_ITEM_EQUIP, ci) = body"
         )
       ]
     ),
@@ -19257,8 +19327,12 @@ AnalysisConfig(
       name: "*act_unequip",
       rules: [
         (
+          kind: Assignment,
+          match: "ci = p - 1"
+        ),
+        (
           kind: Function,
-          match: "	p = cdata(body, r1) \ EXT_EQUIP_SLOTS"
+          match: "inv(INV_ITEM_EQUIP, ci) = 0"
         )
       ]
     ),
@@ -19266,8 +19340,8 @@ AnalysisConfig(
       name: "*act_unequip_part",
       rules: [
         (
-          kind: Function,
-          match: "	repeat MAX_EQUIP_SLOT_TOTAL, CDATA_STARTING_EQUIP_SLOTS"
+          kind: If,
+          match: "if ( cdata(cnt, r1) / EXT_EQUIP_SLOTS == body ) {"
         )
       ]
     ),
@@ -19275,8 +19349,8 @@ AnalysisConfig(
       name: "*act_read",
       rules: [
         (
-          kind: Function,
-          match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_RECIPE ) {"
+          kind: Assignment,
+          match: "dbmode = DBMODE_ON_READ"
         )
       ]
     ),
@@ -19284,26 +19358,30 @@ AnalysisConfig(
       name: "*act_eat",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cc == CHARA_PLAYER ) {"
+          kind: StringLiteral,
+          match: "の食べ物を横取りした。"
         )
       ]
     ),
-    (
-      name: "*act_drink",
-      rules: [
-        (
-          kind: Function,
-          match: "	dbmode = DBMODE_ON_DRINK"
-        )
-      ]
-    ),
+    // (
+    //   name: "*act_drink",
+    //   rules: [
+    //     (
+    //       kind: Assignment,
+    //       match: "dbmode = DBMODE_ON_DRINK"
+    //     ),
+    //     (
+    //       kind: Assignment,
+    //       match: "dbid = inv(INV_ITEM_ID, ci)"
+    //     )
+    //   ]
+    // ),
     (
       name: "*act_zap",
       rules: [
         (
           kind: Function,
-          match: "	if ( cc != CHARA_PLAYER ) {"
+          match: "gosub *zapStaff"
         )
       ]
     ),
@@ -19311,8 +19389,8 @@ AnalysisConfig(
       name: "*act_bash",
       rules: [
         (
-          kind: Function,
-          match: "	if ( map(x, y, 5) != 0 ) {"
+          kind: StringLiteral,
+          match: "に体当たりした。"
         )
       ]
     ),
@@ -19320,8 +19398,8 @@ AnalysisConfig(
       name: "*search_for_chara",
       rules: [
         (
-          kind: Function,
-          match: "	return"
+          kind: Expression,
+          match: "listmax2++"
         )
       ]
     ),
@@ -19329,8 +19407,8 @@ AnalysisConfig(
       name: "*act_movePC",
       rules: [
         (
-          kind: Function,
-          match: "	f = 0"
+          kind: StringLiteral,
+          match: "と入れ替わった。"
         )
       ]
     ),
@@ -19338,8 +19416,8 @@ AnalysisConfig(
       name: "*move_skip",
       rules: [
         (
-          kind: Function,
-          match: "				}"
+          kind: StringLiteral,
+          match: "Do you want to leave "
         )
       ]
     ),
@@ -19347,8 +19425,8 @@ AnalysisConfig(
       name: "*act_move",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: StringLiteral,
+          match: "は蜘蛛の巣にひっかかった。"
         )
       ]
     ),
@@ -19356,8 +19434,8 @@ AnalysisConfig(
       name: "*cell_info",
       rules: [
         (
-          kind: Function,
-          match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
+          kind: StringLiteral,
+          match: "地面に何かがあるようだ。"
         )
       ]
     ),
@@ -19365,8 +19443,8 @@ AnalysisConfig(
       name: "*act_moveLevel",
       rules: [
         (
-          kind: Function,
-          match: "	if ( dbg_freemove ) {"
+          kind: If,
+          match: "	if ( movelevelbystairs == TRUE ) {"
         )
       ]
     ),
@@ -19374,8 +19452,8 @@ AnalysisConfig(
       name: "*lockpick_val",
       rules: [
         (
-          kind: Function,
-          match: "	nannido = val"
+          kind: Assignment,
+          match: "nannido = val"
         )
       ]
     ),
@@ -19383,26 +19461,26 @@ AnalysisConfig(
       name: "*lockpick",
       rules: [
         (
-          kind: Function,
-          match: "	item_find ITEM_ID_LOCKPICK, 3"
+          kind: StringLiteral,
+          match: "楽勝だ。"
         )
       ]
     ),
-    (
-      name: "*lockpick_WHILE1_CONTINUE",
-      rules: [
-        (
-          kind: Function,
-          match: "		}"
-        )
-      ]
-    ),
+    // (
+    //   name: "*lockpick_WHILE1_CONTINUE",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "		}"
+    //     )
+    //   ]
+    // ),
     (
       name: "*lockpick_WEND1",
       rules: [
         (
-          kind: Function,
-          match: "*lockpick_WHILE1_CONTINUE"
+          kind: StringLiteral,
+          match: "開錠に成功した。"
         )
       ]
     ),
@@ -19410,26 +19488,26 @@ AnalysisConfig(
       name: "*act_open",
       rules: [
         (
-          kind: Function,
-          match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_SHOPKEEPERS_TRUNK ) {"
+          kind: StringLiteral,
+          match: "足枷を外した。"
         )
       ]
     ),
-    (
-      name: "*act_open_SWEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "		}"
-        )
-      ]
-    ),
+    // (
+    //   name: "*act_open_SWEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "		}"
+    //     )
+    //   ]
+    // ),
     (
       name: "*open_chest",
       rules: [
         (
-          kind: Function,
-          match: "		goto *act_open_SWEND1"
+          kind: If,
+          match: "if ( inv(INV_ITEM_ID, ri) == ITEM_ID_SAFE ) {"
         )
       ]
     ),
@@ -19437,8 +19515,8 @@ AnalysisConfig(
       name: "*open_newYear",
       rules: [
         (
-          kind: Function,
-          match: "	procid = (procid + 1) \ 4"
+          kind: StringLiteral,
+          match: "罠だ！お年玉袋は発火した。"
         )
       ]
     ),
@@ -19446,8 +19524,8 @@ AnalysisConfig(
       name: "*open_catbox",
       rules: [
         (
-          kind: Function,
-          match: "	procid = (procid + 1) \ 4"
+          kind: StringLiteral,
+          match: "猫が入っていた！"
         )
       ]
     ),
@@ -19455,8 +19533,8 @@ AnalysisConfig(
       name: "*act_openDoor",
       rules: [
         (
-          kind: Function,
-          match: "	cell_featread dx, dy"
+          kind: StringLiteral,
+          match: "は扉を開けた。"
         )
       ]
     ),
@@ -19464,8 +19542,8 @@ AnalysisConfig(
       name: "*act_close",
       rules: [
         (
-          kind: Function,
-          match: "	txt lang("何を閉める？", "Which door do you want to close? ")"
+          kind: StringLiteral,
+          match: "何を閉める？"
         )
       ]
     ),
@@ -19473,8 +19551,8 @@ AnalysisConfig(
       name: "*act_fire",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cbit(CHARA_BIT_AWAKE_MAGIC_ATTACK, cc) ) {"
+          kind: StringLiteral,
+          match: "通常弾を装填した。"
         )
       ]
     ),
@@ -19482,8 +19560,8 @@ AnalysisConfig(
       name: "*act_melee",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cbit(CHARA_BIT_AWAKE_MAGIC_ATTACK, cc) ) {"
+          kind: If,
+          match: "if ( cdata(CDATA_BARRIER, tc) ) {"
         )
       ]
     ),
@@ -19491,8 +19569,8 @@ AnalysisConfig(
       name: "*act_attack",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: StringLiteral,
+          match: "は怖気づいた。"
         )
       ]
     ),
@@ -19500,8 +19578,8 @@ AnalysisConfig(
       name: "*act_attackSub",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: If,
+          match: "if ( ammoproc == ENCHANT_AMMO_EXPLOSIVE ) {"
         )
       ]
     ),
@@ -19509,8 +19587,8 @@ AnalysisConfig(
       name: "*act_search",
       rules: [
         (
-          kind: Function,
-          match: "	msgdup++"
+          kind: StringLiteral,
+          match: "周囲を注意深く調べた。"
         )
       ]
     ),
@@ -19519,7 +19597,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "								txt lang("罠を発見した。", "You discover a trap.")"
+          match: "cell_featset refx, refy, tile_trap, -1, -1"
         )
       ]
     ),
@@ -19527,17 +19605,25 @@ AnalysisConfig(
       name: "*revealHiddenPath",
       rules: [
         (
+          kind: Assignment,
+          match: "map(refx, refy, 0) = tile_tunnel"
+        ),
+        (
           kind: Function,
-          match: "							txt lang("隠れた通路を発見した。", "You discover a hidden path.")"
-        )
+          match: "cell_featset refx, refy, 0, 0"
+        ),
+        (
+          kind: Function,
+          match: "return"
+        ),
       ]
     ),
     (
       name: "*act_dig",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_SP, cc) < 0 ) {"
+          kind: Assignment,
+          match: "digx = tlocx"
         )
       ]
     ),
@@ -19545,8 +19631,8 @@ AnalysisConfig(
       name: "*act_dip",
       rules: [
         (
-          kind: Function,
-          match: "	procid = (procid + 1) \ 4"
+          kind: StringLiteral,
+          match: "You dip "
         )
       ]
     ),
@@ -19554,26 +19640,26 @@ AnalysisConfig(
       name: "*act_use",
       rules: [
         (
-          kind: Function,
-          match: "	procid = (procid + 1) \ 4"
+          kind: StringLiteral,
+          match: "突然誰かが蓋を閉めた。"
         )
       ]
     ),
-    (
-      name: "*act_use_SWEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
-    ),
+    // (
+    //   name: "*act_use_SWEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	}"
+    //     )
+    //   ]
+    // ),
     (
       name: "*gene_skill",
       rules: [
         (
           kind: Function,
-          match: "		if ( stat != 0 ) {"
+          match: "if ( dbmax >= 2 ) {"
         )
       ]
     ),
@@ -19582,7 +19668,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	dbmax = 0"
+          match: "rtval = dblist(0, rnd(dbmax))"
         )
       ]
     ),
@@ -19590,8 +19676,8 @@ AnalysisConfig(
       name: "*item_seed",
       rules: [
         (
-          kind: Function,
-          match: "	screenupdate = -1"
+          kind: StringLiteral,
+          match: "You can't plant it here."
         )
       ]
     ),
@@ -19599,8 +19685,8 @@ AnalysisConfig(
       name: "*item_seedGrowth",
       rules: [
         (
-          kind: Function,
-          match: "	if ( feat == tile_plant + 6 ) {"
+          kind: If,
+          match: "if ( feat(FEAT_CELL_PARAM_1) \\ 50 == 0 ) {"
         )
       ]
     ),
@@ -19608,8 +19694,8 @@ AnalysisConfig(
       name: "*item_seedNextGrowth",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: Expression,
+          match: "feat(FEAT_CELL_PARAM_1) += 50"
         )
       ]
     ),
@@ -19617,35 +19703,35 @@ AnalysisConfig(
       name: "*item_seedRegrowth",
       rules: [
         (
-          kind: Function,
-          match: "	p = 15"
+          kind: StringLiteral,
+          match: "新しい芽が息吹いている！"
         )
       ]
     ),
-    (
-      name: "*item_seedRegrowth_custom",
-      rules: [
-        (
-          kind: Function,
-          match: "	p = 15"
-        )
-      ]
-    ),
-    (
-      name: "*item_seedPick_custom",
-      rules: [
-        (
-          kind: Function,
-          match: "	skillexp SKILL_NORMAL_GARDENING, CHARA_PLAYER, 300"
-        )
-      ]
-    ),
+    // (
+    //   name: "*item_seedRegrowth_custom",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	p = 15"
+    //     )
+    //   ]
+    // ),
+    // (
+    //   name: "*item_seedPick_custom",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	skillexp SKILL_NORMAL_GARDENING, CHARA_PLAYER, 300"
+    //     )
+    //   ]
+    // ),
     (
       name: "*item_seedPick",
       rules: [
         (
-          kind: Function,
-          match: "	skillexp SKILL_NORMAL_GARDENING, CHARA_PLAYER, 300"
+          kind: StringLiteral,
+          match: "を収穫した。"
         )
       ]
     ),
@@ -19653,8 +19739,12 @@ AnalysisConfig(
       name: "*act_pickpocket",
       rules: [
         (
+          kind: Assignment,
+          match: "gdata(GDATA_ROW_ACT) = ACTION_STEAL"
+        ),
+        (
           kind: Function,
-          match: "	gdata(GDATA_ROW_ACT) = ACTION_STEAL"
+          match: "return"
         )
       ]
     ),
@@ -19663,7 +19753,11 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	gsel 4"
+          match: "picload exedir + \"graphic\\\\face1.bmp\", 1"
+        )
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\ie_chat.bmp\""
         )
       ]
     ),
@@ -19671,44 +19765,44 @@ AnalysisConfig(
       name: "*chat",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_TONE_SEX, tc) == 0 ) {"
+          kind: StringLiteral,
+          match: "は耳を貸さない。"
         )
       ]
     ),
-    (
-      name: "*chat_scene",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
-    ),
+    // (
+    //   name: "*chat_scene",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	}"
+    //     )
+    //   ]
+    // ),
     (
       name: "*chat_event",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: StringLiteral,
+          match: "後になって後悔しても知らない"
         )
       ]
     ),
-    (
-      name: "*chat_event_SWEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "		}"
-        )
-      ]
-    ),
+    // (
+    //   name: "*chat_event_SWEND1",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "		}"
+    //     )
+    //   ]
+    // ),
     (
       name: "*chat_unique",
       rules: [
         (
-          kind: Function,
-          match: "	listmax = 0"
+          kind: StringLiteral,
+          match: "So, you've made it this far. Evidently, <Chaos> wants no stability even within their own creation... Nefia. Well, it seems they have left me no choice but to whip you!"
         )
       ]
     ),
@@ -19716,8 +19810,8 @@ AnalysisConfig(
       name: "*chat_unique_mizuki",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: StringLiteral,
+          match: "上記に沿って話す"
         )
       ]
     ),
@@ -19725,8 +19819,8 @@ AnalysisConfig(
       name: "*chat_unique_SWEND1",
       rules: [
         (
-          kind: Function,
-          match: "	chatMore lang("…(あなたの言葉を聞いていない)", "(" + he(tc) + " ignores you...)"), strbye"
+          kind: StringLiteral,
+          match: "…(あなたの言葉を聞いていない)"
         )
       ]
     ),
@@ -19734,26 +19828,26 @@ AnalysisConfig(
       name: "*chat_unique_leold_limb",
       rules: [
         (
-          kind: Function,
-          match: "	if ( gdata(GDATA_FLAG_DIALOG_LEOLD) == 0 ) {"
+          kind: StringLiteral,
+          match: "自分が試す"
         )
       ]
     ),
-    (
-      name: "*com_change_gamemode",
-      rules: [
-        (
-          kind: Function,
-          match: "	pos 0, 0"
-        )
-      ]
-    ),
+    // (
+    //   name: "*com_change_gamemode",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	pos 0, 0"
+    //     )
+    //   ]
+    // ),
     (
       name: "*com_change_gamemode_loop",
       rules: [
         (
-          kind: Function,
-          match: "	redraw 0"
+          kind: StringLiteral,
+          match: "そっと目をそらす…"
         )
       ]
     ),
@@ -19761,8 +19855,8 @@ AnalysisConfig(
       name: "*com_change_gamemode_finish",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: StringLiteral,
+          match: "あはははははっ！本当に選んでしまったのですね…♪ようこそ、新しい宇宙へ。"
         )
       ]
     ),
@@ -19770,7 +19864,7 @@ AnalysisConfig(
       name: "*chat_unique_leold_maxspeed",
       rules: [
         (
-          kind: Function,
+          kind: StringLiteral,
           match: "すまん。今の俺ではこれ以上鍛えることができないようだ。"
         )
       ]
