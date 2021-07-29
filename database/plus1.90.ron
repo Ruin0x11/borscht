@@ -8626,9 +8626,9 @@ AnalysisConfig(
         )),
         MatchAll((
           rules: (
-              lhs: Array({ 0: Symbol(["body", "cnt", "bodylist"]) }),
+              // lhs: Array({ 0: Symbol(["body", "cnt", "bodylist"]) }),
               ops: ["/", "\\", "*"],
-              // rhs: { 0: Constant(10000) },
+              rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) },
             ),
           substitute: (rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) })
         )),
