@@ -16773,7 +16773,7 @@ AnalysisConfig(
         )
       ]
     ),
-    
+    (
      name: "*god_pray",
      rules: [
        (
@@ -16781,7 +16781,7 @@ AnalysisConfig(
          match: "あなたの神に祈りを乞う？"
        )
      ]
-    
+    ),
     (
       name: "*god_offer",
       rules: [
@@ -16828,7 +16828,7 @@ AnalysisConfig(
     ),
     (
       name: "*random_eventProc_SWEND1",
-      after: "*random_eventProc"
+      after: "*random_eventProc",
       loop_kind: SwitchEnd
     ),
     (
@@ -16901,7 +16901,7 @@ AnalysisConfig(
     ),
     (
       name: "*com_blend_recipe_loop_WHILE1",
-      after: "*com_blend_recipe_loop_pgchk"
+      after: "*com_blend_recipe_loop_pgchk",
       loop_kind: While
     ),
     (
@@ -16919,7 +16919,7 @@ AnalysisConfig(
     ),
     (
       name: "*com_blend_material_loop_WHILE1_CONTINUE",
-      after: "*com_blend_material_loop_WHILE1"
+      after: "*com_blend_material_loop_WHILE1",
       loop_kind: WhileContinue
     ),
     (
@@ -16985,7 +16985,7 @@ AnalysisConfig(
       name: "*com_import",
       rules: [
         (
-          kind: StringLiteral,
+          kind: Function,
           match: "net_dllist \".ept\", 1"
         )
       ]
@@ -17014,7 +17014,7 @@ AnalysisConfig(
     ),
     (
       name: "*findLocation_WHILE1_CONTINUE",
-      after: "*findLocation_WHILE1"
+      after: "*findLocation_WHILE1",
       loop_kind: WhileContinue
     ),
     (
@@ -17054,7 +17054,7 @@ AnalysisConfig(
     ),
     (
       name: "*com_mapset_WHILE1",
-      after: "*com_mapset"
+      after: "*com_mapset",
       loop_kind: While
     ),
     (
@@ -17071,7 +17071,7 @@ AnalysisConfig(
       name: "*com_ally",
       rules: [
         (
-          kind: Function,
+          kind: If,
           match: "if ( allyctrl == 7 ) {"
         )
       ]
@@ -17083,7 +17083,7 @@ AnalysisConfig(
     (
       name: "*com_ally_loop_WHILE1",
       after: "*com_ally_loop",
-      loop_type: While"
+      loop_type: While
     ),
     (
       name: "*com_ally_loop_WHILE1_CONTINUE",
@@ -17095,7 +17095,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "<title1>◆精神状態<def>\\n"
+          match: "<title1>◆精神状態<def>"
         )
       ]
     ),
@@ -17130,7 +17130,7 @@ AnalysisConfig(
         (
           kind: Function,
           match: "snd SOUNDLIST_FEAT"
-        )
+        ),
         (
           kind: Function,
           match: "picload exedir + \"graphic\\\\deco_feat.bmp\", 1"
@@ -17187,7 +17187,7 @@ AnalysisConfig(
         (
           kind: If,
           match: "if ( cdata(CDATA_EXIST, cnt) != CHAR_STATE_TEMP ) {"
-        )
+        ),
         (
           kind: Assignment,
           match: "list(0, listmax) = cnt, -cdata(CDATA_LEVEL, cnt)"
@@ -17957,8 +17957,8 @@ AnalysisConfig(
           match: "p = gdata(GDATA_QUEST_POOL + cnt)"
         ),
         (
-            kind: If,
-            match: "if ( qdata(QDATA_STATUS, p) == QUEST_STATE_ONGOING ) {"
+          kind: If,
+          match: "if ( qdata(QDATA_STATE, p) == QUEST_STATE_ONGOING ) {"
         )
       ]
     ),
@@ -19745,20 +19745,18 @@ AnalysisConfig(
     ),
     (
       name: "*com_build_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "その場所には建てられない。"
-        )
-      ]
+      after: "*com_build",
+      loop_kind: While
     ),
     (
       name: "*com_build_WHILE1_CONTINUE",
-      after: "*com_build_WHILE1"
+      after: "*com_build_WHILE1",
+      loop_kind: WhileContinue
     ),
     (
       name: "*com_build_WEND1",
-      after: "*com_build_WHILE1_CONTINUE"
+      after: "*com_build_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
     ),
     (
       name: "*com_select_building",

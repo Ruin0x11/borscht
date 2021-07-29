@@ -439,14 +439,6 @@ impl<'a> AstPrintable<'a> for BlockStatementNode {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
         write!(f, "{{\r\n")?;
         for exp in self.nodes.iter() {
-
-            // HACK
-            if let AstNodeKind::LabelDeclaration(node) = &exp.kind {
-                if ctxt.label_names.get(&node.label).is_none() {
-                    continue;
-                }
-            }
-
             print_tabs(f, exp.tab_count)?;
             exp.print_code(f, exp.tab_count, ctxt)?;
             write!(f, "\r\n")?;

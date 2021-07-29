@@ -1229,7 +1229,8 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
                     (None, TxtUnrollState::FoundTcol(to, tc, args))
                 },
                 TxtUnrollState::FoundTcol(to, tc, args) => {
-                    (Some(Box::new(make_txt_node(to, tc, *args, self.txt_function.clone()))), TxtUnrollState::None)
+                    exps.push(Box::new(make_txt_node(to, tc, *args, self.txt_function.clone())));
+                    (Some(exp), TxtUnrollState::None)
                 },
                 state => {
                     if let ast::AstNodeKind::Assignment(assign) = &exp.kind {
@@ -1241,11 +1242,15 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
                                     (Some(exp), TxtUnrollState::FoundTxtvalid(to, tc))
                                 } else {
                                     if name == "txtc" {
-                                        if let TxtUnrollState::FoundTxtvalid(to, tc) = state {
-                                            exps.pop().unwrap(); // discard previous `txtvalid = 0`
-                                            (None, TxtUnrollState::FoundTxtc1(to, tc))
-                                        } else {
-                                            (Some(exp), TxtUnrollState::None)
+                                        match state {
+                                            TxtUnrollState::None => {
+                                                (None, TxtUnrollState::FoundTxtc1(exp.token_offset, exp.tab_count))
+                                            },
+                                            TxtUnrollState::FoundTxtvalid(to, tc) => {
+                                                exps.pop().unwrap(); // discard previous `txtvalid = 0`
+                                                (None, TxtUnrollState::FoundTxtc1(to, tc))
+                                            },
+                                            _ => (Some(exp), TxtUnrollState::None)
                                         }
                                     } else {
                                         (Some(exp), TxtUnrollState::None)
@@ -1359,7 +1364,6 @@ impl<'a> LabelRenameVisitor<'a> {
                 if let Some(prev) = &self.previous_label {
                     if let Some(after) = &defn.after {
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
-                            println!("AFTERCHECK {} {:?}", after, prev_resolved);
                             if &prev_resolved.name == after {
                                 println!("AFTER {} {:?}", after, prev_resolved);
                                 assert!(found_after.is_none(), "More than one label with same 'after' field found.");
@@ -1380,14 +1384,17 @@ impl<'a> LabelRenameVisitor<'a> {
 
     fn set_label(&mut self, label: ResolvedLabel) {
         // Exclude ghost labels
-        if self.hsp3as.label_names.contains_key(&label) {
-            self.check_after_labels();
+        if !self.hsp3as.label_names.contains_key(&label) {
+            return;
         }
+
+        self.check_after_labels();
 
         println!("LABEL {:?}", self.hsp3as.label_names.get(&label));
         if self.visiting_label.is_some() {
+            // println!("SETPREV {:?}", self.hsp3as.label_names.get(self.visiting_label.as_ref().unwrap()).unwrap());
             self.previous_label = self.visiting_label.clone();
-        }
+        } 
         self.visiting_label = Some(label);
     }
 
@@ -1395,6 +1402,7 @@ impl<'a> LabelRenameVisitor<'a> {
         self.previous_label = Some(label.clone());
         self.visiting_label = None;
         self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
+        // println!("SETPREVASSOC {:?}", self.hsp3as.label_names.get(label).unwrap());
         if let Some(existing_rule) = self.resolved_labels.insert(label.clone(), rule) {
             panic!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
                    self.hsp3as.label_names.get(&label).unwrap(), existing_rule)
