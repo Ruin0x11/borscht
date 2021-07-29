@@ -74,6 +74,10 @@ struct VariableDefinition {
 
     /// Exclude this variant from being considered in group rules or
     /// substitutions, but still output it when the source code is written.
+    ///
+    /// Note that if a set of variable names is used, like in the
+    /// VariantRecursive rule, this flag will be ignored, since the variant was
+    /// explicitly asked for.
     #[serde(default)]
     exclude: bool,
 
@@ -134,6 +138,9 @@ enum Rule {
     /// Matches if the node is a variable, like `cc` or `cdata(0)`.
     Variable,
 
+    /// Matches if the node is a variable or array with one of these names.
+    Symbol(HashSet<String>),
+
     /// Matches if the index or function arguments in the node all match.
     ///
     /// `Array({0: Variant("cdata", ["CDATA_ID"])})` matches the expression
@@ -173,6 +180,9 @@ enum Substitute {
     /// `Group("cdata", Lhs("+"))` replaces `(100 + 100)` with
     /// `(CDATA_STARTING_EQUIP_SLOTS + 100)`.
     GroupRecursive(GroupName, RecursiveCondition),
+
+    /// Replace constant literals with the specific variants from this group.
+    Variant(GroupName, HashSet<String>),
 
     /// Replace constant literals with the specific variants from this group,
     /// recursively.
@@ -227,7 +237,7 @@ enum ExprIndex {
 struct ExprIndexAll {
     #[serde(default)]
     rules: ExprRulesetAll,
-    substitute: ExprSubstitutesAll
+    substitute: ExprSubstitutesAll,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -236,13 +246,34 @@ struct ExprRulesetAll {
     lhs: Option<Rule>,
 
     #[serde(default)]
+    ops: HashSet<String>,
+
+    #[serde(default)]
     rhs: ArrayRules,
+}
+
+fn op_is_comparison(op: &PrimitiveToken) -> bool {
+    match &op.dict_value.name[..] {
+        "=" | "!" | ">" | "<" | ">=" | "<=" => true,
+        _ => false
+    }
+}
+
+impl ExprRulesetAll {
+    fn op_matches(&self, op: &PrimitiveToken) -> bool {
+        if self.ops.len() > 0 {
+            self.ops.contains(&op.dict_value.name)
+        } else {
+            op_is_comparison(op)
+        }
+    }
 }
 
 impl Default for ExprRulesetAll {
     fn default() -> Self {
         ExprRulesetAll {
             lhs: None,
+            ops: HashSet::new(),
             rhs: HashMap::new()
         }
     }
@@ -340,15 +371,36 @@ fn generate_ambiguous_constant(names: &Vec<String>, i: i32) -> String {
 fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>, errors: &mut Vec<String>) -> ast::AstNode {
     let mut found = Vec::new();
     let mut primary = None;
-    for var in group.iter_resolved_variables() {
+
+    let mut compare = |var: &VariableDefinition| {
         if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
             if i == j as i32 {
-                if allow.map_or(false, |a| !a.contains(&var.name)) {
-                    continue;
-                }
                 found.push(var.name.clone());
                 if var.primary {
                     primary = Some(var.name.clone());
+                    return true;
+                }
+            }
+        }
+        false
+    };
+
+    match allow {
+        Some(allow) => {
+            // Include variables with `exclude` set.
+            for a in allow.iter() {
+                let var = group._resolved_variables
+                               .iter()
+                               .find(|v| &v.name == a)
+                               .ok_or_else(|| panic!("Could not find variable {} in group {}.", a, group_name)).unwrap();
+                if compare(&var) {
+                    break;
+                }
+            }
+        },
+        None => {
+            for var in group.iter_resolved_variables() {
+                if compare(&var) {
                     break;
                 }
             }
@@ -380,39 +432,48 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
 
 fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &HashSet<String>) -> bool {
     let mut any = false;
-    for var in group.iter_resolved_variables().filter(|v| variants.contains(&v.name)) {
-        any = true;
+
+    let find = |var: &VariableDefinition| {
         match &exp.kind {
             ast::AstNodeKind::Literal(lit) => match &lit {
                 ast::LiteralNode::Integer(i) => {
                     if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
-                        if *i == j as i32 {
-                            return true;
-                        }
+                        *i == j as i32
                     } else {
                         unreachable!()
                     }
                 },
-                _ => ()
+                _ => false
             },
             ast::AstNodeKind::Variable(v) => match &v.ident.kind {
-                PrimitiveTokenKind::GlobalVariable(s) => { if s == &var.name { return true; } },
-                _ => (),
+                PrimitiveTokenKind::GlobalVariable(s) => s == &var.name,
+                _ => false,
             },
-            _ => ()
+            _ => false
+        }
+    };
+
+    if variants.len() > 0 {
+        // Include variables with `exclude` set.
+        for var in group._resolved_variables.iter().filter(|v| variants.contains(&v.name)) {
+            any = true;
+            if find(&var) {
+                return true;
+            }
+        }
+    } else {
+        for var in group.iter_resolved_variables() {
+            any = true;
+            if find(&var) {
+                return true;
+            }
         }
     }
+
     if !any {
         panic!("Could not find any variants in {:?} in group", variants);
     }
     false
-}
-
-fn op_is_comparison(op: &PrimitiveToken) -> bool {
-    match &op.dict_value.name[..] {
-        "=" | "!" | ">" | "<" | ">=" | "<=" => true,
-        _ => false
-    }
 }
 
 struct GroupRecursiveFindVisitor  {
@@ -614,11 +675,11 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
             },
             Rule::Variant(group_name, variants) => {
-                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
                 expression_has_variant(exp, &group, &variants)
             },
             Rule::VariantRecursive(group_name, variants, condition) => {
-                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
                 let mut visitor = GroupRecursiveFindVisitor {
                     group: group.clone(),
                     group_name: group_name.clone(),
@@ -632,6 +693,13 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             },
             Rule::Variable => match &exp.kind {
                 ast::AstNodeKind::Variable(var) => var.arg.is_none(),
+                _ => false
+            },
+            Rule::Symbol(syms) => match &exp.kind {
+                ast::AstNodeKind::Variable(_) => {
+                    let name = get_variable_name(&exp, &self.hsp3as).unwrap();
+                    syms.contains(&name)
+                },
                 _ => false
             },
             Rule::Flag => match &exp.kind {
@@ -703,7 +771,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     fn substitute_array_index(&mut self, exp: &mut ast::AstNode, subst: &Substitute) {
         match subst {
             Substitute::Group(group_name) => {
-                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
                         ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, None, &mut self.errors),
@@ -713,7 +781,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
             },
             Substitute::GroupRecursive(group_name, condition) => {
-                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
                 let mut visitor = GroupRecursiveVisitor {
                     group: group.clone(),
                     group_name: group_name.clone(),
@@ -724,8 +792,18 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 };
                 *exp = visitor.visit_node(exp.clone());
             },
+            Substitute::Variant(group_name, variants) => {
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
+                match &exp.kind {
+                    ast::AstNodeKind::Literal(lit) => match &lit {
+                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, Some(variants), &mut self.errors),
+                        _ => ()
+                    },
+                    _ => ()
+                }
+            },
             Substitute::VariantRecursive(group_name, variants, condition) => {
-                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
                 let mut visitor = GroupRecursiveVisitor {
                     group: group.clone(),
                     group_name: group_name.clone(),
@@ -746,7 +824,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
             },
             Substitute::Flag(group_name) => {
-                let group = self.config.variable_groups.get(group_name).expect(&format!("Variable group {} not defined.", group_name));
+                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
 
                 let mut flag = None;
                 if let ast::AstNodeKind::Expression(exp) = &exp.kind {
@@ -786,11 +864,15 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn expr_index_matches_all(&self, lhs: &ast::AstNode, rhs: &ast::AstNode, rules: &ExprRulesetAll) -> bool {
+    fn expr_index_matches_all(&self, lhs: &ast::AstNode, rhs: &ast::AstNode, rules: &ExprRulesetAll, op: &PrimitiveToken) -> bool {
         if let Some(rule) = &rules.lhs {
             if !self.array_index_rule_matches(lhs, &rule) {
                 return false;
             }
+        }
+
+        if !rules.op_matches(op) {
+            return false;
         }
 
         match &rhs.kind {
@@ -859,10 +941,10 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
-    fn match_expr_index(&mut self, a: &ast::AstNode, arg: &mut ast::AstNode, index: &ExprIndex) {
+    fn match_expr_index(&mut self, a: &ast::AstNode, arg: &mut ast::AstNode, index: &ExprIndex, op: &PrimitiveToken) {
         match &index {
             ExprIndex::MatchAll(index) => {
-                if self.expr_index_matches_all(a, &arg, &index.rules) {
+                if self.expr_index_matches_all(a, &arg, &index.rules, op) {
                     self.substitute_expr_indices_all(arg, &index.substitute);
                 }
             },
@@ -873,12 +955,14 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         }
     }
 
+    // Try to propagate constants based on an expression including a function
+    // parameter.
     fn find_func_indices(&self, var: &ast::AstNode) -> Option<Vec<FunctionArgIndex>> {
         if let ast::AstNodeKind::Variable(node) = &var.kind {
             if let PrimitiveTokenKind::Parameter(param) = &node.ident.kind {
-                let param_name = self.hsp3as.param_names.get(param).expect(&format!("No name for parameter {:?}", param));
+                let param_name = self.hsp3as.param_names.get(param).ok_or_else(|| panic!("No name for parameter {:?}", param)).unwrap();
                 if let Some((func, funcname)) = &self.visiting_function {
-                    let func_conf = self.config.functions.get(funcname).expect(&format!("No function named '{}' declared", funcname));
+                    let func_conf = self.config.functions.get(funcname).ok_or_else(|| panic!("No function named '{}' declared", funcname)).unwrap();
                     for (_, arg) in func_conf.args.iter() {
                         let name = format!("{}_{}", funcname, arg.name);
                         if param_name == &name {
@@ -920,7 +1004,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
             if let Some(lhs_name) = get_variable_name(&node.var, &self.hsp3as) {
                 if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
                     for index in expr_def.indices.iter() {
-                        self.match_expr_index(&node.var, arg, index);
+                        self.match_expr_index(&node.var, arg, index, &node.operator);
                     }
                 }
             }
@@ -936,34 +1020,35 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
 
     fn visit_expression(&mut self, mut node: ast::ExpressionNode) -> ast::ExpressionNode {
         if let Some(ref op) = node.op {
-            if op_is_comparison(op) {
-                if let Some(ref mut rhs) = &mut node.rhs {
-                    if let Some(lhs_name) = get_variable_name(&node.lhs, &self.hsp3as) {
-                        if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
-                            for index in expr_def.indices.iter() {
-                                self.match_expr_index(&node.lhs, rhs, index);
-                            }
+            if let Some(ref mut rhs) = &mut node.rhs {
+                if let Some(lhs_name) = get_variable_name(&node.lhs, &self.hsp3as) {
+                    if let Some(expr_def) = &self.config.expressions.get(&lhs_name) {
+                        for index in expr_def.indices.iter() {
+                            self.match_expr_index(&node.lhs, rhs, index, op);
                         }
                     }
+                }
+                if op_is_comparison(op) {
                     if let Some(indices) = self.find_func_indices(&node.lhs) {
                         for index in indices.iter() {
                             self.substitute_array_index(rhs, &index.substitute);
                         }
                     }
+                }
 
-                    if let Some(rhs_name) = get_variable_name(rhs, &self.hsp3as) {
-                        if let Some(expr_def) = &self.config.expressions.get(&rhs_name) {
-                            for index in expr_def.indices.iter() {
-                                self.match_expr_index(&rhs, &mut node.lhs, index);
-                            }
+                if let Some(rhs_name) = get_variable_name(rhs, &self.hsp3as) {
+                    if let Some(expr_def) = &self.config.expressions.get(&rhs_name) {
+                        for index in expr_def.indices.iter() {
+                            self.match_expr_index(&rhs, &mut node.lhs, index, op);
                         }
                     }
+                }
+                if op_is_comparison(op) {
                     if let Some(indices) = self.find_func_indices(&rhs) {
                         for index in indices.iter() {
                             self.substitute_array_index(&mut node.lhs, &index.substitute);
                         }
                     }
-
                 }
             }
         }
@@ -998,7 +1083,7 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
         match funcdef.func.get_type() {
             Ax3FunctionType::DefFunc |
             Ax3FunctionType::DefCFunc => {
-                let func_conf = self.config.functions.get(&funcdef.default_name).expect(&format!("No function named '{}' declared", funcdef.default_name));
+                let func_conf = self.config.functions.get(&funcdef.default_name).ok_or_else(|| panic!("No function named '{}' declared", funcdef.default_name)).unwrap();
                 self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
                 funcdef
             },
@@ -1260,33 +1345,36 @@ struct LabelRenameVisitor<'a> {
 
 impl<'a> LabelRenameVisitor<'a> {
     fn check_after_labels(&mut self) {
-        if self.visiting_label.is_some() {
-            let mut found_after = None;
+        // Only check if none of the rules matched so far.
+        if self.visiting_label.is_none() {
+            return;
+        }
 
-            for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
-                defn._matched_so_far = 0;
+        let mut found_after = None;
 
-                if defn.rules.len() == 0 {
-                    if let Some(prev) = &self.previous_label {
-                        if let Some(after) = &defn.after {
-                            if let Some(prev_resolved) = self.resolved_labels.get(prev) {
-                                println!("AFTERCHECK {} {:?}", after, prev_resolved);
-                                if &prev_resolved.name == after {
-                                    println!("AFTER {} {:?}", after, prev_resolved);
-                                    assert!(found_after.is_none(), "More than one label with same 'after' field found.");
-                                    found_after = Some(i);
-                                }
+        for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
+            defn._matched_so_far = 0;
+
+            if defn.rules.len() == 0 {
+                if let Some(prev) = &self.previous_label {
+                    if let Some(after) = &defn.after {
+                        if let Some(prev_resolved) = self.resolved_labels.get(prev) {
+                            println!("AFTERCHECK {} {:?}", after, prev_resolved);
+                            if &prev_resolved.name == after {
+                                println!("AFTER {} {:?}", after, prev_resolved);
+                                assert!(found_after.is_none(), "More than one label with same 'after' field found.");
+                                found_after = Some(i);
                             }
                         }
                     }
                 }
             }
+        }
 
-            if let Some(found) = found_after {
-                let rule = self.labels_remaining.remove(found);
-                let label = self.visiting_label.unwrap();
-                self.associate_label(rule, &label);
-            }
+        if let Some(found) = found_after {
+            let rule = self.labels_remaining.remove(found);
+            let label = self.visiting_label.unwrap();
+            self.associate_label(rule, &label);
         }
     }
 
@@ -1424,7 +1512,7 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
     result.append(&mut vars);
 
     for include in group.includes.iter() {
-        let mut vars = resolve_variables(config, config.variable_groups.get(include).expect(&format!("Cannot find variable group {}", include)));
+        let mut vars = resolve_variables(config, config.variable_groups.get(include).ok_or_else(|| panic!("Cannot find variable group {}", include)).unwrap());
         result.append(&mut vars);
     }
     result

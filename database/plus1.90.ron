@@ -1245,7 +1245,7 @@ AnalysisConfig(
         ( name: "FILTER_NONE2", value: 99999999 ),
       ]
     ),
-    "race": (
+    "race_id": (
       variables: [
         ( name: "DB_RACE_KOBOLT", value: 1 ),
         ( name: "DB_RACE_ORC", value: 2 ),
@@ -1323,7 +1323,8 @@ AnalysisConfig(
         ( name: "DB_RACE_QUICKLING", value: 74 ),
         ( name: "DB_RACE_METAL", value: 75 ),
         ( name: "DB_RACE_BEHICLE", value: 76 ),
-      ]
+      ],
+      ignore: [ 0 ]
     ),
     "animation_id": (
       variables: [
@@ -1888,7 +1889,7 @@ AnalysisConfig(
         ( name: "QDATA_LEVEL", value: 5 ),
         ( name: "QDATA_REWARD", value: 6 ),
         ( name: "QDATA_REWARD_ITEM", value: 7 ),
-        ( name: "QDATA_STATUS", value: 8 ),
+        ( name: "QDATA_STATE", value: 8 ),
         ( name: "QDATA_DEADLINE", value: 9 ),
 
         ( name: "QDATA_ENCOUNTER", value: 10 ),
@@ -1949,6 +1950,12 @@ AnalysisConfig(
         ( name: "QUEST_REWARD_WEAPON", value: 4 ),
         ( name: "QUEST_REWARD_SUPPLY", value: 5 ),
       ]
+    ),
+    "quest_reward_or_filter": (
+        includes: [
+            "quest_reward",
+            "filter"
+        ]
     ),
     "color": (
       variables: [
@@ -2125,6 +2132,15 @@ AnalysisConfig(
         ( name: "CHAR_STATE_SUSPEND", value: 8 ),
         ( name: "CHAR_STATE_ALLY_WORK", value: 9 ),
         ( name: "CHAR_STATE_TEMP", value: 10 ),
+      ]
+    ),
+    "relation": (
+      variables: [
+        ( name: "RELATION_ENEMY", value: -3 ),
+        ( name: "RELATION_HATE", value: -2 ),
+        ( name: "RELATION_DISLIKE", value: -1 ),
+        ( name: "RELATION_NEUTRAL", value: 0 ),
+        ( name: "RELATION_ALLY", value: 10 ),
       ]
     ),
     "environment_effect": (
@@ -2723,7 +2739,7 @@ AnalysisConfig(
         ( name: "GDATA_QUEST", value: 70 ),
         ( name: "GDATA_QUEST_TYPE", value: 71 ),
         ( name: "GDATA_QUEST_REF", value: 72 ),
-        ( name: "GDATA_QUEST_STATUS", value: 73 ),
+        ( name: "GDATA_QUEST_STATE", value: 73 ),
         ( name: "GDATA_QUEST_FAME", value: 74 ),
         ( name: "GDATA_CLIENT", value: 75 ),
         ( name: "GDATA_HOME_BASE", value: 76 ),
@@ -2751,7 +2767,7 @@ AnalysisConfig(
         ( name: "GDATA_SLEEP_GENE", value: 98 ),
         ( name: "GDATA_NEXT_VOTE", value: 99 ),
 
-        ( name: "STARTING_GDATA_RANK", value: 120 ),
+        ( name: "STARTING_GDATA_RANK", value: 120, exclude: true ),
         ( name: "GDATA_RANK_ARENA", value: 120 ),
         ( name: "GDATA_RANK_PET_ARENA", value: 121 ),
         ( name: "GDATA_RANK_CRAWLER", value: 122 ),
@@ -7976,11 +7992,11 @@ AnalysisConfig(
         ),
         (
           rules: { 0: Expr },
-          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT"], Any) }
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT", "STARTING_CDATA_BUFF", "STARTING_CDATA_ATTR"], Lhs("+")) }
         ),
         (
-          rules: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"], Any) },
-          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF", "ARRAY_CDATA_BUFF"], Any) }
+          rules: { 0: Expr },
+          substitute: { 0: VariantRecursive("cdata", ["ARRAY_CDATA_BUFF"], Rhs("*")) }
         ),
         (
           rules: { 1: InGroup("chara"), },
@@ -8112,6 +8128,10 @@ AnalysisConfig(
         (
           rules: { 0: VariantRecursive("gdata", ["STARTING_GDATA_SHORTCUT"], Lhs("+")) },
           substitute: { 0: VariantRecursive("gdata", ["STARTING_GDATA_SHORTCUT"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: VariantRecursive("gdata", ["STARTING_GDATA_RANK"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("gdata", ["STARTING_GDATA_RANK"], Lhs("+")) }
         ),
         (
           rules: { 0: Flag },
@@ -8573,6 +8593,14 @@ AnalysisConfig(
           substitute: (rhs: { 0: Group("god") })
         )),
         MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RACE_ID"]) })),
+          substitute: (rhs: { 0: Group("race_id") })
+        )),
+        MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RELATION", "CDATA_RELATION_ORG"]) })),
+          substitute: (rhs: { 0: Group("relation") })
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ELEMENT"]) })),
           substitute: (rhs: { 0: GroupRecursive("skill_all_resist", Lhs("*")) })
         )),
@@ -8595,6 +8623,14 @@ AnalysisConfig(
         MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ENVIRONMENT_EFFECT"]) })),
           substitute: (rhs: { 0: Group("environment_effect") })
+        )),
+        MatchAll((
+          rules: (
+              lhs: Array({ 0: Symbol(["body", "cnt", "bodylist"]) }),
+              ops: ["/", "\\", "*"],
+              // rhs: { 0: Constant(10000) },
+            ),
+          substitute: (rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) })
         )),
       ]
     ),
@@ -8708,10 +8744,42 @@ AnalysisConfig(
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
           substitute: ( rhs: { 0: Group("weather") } )
         )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST"]) }) ),
+          substitute: ( rhs: { 0: Group("quest_type") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_ROW_ACT"]) }) ),
+          substitute: ( rhs: { 0: Group("action") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST_STATE"]) }) ),
+          substitute: ( rhs: { 0: Group("quest_state") } )
+        )),
 
         MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
           substitute: ( rhs: { 0: Group("gamemode") } )
+        )),
+      ]
+    ),
+    "qdata": (
+      indices: [
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_EXIST"]) }) ),
+          substitute: ( rhs: { 0: Group("quest_type") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_TYPE"]) }) ),
+          substitute: ( rhs: { 0: Group("quest_type") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_STATE"]) }) ),
+          substitute: ( rhs: { 0: Group("quest_state") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_REWARD_ITEM"]) }) ),
+          substitute: ( rhs: { 0: Group("quest_reward_or_filter") } )
         )),
       ]
     ),
@@ -14407,33 +14475,33 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    // (
-    //   name: "*resurrect",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cxinit = cdata(CDATA_X, CHARA_PLAYER)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*renewStatus",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cbitmod CHARA_BIT_CONTINGENCY, rc, 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*chara_respawn",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *resurrect"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*resurrect",
+      rules: [
+        (
+          kind: Function,
+          match: "cbitmod CHARA_BIT_SUICIDE_SWITCH, rc, FALSE"
+        )
+      ]
+    ),
+    (
+      name: "*renewStatus",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdata(STARTING_CDATA_BUFF + cnt * ARRAY_CDATA_BUFF, rc) == BUFF_PUNISHMENT ) {"
+        )
+      ]
+    ),
+    (
+      name: "*chara_respawn",
+      rules: [
+        (
+          kind: Function,
+          match: "evadd EVENT_DEAD"
+        )
+      ]
+    ),
     // (
     //   name: "*cm_init",
     //   rules: [
@@ -19445,7 +19513,7 @@ AnalysisConfig(
       name: "*search_for_chara",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "listmax2++"
         )
       ]
@@ -19491,7 +19559,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "	if ( movelevelbystairs == TRUE ) {"
+          match: "if ( movelevelbystairs == TRUE ) {"
         )
       ]
     ),
@@ -19685,7 +19753,7 @@ AnalysisConfig(
       name: "*gene_skill",
       rules: [
         (
-          kind: Function,
+          kind: If,
           match: "if ( dbmax >= 2 ) {"
         )
       ]
@@ -19694,7 +19762,7 @@ AnalysisConfig(
       name: "*gene_body",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "rtval = dblist(0, rnd(dbmax))"
         )
       ]
@@ -19721,7 +19789,7 @@ AnalysisConfig(
       name: "*item_seedNextGrowth",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "feat(FEAT_CELL_PARAM_1) += 50"
         )
       ]
@@ -19819,7 +19887,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "So, you've made it this far. Evidently, <Chaos> wants no stability even within their own creation... Nefia. Well, it seems they have left me no choice but to whip you!"
+          match: "So you've made it this far. Evidently, <Chaos> wants no poise even within their own creation...Nefia. Well, it seems they have left me no choice but to whip you!"
         )
       ]
     ),
@@ -19917,8 +19985,8 @@ AnalysisConfig(
       name: "*evochat_portrait",
       rules: [
         (
-          kind: Function,
-          match: "chatList 1, lang(\"次へ>>>\", \">>>\")"
+          kind: StringLiteral,
+          match: "(現在、立ち姿は決まっていない)"
         )
       ]
     ),
@@ -19971,7 +20039,7 @@ AnalysisConfig(
       name: "*chat_default",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "cdata(CDATA_INTEREST, tc) -= rnd(30)"
         )
       ]
@@ -20044,7 +20112,7 @@ AnalysisConfig(
     ),
     (
       name: "*chat_select_WHILE1",
-      after: "*chat_select_WHILE1"
+      after: "*chat_select"
     ),
     (
       name: "*chat_select_WEND1",
@@ -20072,13 +20140,13 @@ AnalysisConfig(
       name: "*shop_init",
       rules: [
         (
+          kind: If,
+          match: "if ( cdata(CDATA_ROLE, tc) == ROLE_SHOP_TRADE ) {"
+        ),
+        (
           kind: Assignment,
           match: "invfile = cdata(CDATA_ROLE_FILE_ID, tc)"
         ),
-        (
-          kind: Function,
-          match: "goto *shop_end"
-        )
       ]
     ),
     (
@@ -20124,7 +20192,7 @@ AnalysisConfig(
       name: "*item_quantity",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "rtval = i / 200"
         )
       ]
@@ -20151,7 +20219,7 @@ AnalysisConfig(
       name: "*com_politics_chart",
       rules: [
         (
-          kind: Assignment,
+          kind: Function,
           match: "picload exedir + \"graphic\\\\deco_politics.bmp\", 1"
         ),
         (
@@ -20186,7 +20254,7 @@ AnalysisConfig(
       name: "*com_politics_economy_loop",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "mdata(MDATA_CITY_PROPERTY_VALUE) = 300"
         )
       ]
@@ -20195,7 +20263,7 @@ AnalysisConfig(
       name: "*com_politics_rule",
       rules: [
         (
-          kind: Function,
+          kind: StringLiteral,
           match: "この街の消費税は"
         )
       ]
@@ -20273,23 +20341,14 @@ AnalysisConfig(
       name: "*com_select_building_loop",
       rules: [
         (
-          kind: Function,
+          kind: StringLiteral,
           match: "どの設備を建設する？"
         )
       ]
     ),
     (
       name: "*com_select_building_loop_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "予算が足りない…"
-        )
-      ]
-    ),
-    (
-      name: "*com_select_building_loop_WHILE1_CONTINUE",
-      after: "*com_select_building_loop_WHILE1"
+      after: "*com_select_building_loop"
     ),
     (
       name: "*com_select_building_loop_WHILE1_CONTINUE",
@@ -20361,8 +20420,8 @@ AnalysisConfig(
       name: "*db_creature2",
       rules: [
         (
-          kind: Assignment,
-          match: "cdatan(CDATAN_NAME, rc) = lang(\"プラチナベル\", \"platina bell\")"
+          kind: StringLiteral,
+          match: "platina bell"
         )
       ]
     ),
@@ -20388,31 +20447,14 @@ AnalysisConfig(
       name: "*add_ally",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "gdata(GDATA_ACTIVE_GOD_PETS)--"
         )
       ]
     ),
     (
       name: "*adv_init",
-      rules: [
-        (
-          kind: Function,
-          match: "repeat"
-        ),
-        (
-          kind: Assignment,
-          match: "rc = cnt"
-        ),
-        (
-          kind: Function,
-          match: "gosub *adv_generate"
-        ),
-        (
-          kind: Function,
-          match: "gosub *loop"
-        )
-      ]
+      after: "*add_ally"
     ),
     (
       name: "*adv_generate",
@@ -20428,7 +20470,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "cbitmod CHARA_BIT_HIRED, rc, 0"
+          match: "cbitmod CHARA_BIT_HIRED, rc, FALSE"
         )
       ]
     ),
@@ -20453,12 +20495,12 @@ AnalysisConfig(
           match: "inv_getheader rc"
         ),
         (
-          kind: Assignment,
+          kind: Function,
           match: "repeat 10"
         ),
         (
-          kind: Function,
-          match: "gosub *chara_equip"
+          kind: If,
+          match: "flttypemajor = fsetitem(rnd(length(fsetitem)))"
         )
       ]
     ),
@@ -20525,7 +20567,15 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "gosub *quest_create"
+          match: "repeat gdata(GDATA_CLIENT)"
+        ),
+        (
+          kind: If,
+          match: "if ( cdata(CDATA_RELATION_ORG, rc) != RELATION_NEUTRAL ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( cdata(CDATA_ROLE, rc) == ROLE_SPECIAL ) {"
         ),
         (
           kind: Function,
@@ -20546,7 +20596,7 @@ AnalysisConfig(
       name: "*quest_check",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "qdata(QDATA_DEADLINE, rq)--"
         )
       ]
