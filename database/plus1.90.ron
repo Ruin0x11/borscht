@@ -8134,6 +8134,10 @@ AnalysisConfig(
           substitute: { 0: VariantRecursive("gdata", ["STARTING_GDATA_RANK"], Lhs("+")) }
         ),
         (
+          rules: { 0: VariantRecursive("gdata", ["GDATA_QUEST_POOL"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("gdata", ["GDATA_QUEST_POOL"], Lhs("+")) }
+        ),
+        (
           rules: { 0: Flag },
           substitute: { 0: Flag("gdata") }
         ),
@@ -8147,6 +8151,13 @@ AnalysisConfig(
         (
           substitute: { 0: Group("gdatan") }
         )
+      ]
+    ),
+    "genetemp": (
+      indices: [
+        (
+          substitute: { 0: Group("gdata") }
+        ),
       ]
     ),
     "mdata": (
@@ -8617,6 +8628,10 @@ AnalysisConfig(
           substitute: (rhs: { 0: Group("chara_tier") })
         )),
         MatchAll((
+          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_DIRECTIVE_MODE"]) })),
+          substitute: (rhs: { 0: Group("directive_mode") })
+        )),
+        MatchAll((
           rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_FORM"]) })),
           substitute: (rhs: { 0: Group("shift_form") })
         )),
@@ -8737,7 +8752,7 @@ AnalysisConfig(
     "gdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA"]) }) ),
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA", "GDATA_TELEPORT_AREA"]) }) ),
           substitute: ( rhs: { 0: Group("area_id") } )
         )),
         MatchAll((
@@ -9267,14 +9282,19 @@ AnalysisConfig(
   },
 
   functions: {
+    "buffer": (
+      args: {
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+      }
+    ),
     "gsel": (
       args: {
-        0: (name: "buffer", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
       }
     ),
     "gcopy": (
       args: {
-        0: (name: "buffer", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
         1: (name: "x", type: Int),
         2: (name: "y", type: Int),
         3: (name: "width", type: Int),
@@ -9283,7 +9303,7 @@ AnalysisConfig(
     ),
     "grotate": (
       args: {
-        0: (name: "buffer", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
         1: (name: "x", type: Int),
         2: (name: "y", type: Int),
         3: (name: "rot", type: Int),
@@ -16698,2057 +16718,1504 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    // (
-    //   name: "*god_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim godname, 20, 9"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_effect",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_GOD, r1) == GOD_MANI ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_detail",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	buff = " ""
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_select",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_select_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_select_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*change_god",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		msg_halt"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_pray",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_GOD, CHARA_PLAYER) == GOD_EYTH ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_offer",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*god_punish",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*random_event",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*random_eventProc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*random_eventProc_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*re_select",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		goto *random_eventProc_SWEND1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*re_select_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*re_select_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*event_income",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	invfile = 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*initial_recipe",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat length(rplistdef)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*recipe_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim rpdata, 100, 1599"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_step",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( step != (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_recipe_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_recipe_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_recipe_loop_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_material_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	windowshadow(1) = 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_material_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	page_check"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_material_loop_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( p != (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_blend_material_loop_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	goto *pc_turn"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*blend_checkMat",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	f = 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*blend_deleteMat",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*blend_complete",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	rpresult = 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*blend",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	rpid = rpref(0)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*blend_act",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	ci = rpref(10 + 0 * 2)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*blend_act_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_import",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "				}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_import_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_import_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*findLocation",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( tlocinitx != 0 | tlocinity != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*findLocation_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( tlochomex != 0 | tlochomey != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*findLocation_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_target",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_target_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_target_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cs != cs_bk ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_target_loop_BREAK1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_mapset",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	ww = 33"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_mapset_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_mapset_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_mapset_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_ally",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_POP2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_ally_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_ally_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_ally_loop_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "				}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_knowOther",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_knowOther_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_knowOther_pgchg",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_knowSelf",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_knowSelf_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_knowSelf_pgchg",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_trait",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_trait_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_trait_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_journal",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	curmenu = 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_journal_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_journal_loop_pgchg",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_quest",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cfg_extrahelp ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_quest_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_quest_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_listNpc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_POP2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_listNpc_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_listNpc_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_reserve",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_POP2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_reserve_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_reserve_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_jukebox",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_POP2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_jukebox_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_jukebox_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_listAdv",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_listAdv_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_listAdv_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*wish_fix",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( jp ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_aka",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_aka_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_aka_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	return"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_wish_end",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	s = lang(cdatan(CDATAN_AKA, CHARA_PLAYER) + cdatan(CDATAN_NAME, CHARA_PLAYER) + "は狂喜して叫んだ。「" + inputlog + "！！」" + txtcopy, cdatan(CDATAN_AKA, CHARA_PLAYER) + " " + cdatan(CDATAN_NAME, CHARA_PLAYER) + " goes wild with joy, \"" + inputlog + "!!\" " + cnven(txtcopy))"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_wish",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*wish_item",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*wish_skill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *wish_fix"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*wish_card",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *wish_monster"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*wish_figure",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *wish_monster"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*wish_monster",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	flt"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_shortcut",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	menucycle = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_dig",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txt lang("どの方向を掘る？ ", "Which direction do you want to dig? ")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_bash",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txt lang("どの方向に体当たりする？ ", "Which direction do you want to bash? ")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_skill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *action"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_applySkill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_applySkill_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_applySkill_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_applyWideSkill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "				}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_applyWideSkill_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_applyWideSkill_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_stack",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txt lang("同じアイテムを、鮮度や価値の低いほうにあわせてまとめる？", "Stack items of the same type and sort by increasing freshness and value?")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_give",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txt lang("どの方向に？ ", "Which direction? ")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_interact",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txt lang("操作する対象の方向は？", "Choose the direction of the target.")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_name",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_tone",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_tone_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_tone_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_userNpc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_CHARA"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_userNpc_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_userNpc_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_book",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_BOOK1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_book_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_book_loop_pgchg",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_spellcast",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	tc = cc"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_spell",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_spell_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_spell_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*skill_desc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		s = strmid(s, 0, 40)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*trainer_skill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dbmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*notable_skill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dbmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*setHistory1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( ohanasi1 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*setHistory2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( ohanasi2 == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*setHistory3",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( ohanasi3 == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*setHistory4",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( ohanasi4 == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*setHistory5",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( ohanasi5 == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_charainfo",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dbg_showallskill = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_charainfo_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( csctrl != 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_charainfo_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_charainfo_loop_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*portrait_item",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	rtval = -2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_pic_selection",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	rtval = -2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_item_mark",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	bkitemx = cdata(CDATA_MARK_ITEM_X, tc)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_item_mark_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *screen_draw"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_item_mark_adjust",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	bkitemz = cdata(CDATA_MARK_ITEM_ADJUST_Z, tc)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_item_mark_adjust_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *screen_draw"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_shape_change",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_PIC, cc) < 693 | cdata(CDATA_PIC, cc) > 724 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_shape_change_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_shape_change_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_portrait",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	create_pcpic cc, 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_portrait_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_portrait_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_portrait_loop_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_mirror",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	create_pcpic cc, 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_mirror_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_calcAttack",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p(1) = 0, 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_skill_calcAttack",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*show_weaponStat",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	attacknum = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_wear",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_wear_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	page_check"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_wear_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_get",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( map(cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 6) != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_allyInventory",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_ACTION_PERIOD, tc) != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*sort_list",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( listmax < 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*sort_list2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( listmax < 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_inventory",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_inventory_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( invsc != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_inventory_loop_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*inv_skipSc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		cargocheck"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_inventory_end",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "					}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_inventory_loop_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	goto *com_inventory_loop_WHILE1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_inventory_loop_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	goto *com_identify"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_identify",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_identify_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	key_list = key_enter"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_identify_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*findTarget",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_EXIST, cdata(CDATA_TARGET, cc)) != CHAR_STATE_ALIVE ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_confirmAttack",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( efid == SKILL_SPACT_DIRECTIVE ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_fire",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cc = CHARA_PLAYER"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*god_init",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim godname,"
+        )
+      ]
+    ),
+    (
+      name: "*god_effect",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdata(CDATA_GOD, r1) == GOD_MANI ) {"
+        )
+      ]
+    ),
+    (
+      name: "*god_detail",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "マニは機械仕掛けの神です。"
+        )
+      ]
+    ),
+    (
+      name: "*god_select",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "信仰を捨てる"
+        )
+      ]
+    ),
+    (
+      name: "*god_select_WHILE1",
+      after: "*god_select",
+      loop_kind: While
+    ),
+    (
+      name: "*god_select_WEND1",
+      after: "*god_select_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*change_god",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_FLAG_TIMES_CONVERTED)++"
+        )
+      ]
+    ),
+    
+     name: "*god_pray",
+     rules: [
+       (
+         kind: StringLiteral,
+         match: "あなたの神に祈りを乞う？"
+       )
+     ]
+    
+    (
+      name: "*god_offer",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: " on the altar and mutter the name of "
+        )
+      ]
+    ),
+    (
+      name: "*god_punish",
+      rules: [
+        (
+          kind: Assignment,
+          match: "efid = SKILL_EFFECT_CURSE"
+        ),
+        (
+          kind: Assignment,
+          match: "efid = SKILL_SPACT_PUNISHMENT"
+        ),
+        (
+          kind: Assignment,
+          match: "efid = SKILL_EFFECT_DECREASE_STAT"
+        )
+      ]
+    ),
+    (
+      name: "*random_event",
+      rules: [
+        (
+          kind: Assignment,
+          match: "id = 4, 120"
+        )
+      ]
+    ),
+    (
+      name: "*random_eventProc",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "夢の中の収穫"
+        )
+      ]
+    ),
+    (
+      name: "*random_eventProc_SWEND1",
+      after: "*random_eventProc"
+      loop_kind: SwitchEnd
+    ),
+    (
+      name: "*re_select",
+      rules: [
+        (
+          kind: Function,
+          match: "txt lang(\"「\", \"\\\"\") + listn(0, 0) + lang(\"」\", \"\\\"\")"
+        )
+      ]
+    ),
+    (
+      name: "*re_select_WHILE1",
+      after: "*re_select",
+      loop_kind: While
+    ),
+    (
+      name: "*re_select_WEND1",
+      after: "*re_select_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*event_income",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "請求書が送られてきた。"
+        )
+      ]
+    ),
+    (
+      name: "*initial_recipe",
+      rules: [
+        (
+          kind: Function,
+          match: "repeat length(rplistdef)"
+        )
+      ]
+    ),
+    (
+      name: "*recipe_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "rplistdef(length(rplistdef)) = "
+        )
+      ]
+    ),
+    (
+      name: "*com_blend",
+      rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\deco_blend.bmp\", 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_step",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "幾つ作る？"
+        )
+      ]
+    ),
+    (
+      name: "*com_blend_recipe_loop",
+      after: "*com_blend_step"
+    ),
+    (
+      name: "*com_blend_recipe_loop_WHILE1",
+      after: "*com_blend_recipe_loop_pgchk"
+      loop_kind: While
+    ),
+    (
+      name: "*com_blend_recipe_loop_WHILE1_CONTINUE",
+      after: "*com_blend_recipe_loop",
+      loop_kind: WhileContinue
+    ),
+    (
+      name: "*com_blend_material_loop",
+      after: "*com_blend_recipe_loop_WHILE1_CONTINUE"
+    ),
+    (
+      name: "*com_blend_material_loop_WHILE1",
+      after: "*com_blend_material_loop",
+    ),
+    (
+      name: "*com_blend_material_loop_WHILE1_CONTINUE",
+      after: "*com_blend_material_loop_WHILE1"
+      loop_kind: WhileContinue
+    ),
+    (
+      name: "*com_blend_material_loop_WEND1",
+      after: "*com_blend_material_loop_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*blend_checkMat",
+      rules: [
+        (
+          kind: If,
+          match: "if ( rpref(10 + cnt * 2) == (-1) ) {"
+        ),
+        (
+          kind: Assignment,
+          match: "f = 0"
+        )
+      ]
+    ),
+    (
+      name: "*blend_deleteMat",
+      rules: [
+        (
+          kind: If,
+          match: "if ( rpdata(RPDATA_TYPE, rpid) <= 0 | cnt != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*blend_complete",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "調合失敗！"
+        )
+      ]
+    ),
+    (
+      name: "*blend",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "の調合をはじめた。"
+        )
+      ]
+    ),
+    (
+      name: "*blend_act",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "あっ！空き瓶を井戸に落としてしまった…"
+        )
+      ]
+    ),
+    (
+      name: "*blend_act_SWEND1",
+      after: "*blend_act",
+      loop_kind: SwitchEnd
+    ),
+    (
+      name: "*com_import",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "net_dllist \".ept\", 1"
+        )
+      ]
+    ),
+    (
+      name: "*com_import_loop_pgchk",
+      after: "*com_import"
+    ),
+    (
+      name: "*com_import_loop",
+      after: "*com_import_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*findLocation",
+      rules: [
+        (
+          kind: Assignment,
+          match: "tlocx = cdata(CDATA_X, list(0, cnt))"
+        )
+      ]
+    ),
+    (
+      name: "*findLocation_WHILE1",
+      after: "*findLocation"
+    ),
+    (
+      name: "*findLocation_WHILE1_CONTINUE",
+      after: "*findLocation_WHILE1"
+      loop_kind: WhileContinue
+    ),
+    (
+      name: "*com_target",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "視界内にターゲットは存在しない。"
+        ),
+        (
+            kind: Assignment,
+            match: "page = cnt / pagesize"
+        )
+      ]
+    ),
+    (
+      name: "*com_target_loop_pgchk",
+      after: "*com_target"
+    ),
+    (
+      name: "*com_target_loop",
+      after: "*com_target_loop_pgchk"
+    ),
+    (
+      name: "*com_target_loop_WEND1",
+      after: "*com_target_loop",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*com_mapset",
+      rules: [
+        (
+          kind: Assignment,
+          match: "ww = 33"
+        )
+      ]
+    ),
+    (
+      name: "*com_mapset_WHILE1",
+      after: "*com_mapset"
+      loop_kind: While
+    ),
+    (
+      name: "*com_mapset_WHILE1_CONTINUE",
+      after: "*com_mapset_WHILE1",
+      loop_kind: WhileContinue
+    ),
+    (
+      name: "*com_mapset_WEND1",
+      after: "*com_mapset_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*com_ally",
+      rules: [
+        (
+          kind: Function,
+          match: "if ( allyctrl == 7 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_ally_loop",
+      after: "*com_ally"
+    ),
+    (
+      name: "*com_ally_loop_WHILE1",
+      after: "*com_ally_loop",
+      loop_type: While"
+    ),
+    (
+      name: "*com_ally_loop_WHILE1_CONTINUE",
+      after: "*com_ally_loop_WHILE1",
+      loop_type: Continue
+    ),
+    (
+      name: "*com_knowOther",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "<title1>◆精神状態<def>\\n"
+        )
+      ]
+    ),
+    (
+      name: "*com_knowOther_loop",
+      after: "*com_knowOther"
+    ),
+    (
+      name: "*com_knowOther_pgchg",
+      after: "*com_knowOther_loop"
+    ),
+    (
+      name: "*com_knowSelf",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "<title1>◆ "
+        )
+      ]
+    ),
+    (
+      name: "*com_knowSelf_loop",
+      after: "*com_knowSelf"
+    ),
+    (
+      name: "*com_knowSelf_pgchg",
+      after: "*com_knowSelf_loop"
+    ),
+    (
+      name: "*com_trait",
+      rules: [
+        (
+          kind: Function,
+          match: "snd SOUNDLIST_FEAT"
+        )
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\deco_feat.bmp\", 1"
+        ),
+      ]
+    ),
+    (
+      name: "*com_trait_loop",
+      after: "*com_trait"
+    ),
+    (
+      name: "*com_trait_loop_WHILE1",
+      after: "*com_trait_loop",
+      loop_kind: While
+    ),
+    (
+      name: "*com_journal",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: " - Completed Quests - "
+        )
+      ]
+    ),
+    (
+      name: "*com_journal_loop",
+      after: "*com_journal"
+    ),
+    (
+      name: "*com_journal_loop_pgchg",
+      after: "*com_journal_loop"
+    ),
+    (
+      name: "*com_quest",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "新しい依頼は掲示されていないようだ。"
+        )
+      ]
+    ),
+    (
+      name: "*com_quest_loop_pgchk",
+      after: "*com_quest"
+    ),
+    (
+      name: "*com_quest_loop",
+      after: "*com_quest_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*com_listNpc",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdata(CDATA_EXIST, cnt) != CHAR_STATE_TEMP ) {"
+        )
+        (
+          kind: Assignment,
+          match: "list(0, listmax) = cnt, -cdata(CDATA_LEVEL, cnt)"
+        )
+      ]
+    ),
+    (
+      name: "*com_listNpc_loop_pgchk",
+      after: "*com_listNpc"
+    ),
+    (
+      name: "*com_listNpc_loop",
+      after: "*com_listNpc_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*com_reserve",
+      rules: [
+        (
+          kind: If,
+          match: "if ( itemmemory(2, cnt) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_reserve_loop_pgchk",
+      after: "*com_reserve"
+    ),
+    (
+      name: "*com_reserve_loop",
+      after: "*com_reserve_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*com_jukebox",
+      rules: [
+        (
+          kind: Function,
+          match: "repeat 134 - 50 - 1, 50"
+        )
+      ]
+    ),
+    (
+      name: "*com_jukebox_loop_pgchk",
+      after: "*com_jukebox"
+    ),
+    (
+      name: "*com_jukebox_loop",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s += \"No Music\""
+        )
+      ]
+    ),
+    (
+      name: "*com_listAdv",
+      rules: [
+        (
+          kind: Assignment,
+          match: "list(0, listmax) = cnt, -cdata(CDATA_FAME, cnt)"
+        )
+      ]
+    ),
+    (
+      name: "*com_listAdv_loop_pgchk",
+      after: "*com_listAdv"
+    ),
+    (
+      name: "*com_listAdv_loop",
+      after: "*com_listAdv_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*wish_fix",
+      rules: [
+        (
+          kind: Assignment,
+          match: "inputlog = del_str(inputlog, lang(\"アイテム\", \"item\"))"
+        )
+      ]
+    ),
+    (
+      name: "*com_aka",
+      rules: [
+        (
+          kind: Assignment,
+          match: "i = 10500"
+        )
+      ]
+    ),
+    (
+      name: "*com_aka_WHILE1",
+      after: "*com_aka"
+    ),
+    (
+      name: "*com_aka_WEND1",
+      after: "*com_aka_WHILE1"
+    ),
+    (
+      name: "*com_wish_end",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "は狂喜して叫んだ。「"
+        )
+      ]
+    ),
+    (
+      name: "*com_wish",
+      rules: [
+        (
+          kind: Function,
+          match: "何を望む？"
+        )
+      ]
+    ),
+    (
+      name: "*wish_item",
+      rules: [
+        (
+          kind: If,
+          match: "if ( ioriginalnameref(cnt) == inputlog ) {"
+        )
+      ]
+    ),
+    (
+      name: "*wish_skill",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "の技術を会得した！"
+        )
+      ]
+    ),
+    (
+      name: "*wish_card",
+      rules: [
+        (
+          kind: Function,
+          match: "itemcreate -1, ITEM_ID_CARD, cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 0"
+        ),
+        (
+            kind: StringLiteral,
+            match: "足元に"
+        )
+      ]
+    ),
+    (
+      name: "*wish_figure",
+      rules: [
+        (
+          kind: Function,
+          match: "itemcreate -1, ITEM_ID_FIGURINE, cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 0"
+        ),
+        (
+            kind: StringLiteral,
+            match: "足元に"
+        )
+      ]
+    ),
+    (
+      name: "*wish_monster",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = 1000 - (strlen(s) - strlen(s2)) * 10"
+        )
+      ]
+    ),
+    (
+      name: "*com_shortcut",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "そのキーにはショートカットが割り当てられていない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_dig",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "どの方向を掘る？"
+        )
+      ]
+    ),
+    (
+      name: "*com_bash",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "どの方向に体当たりする？"
+        )
+      ]
+    ),
+    (
+      name: "*com_skill",
+      after: "*com_bash"
+    ),
+    (
+      name: "*com_applySkill",
+      rules: [
+        (
+          kind: If,
+          match: "if ( spact(cnt) == 1 ) {"
+        ),
+        (
+          kind: If,
+          match: "cnt + 600 != 746"
+        ),
+      ]
+    ),
+    (
+      name: "*com_applySkill",
+      after: "*com_applySkill_loop"
+    ),
+    (
+      name: "*com_applySkill_loop",
+      after: "*com_applySkill_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*com_applyWideSkill",
+      rules: [
+        (
+          kind: If,
+          match: "if ( spact(cnt) == 1 ) {"
+        ),
+        (
+          kind: Expression,
+          match: "cnt + 600 == 746"
+        ),
+      ]
+    ),
+    (
+      name: "*com_applyWideSkill_loop_pgchk",
+      after: "*com_applyWideSkill"
+    ),
+    (
+      name: "*com_applyWideSkill_loop",
+      after: "*com_applyWideSkill_loop_pgchk",
+      loop_kind: While
+    ),
+    (
+      name: "*com_stack",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "同じアイテムを、鮮度や価値の低いほうにあわせてまとめる？"
+        )
+      ]
+    ),
+    (
+      name: "*com_give",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "どの方向に？ "
+        )
+      ]
+    ),
+    (
+      name: "*com_interact",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "操作する対象の方向は？"
+        )
+      ]
+    ),
+    (
+      name: "*com_name",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "を何と呼ぶ？ "
+        )
+      ]
+    ),
+    (
+      name: "*com_tone",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "口調一覧"
+        )
+      ]
+    ),
+    (
+      name: "*com_tone_loop_pgchk",
+      after: "*com_tone"
+    ),
+    (
+      name: "*com_tone_loop",
+      after: "*com_tone_loop_pgchk"
+    ),
+    (
+      name: "*com_userNpc",
+      rules: [
+        (
+          kind: If,
+          match: "if ( instr(userdatan(6, cnt), 0, \"_tmp_\") == (-1) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_userNpc_loop_pgchk",
+      after: "*com_userNpc"
+    ),
+    (
+      name: "*com_userNpc_loop",
+      after: "*com_userNpc_loop_pgchk"
+    ),
+    (
+      name: "*com_book",
+      rules: [
+        (
+          kind: Function,
+          match: "noteload exedir + \"data\\\\book.txt\""
+        ),
+        (
+          kind: Assignment,
+          match: "listmax = noteinfo(0)"
+        ),
+      ]
+    ),
+    (
+      name: "*com_book_loop",
+      after: "*com_book"
+    ),
+    (
+      name: "*com_book_loop_pgchg",
+      after: "*com_book_loop"
+    ),
+    (
+      name: "*com_spellcast",
+      after: "*com_book_loop_pgchg"
+    ),
+    (
+      name: "*com_spell",
+      rules: [
+        (
+          kind: If,
+          match: "if ( spell(cnt) > 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_spell_loop_pgchk",
+      after: "*com_spell"
+    ),
+    (
+      name: "*com_spell_loop",
+      after: "*com_spell_loop_pgchk"
+    ),
+    (
+      name: "*skill_desc",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s += \"\" + limit(bonus, 1, 100) + \"%\""
+        )
+      ]
+    ),
+    (
+      name: "*trainer_skill",
+      rules: [
+        (
+          kind: Assignment,
+          match: "dblist(0, dbmax) ="
+        ),
+        (
+          kind: If,
+          match: "if ( gdata(GDATA_AREA) == AREA_YOWYN ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( gdata(GDATA_AREA) == AREA_VERNIS ) {"
+        )
+      ]
+    ),
+    (
+      name: "*notable_skill",
+      after: "*trainer_skill"
+    ),
+    (
+      name: "*setHistory1",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "生まれつき天涯孤独だった。"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory2",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "自分を見つめ直すため旅に出る。"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory3",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "温厚で慈悲深いが、"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory4",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "熱中すると周りが見えなくなる。"
+        )
+      ]
+    ),
+    (
+      name: "*setHistory5",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "監禁が趣味"
+        )
+      ]
+    ),
+    (
+      name: "*com_charainfo",
+      rules: [
+        (
+          kind: If,
+          match: "if ( dbg_showallskill ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_charainfo_loop",
+      after: "*com_charainfo"
+    ),
+    (
+      name: "*com_charainfo_loop_WHILE1",
+      after: "*com_charainfo_loop"
+    ),
+    (
+      name: "*com_charainfo_loop_WHILE1_CONTINUE",
+      after: "*com_charainfo_loop_WHILE1"
+    ),
+    (
+      name: "*portrait_item",
+      rules: [
+        (
+          kind: Assignment,
+          match: "rtvaln = \"hair\""
+        )
+      ]
+    ),
+    (
+      name: "*get_pic_selection",
+      rules: [
+        (
+          kind: Assignment,
+          match: "rtval = 100, 0, cdata(CDATA_PIC, cc) - 692"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "移動キーでマーク移動"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark_loop",
+      after: "*com_item_mark"
+    ),
+    (
+      name: "*com_item_mark_adjust",
+      rules: [
+        (
+          kind: Assignment,
+          match: "bkitemz = cdata(CDATA_MARK_ITEM_ADJUST_Z, tc)"
+        )
+      ]
+    ),
+    (
+      name: "*com_item_mark_adjust_loop",
+      after: "*com_item_mark_adjust"
+    ),
+    (
+      name: "*com_shape_change",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "元々の姿にする"
+        )
+      ]
+    ),
+    (
+      name: "*com_shape_change_WHILE1",
+      after: "*com_shape_change"
+    ),
+    (
+      name: "*com_shape_change_WHILE1_CONTINUE",
+      after: "*com_shape_change_WHILE1"
+    ),
+    (
+      name: "*com_portrait",
+      rules: [
+        (
+          kind: Function,
+          match: "buffer BUFFER_PIC, 3200, 112"
+        )
+      ]
+    ),
+    (
+      name: "*com_portrait_loop",
+      after: "*com_portrait"
+    ),
+    (
+      name: "*com_portrait_loop_WHILE1",
+      after: "*com_portrait_loop"
+    ),
+    (
+      name: "*com_portrait_loop_WHILE1_CONTINUE",
+      after: "*com_portrait_loop_WHILE1"
+    ),
+    (
+      name: "*com_mirror",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "脚部鎧　"
+        )
+      ]
+    ),
+    (
+      name: "*com_mirror_loop_WHILE1",
+      after: "*com_mirror"
+    ),
+    (
+      name: "*com_calcAttack",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "\"Unarmed\"",
+          exact: true
+        )
+      ]
+    ),
+    (
+      name: "*com_skill_calcAttack",
+      rules: [
+        (
+          kind: Function,
+          match: "mes lang(\"命中\", \"Hit\")"
+        )
+      ]
+    ),
+    (
+      name: "*show_weaponStat",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "は両手にしっくりとおさまる。"
+        )
+      ]
+    ),
+    (
+      name: "*com_wear",
+      rules: [
+        (
+          kind: Assignment,
+          match: "mainhand = cnt"
+        )
+      ]
+    ),
+    (
+      name: "*com_wear_loop_pgchk",
+      after: "*com_wear"
+    ),
+    (
+      name: "*com_wear_loop",
+      after: "*com_wear_loop_pgchk"
+    ),
+    (
+      name: "*com_get",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "それは持ち運べない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_allyInventory",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "は忙しい。"
+        )
+      ]
+    ),
+    (
+      name: "*sort_list",
+      rules: [
+        (
+          kind: Assignment,
+          match: "list(0, cnt) = list(0, cnt + 1), list(1, cnt + 1)"
+        )
+      ]
+    ),
+    (
+      name: "*sort_list2",
+      after: "*sort_list"
+    ),
+    (
+      name: "*com_inventory",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "ここには祭壇がない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "そのアイテムは存在しない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop_WHILE1",
+      after: "*com_inventory_loop"
+    ),
+    (
+      name: "*inv_skipSc",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "これ以上は置けない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_end",
+      rules: [
+        (
+          kind: Function,
+          match: "荷車の荷物は登録できない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_inventory_loop_WHILE1_CONTINUE",
+      after: "*com_inventory_end"
+    ),
+    (
+      name: "*com_inventory_loop_WEND1",
+      after: "*com_inventory_loop_WHILE1_CONTINUE"
+    ),
+    (
+      name: "*com_identify",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "特に情報はない"
+        )
+      ]
+    ),
+    (
+      name: "*com_identify_loop_pgchk",
+      after: "*com_identify",
+    ),
+    (
+      name: "*com_identify_loop",
+      after: "*com_identify_loop_pgchk"
+    ),
+    (
+      name: "*findTarget",
+      rules: [
+        (
+          kind: If,
+          match: "if ( synccheck(cdata(CDATA_TARGET, cc), -1) == 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_confirmAttack",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "Really attack "
+        )
+      ]
+    ),
+    (
+      name: "*com_fire",
+      rules: [
+        (
+          kind: Function,
+          match: "射撃用の道具を装備していない。"
+        )
+      ]
+    ),
     // (
     //   name: "*FindRangeWeapon",
     //   rules: [
     //     (
     //       kind: Function,
-    //       match: "	if ( stat == (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_findTarget",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	listmax = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_rest",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	r1 = 50"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_rowActCancel",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txt lang(actlistn(cdata(CDATA_ROW_ACT, cc)) + "を中断したほうがいいだろうか？ ", "Do you want to cancel " + actlistn(cdata(CDATA_ROW_ACT, cc)) + "? ")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_save",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	txtnew"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*check_return",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	f = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_return",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *check_return"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_gasha",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	screenupdate = -1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_train",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( inv(INV_ITEM_ID, ci) == ITEM_ID_SKILLBOOK ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_dump",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_WIZARD) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*dump_chara",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_ammo",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	f = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*gene_itemfix",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	inv_getheader -1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fixOnMapEnter",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fixSave",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_VERSION) != int(double("3.21") * 1000) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*mapReset",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*apply_gene",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	file = "shop" + 3 + ".s2""
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*load_gene",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	fmode = 15"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*generate_gene",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	fmode = 14"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*unzip",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 12"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*set_userNpc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( initunid ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*userNpc_update",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*user_npc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	fread = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_ctrlFile",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	notesel filemod"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*export_map",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim headtemp, 1024"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AnnaCustomAI",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( AIData(6, cc-1) >= 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*GetFatigue",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	LoopCount = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*IncrementFatigue",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	LoopCount = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*ProcessFatigue",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	LoopCount = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AILearnAbility",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	ActionToFind = act"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*ProcessTactic",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( act == AIData(3, cc-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*PrintAIInfo",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( AIData(0, tc-1) == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIMainMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	HeldTactic = -1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AITeachConfigMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIDeleteAbilityMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AISpellLearnMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIAbilityLearnMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIConfigMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	GoConfig = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AITacticConfigMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIActionSetMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIFindAction",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	FoundAction = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIInitActions",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( AIData(2, tc-1) == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIAddAction",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIGetEvolveActions",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_EVOLUTION_STAGE, tc) != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*GetActionName",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	ActionName = """
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIValueSetMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*GetValueName",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	ValueName = """
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIEntitySetMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIConditionSetMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*AIComparatorSetMenu",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*DeleteAIInfo",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	LoopCount = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*export_chara",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim headtemp, 1024"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*del_userNpc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*del_userTemp",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_load",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	filemod = """
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_save",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_AREA) == AREA_SHOW_HOUSE | (gdata(GDATA_AREA) == AREA_CHAOS_CRADLE & gdata(GDATA_LEVEL) == 179) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*extract_map",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_EXITMAP1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_title",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cfg_titledialog ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_title_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cfg_autonumlock ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*game_title_selectID",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
+    //       match: "inv(INV_ITEM_SKILL_REF, ammo) = SKILL_WEAPON_CROSSBOW"
     //     )
     //   ]
     // ),
     (
-      name: "*game_title_selectID_WHILE1",
+      name: "*com_findTarget",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = dist(cdata(CDATA_X, cc), cdata(CDATA_Y, cc), list(1, cnt), list(2, cnt))"
+        )
+      ]
+    ),
+    (
+      name: "*com_rest",
+      rules: [
+        (
+          kind: Assignment,
+          match: "r1 = 50"
+        )
+      ]
+    ),
+    (
+      name: "*com_rowActCancel",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "を中断したほうがいいだろうか？"
+        )
+      ]
+    ),
+    (
+      name: "*com_save",
       rules: [
         (
           kind: Function,
-          match: "を削除していいのかい？"
+          match: "これまでの冒険を記録して終了する？"
         )
       ]
+    ),
+    (
+      name: "*check_return",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = gdata(GDATA_QUEST_POOL + cnt)"
+        ),
+        (
+            kind: If,
+            match: "if ( qdata(QDATA_STATUS, p) == QUEST_STATE_ONGOING ) {"
+        )
+      ]
+    ),
+    (
+      name: "*com_return",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "依頼請負中の帰還は法律で禁止されている。それでも帰還する？"
+        )
+      ]
+    ),
+    (
+      name: "*com_gasha",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "を使ってガシャガシャする？"
+        )
+      ]
+    ),
+    (
+      name: "*com_train",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "この本の内容には興味がない。それでも読む？"
+        )
+      ]
+    ),
+    (
+      name: "*com_dump",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "カスタムNPCを作成"
+        )
+      ]
+    ),
+    (
+      name: "*dump_chara",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "DV        : "
+        )
+      ]
+    ),
+    (
+      name: "*com_ammo",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "現在の装填弾:"
+        )
+      ]
+    ),
+    (
+      name: "*gene_itemfix",
+      rules: [
+        (
+          kind: If,
+          match: "if ( inv(INV_ITEM_ID, cnt) == ITEM_ID_CARD | inv(INV_ITEM_ID, cnt) == ITEM_ID_FIGURINE ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fixOnMapEnter",
+      rules: [
+        (
+          kind: Assignment,
+          match: "mdata(MDATA_RESTORE_POS) = 1"
+        )
+      ]
+    ),
+    (
+      name: "*fixSave",
+      rules: [
+        (
+          kind: If,
+          match: "if ( gdata(GDATA_VERSION) < "
+        ),
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_VERSION) ="
+        )
+      ]
+    ),
+    (
+      name: "*mapReset",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_MAP_VERSION)++"
+        )
+      ]
+    ),
+    (
+      name: "*apply_gene",
+      rules: [
+        (
+          kind: Assignment,
+          match: "ibigin = (ibigin - 250) / 8"
+        )
+      ]
+    ),
+    (
+      name: "*load_gene",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_PLAY_TIME) = genetemp(GDATA_PLAY_TIME)"
+        )
+      ]
+    ),
+    (
+      name: "*generate_gene",
+      rules: [
+        (
+          kind: Assignment,
+          match: "fmode = 14"
+        )
+      ]
+    ),
+    (
+      name: "*unzip",
+      rules: [
+        (
+          kind: Function,
+          match: "memcpy filetemp, filebuff, len - p * 2, 0, lenhead + p * 2"
+        )
+      ]
+    ),
+    (
+      name: "*set_userNpc",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cun = cdata(CDATA_USERNPC_ID, rc)"
+        )
+      ]
+    ),
+    (
+      name: "*userNpc_update",
+      rules: [
+        (
+          kind: Assignment,
+          match: "usernpcmax = noteinfo(0)"
+        )
+      ]
+    ),
+    (
+      name: "*user_npc",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "どのファイルからNPCを作成する？"
+        )
+      ]
+    ),
+    (
+      name: "*game_ctrlFile",
+      rules: [
+        (
+          kind: Function,
+          match: "bsave folder + \"header.txt\", playerheader"
+        )
+      ]
+    ),
+    (
+      name: "*export_map",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "[＋製]"
+        )
+      ]
+    ),
+    (
+      name: "*export_chara",
+      rules: [
+        (
+          kind: Assignment,
+          match: "headtemp = \"【\" + gdatan(GDATAN_TEAM1) + \"】(\" + n + \"体) Lv\" + lv + \"\\n\""
+        )
+      ]
+    ),
+    (
+      name: "*del_userNpc",
+      rules: [
+        (
+          kind: Function,
+          match: "dirlist buff, exedir + \"user\\\\!tmp*.npc\""
+        )
+      ]
+    ),
+    (
+      name: "*del_userTemp",
+      rules: [
+        (
+          kind: Function,
+          match: "dirlist buff, exedir + \"user\\\\*.t\""
+        )
+      ]
+    ),
+    (
+      name: "*game_load",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *fixSave"
+        )
+      ]
+    ),
+    (
+      name: "*game_save",
+      rules: [
+        (
+          kind: Function,
+          match: "exist file + getpath(save_s, 8)"
+        )
+      ]
+    ),
+    (
+      name: "*extract_map",
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_TELEPORT_AREA) = AREA_SHOW_HOUSE"
+        )
+      ]
+    ),
+    (
+      name: "*game_title",
+      rules: [
+        (
+          kind: Assignment,
+          match: "mode = MODELIST_TITLE"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_WHILE1",
+      after: "*game_title"
+    ),
+    (
+      name: "*game_title_selectID",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "どの冒険を再開するんだい？"
+        )
+      ]
+    ),
+    (
+      name: "*game_title_selectID_WHILE1",
+      after: "*game_title_selectID"
     ),
     (
       name: "*game_title_selectGen",
@@ -18855,12 +18322,7 @@ AnalysisConfig(
     ),
     (
       name: "*game_debug_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "dbg_exitshowroom = 0"
-        )
-      ]
+      after: "*game_debug_WHILE1"
     ),
     (
       name: "*dbg_GetInfo",
@@ -18911,7 +18373,7 @@ AnalysisConfig(
       name: "*procMove",
       rules: [
         (
-          kind: Assignment,
+          kind: StringLiteral,
           match: "槍が地面から飛び出した。"
         )
       ]
@@ -19086,7 +18548,7 @@ AnalysisConfig(
       name: "*choose_fish",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "dbsum += fishdata(FISHDATA_RARE, cnt)"
         )
       ]
@@ -19237,24 +18699,7 @@ AnalysisConfig(
     ),
     (
       name: "*zapStaffSkip",
-      rules: [
-        (
-          kind: Assignment,
-          match: "efsource = 0"
-        ),
-        (
-          kind: If,
-          match: "if ( ci >= RANGE_INV2 ) {"
-        ),
-        (
-          kind: Function,
-          match: "cell_refresh inv(INV_ITEM_X, ci), inv(INV_ITEM_Y, ci)"
-        ),
-        (
-          kind: Expression,
-          match: "inv(INV_ITEM_CHARGE, ci)--"
-        )
-      ]
+      after: "*zapStaff"
     ),
     (
       name: "*action",
@@ -19287,7 +18732,7 @@ AnalysisConfig(
       name: "*chainBomb_loop",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "chainbomb++"
         )
       ]
@@ -19296,19 +18741,14 @@ AnalysisConfig(
       name: "*chainBomb_loop_WHILE1",
       rules: [
         (
-          kind: Expression,
+          kind: Assignment,
           match: "chainbomb--"
         )
       ]
     ),
     (
       name: "*chainBomb_loop_WEND1",
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "の傷はふさがった。"
-        )
-      ]
+      after: "*chainBomb_loop_WHILE1"
     ),
     (
       name: "*effect_SWEND1",
@@ -19455,7 +18895,7 @@ AnalysisConfig(
           match: "ci = p - 1"
         ),
         (
-          kind: Function,
+          kind: Assignment,
           match: "inv(INV_ITEM_EQUIP, ci) = 0"
         )
       ]
