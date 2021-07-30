@@ -9,13 +9,68 @@ extern crate exe2ax;
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::Write;
-use anyhow::Result;
+use std::fmt;
+use anyhow::{anyhow, Result};
 use serde_derive::{Serialize, Deserialize};
 use exe2ax::as_::ax3::*;
 use exe2ax::as_::ax3::ast;
 use exe2ax::as_::dictionary::HspDictionaryValue;
 use exe2ax::as_::ax3::lexical::*;
 use exe2ax::as_::ax3::visitor::{self, *};
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+enum DiagnosticKind {
+    Info,
+    Warning,
+    Error
+}
+
+impl fmt::Display for DiagnosticKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            &DiagnosticKind::Info => "info",
+            &DiagnosticKind::Warning => "warning",
+            &DiagnosticKind::Error => "error",
+        };
+        write!(f, "{}", s)
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct Diagnostic {
+    kind: DiagnosticKind,
+    msg: String
+}
+
+impl fmt::Display for Diagnostic {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}: {}", self.kind, self.msg)
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct Diagnostics {
+    diagnostics: Vec<Diagnostic>,
+}
+
+impl Diagnostics {
+    pub fn new() -> Self {
+        Diagnostics {
+            diagnostics: Vec::new()
+        }
+    }
+
+    pub fn push(&mut self, kind: DiagnosticKind, msg: String) {
+        self.diagnostics.push(Diagnostic {
+            kind,
+            msg,
+        })
+    }
+
+    pub fn iter(&self) -> impl Iterator<Item=&Diagnostic> {
+        self.diagnostics.iter()
+    }
+}
 
 pub struct AnalysisResult {
     pub node: ast::AstNode
@@ -368,7 +423,7 @@ fn generate_ambiguous_constant(names: &Vec<String>, i: i32) -> String {
     std::str::from_utf8(buf.as_slice()).unwrap().to_string()
 }
 
-fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>, errors: &mut Vec<String>) -> ast::AstNode {
+fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast::AstNode, i: i32, allow: Option<&HashSet<String>>, diagnostics: &mut Diagnostics) -> ast::AstNode {
     let mut found = Vec::new();
     let mut primary = None;
 
@@ -412,7 +467,7 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
             if let Some(p) = primary {
                 p
             } else {
-                println!("Ambiguous constant {} in group '{}'. Please correct manually.", i, group_name);
+                diagnostics.push(DiagnosticKind::Warning, format!("Ambiguous constant {} in group '{}'. Please correct manually.", i, group_name));
                 generate_ambiguous_constant(&found, i)
             }
         } else {
@@ -426,7 +481,7 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
         return exp;
     }
 
-    errors.push(format!("Could not find constant {} in group {}.", i, group_name));
+    diagnostics.push(DiagnosticKind::Error, format!("Could not find constant {} in group {}.", i, group_name));
     exp
 }
 
@@ -557,7 +612,7 @@ struct GroupRecursiveVisitor<'a>  {
     variants: Option<HashSet<String>>,
     condition: RecursiveCondition,
     stack: Vec<RecursiveCondition>,
-    errors: &'a mut Vec<String>
+    diagnostics: &'a mut Diagnostics
 }
 
 impl<'a> VisitorMut for GroupRecursiveVisitor<'a> {
@@ -571,7 +626,7 @@ impl<'a> VisitorMut for GroupRecursiveVisitor<'a> {
                         x => self.stack.last().map_or(false, |c| x == c)
                     };
                     if proceed {
-                        substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref(), self.errors)
+                        substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref(), self.diagnostics)
                     } else {
                         node
                     }
@@ -623,7 +678,7 @@ struct ConstantSubstitutionVisitor<'a> {
     config: &'a AnalysisConfig,
     hsp3as: &'a Hsp3As,
     visiting_function: Option<(FunctionDefinition, String)>,
-    errors: Vec<String>
+    diagnostics: &'a mut Diagnostics
 }
 
 impl<'a> ConstantSubstitutionVisitor<'a> {
@@ -771,48 +826,62 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     fn substitute_array_index(&mut self, exp: &mut ast::AstNode, subst: &Substitute) {
         match subst {
             Substitute::Group(group_name) => {
-                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
-                match &exp.kind {
-                    ast::AstNodeKind::Literal(lit) => match &lit {
-                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, None, &mut self.errors),
+                match self.config.variable_groups.get(group_name) {
+                    Some(group) => match &exp.kind {
+                        ast::AstNodeKind::Literal(lit) => match &lit {
+                            ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, None, &mut self.diagnostics),
+                            _ => ()
+                        },
                         _ => ()
                     },
-                    _ => ()
+                    None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", group_name))
+
                 }
             },
             Substitute::GroupRecursive(group_name, condition) => {
-                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
-                let mut visitor = GroupRecursiveVisitor {
-                    group: group.clone(),
-                    group_name: group_name.clone(),
-                    variants: None,
-                    condition: condition.clone(),
-                    stack: Vec::new(),
-                    errors: &mut self.errors
-                };
-                *exp = visitor.visit_node(exp.clone());
+                match self.config.variable_groups.get(group_name) {
+                    Some(group) => {
+                        let mut visitor = GroupRecursiveVisitor {
+                            group: group.clone(),
+                            group_name: group_name.clone(),
+                            variants: None,
+                            condition: condition.clone(),
+                            stack: Vec::new(),
+                            diagnostics: &mut self.diagnostics
+                        };
+                        *exp = visitor.visit_node(exp.clone());
+                    },
+                    None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", group_name))
+                }
             },
             Substitute::Variant(group_name, variants) => {
-                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
-                match &exp.kind {
-                    ast::AstNodeKind::Literal(lit) => match &lit {
-                        ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, Some(variants), &mut self.errors),
+                match self.config.variable_groups.get(group_name) {
+                    Some(group) => match &exp.kind {
+                        ast::AstNodeKind::Literal(lit) => match &lit {
+                            ast::LiteralNode::Integer(i) => *exp = substitute_integer_constant(&group, &group_name, exp.clone(), *i, Some(variants), &mut self.diagnostics),
+                            _ => ()
+                        },
                         _ => ()
                     },
-                    _ => ()
+                    None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", group_name))
+
                 }
             },
             Substitute::VariantRecursive(group_name, variants, condition) => {
-                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
-                let mut visitor = GroupRecursiveVisitor {
-                    group: group.clone(),
-                    group_name: group_name.clone(),
-                    variants: Some(variants.clone()),
-                    condition: condition.clone(),
-                    stack: Vec::new(),
-                    errors: &mut self.errors
-                };
-                *exp = visitor.visit_node(exp.clone());
+                match self.config.variable_groups.get(group_name) {
+                    Some(group) => {
+                        let mut visitor = GroupRecursiveVisitor {
+                            group: group.clone(),
+                            group_name: group_name.clone(),
+                            variants: Some(variants.clone()),
+                            condition: condition.clone(),
+                            stack: Vec::new(),
+                            diagnostics: &mut self.diagnostics
+                        };
+                        *exp = visitor.visit_node(exp.clone());
+                    },
+                    None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", group_name))
+                }
             },
             Substitute::XY2Pic => {
                 match &exp.kind {
@@ -824,25 +893,28 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
             },
             Substitute::Flag(group_name) => {
-                let group = self.config.variable_groups.get(group_name).ok_or_else(|| panic!("Variable group {} not defined.", group_name)).unwrap();
-
-                let mut flag = None;
-                if let ast::AstNodeKind::Expression(exp) = &exp.kind {
-                    let rhs = exp.rhs.as_ref().expect("Flag expression does not have a right hand side.");
-                    if let ast::AstNodeKind::Literal(ast::LiteralNode::Integer(lhs_i)) = &exp.lhs.kind {
-                        if let ast::AstNodeKind::Literal(ast::LiteralNode::Integer(rhs_i)) = rhs.kind {
-                            flag = Some(lhs_i + rhs_i);
+                match self.config.variable_groups.get(group_name) {
+                    Some(group) => {
+                        let mut flag = None;
+                        if let ast::AstNodeKind::Expression(exp) = &exp.kind {
+                            let rhs = exp.rhs.as_ref().expect("Flag expression does not have a right hand side.");
+                            if let ast::AstNodeKind::Literal(ast::LiteralNode::Integer(lhs_i)) = &exp.lhs.kind {
+                                if let ast::AstNodeKind::Literal(ast::LiteralNode::Integer(rhs_i)) = rhs.kind {
+                                    flag = Some(lhs_i + rhs_i);
+                                }
+                            }
                         }
-                    }
-                }
 
-                match flag {
-                    Some(flag) => {
-                        *exp = substitute_integer_constant(&group, &group_name, exp.clone(), flag, None, &mut self.errors);
+                        match flag {
+                            Some(flag) => {
+                                *exp = substitute_integer_constant(&group, &group_name, exp.clone(), flag, None, &mut self.diagnostics);
+                            },
+                            None => {
+                                self.diagnostics.push(DiagnosticKind::Error, format!("Expression does not look like a flag: {}", self.hsp3as.print_ast_node(exp).unwrap()));
+                            }
+                        }
                     },
-                    None => {
-                        panic!("Expression does not look like a flag: {}", self.hsp3as.print_ast_node(exp).unwrap());
-                    }
+                    None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", group_name))
                 }
             },
             Substitute::Multi(substs) => {
@@ -957,18 +1029,24 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
 
     // Try to propagate constants based on an expression including a function
     // parameter.
-    fn find_func_indices(&self, var: &ast::AstNode) -> Option<Vec<FunctionArgIndex>> {
+    fn find_func_indices(&mut self, var: &ast::AstNode) -> Option<Vec<FunctionArgIndex>> {
         if let ast::AstNodeKind::Variable(node) = &var.kind {
             if let PrimitiveTokenKind::Parameter(param) = &node.ident.kind {
-                let param_name = self.hsp3as.param_names.get(param).ok_or_else(|| panic!("No name for parameter {:?}", param)).unwrap();
-                if let Some((func, funcname)) = &self.visiting_function {
-                    let func_conf = self.config.functions.get(funcname).ok_or_else(|| panic!("No function named '{}' declared", funcname)).unwrap();
-                    for (_, arg) in func_conf.args.iter() {
-                        let name = format!("{}_{}", funcname, arg.name);
-                        if param_name == &name {
-                            return Some(arg.indices.clone());
+                if let Some(param_name) = self.hsp3as.param_names.get(param) {
+                    if let Some((func, funcname)) = &self.visiting_function {
+                        if let Some(func_conf) = self.config.functions.get(funcname) {
+                            for (_, arg) in func_conf.args.iter() {
+                                let name = format!("{}_{}", funcname, arg.name);
+                                if param_name == &name {
+                                    return Some(arg.indices.clone());
+                                }
+                            }
+                        } else {
+                            self.diagnostics.push(DiagnosticKind::Error, format!("No function named '{}' declared", funcname));
                         }
                     }
+                } else {
+                    self.diagnostics.push(DiagnosticKind::Error, format!("No name for parameter {:?}", param));
                 }
             }
         }
@@ -1083,9 +1161,16 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
         match funcdef.func.get_type() {
             Ax3FunctionType::DefFunc |
             Ax3FunctionType::DefCFunc => {
-                let func_conf = self.config.functions.get(&funcdef.default_name).ok_or_else(|| panic!("No function named '{}' declared", funcdef.default_name)).unwrap();
-                self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
-                funcdef
+                match self.config.functions.get(&funcdef.default_name) {
+                    Some(func_conf) => {
+                        self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
+                        funcdef
+                    },
+                    None => {
+                        self.diagnostics.push(DiagnosticKind::Error, format!("No function named '{}' declared", funcdef.default_name));
+                        funcdef
+                    }
+                }
             },
             _ => funcdef
         }
@@ -1096,7 +1181,8 @@ struct FunctionRenameVisitor<'a> {
     config: &'a AnalysisConfig,
     hsp3as: &'a mut Hsp3As,
     visiting_function: Option<(FunctionDefinition, String)>,
-    seen_names: HashMap<String, String>
+    seen_names: HashMap<String, String>,
+    diagnostics: &'a mut Diagnostics
 }
 
 impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
@@ -1111,14 +1197,14 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
                                 Some(arg) => {
                                     self.hsp3as.param_names.entry(param.clone()).insert(format!("{}_{}", funcdef.default_name, arg.name));
                                 },
-                                None => println!("Missing argument {} for function '{}", i, funcdef.default_name),
+                                None => self.diagnostics.push(DiagnosticKind::Error, format!("Missing argument {} for function '{}", i, funcdef.default_name)),
                             }
                         }
                         self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));
                         funcdef
                     },
                     None =>{
-                        println!("No function named '{}' declared", funcdef.default_name);
+                        self.diagnostics.push(DiagnosticKind::Error, format!("No function named '{}' declared", funcdef.default_name));
                         funcdef
                     }
                 }
@@ -1218,7 +1304,7 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
                     assert!(get_variable_name(&assign.var, &self.hsp3as).unwrap() == "txtc");
                     (None, TxtUnrollState::FoundTxtc2(to, tc))
                 },
-                TxtUnrollState::FoundTxtc2 (to, tc) => {
+                TxtUnrollState::FoundTxtc2(to, tc) => {
                     let func = exp.kind.into_function().unwrap();
                     assert!(get_function_name(&func, self.hsp3as) == "txt_select");
                     (None, TxtUnrollState::FoundTxtSelect(to, tc, func.arg.unwrap()))
@@ -1346,12 +1432,14 @@ struct LabelRenameVisitor<'a> {
     resolved_labels: HashMap<ResolvedLabel, LabelDefinition>,
     visiting_label: Option<ResolvedLabel>,
     previous_label: Option<ResolvedLabel>,
+    diagnostics: &'a mut Diagnostics
 }
 
 impl<'a> LabelRenameVisitor<'a> {
     fn check_after_labels(&mut self) {
         // Only check if none of the rules matched so far.
         if self.visiting_label.is_none() {
+            println!("NOVISIT");
             return;
         }
 
@@ -1363,6 +1451,7 @@ impl<'a> LabelRenameVisitor<'a> {
             if defn.rules.len() == 0 {
                 if let Some(prev) = &self.previous_label {
                     if let Some(after) = &defn.after {
+                        println!("AFTERCHECK {} -> {} ?", after, defn.name);
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
                             if &prev_resolved.name == after {
                                 println!("AFTER {} {:?}", after, prev_resolved);
@@ -1385,6 +1474,7 @@ impl<'a> LabelRenameVisitor<'a> {
     fn set_label(&mut self, label: ResolvedLabel) {
         // Exclude ghost labels
         if !self.hsp3as.label_names.contains_key(&label) {
+            println!("NOCONTAINS {:?}", label);
             return;
         }
 
@@ -1401,11 +1491,19 @@ impl<'a> LabelRenameVisitor<'a> {
     fn associate_label(&mut self, rule: LabelDefinition, label: &ResolvedLabel) {
         self.previous_label = Some(label.clone());
         self.visiting_label = None;
+        println!("ASSOCLABEL {:?} -> {}", self.hsp3as.label_names.get(&label), rule.name);
         self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
+
         // println!("SETPREVASSOC {:?}", self.hsp3as.label_names.get(label).unwrap());
-        if let Some(existing_rule) = self.resolved_labels.insert(label.clone(), rule) {
-            panic!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
-                   self.hsp3as.label_names.get(&label).unwrap(), existing_rule)
+        match self.resolved_labels.get(label) {
+            Some(existing) => {
+                self.diagnostics.push(DiagnosticKind::Error,
+                                      format!("Label {} was already resolved to rule {:?}. The regex must uniquely match across the entire program source.",
+                                              self.hsp3as.label_names.get(&label).unwrap(), existing))
+            },
+            None => {
+                self.resolved_labels.insert(label.clone(), rule);
+            }
         }
     }
 }
@@ -1464,6 +1562,7 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
     }
 
     fn visit_function_declaration(&mut self, node: &ast::FunctionDeclarationNode) {
+        self.check_after_labels();
         self.visiting_label = None;
     }
 
@@ -1526,11 +1625,26 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
     result
 }
 
+fn validate_config(config: &AnalysisConfig) -> Result<()> {
+    for defn in config.labels.iter() {
+        if defn.rules.len() == 0 {
+            if defn.after.is_none() {
+                return Err(anyhow!("Label definition '{}' must have either 'rules' or 'after' field", defn.name))
+            }
+        } else {
+            if defn.after.is_some() {
+                return Err(anyhow!("Label definition '{}' cannot have both 'rules' and 'after' fields", defn.name))
+            }
+        }
+    }
+
+    Ok(())
+}
+
 pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
     let file = File::open("database/plus1.90.ron")?;
     let mut config: AnalysisConfig = ron::de::from_reader(file)?;
-
-    let strict = true;
+    validate_config(&config)?;
 
     let mut resolved_vars = HashMap::new();
     for (name, group) in config.variable_groups.iter() {
@@ -1543,6 +1657,7 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         group._resolved_variables = vars;
     }
 
+    let mut diagnostics = Diagnostics::new();
     let mut labels = config.labels.clone();
 
     let node = hsp3as.program.clone();
@@ -1563,7 +1678,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             config: &config,
             hsp3as: hsp3as,
             visiting_function: None,
-            seen_names: HashMap::new()
+            seen_names: HashMap::new(),
+            diagnostics: &mut diagnostics
         };
 
         visitor.visit_node(node)
@@ -1574,17 +1690,10 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             config: &config,
             hsp3as: &hsp3as,
             visiting_function: None,
-            errors: Vec::new()
+            diagnostics: &mut diagnostics
         };
 
         let node = visitor.visit_node(node);
-
-        if strict && visitor.errors.len() > 0 {
-            for error in visitor.errors.iter() {
-                println!("Error: {}", error);
-            }
-            panic!("Errors occurred.");
-        }
 
         node
     };
@@ -1603,26 +1712,34 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             labels_remaining: labels,
             resolved_labels: HashMap::new(),
             visiting_label: None,
-            previous_label: None
+            previous_label: None,
+            diagnostics: &mut diagnostics
         };
 
         visitor.visit_node(&node);
 
-        if strict && visitor.labels_remaining.len() > 0 {
+        if visitor.labels_remaining.len() > 0 {
             for rule in visitor.labels_remaining.iter() {
-                println!("Error: No match for label rule {}", rule.name);
+                diagnostics.push(DiagnosticKind::Error, format!("Error: No match for label rule {}", rule.name));
             }
-            // panic!("Errors occurred.");
         }
     };
 
-    // let node = {
-    //     let mut visitor = ChatListUnrollVisitor {};
+    let mut errors = 0;
+    for diag in diagnostics.iter() {
+        if diag.kind == DiagnosticKind::Error {
+            errors += 1;
+            println!("{}", diag);
+        }
+    }
 
-    //     visitor.visit_node(node)
-    // };
+    let strict = false;
 
-    Ok(AnalysisResult {
-        node: node
-    })
+    if errors == 0 || !strict {
+        Ok(AnalysisResult {
+            node: node
+        })
+    } else {
+        Err(anyhow!("{} errors occured.", errors))
+    }
 }
