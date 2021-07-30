@@ -156,9 +156,9 @@ enum Rule {
 
     /// Matches a constant or named variant in a group.
     ///
-    /// `InGroup("cdata")` matches `32` and the variable name
+    /// `Group("cdata")` matches `32` and the variable name
     /// `CDATA_ATTACK_STYLE`.
-    InGroup(String),
+    Group(String),
 
     /// Matches an integer constant.
     Constant(i32),
@@ -707,7 +707,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     fn array_index_rule_matches(&self, exp: &ast::AstNode, rule: &Rule) -> bool {
         match rule {
             Rule::Any => true,
-            Rule::InGroup(group_name) => {
+            Rule::Group(group_name) => {
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
                         ast::LiteralNode::Integer(i) => self.constant_found_in_group(&group_name, *i),
@@ -1377,6 +1377,7 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 enum SourceMatchKind {
     If,
+    /// NOTE: also matches +=, ++ and similar.
     Assignment,
     StringLiteral,
     Variable,
@@ -1652,8 +1653,15 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
 fn validate_config(config: &AnalysisConfig) -> Result<()> {
     for defn in config.labels.iter() {
         if defn.rules.len() == 0 {
+            match &defn.after {
+                Some(after) => {
+                    if !config.labels.iter().any(|l| &l.name == after)  {
+                        return Err(anyhow!("Label given in after property '{}' not declared (on label definition {})", after, defn.name))
+                    }
+                },
+                None => return Err(anyhow!("Label definition '{}' must have either 'rules' or 'after' field", defn.name))
+            }
             if defn.after.is_none() {
-                return Err(anyhow!("Label definition '{}' must have either 'rules' or 'after' field", defn.name))
             }
         } else {
             if defn.after.is_some() {
