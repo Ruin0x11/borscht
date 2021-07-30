@@ -8434,6 +8434,9 @@ AnalysisConfig(
       indices: [
         (
           substitute: { 0: GroupRecursive("rpdata", Lhs("+")) }
+        ),
+        (
+          substitute: { 0: Group("rpdata") }
         )
       ]
     ),
@@ -17403,12 +17406,12 @@ AnalysisConfig(
       ]
     ),
     (
-      name: "*com_applySkill",
-      after: "*com_applySkill_loop"
+      name: "*com_applySkill_loop",
+      after: "*com_applySkill",
     ),
     (
-      name: "*com_applySkill_loop",
-      after: "*com_applySkill_loop_pgchk",
+      name: "*com_applySkill_loop_WHILE1",
+      after: "*com_applySkill_loop",
       loop_kind: While
     ),
     (
@@ -17462,19 +17465,21 @@ AnalysisConfig(
     ),
     (
       name: "*com_name",
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "を何と呼ぶ？ "
-        )
-      ]
+      after: "*com_interact",
+      // rules: [
+      //   (
+      //     kind: StringLiteral,
+      //     match: "を何と呼ぶ？ ",
+      //     position: LabelTop
+      //   )
+      // ]
     ),
     (
       name: "*com_tone",
       rules: [
         (
           kind: StringLiteral,
-          match: "口調一覧"
+          match: "デフォルトの口調"
         )
       ]
     ),

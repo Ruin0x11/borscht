@@ -455,7 +455,6 @@ pub struct LabelDeclarationNode {
 
 impl<'a> AstPrintable<'a> for LabelDeclarationNode {
     fn print_code<W: Write>(&self, f: &mut W, _tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
-        println!("labeldecl {:?} {:?}", self.label, ctxt.label_names.get(&self.label));
         write!(f, "{}", ctxt.label_names.get(&self.label).unwrap())
     }
 }

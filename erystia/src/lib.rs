@@ -1439,7 +1439,6 @@ impl<'a> LabelRenameVisitor<'a> {
     fn check_after_labels(&mut self) {
         // Only check if none of the rules matched so far.
         if self.visiting_label.is_none() {
-            println!("NOVISIT");
             return;
         }
 
@@ -1451,10 +1450,8 @@ impl<'a> LabelRenameVisitor<'a> {
             if defn.rules.len() == 0 {
                 if let Some(prev) = &self.previous_label {
                     if let Some(after) = &defn.after {
-                        println!("AFTERCHECK {} -> {} ?", after, defn.name);
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
                             if &prev_resolved.name == after {
-                                println!("AFTER {} {:?}", after, prev_resolved);
                                 assert!(found_after.is_none(), "More than one label with same 'after' field found.");
                                 found_after = Some(i);
                             }
@@ -1474,15 +1471,12 @@ impl<'a> LabelRenameVisitor<'a> {
     fn set_label(&mut self, label: ResolvedLabel) {
         // Exclude ghost labels
         if !self.hsp3as.label_usage.contains_key(&label) {
-            println!("NOCONTAINS {:?}", label);
             return;
         }
 
         self.check_after_labels();
 
-        println!("LABEL {:?}", self.hsp3as.label_names.get(&label));
         if self.visiting_label.is_some() {
-            // println!("SETPREV {:?}", self.hsp3as.label_names.get(self.visiting_label.as_ref().unwrap()).unwrap());
             self.previous_label = self.visiting_label.clone();
         } 
         self.visiting_label = Some(label);
@@ -1491,10 +1485,8 @@ impl<'a> LabelRenameVisitor<'a> {
     fn associate_label(&mut self, rule: LabelDefinition, label: &ResolvedLabel) {
         self.previous_label = Some(label.clone());
         self.visiting_label = None;
-        println!("ASSOCLABEL {:?} (prev: {:?}) -> {}", label, self.hsp3as.label_names.get(&label), rule.name);
         self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
 
-        // println!("SETPREVASSOC {:?}", self.hsp3as.label_names.get(label).unwrap());
         match self.resolved_labels.get(label) {
             Some(existing) => {
                 self.diagnostics.push(DiagnosticKind::Error,
@@ -1532,7 +1524,6 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
                         if get {
                             defn._matched_so_far += 1;
                             if defn._matched_so_far == defn.rules.len() {
-                                println!("ALL MATCH {:?}", defn);
                                 found = Some(i);
                                 break;
                             }
@@ -1585,7 +1576,6 @@ impl<'a> VisitorMut for LabelMergeVisitor<'a> {
         for exp in node.nodes.into_iter() {
             let exp = match &exp.kind {
                 ast::AstNodeKind::LabelDeclaration(target_label) => {
-                    println!("Findlabel {:?}", target_label);
                     if self.hsp3as.label_usage.contains_key(&target_label.label) {
                         if let Some(merging_label) = merging {
                             let above_is_resolved = self.resolved_labels.contains_key(&merging_label);
@@ -1598,7 +1588,6 @@ impl<'a> VisitorMut for LabelMergeVisitor<'a> {
                                 let node = ast::AstNode::new(0, kind, 0);
                                 result.push(Box::new(node));
 
-                                println!("SETMERGE {:?}", target_label);
                                 merging = Some(target_label.label.clone());
                             } else {
                                 let (resolved, to_remove) = if below_is_resolved {
@@ -1608,7 +1597,6 @@ impl<'a> VisitorMut for LabelMergeVisitor<'a> {
                                 };
 
                                 let name = self.hsp3as.label_names.get(&resolved).unwrap().to_string();
-                                println!("MERGE {:?} ({:?}) INTO {:?} ({:?})", to_remove, self.hsp3as.label_names.get(&to_remove), resolved, self.hsp3as.label_names.get(&resolved));
                                 self.hsp3as.label_names.entry(to_remove.clone()).insert(name);
 
                                 self.hsp3as.label_usage.entry(to_remove.clone()).insert(0);
@@ -1619,7 +1607,6 @@ impl<'a> VisitorMut for LabelMergeVisitor<'a> {
 
                             None
                         } else {
-                            println!("SETMERGE {:?}", target_label);
                             merging = Some(target_label.label.clone());
                             None
                         }
@@ -1771,10 +1758,6 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
             errors += 1;
             println!("{}", diag);
         }
-    }
-
-    for (i, (j, label)) in hsp3as.label_names.iter().enumerate() {
-        println!("FINALLABEL {} {:?} -> {}", i, j, label);
     }
 
     let strict = false;
