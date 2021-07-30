@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cargo run --release -- analyze "../elonaplus1.90/start.ax"
+RUST_BACKTRACE=1 cargo run --release -- analyze "../elonaplus1.90/start.ax"
 
 dos2unix '../elonaplus1.90/start.hsp'
 

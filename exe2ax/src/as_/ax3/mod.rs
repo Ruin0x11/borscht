@@ -456,13 +456,13 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
     (resolved, params)
 }
 
-fn rename_labels<'a>(file: &'a Ax3File<'a>, label_usage: &HashMap<ResolvedLabel, u32>) -> HashMap<ResolvedLabel, String> {
+fn rename_labels<'a>(file: &'a Ax3File<'a>) -> HashMap<ResolvedLabel, String> {
     let _count = file.labels.len();
     let mut labels = Vec::new();
     let mut result = HashMap::new();
 
-    for (label, _) in label_usage.iter() {
-        labels.push(label)
+    for (i, label) in file.labels.iter().enumerate() {
+        labels.push(ResolvedLabel{ index: i, label: label.clone() })
     }
 
     labels.sort_by(|a, b| {
@@ -473,11 +473,9 @@ fn rename_labels<'a>(file: &'a Ax3File<'a>, label_usage: &HashMap<ResolvedLabel,
         a.index.cmp(&b.index)
     });
 
-    // let keta = f32::log10(count as f32) as usize + 1;
-
     for (i, l) in labels.into_iter().enumerate() {
         let new_name = format!("*label_{:0>4}", i+1);
-        result.insert(*l, new_name);
+        result.insert(l, new_name);
     }
 
     result
@@ -1306,6 +1304,7 @@ pub struct Hsp3As {
     pub function_names: HashMap<Ax3Function, String>,
     pub param_names: HashMap<ResolvedParameter, String>,
     pub label_names: HashMap<ResolvedLabel, String>,
+    pub label_usage: HashMap<ResolvedLabel, u32>,
 }
 
 impl Hsp3As {
@@ -1390,13 +1389,14 @@ pub fn decode<'a, R: 'a + AsRef<[u8]>>(bytes: R, _opts: &DecodeOptions) -> Resul
     let mut parser = Parser::new(iter, &file, func_names.clone());
     let program = parser.parse();
 
-    let label_names = rename_labels(&file, &parser.label_usage);
+    let label_names = rename_labels(&file);
 
     let hsp3as = Hsp3As {
         program: program,
         function_names: func_names,
         param_names: param_names,
-        label_names: label_names
+        label_names: label_names,
+        label_usage: parser.label_usage,
     };
 
     Ok(hsp3as)

@@ -1429,7 +1429,7 @@ struct LabelDefinition {
 struct LabelRenameVisitor<'a> {
     hsp3as: &'a mut Hsp3As,
     labels_remaining: Vec<LabelDefinition>,
-    resolved_labels: HashMap<ResolvedLabel, LabelDefinition>,
+    resolved_labels: &'a mut HashMap<ResolvedLabel, LabelDefinition>,
     visiting_label: Option<ResolvedLabel>,
     previous_label: Option<ResolvedLabel>,
     diagnostics: &'a mut Diagnostics
@@ -1473,7 +1473,7 @@ impl<'a> LabelRenameVisitor<'a> {
 
     fn set_label(&mut self, label: ResolvedLabel) {
         // Exclude ghost labels
-        if !self.hsp3as.label_names.contains_key(&label) {
+        if !self.hsp3as.label_usage.contains_key(&label) {
             println!("NOCONTAINS {:?}", label);
             return;
         }
@@ -1491,7 +1491,7 @@ impl<'a> LabelRenameVisitor<'a> {
     fn associate_label(&mut self, rule: LabelDefinition, label: &ResolvedLabel) {
         self.previous_label = Some(label.clone());
         self.visiting_label = None;
-        println!("ASSOCLABEL {:?} -> {}", self.hsp3as.label_names.get(&label), rule.name);
+        println!("ASSOCLABEL {:?} (prev: {:?}) -> {}", label, self.hsp3as.label_names.get(&label), rule.name);
         self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
 
         // println!("SETPREVASSOC {:?}", self.hsp3as.label_names.get(label).unwrap());
@@ -1573,32 +1573,69 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
 
 struct LabelMergeVisitor<'a> {
     hsp3as: &'a mut Hsp3As,
+    resolved_labels: &'a HashMap<ResolvedLabel, LabelDefinition>
 }
 
 impl<'a> VisitorMut for LabelMergeVisitor<'a> {
     fn visit_block_statement(&mut self, mut node: ast::BlockStatementNode) -> ast::BlockStatementNode {
-        let mut merging_label = None;
+        let mut merging = None;
 
         let mut result = Vec::new();
 
         for exp in node.nodes.into_iter() {
             let exp = match &exp.kind {
-                ast::AstNodeKind::LabelDeclaration(label) => {
-                    if self.hsp3as.label_names.contains_key(&label.label) {
-                        if let Some(merging_label) = merging_label {
-                            let name = self.hsp3as.label_names.get(&merging_label).unwrap().to_string();
-                            self.hsp3as.label_names.entry(label.label.clone()).insert(name);
+                ast::AstNodeKind::LabelDeclaration(target_label) => {
+                    println!("Findlabel {:?}", target_label);
+                    if self.hsp3as.label_usage.contains_key(&target_label.label) {
+                        if let Some(merging_label) = merging {
+                            let above_is_resolved = self.resolved_labels.contains_key(&merging_label);
+                            let below_is_resolved = self.resolved_labels.contains_key(&target_label.label);
+
+                            if above_is_resolved && below_is_resolved {
+                                let kind = ast::AstNodeKind::LabelDeclaration(ast::LabelDeclarationNode {
+                                    label: merging_label
+                                });
+                                let node = ast::AstNode::new(0, kind, 0);
+                                result.push(Box::new(node));
+
+                                println!("SETMERGE {:?}", target_label);
+                                merging = Some(target_label.label.clone());
+                            } else {
+                                let (resolved, to_remove) = if below_is_resolved {
+                                    (target_label.label.clone(), merging_label.clone())
+                                } else {
+                                    (merging_label.clone(), target_label.label.clone())
+                                };
+
+                                let name = self.hsp3as.label_names.get(&resolved).unwrap().to_string();
+                                println!("MERGE {:?} ({:?}) INTO {:?} ({:?})", to_remove, self.hsp3as.label_names.get(&to_remove), resolved, self.hsp3as.label_names.get(&resolved));
+                                self.hsp3as.label_names.entry(to_remove.clone()).insert(name);
+
+                                self.hsp3as.label_usage.entry(to_remove.clone()).insert(0);
+                                *self.hsp3as.label_usage.entry(resolved.clone()).or_insert(0) += 1;
+
+                                merging = Some(resolved);
+                            }
+
                             None
                         } else {
-                            merging_label = Some(label.label.clone());
-                            Some(exp)
+                            println!("SETMERGE {:?}", target_label);
+                            merging = Some(target_label.label.clone());
+                            None
                         }
                     } else {
                         None
                     }
                 },
                 _ => {
-                    merging_label = None;
+                    if let Some(merging_label) = merging {
+                        let kind = ast::AstNodeKind::LabelDeclaration(ast::LabelDeclarationNode {
+                            label: merging_label
+                        });
+                        let node = ast::AstNode::new(0, kind, 0);
+                        result.push(Box::new(node));
+                    }
+                    merging = None;
                     Some(exp)
                 }
             };
@@ -1698,19 +1735,13 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         node
     };
 
-    let node = {
-        let mut visitor = LabelMergeVisitor {
-            hsp3as: hsp3as,
-        };
-
-        visitor.visit_node(node)
-    };
+    let mut resolved_labels = HashMap::new();
 
     {
         let mut visitor = LabelRenameVisitor {
             hsp3as: hsp3as,
             labels_remaining: labels,
-            resolved_labels: HashMap::new(),
+            resolved_labels: &mut resolved_labels,
             visiting_label: None,
             previous_label: None,
             diagnostics: &mut diagnostics
@@ -1725,12 +1756,25 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         }
     };
 
+    let node = {
+        let mut visitor = LabelMergeVisitor {
+            hsp3as: hsp3as,
+            resolved_labels: &resolved_labels
+        };
+
+        visitor.visit_node(node)
+    };
+
     let mut errors = 0;
     for diag in diagnostics.iter() {
         if diag.kind == DiagnosticKind::Error {
             errors += 1;
             println!("{}", diag);
         }
+    }
+
+    for (i, (j, label)) in hsp3as.label_names.iter().enumerate() {
+        println!("FINALLABEL {} {:?} -> {}", i, j, label);
     }
 
     let strict = false;
