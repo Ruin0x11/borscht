@@ -392,7 +392,7 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
                     }
                 }
             },
-            _ => ()
+            _ => unreachable!()
         }
     }
 

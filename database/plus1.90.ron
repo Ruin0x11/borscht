@@ -20856,5 +20856,135 @@ AnalysisConfig(
       name: "*event_SWEND1",
       after: "*event"
     ),
-  ]
+  ],
+
+  files: {
+      "init.hsp": (
+          begin: Function("hantozen")
+      ),
+      "chips.hsp": (
+          begin: Function("create_pcpic")
+      ),
+      "etc.hsp": (
+          begin: Function("cardplayerinit")
+      ),
+      "item_data.hsp": (
+          begin: Function("getinheritance")
+      ),
+      "item_func.hsp": (
+          begin: Function("itemcreate")
+      ),
+      "module.hsp": (
+          begin: Function("csvstr2")
+      ),
+      "material_data.hsp": (
+          begin: Label("*mRefDefine")
+      ),
+      "db_item.hsp": (
+          begin: Label("*db_item")
+      ),
+      "chara_func.hsp": (
+          begin: Function("fixaiact")
+      ),
+      "net.hsp": (
+          begin: Function("net_send")
+      ),
+      "screen.hsp": (
+          begin: Label("*screen_init")
+      ),
+      "calculation.hsp": (
+          begin: Function("calcmedalvalue")
+      ),
+      "chara.hsp": (
+          begin: Label("*learn_sp")
+      ),
+      "item.hsp": (
+          begin: Function("convertartifact")
+      ),
+      "map_func.hsp": (
+          begin: Label("*setCellObj")
+      ),
+      "map_rand.hsp": (
+          begin: Label("*map_randomDungeon")
+      ),
+      "map_user.hsp": (
+          begin: Label("*home_setup")
+      ),
+      "map.hsp": (
+          begin: Label("*fltChara")
+      ),
+      "db_card.hsp": (
+          begin: Label("*db_card")
+      ),
+      "tcg.hsp": (
+          begin: Function("cdbit")
+      ),
+      "tcg_skill.hsp": (
+          begin: Label("*cdAct_init")
+          end: Function("actionproc")
+      ),
+      "tcg_ai.hsp": (
+          begin: Function("validaction")
+      ),
+      "material.hsp": (
+          begin: Function("random_material")
+      ),
+      "txtadv.hsp": (
+          begin: Function("atxinit")
+      ),
+      "god.hsp": (
+          begin: Function("modpiety")
+      ),
+      "event.hsp": (
+          begin: Label("*random_event")
+      ),
+      "blend.hsp": (
+          begin: Function("rpmatname")
+      ),
+      "command.hsp": (
+          begin: Function("txtitemoncell")
+      ),
+      "system.hsp": (
+          begin: Label("*gene_itemfix")
+      ),
+      "proc.hsp": (
+          begin: Function("efstatusfix")
+      ),
+      "action.hsp": (
+          begin: Label("*act_throw")
+      ),
+      "chat.hsp": (
+          begin: Function("clientguide")
+      ),
+      "economy.hsp": (
+          begin: Function("addbuilding")
+      ),
+      "db_race.hsp": (
+          begin: Label("*raceID_fix")
+      ),
+      "db_class.hsp": (
+          begin: Label("*db_class")
+      ),
+      "db_creature.hsp": (
+          begin: Label("*db_creature")
+      ),
+      "randname.hsp": (
+          begin: Function("randname")
+      ),
+      "adv.hsp": (
+          begin: Label("*add_ally")
+      ),
+      "quest.hsp": (
+          begin: Label("*client_update")
+      ),
+      "scene.hsp": (
+          begin: Label("*scene")
+      ),
+      "ai.hsp": (
+          begin: Function("*ai_check")
+      ),
+      "help.hsp": (
+          begin: Label("*com_quick")
+      ),
+  }
 )
