@@ -11,7 +11,7 @@ AnalysisConfig(
     "database/plus1.90.ron"
   ],
   variable_groups: {
-    "chara_id": {
+    "chara_id": (
       variables: [
         ( name: "CREATURE_ID_MANSON_THE_CAREFUL_ADVENTURER", value: 990 ),
         ( name: "CREATURE_ID_CRAY_THE_CURIOUS_ADVENTURER", value: 991 ),
@@ -64,7 +64,7 @@ AnalysisConfig(
 
         ( name: "MAX_CREATURE_ID", value: 1040, code_value: "CREATURE_ID_HELLABYRINTH_RULER + 3" ),
       ]
-    },
+    ),
     "damage_source": (
       variables: [
         ( name: "DAMAGE_FROM_JALDABAOTH", value: -32, ),

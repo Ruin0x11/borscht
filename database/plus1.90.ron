@@ -200,7 +200,7 @@ AnalysisConfig(
         ( name: "CELL_SUB_FEATURE_TRAP_QUEST_MINE", value: 7 ),
         ( name: "CELL_SUB_FEATURE_TRAP_BLADE_STRINGS", value: 8 ),
         ( name: "CELL_SUB_FEATURE_TRAP_QUEST_PITFALL", value: 9 ),
-        ( name: "CELL_SUB_FEATURE_TRAP_QUEST_PITFALL", value: 10 ),
+        ( name: "CELL_SUB_FEATURE_TRAP_QUEST_PITFALL2", value: 10 ),
         ( name: "CELL_SUB_FEATURE_TRAP_HOSTILE_BLADE_STRINGS", value: 20 ),
         ( name: "CELL_SUB_FEATURE_TRAP_PITFALL", value: 21 ),
         ( name: "CELL_SUB_FEATURE_TRAP_MINE", value: 22 ),
@@ -340,7 +340,7 @@ AnalysisConfig(
         ( name: "INVCTRL_PICKPOCKET", value: 27 ),
         ( name: "INVCTRL_METAL", value: 28 ),
         ( name: "INVCTRL_BOOK_RESERVE", value: 29 ),
-        ( name: "INVCTRL_BOOK_RESERVE", value: 32 ),
+        ( name: "INVCTRL_MARK_ITEM", value: 32 ),
       ],
       ignore: [ 0 ]
     ),
@@ -1731,23 +1731,24 @@ AnalysisConfig(
         ( name: "MAP_TILESET_TOWN", value: 2 ),
         ( name: "MAP_TILESET_HOME", value: 3 ),
         ( name: "MAP_TILESET_WILDERNESS", value: 4 ),
-        ( name: "MAP_TILESET_SNOW", value: 6 ),
+        ( name: "MAP_TILESET_SNOW_UNUSED", value: 6 ),
         ( name: "MAP_TILESET_TOWER_OF_FIRE", value: 7 ),
         ( name: "MAP_TILESET_SF", value: 8 ),
         ( name: "MAP_TILESET_EASTERN", value: 9 ),
         ( name: "MAP_TILESET_WATER", value: 10 ),
         ( name: "MAP_TILESET_CASTLE", value: 11 ),
         ( name: "MAP_TILESET_JAIL", value: 12 ),
+
         ( name: "MAP_TILESET_FOREST", value: 96 ),
         ( name: "MAP_TILESET_TOWER", value: 97 ),
         ( name: "MAP_TILESET_FORT", value: 98 ),
-        ( name: "MAP_TILESET_DUNGEON", value: 99 ),
-        ( name: "MAP_TILESET_NEFIA_TOWER", value: 100 ),
-        ( name: "MAP_TILESET_NEFIA_LESIMAS", value: 101 ),
+        ( name: "MAP_TILESET_CAVE", value: 99 ),
+        ( name: "MAP_TILESET_NEFIA_TOWER1", value: 100 ),
+        ( name: "MAP_TILESET_NEFIA_TOWER2", value: 101 ),
         ( name: "MAP_TILESET_NEFIA_FORT", value: 200 ),
         ( name: "MAP_TILESET_NEFIA_FOREST", value: 300 ),
         
-        // Plus Custom-G
+        // Plus Custom-G 1.90
         ( name: "MAP_TILESET_NOYEL_MINEFIELD", value: 13 ),
         ( name: "MAP_TILESET_UNKNOWN", value: 14 ),
         ( name: "MAP_TILESET_NEST", value: 15 ),
@@ -14033,8 +14034,8 @@ AnalysisConfig(
     "*los": (
       rules: [
         (
-          kind: Function,
-          match: "memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+          kind: Assignment,
+          match: "sy(2) = cdata(CDATA_Y, CHARA_PLAYER) - 17 / 2, cdata(CDATA_Y, CHARA_PLAYER) + 17 / 2, 17 / 2 - cdata(CDATA_Y, CHARA_PLAYER)"
         )
       ]
     ),
@@ -14052,8 +14053,8 @@ AnalysisConfig(
     "*los_Loc": (
       rules: [
         (
-          kind: Function,
-          match: "memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+          kind: Assignment,
+          match: "sy(2) = tlocinity - val / 2, tlocinity + val / 2, val / 2 - tlocinity"
         )
       ]
     ),

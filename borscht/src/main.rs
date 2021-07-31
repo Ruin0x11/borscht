@@ -54,6 +54,12 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
                          .help("output directory")
                          .takes_value(true)
                          .value_name("DIR"))
+                    .arg(Arg::with_name("db-file")
+                         .short("f")
+                         .long("db-file")
+                         .help("DB file to use (*.ron)")
+                         .takes_value(true)
+                         .value_name("FILE"))
                     .arg(Arg::with_name("split")
                          .short("s")
                          .long("split")
@@ -132,6 +138,16 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     let opts = DecodeOptions {};
 
     let buffer = fs::read(input_file)?;
+
+    let db_name = match sub_matches.value_of("db-file") {
+        Some(file) => file.to_string(),
+        None => {
+            let db_file = erystia::detect_db_file(&buffer)?;
+            println!("Using database file {}.", db_file);
+            db_file
+        }
+    };
+
     let ax = exe2ax::ax::bytes_to_ax(buffer)?;
 
     let now = Instant::now();
@@ -139,8 +155,12 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
 
     println!("Decompiled bytecode in {:.2?}.", now.elapsed());
 
+    let opts = erystia::AnalysisOptions {
+        db_name: db_name
+    };
+
     let now = Instant::now();
-    let result = erystia::analyze(&mut as_)?;
+    let result = erystia::analyze(&mut as_, &opts)?;
     as_.program = result.node;
 
     println!("Analyzed in {:.2?}.", now.elapsed());

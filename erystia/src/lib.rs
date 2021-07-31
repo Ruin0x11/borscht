@@ -3,11 +3,12 @@
 extern crate serde;
 extern crate serde_derive;
 extern crate ron;
+extern crate sha2;
 extern crate anyhow;
 extern crate exe2ax;
 
 use std::collections::{HashMap, HashSet};
-use std::fs::File;
+use std::fs::{self, File};
 use std::io::Write;
 use std::fmt;
 use anyhow::{anyhow, Result};
@@ -17,6 +18,7 @@ use exe2ax::as_::ax3::ast;
 use exe2ax::as_::dictionary::HspDictionaryValue;
 use exe2ax::as_::ax3::lexical::*;
 use exe2ax::as_::ax3::visitor::{self, *};
+use sha2::{Digest, Sha256};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 enum DiagnosticKind {
@@ -72,6 +74,10 @@ impl Diagnostics {
     }
 }
 
+pub struct AnalysisOptions {
+    pub db_name: String
+}
+
 pub struct AnalysisResult {
     pub node: ast::AstNode,
     pub files: HashMap<String, ast::AstNode>,
@@ -101,11 +107,14 @@ type GroupName = String;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct VariableGroup {
-    #[serde(skip_serializing_if = "Vec::is_empty", default)]
-    includes: Vec<GroupName>,
-    #[serde(skip_serializing_if = "Vec::is_empty", default)]
+    #[serde(default)]
+    includes: HashSet<GroupName>,
+
+    // This has to be a Vec to preserve source code output order.
+    #[serde(default)]
     variables: Vec<VariableDefinition>,
-    #[serde(skip_serializing_if = "HashSet::is_empty", default)]
+
+    #[serde(default)]
     ignore: HashSet<ron::Value>,
 
     #[serde(skip_serializing, default)]
@@ -1696,9 +1705,11 @@ impl<'a> FileSplitVisitor<'a> {
         }
     }
 
-    fn exps_this_file(&mut self) -> usize {
-        let mut noderef = self.resolved_files.get_mut(&self.visiting_file).unwrap();
-        noderef.kind.as_block_statement().unwrap().nodes.len()
+    fn exps_this_file(&self) -> usize {
+        match self.resolved_files.get(&self.visiting_file) {
+            Some(noderef) => noderef.kind.as_block_statement().unwrap().nodes.len(),
+            None => 0
+        }
     }
 }
 
@@ -1740,7 +1751,13 @@ impl<'a> Visitor for FileSplitVisitor<'a> {
     }
 
     fn visit_function_declaration(&mut self, node: &ast::FunctionDeclarationNode) {
-        self.push_blank_line();
+        match node.func.get_type() {
+            Ax3FunctionType::DefFunc |
+            Ax3FunctionType::DefCFunc => {
+                self.push_blank_line();
+            },
+            _ => ()
+        }
 
         for (filename, file) in self.files.iter() {
             let function_name = node.get_name(self.hsp3as);
@@ -1750,6 +1767,75 @@ impl<'a> Visitor for FileSplitVisitor<'a> {
             }
         }
     }
+
+    fn visit_usedll_declaration(&mut self, node: &ast::UsedllDeclarationNode) {
+        self.push_blank_line();
+    }
+}
+
+fn merge_configs(config: &mut AnalysisConfig, parent: AnalysisConfig) -> Result<()> {
+    // Variables
+    for (group_name, group) in parent.variable_groups.into_iter() {
+        if config.variable_groups.contains_key(&group_name) {
+            let mut this_group = config.variable_groups.get_mut(&group_name).unwrap();
+            for parent_variable in group.variables.into_iter() {
+                let this_idx = this_group.variables.iter().position(|v| v.name == parent_variable.name);
+                match this_idx {
+                    Some(i) => this_group.variables.get_mut(i).unwrap().value = parent_variable.value.clone(),
+                    None => this_group.variables.push(parent_variable.clone())
+                }
+            }
+            for parent_include in group.includes.into_iter() {
+                this_group.includes.insert(parent_include);
+            }
+            this_group.ignore = group.ignore;
+        } else {
+            config.variable_groups.insert(group_name, group);
+        }
+    }
+
+    // Arrays
+    for (array_name, array) in parent.arrays.into_iter() {
+        config.arrays.insert(array_name, array);
+    }
+
+    // Expressions
+    for (expr_name, expr) in parent.expressions.into_iter() {
+        config.expressions.insert(expr_name, expr);
+    }
+
+    // Functions
+    for (func_name, func) in parent.functions.into_iter() {
+        config.functions.insert(func_name, func);
+    }
+
+    // Labels
+    for (label_name, label) in parent.labels.into_iter() {
+        config.labels.insert(label_name, label);
+    }
+
+    // Files
+    for (file_name, file) in parent.files.into_iter() {
+        config.files.insert(file_name, file);
+    }
+
+    Ok(())
+}
+
+fn merge_includes(config: &mut AnalysisConfig) -> Result<()> {
+    for filename in config.includes.clone().iter() {
+        let parent = load_config(filename)?;
+        merge_configs(config, parent)?;
+    }
+
+    Ok(())
+}
+
+fn load_config(filename: &str) -> Result<AnalysisConfig> {
+    let file = File::open(filename)?;
+    let mut config: AnalysisConfig = ron::de::from_reader(file)?;
+    merge_includes(&mut config)?;
+    Ok(config)
 }
 
 fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<VariableDefinition> {
@@ -1766,6 +1852,16 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
 }
 
 fn validate_config(config: &AnalysisConfig) -> Result<()> {
+    for (group_name, group) in config.variable_groups.iter() {
+        let mut seen_this_group = HashSet::new();
+        for var in group.variables.iter() {
+            if seen_this_group.contains(&var.name) {
+                return Err(anyhow!("Duplicate variable definition in variable group '{}': {}", group_name, var.name));
+            }
+            seen_this_group.insert(var.name.clone());
+        }
+    }
+
     for (label_name, defn) in config.labels.iter() {
         if defn.rules.len() == 0 {
             match &defn.after {
@@ -1788,9 +1884,27 @@ fn validate_config(config: &AnalysisConfig) -> Result<()> {
     Ok(())
 }
 
-pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
-    let file = File::open("database/plus1.90.ron")?;
-    let mut config: AnalysisConfig = ron::de::from_reader(file)?;
+pub fn detect_db_file(start_ax_bytes: &[u8]) -> Result<String> {
+    let mut hasher = Sha256::new();
+    hasher.update(start_ax_bytes);
+    let sha256sum = format!("{:x}", hasher.finalize());
+
+    for entry in fs::read_dir("./database")? {
+        let path = entry?.path();
+        if path.is_file() && path.extension().map_or(false, |e| e == "ron") {
+            let mut file = File::open(&path)?;
+            let config: AnalysisConfig = ron::de::from_reader(file)?;
+            if &config.meta.ax_sha256 == &sha256sum {
+                return Ok(path.into_os_string().into_string().unwrap());
+            }
+        }
+    }
+
+    Err(anyhow!("Sha256sum not found in database: {}", sha256sum))
+}
+
+pub fn analyze<'a>(hsp3as: &'a mut Hsp3As, opts: &AnalysisOptions) -> Result<AnalysisResult> {
+    let mut config: AnalysisConfig = load_config(&opts.db_name)?;
     validate_config(&config)?;
 
     let mut resolved_vars = HashMap::new();
