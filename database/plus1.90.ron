@@ -996,6 +996,8 @@ AnalysisConfig(
     ),
     "rf_id": (
       variables: [
+        ( name: "EXT_RF", value: 9000 ),
+
         ( name: "RF_FLAVOR", value: 9001, code_value: "EXT_RF + 1" ),
         ( name: "RF_ORE", value: 9002, code_value: "EXT_RF + 2" ),
         ( name: "RF_WOOD", value: 9003, code_value: "EXT_RF + 3" ),
@@ -1027,7 +1029,7 @@ AnalysisConfig(
       ]
     ),
     "recipe_ingredient": (
-      include: [
+      includes: [
         "rf_id",
         "item_id",
         "filter"
@@ -1100,7 +1102,8 @@ AnalysisConfig(
         ( name: "MAX_EQUIP_SLOT_TOTAL", value: 30 ),
       ]
     ),
-    "filter": (
+
+    "filter_race": (
       variables: [
         ( name: "FILTER_NOTHING", value: 0 ),
 
@@ -1151,6 +1154,11 @@ AnalysisConfig(
         ( name: "FILTER_RACE_BEETLE", value: 45 ),
         ( name: "FILTER_RACE_BEETLE2", value: 46 ),
         ( name: "FILTER_RACE_KOBOLT4", value: 47 ),
+      ]
+    ),
+    "filter_item": (
+      variables: [
+        ( name: "FILTER_NOTHING", value: 0 ),
 
         ( name: "FILTER_WEAPON", value: 10000 ),
         ( name: "FILTER_WEAPON_HEAVY_SWORD", value: 10001 ),
@@ -1277,6 +1285,18 @@ AnalysisConfig(
 
         ( name: "FILTER_NONE", value: 99999 ),
         ( name: "FILTER_NONE2", value: 99999999 ),
+      ]
+    ),
+    "filter": (
+      includes: [
+        "filter_item",
+        "filter_race",
+      ]
+    ),
+    "filter_item_or_item_id": (
+      includes: [
+        "filter_item",
+        "item_id",
       ]
     ),
     "race_id": (
@@ -2454,9 +2474,9 @@ AnalysisConfig(
         ( name: "CDATA_EVOLUTION_STAGE", value: 214 ),
 
         ( name: "STARTING_CDATA_ACT_MAIN", value: 215 ),
-        ( name: "RANGE_CDATA_ACT_MAIN", value: 5 ),
+        ( name: "RANGE_CDATA_ACT_MAIN", value: 5, exclude: true ),
         ( name: "STARTING_CDATA_ACT_SUB", value: 220 ),
-        ( name: "RANGE_CDATA_ACT_SUB", value: 5 ),
+        ( name: "RANGE_CDATA_ACT_SUB", value: 5, exclude: true ),
 
         ( name: "CDATA_ELEMENT", value: 230 ),
 
@@ -4021,7 +4041,7 @@ AnalysisConfig(
           code_value: "STARTING_GDATA_FLAG + 372"
         ),
         (
-          name: "GDATA_FLAG_ANTIEXPLOIT_GRAND_FINALE",
+          name: "GDATA_FLAG_CURTAIN_CALL",
           value: 623,
           code_value: "STARTING_GDATA_FLAG + 373"
         ),
@@ -7231,6 +7251,12 @@ AnalysisConfig(
         "buff_id"
       ]
     ),
+    "all_ai_actions": (
+        includes: [
+        "ai_action",
+        "skill_id"
+        ]
+    ),
     "ai_action": (
       variables: [
         // Basic actions
@@ -8061,19 +8087,16 @@ AnalysisConfig(
         )
       ]
     ),
-    // "cbitorg": (
-    //   indices: [
-    //     (
-    //       rules: {
-    //         0: Any,
-    //         1: Any,
-    //       },
-    //       substitute: {
-    //         1: Group("chara_id")
-    //       }
-    //     )
-    //   ]
-    // ),
+    "cbitorg": (
+      indices: [
+        (
+          substitute: {
+            0: GroupRecursive("chara_bit", Lhs("/")),
+            1: Group("chara_id")
+          }
+        )
+      ]
+    ),
     "pcc": (
       indices: [
         (
@@ -8119,6 +8142,13 @@ AnalysisConfig(
       ]
     ),
     "ipicref": (
+      indices: [
+        (
+          substitute: { 0: Group("item_id") }
+        )
+      ]
+    ),
+    "irandomname": (
       indices: [
         (
           substitute: { 0: Group("item_id") }
@@ -8263,6 +8293,15 @@ AnalysisConfig(
                 Group("skill_id"),
               ]),
             1: Group("chara")
+          }
+        )
+      ]
+    ),
+    "musicfile": (
+      indices: [
+        (
+          substitute: {
+            0: Group("music_id"),
           }
         )
       ]
@@ -8603,6 +8642,13 @@ AnalysisConfig(
           ))
       ]
     ),
+    "creaturepack": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("filter_race") } )
+          ))
+      ]
+    ),
     "matid": (
       indices: [
         MatchAll((
@@ -8742,6 +8788,18 @@ AnalysisConfig(
               rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) },
             ),
             substitute: (rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) })
+          )),
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("cdata", ["STARTING_CDATA_ACT_MAIN", "STARTING_CDATA_ACT_SUB"]) })),
+            substitute: (
+                rhs: { 
+                    0: Group("all_ai_actions"),
+                    1: Group("all_ai_actions"),
+                    2: Group("all_ai_actions"),
+                    3: Group("all_ai_actions"),
+                    4: Group("all_ai_actions") 
+                }
+            )
           )),
       ]
     ),
@@ -8907,6 +8965,10 @@ AnalysisConfig(
         MatchAll((
             rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
             substitute: ( rhs: { 0: Group("gamemode") } )
+          )),
+        MatchAll((
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_INVITED_GOD"]) }) ),
+            substitute: ( rhs: { 0: Group("chara_id") } )
           )),
       ]
     ),
@@ -9416,7 +9478,19 @@ AnalysisConfig(
             substitute: ( rhs: { 0: Group("skill_id") } )
           )),
         MatchAll((
-            rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_MAT"]) }) ),
+            rules: ( lhs: Array({ 0: VariantRecursive("rpdata", ["RPDATA_SKILL"], Lhs("+")) }) ),
+            substitute: ( 
+                rhs: { 
+                    0: Group("skill_id"),
+                    2: Group("skill_id"),
+                    4: Group("skill_id"),
+                    6: Group("skill_id"),
+                    8: Group("skill_id") 
+                } 
+                )
+          )),
+        MatchAll((
+            rules: ( lhs: Array({ 0: VariantRecursive("rpdata", ["RPDATA_MAT"], Lhs("+")) }) ),
             substitute: (
               rhs: {
                 0: Group("recipe_ingredient"),
@@ -9519,6 +9593,7 @@ AnalysisConfig(
     "fsetremain":         (indices: [MatchAny((rule: Group("filter"), substitute: Group("filter")))]),
     "fsetbarrel":         (indices: [MatchAny((rule: Group("filter"), substitute: Group("filter")))]),
     "fsetcollect":        (indices: [MatchAny((rule: Group("filter"), substitute: Group("filter")))]),
+    "meeditfilterlist":   (indices: [MatchAny((rule: Group("filter"), substitute: Group("filter")))]),
 
     "isetplantunknownh":       (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
     "isetplantunknownn":       (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
@@ -9577,6 +9652,22 @@ AnalysisConfig(
 
     "picfood":           (indices: [MatchAny((substitute: XY2Pic))]),
 
+    "eqhelm":     (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqweapon1":  (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqshield":   (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqrange":    (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqammo":     (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqweapon2":  (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqarmor":    (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqglove":    (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqboots":    (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqcloack":   (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqgirdle":   (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqring1":    (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqring2":    (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqamulet1":  (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+    "eqamulet2":  (indices: [MatchAll((rules: (rhs: { 0: Variable }), substitute: (rhs: { 0: Group("filter_item_or_item_id"), 1: Group("fix_quality") })))]),
+
     // Functions
 
     "cbit": (
@@ -9608,19 +9699,31 @@ AnalysisConfig(
   },
 
   functions: {
+    "HMMBITON": (
+      args: {
+        0: (name: "target", type: Int),
+        1: (name: "bit", type: Int, indices: [
+            (
+              rules: { 0: Symbol(["cbitorg"]) },
+              substitute: GroupRecursive("chara_bit", Lhs("\\"))
+            )
+          ]
+        ),
+      }
+    ),
     "buffer": (
       args: {
-        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
       }
     ),
     "gsel": (
       args: {
-        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
       }
     ),
     "gcopy": (
       args: {
-        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */ ),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
         1: (name: "x", type: Int),
         2: (name: "y", type: Int),
         3: (name: "width", type: Int),
@@ -9629,7 +9732,7 @@ AnalysisConfig(
     ),
     "grotate": (
       args: {
-        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */),
+        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
         1: (name: "x", type: Int),
         2: (name: "y", type: Int),
         3: (name: "rot", type: Int),
@@ -11865,8 +11968,8 @@ AnalysisConfig(
     ),
     "hostileaction": (
       args: {
-        0: (name: "target", type: Int),
-        1: (name: "source", type: Int),
+        0: (name: "target", type: Int, indices: [ ( substitute: Group("chara") )]),
+        1: (name: "source", type: Int, indices: [ ( substitute: Group("chara") )]),
       }
     ),
     "rowact_check": (
@@ -15908,8 +16011,13 @@ AnalysisConfig(
       loop_kind: While
     ),
     (
-      name: "*com_home_WHILE2",
+      name: "*com_home_WEND1",
       after: "*com_home_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*com_home_WHILE2",
+      after: "*com_home_WEND1",
       loop_kind: While
     ),
     (
@@ -15921,6 +16029,16 @@ AnalysisConfig(
       name: "*com_home_SWEND1",
       after: "*com_home_WHILE3",
       loop_kind: SwitchEnd
+    ),
+    (
+      name: "*com_home_WEND2",
+      after: "*com_home_SWEND1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*com_home_WEND3",
+      after: "*com_home_WEND2",
+      loop_kind: WhileEnd
     ),
     (
       name: "*home_setWallTile",
