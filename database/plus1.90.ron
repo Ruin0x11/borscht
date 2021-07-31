@@ -17239,7 +17239,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "上下キーで縦サイズ調整"
+          match: "angle, hit the enter key to decide the position, hit the cancel key to exit."
         )
       ]
     ),
