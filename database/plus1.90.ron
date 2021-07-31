@@ -138,7 +138,7 @@ AnalysisConfig(
         ( name: "BUFF_DISINFECTION", value: 60 ),
         ( name: "BUFF_CURSE_OF_HUNGER", value: 61 ),
 
-        ( name: "MAX_BUFF", value: "BUFF_CURSE_OF_HUNGER + 1" ),
+        ( name: "MAX_BUFF", value: 62, code_value: "BUFF_CURSE_OF_HUNGER + 1" ),
       ]
     ),
     "mefsubref": (
@@ -211,6 +211,8 @@ AnalysisConfig(
         ( name: "CELL_SUB_FEATURE_SEED_ARTIFACT", value: 40 ),
         ( name: "CELL_SUB_FEATURE_SEED_GEM", value: 41 ),
         ( name: "CELL_SUB_FEATURE_SEED_MAGIC", value: 42 ),
+
+        ( name: "MAX_CELL_SUB_FEATURE", value: 45, code_value: "CELL_SUB_FEATURE_SEED_MAGIC + 3" ),
       ],
       ignore: [ -1 ]
     ),
