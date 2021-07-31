@@ -1037,6 +1037,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
 
         let kind = AstNodeKind::BlockStatement(BlockStatementNode {
             nodes: exprs.into_iter().map(Box::new).collect::<_>(),
+            braces: true
         });
         let node = AstNode::new(token_offset, kind, self.tab_count);
 
@@ -1286,9 +1287,9 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         resolve_scope(&mut nodes);
         remove_trailing_stop(&mut nodes);
 
-
         let kind = AstNodeKind::BlockStatement(BlockStatementNode {
             nodes: nodes.into_iter().map(Box::new).collect::<_>(),
+            braces: false
         });
         let block = AstNode::new(0, kind, self.tab_count);
 

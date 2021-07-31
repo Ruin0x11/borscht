@@ -20920,7 +20920,7 @@ AnalysisConfig(
           begin: Function("cdbit")
       ),
       "tcg_skill.hsp": (
-          begin: Label("*cdAct_init")
+          begin: Label("*cdAct_init"),
           end: Function("actionproc")
       ),
       "tcg_ai.hsp": (

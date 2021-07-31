@@ -54,6 +54,10 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
                          .help("output directory")
                          .takes_value(true)
                          .value_name("DIR"))
+                    .arg(Arg::with_name("split")
+                         .short("s")
+                         .long("split")
+                         .help("split into separate files based on `files` map in config"))
                     .arg(Arg::with_name("FILE")
                          .required(true)
                          .help(".ax file")
@@ -125,8 +129,6 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
         None => input_file.parent().unwrap()
     };
 
-    let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
-
     let opts = DecodeOptions {};
 
     let buffer = fs::read(input_file)?;
@@ -143,11 +145,28 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
 
     println!("Analyzed in {:.2?}.", now.elapsed());
 
-    let now = Instant::now();
-    let mut file = File::create(&output_file)?;
-    as_.write_code(&mut file)?;
+    let split = sub_matches.is_present("split");
 
-    println!("Wrote {:?} in {:.2?}.", output_file, now.elapsed());
+    if split {
+        let output_dir = output_dir.join(input_file.file_stem().unwrap());
+        let now = Instant::now();
+        let file_count = result.files.len();
+
+        for (filename, block) in result.files.into_iter() {
+            let output_file = output_dir.join(filename);
+            let mut file = File::create(&output_file)?;
+            as_.write_ast_node(&mut file, &block)?;
+        }
+
+        println!("Wrote {} files to {:?} in {:.2?}.", file_count, output_dir, now.elapsed());
+    } else {
+        let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
+        let now = Instant::now();
+        let mut file = File::create(&output_file)?;
+        as_.write_code(&mut file)?;
+
+        println!("Wrote {:?} in {:.2?}.", output_file, now.elapsed());
+    }
 
     Ok(())
 }

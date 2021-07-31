@@ -432,19 +432,26 @@ impl<'a> AstPrintable<'a> for OnEventStatementNode {
 
 #[derive(Clone, Debug)]
 pub struct BlockStatementNode {
-    pub nodes: Vec<AstNodeRef>
+    pub nodes: Vec<AstNodeRef>,
+    pub braces: bool
 }
 
 impl<'a> AstPrintable<'a> for BlockStatementNode {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
-        write!(f, "{{\r\n")?;
+        if self.braces {
+            write!(f, "{{\r\n")?;
+        }
         for exp in self.nodes.iter() {
             print_tabs(f, exp.tab_count)?;
             exp.print_code(f, exp.tab_count, ctxt)?;
             write!(f, "\r\n")?;
         }
-        print_tabs(f, tab_count-1)?;
-        write!(f, "}}")
+        if self.braces {
+            print_tabs(f, tab_count-1)?;
+            write!(f, "}}")?;
+        }
+
+        Ok(())
     }
 }
 

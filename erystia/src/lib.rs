@@ -73,7 +73,8 @@ impl Diagnostics {
 }
 
 pub struct AnalysisResult {
-    pub node: ast::AstNode
+    pub node: ast::AstNode,
+    pub files: HashMap<String, ast::AstNode>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -82,7 +83,8 @@ struct AnalysisConfig {
     arrays: HashMap<String, ArrayDefinition>,
     expressions: HashMap<String, ExprDefinition>,
     functions: HashMap<String, FunctionDefinition>,
-    labels: Vec<LabelDefinition>
+    labels: Vec<LabelDefinition>,
+    files: HashMap<String, FileDefinition>
 }
 
 type GroupName = String;
@@ -526,7 +528,7 @@ fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &
             if find(&var) {
                 return true;
             }
-        }
+        }
     }
 
     if !any {
@@ -1432,6 +1434,28 @@ struct LabelDefinition {
     _matched_so_far: usize
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+enum FileStartPoint {
+    Label(String),
+    Function(String),
+}
+
+impl FileStartPoint {
+    fn matches(&self, name: &str) -> bool {
+        match self {
+            FileStartPoint::Label(s) |
+            FileStartPoint::Function(s) => name == s
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct FileDefinition {
+    begin: FileStartPoint,
+    #[serde(default)]
+    end: Option<FileStartPoint>,
+}
+
 struct LabelRenameVisitor<'a> {
     hsp3as: &'a mut Hsp3As,
     labels_remaining: Vec<LabelDefinition>,
@@ -1643,6 +1667,80 @@ impl<'a> VisitorMut for LabelMergeVisitor<'a> {
     }
 }
 
+struct FileSplitVisitor<'a> {
+    hsp3as: &'a Hsp3As,
+    files: &'a HashMap<String, FileDefinition>,
+    resolved_files: HashMap<String, ast::AstNode>,
+    visiting_file: String,
+    diagnostics: &'a mut Diagnostics
+}
+
+impl<'a> FileSplitVisitor<'a> {
+    fn push_exp(&mut self, exp: ast::AstNodeRef) {
+        let mut noderef = self.resolved_files.get_mut(&self.visiting_file).unwrap();
+        noderef.kind.as_block_statement_mut().unwrap().nodes.push(exp);
+    }
+
+    fn push_blank_line(&mut self) {
+        if self.exps_this_file() > 0 {
+            self.push_exp(Box::new(ast::AstNode::new(0, ast::AstNodeKind::CommentLine(ast::CommentLineNode{ content: String::new() }), 0)));
+        }
+    }
+
+    fn exps_this_file(&mut self) -> usize {
+        let mut noderef = self.resolved_files.get_mut(&self.visiting_file).unwrap();
+        noderef.kind.as_block_statement().unwrap().nodes.len()
+    }
+}
+
+impl<'a> Visitor for FileSplitVisitor<'a> {
+    fn visit_node(&mut self, node: &ast::AstNode) {
+        visitor::visit_node(self, node);
+    }
+
+    fn visit_program(&mut self, node: &ast::ProgramNode) {
+        let block = node.block.kind.as_block_statement().unwrap();
+        for node in block.nodes.iter() {
+            node.visit(self);
+
+            if !self.resolved_files.contains_key(&self.visiting_file) {
+                let kind = ast::AstNodeKind::BlockStatement(ast::BlockStatementNode {
+                    braces: false,
+                    nodes: Vec::new(),
+                });
+                let node = ast::AstNode::new(0, kind, std::cmp::min(node.tab_count - 1, 0));
+                self.resolved_files.insert(self.visiting_file.clone(), node);
+            }
+
+            self.push_exp(node.clone());
+        }
+    }
+
+    fn visit_label_declaration(&mut self, node: &ast::LabelDeclarationNode) {
+        self.push_blank_line();
+
+        for (filename, file) in self.files.iter() {
+            let label_name = self.hsp3as.label_names.get(&node.label).unwrap();
+            if file.begin.matches(&label_name) {
+                self.visiting_file = filename.clone();
+                break;
+            }
+        }
+    }
+
+    fn visit_function_declaration(&mut self, node: &ast::FunctionDeclarationNode) {
+        self.push_blank_line();
+
+        for (filename, file) in self.files.iter() {
+            let function_name = node.get_name(self.hsp3as);
+            if file.begin.matches(&function_name) {
+                self.visiting_file = filename.clone();
+                break;
+            }
+        }
+    }
+}
+
 fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<VariableDefinition> {
     let mut result = Vec::new();
 
@@ -1700,6 +1798,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
 
     let node = hsp3as.program.clone();
 
+    println!("Unrolling txt...");
+
     let node = {
         let txt = hsp3as.add_function("txt".into(), Ax3FunctionType::DefFunc);
 
@@ -1710,6 +1810,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
 
         visitor.visit_node(node)
     };
+
+    println!("Renaming functions...");
 
     let node = {
         let mut visitor = FunctionRenameVisitor {
@@ -1723,6 +1825,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         visitor.visit_node(node)
     };
 
+    println!("Substituting constants...");
+
     let node = {
         let mut visitor = ConstantSubstitutionVisitor {
             config: &config,
@@ -1735,6 +1839,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
 
         node
     };
+
+    println!("Renaming labels...");
 
     let mut resolved_labels = HashMap::new();
 
@@ -1757,6 +1863,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         }
     };
 
+    println!("Merging labels...");
+
     let node = {
         let mut visitor = LabelMergeVisitor {
             hsp3as: hsp3as,
@@ -1772,6 +1880,21 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         }
     }
 
+    println!("Splitting file...");
+
+    let files = {
+        let mut file_split = FileSplitVisitor {
+            hsp3as: hsp3as,
+            files: &config.files,
+            resolved_files: HashMap::new(),
+            visiting_file: String::from("main.hsp"),
+            diagnostics: &mut diagnostics
+        };
+
+        file_split.visit_node(&node);
+        file_split.resolved_files
+    };
+
     let mut errors = 0;
     for diag in diagnostics.iter() {
         if diag.kind == DiagnosticKind::Error {
@@ -1784,7 +1907,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
 
     if errors == 0 || !strict {
         Ok(AnalysisResult {
-            node: node
+            node: node,
+            files: files
         })
     } else {
         Err(anyhow!("{} errors occured.", errors))
