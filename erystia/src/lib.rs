@@ -204,7 +204,11 @@ enum Rule {
 
     /// Matches if the node is an expression like `(8 + 16)`, and not if it's a
     /// constant literal like `8`.
-    Expr
+    Expr,
+
+    /// Matches if the node is a constant literal like `8`, and not if it's an
+    /// expression.
+    Literal
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -799,7 +803,8 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     _ => false
                 }
             }
-            Rule::Expr => !matches!(exp.kind, ast::AstNodeKind::Literal(_))
+            Rule::Expr => !matches!(exp.kind, ast::AstNodeKind::Literal(_)),
+            Rule::Literal => matches!(exp.kind, ast::AstNodeKind::Literal(_))
         }
     }
 
@@ -1760,6 +1765,12 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
 
         visitor.visit_node(node)
     };
+
+    for (label, _) in hsp3as.label_usage.iter() {
+        if !resolved_labels.contains_key(&label) {
+            diagnostics.push(DiagnosticKind::Warning, format!("Unresolved label: {}", hsp3as.label_names.get(&label).unwrap()))
+        }
+    }
 
     let mut errors = 0;
     for diag in diagnostics.iter() {

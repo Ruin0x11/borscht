@@ -3,40 +3,55 @@
 AnalysisConfig(
   // TODO Some of these are from Plus Custom-G
   meta: (
-     variant_name: "Elona+",
-     version: "1.90",
-     ax_sha256: "e3dca7fe66eed586b2da31159390f8ac86b48e17a61291eaac41c996b59864b9"
+    variant_name: "Elona+",
+    version: "1.90",
+    ax_sha256: "e3dca7fe66eed586b2da31159390f8ac86b48e17a61291eaac41c996b59864b9"
   ),
   variable_groups: {
-      "random_dungeon_type": (
-          variables: [
-          ( name: "RANDOM_DUNGEON_STANDARD", value: 1 ),
-          ( name: "RANDOM_DUNGEON_WIDE", value: 2 ),
-          ( name: "RANDOM_DUNGEON_BIG_ROOM", value: 3 ),
-          ( name: "RANDOM_DUNGEON_RESIDENT", value: 4 ),
-          ( name: "RANDOM_DUNGEON_JAIL", value: 5 ),
-          ( name: "RANDOM_DUNGEON_HUNT", value: 6 ),
-          ( name: "RANDOM_DUNGEON_HARVEST_UNUSED", value: 7 ),
-          ( name: "RANDOM_DUNGEON_LONG", value: 8 ),
-          ( name: "RANDOM_DUNGEON_MAZE", value: 9 ),
-          ( name: "RANDOM_DUNGEON_DOG", value: 10 ),
-          ( name: "RANDOM_DUNGEON_PERFORM_UNUSED", value: 11 ),
-          ]
-      ),
-      "gsel_buffer": (
-          variables: [
-          ( name: "BUFFER_SCREEN", value: 0 ),
-          ( name: "BUFFER_ITEM", value: 1 ),
-          ( name: "BUFFER_MAP", value: 2 ),
-          ( name: "BUFFER_INF", value: 3 ),
-          ( name: "BUFFER_BUF", value: 4 ),
-          ( name: "BUFFER_CHR", value: 5 ),
-          ( name: "BUFFER_MAP_S", value: 6 ),
-          ( name: "BUFFER_PIC", value: 7 ),
-          ( name: "BUFFER_LOG", value: 8 ),
-          ( name: "BUFFER_PIC2", value: 9 ),
-          ( name: "BUFFER_PCC", value: 10 ),
-          ]
+    "food_type": (
+      variables: [
+        ( name: "FOOD_TYPE_NONE", value: 0 ),
+        ( name: "FOOD_TYPE_MEAT", value: 1 ),
+        ( name: "FOOD_TYPE_VEGETABLE", value: 2 ),
+        ( name: "FOOD_TYPE_FRUIT", value: 3 ),
+        ( name: "FOOD_TYPE_SWEET", value: 4 ),
+        ( name: "FOOD_TYPE_PASTA", value: 5 ),
+        ( name: "FOOD_TYPE_FISH", value: 6 ),
+        ( name: "FOOD_TYPE_BREAD", value: 7 ),
+        ( name: "FOOD_TYPE_EGG", value: 8 ),
+
+        ( name: "MAX_FOOD_TYPE", value: 9 ),
+      ], 
+    ),
+    "random_dungeon_type": (
+      variables: [
+        ( name: "RANDOM_DUNGEON_STANDARD", value: 1 ),
+        ( name: "RANDOM_DUNGEON_WIDE", value: 2 ),
+        ( name: "RANDOM_DUNGEON_BIG_ROOM", value: 3 ),
+        ( name: "RANDOM_DUNGEON_RESIDENT", value: 4 ),
+        ( name: "RANDOM_DUNGEON_JAIL", value: 5 ),
+        ( name: "RANDOM_DUNGEON_HUNT", value: 6 ),
+        ( name: "RANDOM_DUNGEON_HARVEST_UNUSED", value: 7 ),
+        ( name: "RANDOM_DUNGEON_LONG", value: 8 ),
+        ( name: "RANDOM_DUNGEON_MAZE", value: 9 ),
+        ( name: "RANDOM_DUNGEON_DOG", value: 10 ),
+        ( name: "RANDOM_DUNGEON_PERFORM_UNUSED", value: 11 ),
+      ]
+    ),
+    "gsel_buffer": (
+      variables: [
+        ( name: "BUFFER_SCREEN", value: 0 ),
+        ( name: "BUFFER_ITEM", value: 1 ),
+        ( name: "BUFFER_MAP", value: 2 ),
+        ( name: "BUFFER_INF", value: 3 ),
+        ( name: "BUFFER_BUF", value: 4 ),
+        ( name: "BUFFER_CHR", value: 5 ),
+        ( name: "BUFFER_MAP_S", value: 6 ),
+        ( name: "BUFFER_PIC", value: 7 ),
+        ( name: "BUFFER_LOG", value: 8 ),
+        ( name: "BUFFER_PIC2", value: 9 ),
+        ( name: "BUFFER_PCC", value: 10 ),
+      ]
     ),
     "boolean": (
       variables: [
@@ -581,7 +596,8 @@ AnalysisConfig(
         ( name: "MAX_MATERIAL", value: "MATERIAL_WHITE_WEED" ),
 
         ( name: "MAX_MATERIAL_COUNT", value: 400 ),
-      ]
+      ],
+      ignore: [ -1 ]
     ),
     "matref": (
       variables: [
@@ -1984,10 +2000,10 @@ AnalysisConfig(
       ]
     ),
     "quest_reward_or_filter": (
-        includes: [
-            "quest_reward",
-            "filter"
-        ]
+      includes: [
+        "quest_reward",
+        "filter"
+      ]
     ),
     "color": (
       variables: [
@@ -6350,7 +6366,7 @@ AnalysisConfig(
     ),
 
     "item": (
-     variables: [
+      variables: [
         ( name: "MAX_MAP_INV", value: 400, ),
         ( name: "SIZE_INV1", value: 200, ),
         ( name: "SIZE_INV2", value: 20, ),
@@ -8170,6 +8186,10 @@ AnalysisConfig(
           substitute: { 0: VariantRecursive("gdata", ["GDATA_QUEST_POOL"], Lhs("+")) }
         ),
         (
+          rules: { 0: VariantRecursive("gdata", ["GDATA_DECK_SIZE"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("gdata", ["GDATA_DECK_SIZE"], Lhs("+")) }
+        ),
+        (
           rules: { 0: Flag },
           substitute: { 0: Flag("gdata") }
         ),
@@ -8238,7 +8258,10 @@ AnalysisConfig(
       indices: [
         (
           substitute: {
-            0: Group("skill_id"),
+            0: Multi([
+                VariantRecursive("skill_spact", ["STARTING_SKILL_SPACT"], Rhs("+")),
+                Group("skill_id"),
+              ]),
             1: Group("chara")
           }
         )
@@ -8357,10 +8380,13 @@ AnalysisConfig(
             1: XY2Pic
           }
         ),
+      ]
+    ),
+    "picfood": (
+      indices: [
         (
           substitute: {
-            0: Group("chipm"),
-            1: XY2Pic
+            1: Group("food_type"),
           }
         ),
       ]
@@ -8524,113 +8550,120 @@ AnalysisConfig(
     "cc": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("chara") } )
-        ))
+            substitute: ( rhs: { 0: Group("chara") } )
+          ))
       ]
     ),
     "tc": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("chara") } )
-        ))
+            substitute: ( rhs: { 0: Group("chara") } )
+          ))
       ]
     ),
     "rc": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("chara") } )
-        ))
+            substitute: ( rhs: { 0: Group("chara") } )
+          ))
       ]
     ),
     "mode": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("mode", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("mode", Any) } )
+          ))
       ]
     ),
     "dbmode": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("dbmode", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("dbmode", Any) } )
+          ))
       ]
     ),
     "rdsecond": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("boolean") } )
-        ))
+            substitute: ( rhs: { 0: Group("boolean") } )
+          ))
+      ]
+    ),
+    "env": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("sound_id") } )
+          ))
       ]
     ),
     "tid": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("trait", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("trait", Any) } )
+          ))
       ]
     ),
     "matid": (
       indices: [
         MatchAll((
-          substitute: (rhs: { 0: Group("item_id") })
-        ))
+            substitute: (rhs: { 0: Group("item_id") })
+          ))
       ]
     ),
     "atxspot": (
       indices: [
         MatchAll((
-          substitute: (rhs: { 0: Group("atx") })
-        ))
+            substitute: (rhs: { 0: Group("atx") })
+          ))
       ]
     ),
     "nocubl": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("item_status", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("item_status", Any) } )
+          ))
       ]
     ),
     "animeid": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("animation_id", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("animation_id", Any) } )
+          ))
       ]
     ),
     "ele": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("skill_all_resist") } )
-        ))
+            substitute: ( rhs: { 0: Group("skill_all_resist") } )
+          ))
       ]
     ),
     "attackskill": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("skill_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("skill_id") } )
+          ))
       ]
     ),
     "haveweapon": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("boolean") } )
-        ))
+            substitute: ( rhs: { 0: Group("boolean") } )
+          ))
       ]
     ),
     "maxnpcid": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("chara_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("chara_id") } )
+          ))
       ]
     ),
     "rdtype": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("random_dungeon_type") } )
-        ))
+            substitute: ( rhs: { 0: Group("random_dungeon_type") } )
+          ))
       ]
     ),
 
@@ -8639,298 +8672,319 @@ AnalysisConfig(
     "cdata": (
       indices: [
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
-          substitute: (rhs: { 0: Group("chara_id") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ID"]) })),
+            substitute: (rhs: { 0: Group("chara_id") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_EXIST"]) })),
-          substitute: (rhs: { 0: Group("chara_state") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_EXIST"]) })),
+            substitute: (rhs: { 0: Group("chara_state") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
-          substitute: (rhs: { 0: Group("role") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROLE"]) })),
+            substitute: (rhs: { 0: Group("role") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_PIC", "CDATA_PIC_ORG", "CDATA_CHARA_PIC", "CDATA_MARK_ITEM_PIC"]) })),
-          substitute: (rhs: { 0: XY2Pic })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_PIC", "CDATA_PIC_ORG", "CDATA_CHARA_PIC", "CDATA_MARK_ITEM_PIC"]) })),
+            substitute: (rhs: { 0: XY2Pic })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ATTACK_STYLE"]) })),
-          substitute: (rhs: { 0: Group("wield_style") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ATTACK_STYLE"]) })),
+            substitute: (rhs: { 0: Group("wield_style") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_QUALITY"]) })),
-          substitute: (rhs: { 0: Group("fix_quality") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_QUALITY"]) })),
+            substitute: (rhs: { 0: Group("fix_quality") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_GOD"]) })),
-          substitute: (rhs: { 0: Group("god") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_GOD"]) })),
+            substitute: (rhs: { 0: Group("god") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RACE_ID"]) })),
-          substitute: (rhs: { 0: Group("race_id") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RACE_ID"]) })),
+            substitute: (rhs: { 0: Group("race_id") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RELATION", "CDATA_RELATION_ORG"]) })),
-          substitute: (rhs: { 0: Group("relation") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RELATION", "CDATA_RELATION_ORG"]) })),
+            substitute: (rhs: { 0: Group("relation") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ELEMENT"]) })),
-          substitute: (rhs: { 0: GroupRecursive("skill_all_resist", Lhs("*")) })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ELEMENT"]) })),
+            substitute: (rhs: { 0: GroupRecursive("skill_all_resist", Lhs("*")) })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROW_ACT"]) })),
-          substitute: (rhs: { 0: Group("action") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ROW_ACT"]) })),
+            substitute: (rhs: { 0: Group("action") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"], Lhs("+")) })),
-          substitute: (rhs: { 0: Group("buff_id") })
-        )),
+            rules: (lhs: Array({ 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"], Lhs("+")) })),
+            substitute: (rhs: { 0: Group("buff_id") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
-          substitute: (rhs: { 0: Group("chara_tier") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
+            substitute: (rhs: { 0: Group("chara_tier") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_DIRECTIVE_MODE"]) })),
-          substitute: (rhs: { 0: Group("directive_mode") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_DIRECTIVE_MODE"]) })),
+            substitute: (rhs: { 0: Group("directive_mode") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_FORM"]) })),
-          substitute: (rhs: { 0: Group("shift_form") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_FORM"]) })),
+            substitute: (rhs: { 0: Group("shift_form") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ENVIRONMENT_EFFECT"]) })),
-          substitute: (rhs: { 0: Group("environment_effect") })
-        )),
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ENVIRONMENT_EFFECT"]) })),
+            substitute: (rhs: { 0: Group("environment_effect") })
+          )),
         MatchAll((
-          rules: (
+            rules: (
               // lhs: Array({ 0: Symbol(["body", "cnt", "bodylist"]) }),
               ops: ["/", "\\", "*"],
               rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) },
             ),
-          substitute: (rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) })
-        )),
+            substitute: (rhs: { 0: Variant("ext", ["EXT_EQUIP_SLOTS"]) })
+          )),
       ]
     ),
     "inv": (
       indices: [
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_PIC"]) })),
-          substitute: (rhs: { 0: XY2Pic })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_PIC"]) })),
+            substitute: (rhs: { 0: XY2Pic })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_ID"]) })),
-          substitute: (rhs: { 0: Group("item_id") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_ID"]) })),
+            substitute: (rhs: { 0: Group("item_id") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_STATUS"]) })),
-          substitute: (rhs: { 0: Group("item_status") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_STATUS"]) })),
+            substitute: (rhs: { 0: Group("item_status") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_PROPERTY"]) })),
-          substitute: (rhs: { 0: Group("item_property") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_PROPERTY"]) })),
+            substitute: (rhs: { 0: Group("item_property") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_KNOWN"]) })),
-          substitute: (rhs: { 0: Group("item_known") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_KNOWN"]) })),
+            substitute: (rhs: { 0: Group("item_known") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_QUALITY"]) })),
-          substitute: (rhs: { 0: Group("fix_quality") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_QUALITY"]) })),
+            substitute: (rhs: { 0: Group("fix_quality") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
-          substitute: (rhs: { 0: Group("skill_id") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
+            substitute: (rhs: { 0: Group("skill_id") })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_CHARA_PIC"]) })),
-          substitute: (rhs: { 0: XY2Pic })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_CHARA_PIC"]) })),
+            substitute: (rhs: { 0: XY2Pic })
+          )),
         MatchAll((
-          rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_MATERIAL"]) })),
-          substitute: (rhs: { 0: Group("item_material") })
-        )),
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_MATERIAL"]) })),
+            substitute: (rhs: { 0: Group("item_material") })
+          )),
         // (
         //   rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_FILE"]) })),
         //   substitute: (rhs: { 0: Group("item_file") })
         // )
       ]
     ),
+    "ilight": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("light_type") } )
+          )),
+      ]
+    ),
+    "ipicref": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: XY2Pic } )
+          )),
+      ]
+    ),
+    "icolref": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("color") } )
+          )),
+      ]
+    ),
     "mdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TYPE"]) }) ),
-          substitute: ( rhs: { 0: Group("map_type") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("map_type") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_MUSIC"]) }) ),
-          substitute: ( rhs: { 0: Group("music_id") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_MUSIC"]) }) ),
+            substitute: ( rhs: { 0: Group("music_id") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_FIELD"]) }) ),
-          substitute: ( rhs: { 0: Group("map_field") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_FIELD"]) }) ),
+            substitute: ( rhs: { 0: Group("map_field") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TILESET"]) }) ),
-          substitute: ( rhs: { 0: Group("map_tileset") } )
-        ))
+            rules: ( lhs: Array({ 0: Variant("mdata", ["MDATA_TILESET"]) }) ),
+            substitute: ( rhs: { 0: Group("map_tileset") } )
+          ))
       ]
     ),
     "map": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 2: Variant("map", ["MAP_TILE_ID", "MAP_TILE_ID_MEMORY"]) }) ),
-          substitute: ( rhs: { 0: XY2Pic } )
-        )),
+            rules: ( lhs: Array({ 2: Variant("map", ["MAP_TILE_ID", "MAP_TILE_ID_MEMORY"]) }) ),
+            substitute: ( rhs: { 0: XY2Pic } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("map", ["MAP_LIGHT_TYPE"]) }) ),
-          substitute: ( rhs: { 0: Group("light_type") } )
-        ))
+            rules: ( lhs: Array({ 0: Variant("map", ["MAP_LIGHT_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("light_type") } )
+          ))
       ]
     ),
     "adata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ID", "ADATA_PARENT"]) }) ),
-          substitute: ( rhs: { 0: Group("area_id") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ID", "ADATA_PARENT"]) }) ),
+            substitute: ( rhs: { 0: Group("area_id") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ICON"]) }) ),
-          substitute: ( rhs: { 0: XY2Pic } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_ICON"]) }) ),
+            substitute: ( rhs: { 0: XY2Pic } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_TYPE"]) }) ),
-          substitute: ( rhs: { 0: Group("map_type") } )
-        ))
+            rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("map_type") } )
+          ))
       ]
     ),
     "feat": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_FEATURE_ID"]) }) ),
-          substitute: ( rhs: { 0: Group("cell_feature") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_FEATURE_ID"]) }) ),
+            substitute: ( rhs: { 0: Group("cell_feature") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_SUB_FEATURE_ID"]) }) ),
-          substitute: ( rhs: { 0: Group("cell_sub_feature") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("feat", ["FEAT_CELL_SUB_FEATURE_ID"]) }) ),
+            substitute: ( rhs: { 0: Group("cell_sub_feature") } )
+          )),
       ]
     ),
     "atxid": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("atxid", ["ATXID_ATX_ID"]) }) ),
-          substitute: ( rhs: { 0: Group("atx") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("atxid", ["ATXID_ATX_ID"]) }) ),
+            substitute: ( rhs: { 0: Group("atx") } )
+          )),
       ]
     ),
     "gdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WORLD_RENEW"]) }) ),
-          substitute: ( rhs: { 0: Group("boolean") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WORLD_RENEW"]) }) ),
+            substitute: ( rhs: { 0: Group("boolean") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA", "GDATA_TELEPORT_AREA", "GDATA_WORLD"]) }) ),
-          substitute: ( rhs: { 0: Group("area_id") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA", "GDATA_TELEPORT_AREA", "GDATA_WORLD"]) }) ),
+            substitute: ( rhs: { 0: Group("area_id") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
-          substitute: ( rhs: { 0: Group("weather") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WEATHER"]) }) ),
+            substitute: ( rhs: { 0: Group("weather") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST"]) }) ),
-          substitute: ( rhs: { 0: Group("quest_type") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST"]) }) ),
+            substitute: ( rhs: { 0: Group("quest_type") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_ROW_ACT"]) }) ),
-          substitute: ( rhs: { 0: Group("action") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_ROW_ACT"]) }) ),
+            substitute: ( rhs: { 0: Group("action") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST_STATE"]) }) ),
-          substitute: ( rhs: { 0: Group("quest_state") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST_STATE"]) }) ),
+            substitute: ( rhs: { 0: Group("quest_state") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
-          substitute: ( rhs: { 0: Group("gamemode") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
+            substitute: ( rhs: { 0: Group("gamemode") } )
+          )),
       ]
     ),
     "qdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_EXIST"]) }) ),
-          substitute: ( rhs: { 0: Group("quest_type") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_EXIST"]) }) ),
+            substitute: ( rhs: { 0: Group("quest_type") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_TYPE"]) }) ),
-          substitute: ( rhs: { 0: Group("quest_type") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("quest_type") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_STATE"]) }) ),
-          substitute: ( rhs: { 0: Group("quest_state") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_STATE"]) }) ),
+            substitute: ( rhs: { 0: Group("quest_state") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_REWARD_ITEM"]) }) ),
-          substitute: ( rhs: { 0: Group("quest_reward_or_filter") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("qdata", ["QDATA_REWARD_ITEM"]) }) ),
+            substitute: ( rhs: { 0: Group("quest_reward_or_filter") } )
+          )),
       ]
     ),
     "chipm": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ROLE", "CHIPM_ROLE_SUB"]) }) ),
-          substitute: ( rhs: { 0: Group("chipm_role") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ROLE", "CHIPM_ROLE_SUB"]) }) ),
+            substitute: ( rhs: { 0: Group("chipm_role") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ATTRIB"]) }) ),
-          substitute: ( rhs: { 0: Group("chipm_attrib") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ATTRIB"]) }) ),
+            substitute: ( rhs: { 0: Group("chipm_attrib") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ATTRIB"]) }), ops: ["&"] ),
-          substitute: ( rhs: { 0: Group("chipm_attrib") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("chipm", ["CHIPM_ATTRIB"]) }), ops: ["&"] ),
+            substitute: ( rhs: { 0: Group("chipm_attrib") } )
+          )),
       ]
     ),
     "pcc": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("\\")) } )
-        )),
+            substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("\\")) } )
+          )),
       ]
     ),
     "cardrefpic": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("color", Rhs("+")) } )
-        )),
+            substitute: ( rhs: { 0: GroupRecursive("color", Rhs("+")) } )
+          )),
         MatchAll((
-          substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("*")) } )
-        )),
+            substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("*")) } )
+          )),
       ]
     ),
     "mefsubref": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("mefsubref", ["MEFSUBREF_X"]) }) ),
-          substitute: ( rhs: { 2: Group("mef_type") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("mefsubref", ["MEFSUBREF_X"]) }) ),
+            substitute: ( rhs: { 2: Group("mef_type") } )
+          )),
       ]
     ),
     "encref": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("encref", ["ENCREF_GENERATE_CHANCE"]) }) ),
-          substitute: ( rhs: { 4: Group("filter") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("encref", ["ENCREF_GENERATE_CHANCE"]) }) ),
+            substitute: ( rhs: { 4: Group("filter") } )
+          )),
       ]
     ),
     "encprocref": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("encprocref", ["ENCPROCREF_SKILL_ID"]) }) ),
-          substitute: ( rhs: { 0: Group("skill_id"), 1: Group("target_type"), 3: Group("filter"), 4: Group("filter") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("encprocref", ["ENCPROCREF_SKILL_ID"]) }) ),
+            substitute: ( rhs: { 0: Group("skill_id"), 1: Group("target_type"), 3: Group("filter"), 4: Group("filter") } )
+          )),
       ]
     ),
     "mtenc": (
@@ -8945,7 +8999,7 @@ AnalysisConfig(
                   ]),
               }
             )
-        )),
+          )),
         MatchAny((
             rule: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")),
             substitute: GroupRecursive("skill_attribute", Rhs("+")),
@@ -8971,8 +9025,8 @@ AnalysisConfig(
     "mtlistmetal": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Constant(0) }) ),
-          substitute: (
+            rules: ( lhs: Array({ 0: Constant(0) }) ),
+            substitute: (
               rhs: {
                 0: Group("item_material"),
                 1: Group("item_material"),
@@ -8986,8 +9040,8 @@ AnalysisConfig(
     "mtlistleather": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Constant(0) }) ),
-          substitute: (
+            rules: ( lhs: Array({ 0: Constant(0) }) ),
+            substitute: (
               rhs: {
                 0: Group("item_material"),
                 1: Group("item_material"),
@@ -9001,264 +9055,369 @@ AnalysisConfig(
     "fishdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("fishdata", ["FISHDATA_PIC"]) }) ),
-          substitute: ( rhs: { 0: XY2Pic, 8: Group("item_id") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("fishdata", ["FISHDATA_PIC"]) }) ),
+            substitute: ( rhs: { 0: XY2Pic, 8: Group("item_id") } )
+          )),
       ]
     ),
     "sdataref": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("skill_dataref", ["SKILL_DATAREF_USE"]) }), rhs: { 4: Any } ),
-          substitute: ( rhs: { 0: Group("skill_id"), 1: Group("skill_type"), 3: Group("target_type") } )
-        ))
+            rules: ( lhs: Array({ 0: Variant("skill_dataref", ["SKILL_DATAREF_USE"]) }), rhs: { 4: Any } ),
+            substitute: ( rhs: { 0: Group("skill_id"), 1: Group("skill_type"), 3: Group("target_type") } )
+          ))
       ]
     ),
     "bdataref": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("bdataref", ["BDATAREF_BUFF_TYPE"]) }) ),
-          substitute: ( rhs: { 0: Group("buff_type") } )
-        ))
+            rules: ( lhs: Array({ 0: Variant("bdataref", ["BDATAREF_BUFF_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("buff_type") } )
+          ))
       ]
     ),
     "matspot": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("atx") } )
-        ))
+            substitute: ( rhs: { 0: Group("atx") } )
+          ))
+      ]
+    ),
+    "matval": (
+      indices: [
+        MatchAll((
+            substitute: ( 
+              lhs: Variable,
+              rhs: { 
+                0: Group("skill_id"), 
+              } 
+            )
+          ))
+      ]
+    ),
+    "matneed": (
+      indices: [
+        MatchAll((
+            substitute: ( 
+              lhs: Variable,
+              rhs: { 
+                0: Group("material_id"), 
+                2: Group("material_id"), 
+                4: Group("material_id"), 
+                6: Group("material_id"), 
+                8: Group("material_id"), 
+              } 
+            )
+          ))
       ]
     ),
     "fixlv": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("fix_quality") } )
-        ))
+            substitute: ( rhs: { 0: Group("fix_quality") } )
+          ))
       ]
     ),
     "fixmaterial": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("item_material") } )
-        ))
+            substitute: ( rhs: { 0: Group("item_material") } )
+          ))
       ]
     ),
     "flttypemajor": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("filter") } )
-        ))
+            substitute: ( rhs: { 0: Group("filter") } )
+          ))
       ]
     ),
     "flttypeminor": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("filter") } )
-        ))
+            substitute: ( rhs: { 0: Group("filter") } )
+          ))
       ]
     ),
     "invrange": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("item", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("item", Any) } )
+          ))
       ]
     ),
     "invhead": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: GroupRecursive("item", Any) } )
-        ))
+            substitute: ( rhs: { 0: GroupRecursive("item", Any) } )
+          ))
       ]
     ),
     "efid": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
+          ))
       ]
     ),
     "efidprev": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("skill_or_buff_id") } )
+          ))
       ]
     ),
     "act": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("ai_action_or_skill") } )
-        ))
+            substitute: ( rhs: { 0: Group("ai_action_or_skill") } )
+          ))
       ]
     ),
     "bitp": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("chara_bit") } )
-        ))
+            substitute: ( rhs: { 0: Group("chara_bit") } )
+          ))
       ]
     ),
     "sound": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("sound_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("sound_id") } )
+          ))
       ]
     ),
     "music": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("music_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("music_id") } )
+          ))
       ]
     ),
     "scenemode": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("boolean") } )
-        ))
+            substitute: ( rhs: { 0: Group("boolean") } )
+          ))
       ]
     ),
     "chatpicloaded": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("boolean") } )
-        ))
+            substitute: ( rhs: { 0: Group("boolean") } )
+          ))
       ]
     ),
     "levelexitby": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("map_exit") } )
-        ))
+            substitute: ( rhs: { 0: Group("map_exit") } )
+          ))
       ]
     ),
     "movelevelbystairs": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("boolean") } )
-        ))
+            substitute: ( rhs: { 0: Group("boolean") } )
+          ))
+      ]
+    ),
+    "chararefreshhack": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("boolean") } )
+          ))
       ]
     ),
     "reftype": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("filter") } )
-        ))
+            substitute: ( rhs: { 0: Group("filter") } )
+          ))
       ]
     ),
     "reftypeminor": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("filter") } )
-        ))
+            substitute: ( rhs: { 0: Group("filter") } )
+          ))
       ]
     ),
     "fixeditemenc": (
       indices: [
         MatchAll((
-          substitute: (
-            rhs: {
-              0: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              2: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              4: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              6: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              8: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              10: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              12: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              14: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              16: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-              18: Multi([
-                  VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
-                  GroupRecursive("enchant_id", Lhs("*"))
-                ]),
-            }
-          )
-        )),
+            substitute: (
+              rhs: {
+                0: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                2: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                4: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                6: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                8: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                10: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                12: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                14: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                16: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                18: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+              }
+            )
+          )),
         MatchAny((
-          rule: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")),
-          substitute: GroupRecursive("skill_attribute", Rhs("+")),
-        )),
+            rule: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")),
+            substitute: GroupRecursive("skill_attribute", Rhs("+")),
+          )),
         MatchAny((
-          rule: VariantRecursive("enchant_id", ["ENCHANT_RESISTANCE", "ENCHANT_ELEMENTAL_DMG"], Lhs("*")),
-          substitute: GroupRecursive("skill_all_resist", Rhs("+")),
-        )),
+            rule: VariantRecursive("enchant_id", ["ENCHANT_RESISTANCE", "ENCHANT_ELEMENTAL_DMG"], Lhs("*")),
+            substitute: GroupRecursive("skill_all_resist", Rhs("+")),
+          )),
         MatchAny((
-          rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"], Lhs("*")),
-          substitute: GroupRecursive("enchant_proc_id", Rhs("+")),
-        )),
+            rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"], Lhs("*")),
+            substitute: GroupRecursive("enchant_proc_id", Rhs("+")),
+          )),
         MatchAny((
-          rule: VariantRecursive("enchant_id", ["ENCHANT_SKILL"], Lhs("*")),
-          substitute: GroupRecursive("skill_id", Rhs("+")),
-        )),
+            rule: VariantRecursive("enchant_id", ["ENCHANT_SKILL"], Lhs("*")),
+            substitute: GroupRecursive("skill_id", Rhs("+")),
+          )),
         MatchAny((
-          rule: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")),
-          substitute: GroupRecursive("skill_spell", Rhs("+")),
-        )),
+            rule: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")),
+            substitute: GroupRecursive("skill_spell", Rhs("+")),
+          )),
+      ]
+    ),
+    "egoenc": (
+      indices: [
+        MatchAll((
+            substitute: (
+              rhs: {
+                0: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                2: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                4: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                6: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                8: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                10: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                12: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                14: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                16: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+                18: Multi([
+                    VariantRecursive("ext", ["EXT_ENCHANTMENT"], Any),
+                    GroupRecursive("enchant_id", Lhs("*"))
+                  ]),
+              }
+            )
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_ATTRIBUTE", "ENCHANT_SUSTAIN", "ENCHANT_FOOD"], Lhs("*")),
+            substitute: GroupRecursive("skill_attribute", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_RESISTANCE", "ENCHANT_ELEMENTAL_DMG"], Lhs("*")),
+            substitute: GroupRecursive("skill_all_resist", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_PROC"], Lhs("*")),
+            substitute: GroupRecursive("enchant_proc_id", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_SKILL"], Lhs("*")),
+            substitute: GroupRecursive("skill_id", Rhs("+")),
+          )),
+        MatchAny((
+            rule: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")),
+            substitute: GroupRecursive("skill_spell", Rhs("+")),
+          )),
       ]
     ),
     "ammoproc": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("enchant_ammo") } )
-        ))
+            substitute: ( rhs: { 0: Group("enchant_ammo") } )
+          ))
       ]
     ),
     "amp": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("enchant_ammo") } )
-        ))
+            substitute: ( rhs: { 0: Group("enchant_ammo") } )
+          ))
       ]
     ),
     "rplistdef": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RECIPES"], Any) } )
-        ))
+            substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RECIPES"], Any) } )
+          ))
       ]
     ),
     "rpdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_ITEM"]) }) ),
-          substitute: ( rhs: { 0: Group("item_or_recipe_blend_id") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_ITEM"]) }) ),
+            substitute: ( rhs: { 0: Group("item_or_recipe_blend_id") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_SKILL"]) }) ),
-          substitute: ( rhs: { 0: Group("skill_id") } )
-        )),
+            rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_SKILL"]) }) ),
+            substitute: ( rhs: { 0: Group("skill_id") } )
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_MAT"]) }) ),
-          substitute: (
+            rules: ( lhs: Array({ 0: Variant("rpdata", ["RPDATA_MAT"]) }) ),
+            substitute: (
               rhs: {
                 0: Group("recipe_ingredient"),
                 1: Group("recipe_ingredient"),
@@ -9282,11 +9441,11 @@ AnalysisConfig(
                 19: Group("recipe_ingredient")
               }
             )
-        )),
+          )),
         MatchAll((
-          rules: ( lhs: Array({ 0: VariantRecursive("rpdata", ["RPDATA_MAT"], Lhs("+")) }) ),
-          substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RF", "EXT_RP"], Any) } )
-        )),
+            rules: ( lhs: Array({ 0: VariantRecursive("rpdata", ["RPDATA_MAT"], Lhs("+")) }) ),
+            substitute: ( rhs: { 0: VariantRecursive("ext", ["EXT_RF", "EXT_RP"], Any) } )
+          )),
       ]
     ),
     "rplistshop": (
@@ -9318,8 +9477,8 @@ AnalysisConfig(
     "picp": (
       indices: [
         MatchAll((
-          substitute: ( rhs: { 0: Group("item_id") } )
-        ))
+            substitute: ( rhs: { 0: Group("item_id") } )
+          ))
       ]
     ),
     "invctrl": (
@@ -9327,19 +9486,19 @@ AnalysisConfig(
         MatchAll((
             rules: ( lhs: Variable ),
             substitute: ( rhs: { 0: Group("invctrl") } )
-        )),
+          )),
         MatchAll((
             rules: ( lhs: Array({0: Variant("invctrl", ["INVCTRL_GET"])}) ),
             substitute: ( rhs: { 1: Group("invctrl_get") } )
-        )),
+          )),
         MatchAll((
             rules: ( lhs: Array({0: Variant("invctrl", ["INVCTRL_MATERIAL_ENCHANT"])}) ),
             substitute: ( rhs: { 1: Group("invctrl_material_enchant") } )
-        )),
+          )),
         MatchAll((
             rules: ( lhs: Array({0: Variant("invctrl", ["INVCTRL_PUT"])}) ),
             substitute: ( rhs: { 1: Group("invctrl_put") } )
-        )),
+          )),
       ]
     ),
 
@@ -9416,6 +9575,8 @@ AnalysisConfig(
     "tile_tunnel":       (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
     "tile_pot":          (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
 
+    "picfood":           (indices: [MatchAny((substitute: XY2Pic))]),
+
     // Functions
 
     "cbit": (
@@ -9449,17 +9610,17 @@ AnalysisConfig(
   functions: {
     "buffer": (
       args: {
-        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */),
       }
     ),
     "gsel": (
       args: {
-        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */),
       }
     ),
     "gcopy": (
       args: {
-        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */ ),
         1: (name: "x", type: Int),
         2: (name: "y", type: Int),
         3: (name: "width", type: Int),
@@ -9468,7 +9629,7 @@ AnalysisConfig(
     ),
     "grotate": (
       args: {
-        0: (name: "bufferid", type: Int, indices: [ ( substitute: Group("gsel_buffer") )]),
+        0: (name: "bufferid", type: Int, /* indices: [ ( substitute: Group("gsel_buffer") )] */),
         1: (name: "x", type: Int),
         2: (name: "y", type: Int),
         3: (name: "rot", type: Int),
@@ -9587,7 +9748,7 @@ AnalysisConfig(
     ),
     "calcskill": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "spellpower", type: Int),
       }
@@ -9913,7 +10074,7 @@ AnalysisConfig(
     ),
     "elename": (
       args: {
-        0: (name: "ele", type: Int),
+        0: (name: "ele", type: Int, indices: [ ( substitute: Group("skill_all_resist")) ]),
       }
     ),
     "txttargetlevel": (
@@ -10300,7 +10461,7 @@ AnalysisConfig(
     ),
     "txtskillchange": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "negative", type: Int),
         2: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
@@ -10692,6 +10853,10 @@ AnalysisConfig(
               rules: { 1: VariantRecursive("enchant_id", ["ENCHANT_SPELL"], Lhs("*")) },
               substitute: GroupRecursive("skill_spell", Rhs("+")),
             ),
+            (
+              rules: { 1: Literal },
+              substitute: Group("enchant_id"),
+            ),
           ]
         ),
         2: (name: "arg3", type: Int),
@@ -11027,13 +11192,13 @@ AnalysisConfig(
     ),
     "sexp": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "sgrowth": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
@@ -11054,7 +11219,7 @@ AnalysisConfig(
     ),
     "skillmod": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "arg3", type: Int),
       }
@@ -11541,7 +11706,7 @@ AnalysisConfig(
     ),
     "eleinfo": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "mode", type: Int),
       }
     ),
@@ -11835,7 +12000,7 @@ AnalysisConfig(
     "healcon": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "cond", type: Int),
+        1: (name: "cond", type: Int, indices: [ ( substitute: Group("condition")) ]),
         2: (name: "arg3", type: Int),
       }
     ),
@@ -12186,31 +12351,31 @@ AnalysisConfig(
     ),
     "calcspellpower": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calcspellfail": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calcspellcostmp": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "calcspellcoststock": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
       }
     ),
     "skillinit": (
       args: {
-        0: (name: "skillid", type: Int),
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
         1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
         2: (name: "arg3", type: Int),
       }
@@ -12901,1282 +13066,1097 @@ AnalysisConfig(
   },
 
   labels: [
-    // (
-    //   name: "*rank_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "sdim rankn,"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*politics_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "sdim popostname,"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*building_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "dim bddata,"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*bRefDefine",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "dim bdataref,"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*sRefDefine",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "dim sdataref,"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*trait_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim traitref, 10"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*trait_ref",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( tid == TRAIT_NORMAL_STAT_STAMINA ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_putTrait",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdatan(CDATAN_RACE, CHARA_PLAYER) == "dwarf" ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*sound_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim soundlist, 6"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*music_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	s = exedir + "user\\music\\musiclist.txt""
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*music_play",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	procid = (procid + 1) \ 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*map_randNameInit",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim mapnamerd, 20, 2, 5"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_foodInit",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim picfood, 10, 9"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*convert_word",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat 30"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*convert_talk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	buff = strmid(buff, p, instr(buff, p, "%END"))"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*spec_talk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	buff = """
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*random_talk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	buff = """
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*quest_info",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( gdata(GDATA_FLAG_MAIN) < 210 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*quest_info2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( val == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*quest_item",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	noteadd lang("[古びたお守り]", "[An old talisman]")"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*talk_quest_load",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	notesel buffboard"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*talk_quest",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	randomize qdata(QDATA_CLIENT, rq) + 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*talktxt_conv",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( val == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*system_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: ""
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*exit_game",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	buffer 3, 1440, 800"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*exit_game_error",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( errorhack > 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*pcc_wear",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cloud_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_CLOUD"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*mapchip_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim chipm, 8, SPRITE_SHEET_COLS_MAP * SPRITE_SHEET_ROWS_MAP"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*chip_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim cloud, 6, MAX_CLOUD"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*random_titleInit",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim randn1, 30, 20"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*randomName_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	locvar_randomname_s = rn1(rnd(length(rn1)))"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*randomname_WHILE1_CONTINUE",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*randomName_BREAK",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "*randomname_WHILE1_CONTINUE"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*random_title_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*end_name",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*time_warn_talk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( hour_played == 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_encInit",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim encref, 8, MAX_ENCHANTMENT"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_encdetail",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	rtval = 4, 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_egoInit",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim egoname"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_egoMinor",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat rnd(rnd(5) + 1) + 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_ego",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_enc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( reftype == FILTER_AMMO ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_materialInit",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim mtname, 18, 2, ITEM_MATERIAL_MAX"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*item_material",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *choose_material"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*choose_material",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *apply_material"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*remake_material",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	inv(INV_ITEM_COL, ci) = COLOR_DEFAULT"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*apply_material",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*apply_materialEnc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fish_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*itemNameSub",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( inv(INV_ITEM_ID, itemowner_itemid) == ITEM_ID_KITTY_BANK ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*skipName",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*skip_stack",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*skipitemDraw",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "					}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( ty@modfov < fov_los_arg4 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( ty@modfov > fov_los_arg4 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE3",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( tx@modfov < fov_los_arg3 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND3",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE4",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( tx@modfov > fov_los_arg3 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND4",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE5",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( ty@modfov < fov_los_arg4 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND5",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE6",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( ty@modfov > fov_los_arg4 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND6",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE7",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( tx@modfov < fov_los_arg3 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND7",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE8",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( tx@modfov > fov_los_arg3 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND8",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE9",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		if ( fov_los_arg3 - tx@modfov == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND9",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WHILE10",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		if ( fov_los_arg4 - ty@modfov == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fov_los_WEND10",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( ty@modfov < get_route_arg4 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WHILE2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( ty@modfov > get_route_arg4 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WEND2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WHILE3",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( tx@modfov < get_route_arg3 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WEND3",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WHILE4",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			if ( tx@modfov > get_route_arg3 == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WEND4",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WHILE5",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		if ( get_route_arg3 - tx@modfov == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WEND5",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WHILE6",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		if ( get_route_arg4 - ty@modfov == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*get_route_WEND6",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*conv_crlf_@",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*mRefDefine",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dim matval, 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*db_item",
-    //   rules: [
-    //     (
-    //       kind: If,
-    //       match: "if \\( dbmode != DBMODE_FIND \\)"
-    //     ),
-    //     (
-    //       kind: Assignment,
-    //       match: "dbmax = 0"
-    //     ),
-    //     (
-    //       kind: Assignment,
-    //       match: "dbsum = 0"
-    //     ),
-    //   ]
-    // ),
-    // (
-    //   name: "*db_setFilterItem",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	filter_item(ITEM_ID_GO_RENGE) = """
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*db_setItem",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	ilight(ITEM_ID_GO_RENGE) = LIGHT_TYPE_ITEM"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*recipe_ref",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	matneed = -1, -1, -1, -1, -1, -1, -1, -1, -1, -1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*conCalc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		if ( f@con == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*skipDmgTxt",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*exit_death",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: ""
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*net_read_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*net_read_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*net_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sdim cgiurl2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*net_chat",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( jp ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_vote_new",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( mdata(MDATA_WEREWOLF_STAGE) == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_vote_new_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_vote_new_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_vote",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gsel 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_vote_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*com_vote_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*uploader",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_SPELL"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*uploader_load",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*uploader_main",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await 20"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*uploader_event",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dispid = comevdisp(ie_event)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*OnNavigateComplete2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*browser",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	snd SOUNDLIST_SPELL"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*browser_load",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*browser_main",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	await 20"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*browser_event",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	dispid = comevdisp(ie_event)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	selcur = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_txtAdv",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gmode 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_refresh",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_refreshFull",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_raderRefresh",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat mdata(MDATA_HEIGHT)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_draw",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	screendrawhack = 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_sync",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gmode 2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_drawStatus",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*autoTurn_pic",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gsel 9"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_drawAutoTurn",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( racount == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_drawMsg2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gmode 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*anime",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( mode == MODELIST_TXT_ADV ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*anime_SWEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_setPos",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( scposval == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*los",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*los_jump",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*los_jump2",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "				}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*los_Loc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*los_draw",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	screendrawhack = 2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_rain",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_hardRain",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_snow",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_ether",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_scroll",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( abs(cdata(CDATA_X_NEW, CHARA_PLAYER) - cdata(CDATA_X, CHARA_PLAYER)) > 1 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*rader_preDraw",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gsel 3"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_drawRader",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	sy(1) = 84 * sy / mdata(MDATA_HEIGHT)"
-    //     )
-    //   ]
-    // ),
     (
-       name: "*screen_fade",
-       rules: [
-         (
-           kind: Function,
-           match: "gfini windoww, windowh - 88"
-         )
-       ]
+      name: "*rank_init",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim rankn,"
+        )
+      ]
+    ),
+    (
+      name: "*politics_init",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim popostname,"
+        )
+      ]
+    ),
+    (
+      name: "*building_init",
+      rules: [
+        (
+          kind: Function,
+          match: "dim bddata,"
+        )
+      ]
+    ),
+    (
+      name: "*bRefDefine",
+      rules: [
+        (
+          kind: Function,
+          match: "dim bdataref,"
+        )
+      ]
+    ),
+    (
+      name: "*sRefDefine",
+      rules: [
+        (
+          kind: Function,
+          match: "dim sdataref,"
+        )
+      ]
+    ),
+    (
+      name: "*trait_init",
+      rules: [
+        (
+          kind: Function,
+          match: "dim traitref, 10"
+        )
+      ]
+    ),
+    (
+      name: "*trait_ref",
+      rules: [
+        (
+          kind: If,
+          match: "if ( tid == TRAIT_NORMAL_STAT_STAMINA ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cm_putTrait",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdatan(CDATAN_RACE, CHARA_PLAYER) == \"dwarf\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*sound_init",
+      rules: [
+        (
+          kind: Function,
+          match: "sndload folder + \"pop1.wav\", SOUNDLIST_POP1"
+        )
+      ]
+    ),
+    (
+      name: "*music_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s = exedir + \"user\\\\music\\\\musiclist.txt\""
+        )
+      ]
+    ),
+    (
+      name: "*music_play",
+      rules: [
+        (
+          kind: Assignment,
+          match: "env = SOUNDLIST_BG_RAIN"
+        )
+      ]
+    ),
+    (
+      name: "*map_randNameInit",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "はじまりの"
+        )
+      ]
+    ),
+    (
+      name: "*item_foodInit",
+      rules: [
+        (
+          kind: Function,
+          match: "dim picfood, 10, "
+        )
+      ]
+    ),
+    (
+      name: "*convert_word",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s = lang(\"\" + gdata(GDATA_GUEST), \"\" + gdata(GDATA_GUEST) + \" guest\" + _s2(gdata(GDATA_GUEST)))"
+        )
+      ]
+    ),
+    (
+      name: "*convert_talk",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = rnd(noteinfo(0))"
+        )
+      ]
+    ),
+    (
+      name: "*spec_talk",
+      after: "*convert_talk"
+    ),
+    (
+      name: "*random_talk",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p = instr(buff, 0, \"%BORED,\" + lang(\"JP\", \"EN\"))"
+        )
+      ]
+    ),
+    (
+      name: "*quest_info",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "ヴェルニースの南にあるネフィアの迷宮群のひとつ《レシマス》で、何かが見つかるかもしれない。"
+        )
+      ]
+    ),
+    (
+      name: "*quest_info2",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "ぬいぐるみを守れ！ Lv6相当"
+        )
+      ]
+    ),
+    (
+      name: "*quest_item",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "[古びたお守り]"
+        )
+      ]
+    ),
+    (
+      name: "*talk_quest_load",
+      rules: [
+        (
+          kind: Assignment,
+          match: "buff2 = \"no txt\""
+        )
+      ]
+    ),
+    (
+      name: "*talk_quest",
+      rules: [
+        (
+          kind: Assignment,
+          match: "s = \"%HARVEST\""
+        )
+      ]
+    ),
+    (
+      name: "*talktxt_conv",
+      rules: [
+        (
+          kind: If,
+          match: "if ( s == \"client\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*system_init",
+      rules: [
+        (
+          kind: Function,
+          match: "exist exedir + \"config.txt\""
+        )
+      ]
+    ),
+    (
+      name: "*exit_game",
+      rules: [
+        (
+          kind: Function,
+          match: "CloseHandle mutex_handle"
+        )
+      ]
+    ),
+    (
+      name: "*exit_game_error",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "HspError "
+        )
+      ]
+    ),
+    (
+      name: "*pcc_wear",
+      rules: [
+        (
+          kind: Assignment,
+          match: "locvar_create_pcpic_p = 1"
+        )
+      ]
+    ),
+    (
+      name: "*cloud_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cloud(CLOUD_PX, cnt) = 288, 1040, 208, 160"
+        )
+      ]
+    ),
+    (
+      name: "*mapchip_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "chipm(CHIPM_F, xy2pic(2, 7)) = 0, 0"
+        )
+      ]
+    ),
+    (
+      name: "*chip_init",
+      rules: [
+        (
+          kind: Function,
+          match: "dim cloud, 6, "
+        )
+      ]
+    ),
+    (
+      name: "*random_titleInit",
+      rules: [
+        (
+          kind: Function,
+          match: "noteload lang(\"data\\\\ndata.csv\", \"data\\\\ndata-e.csv\")"
+        )
+      ]
+    ),
+    (
+      name: "*randomName_WHILE1",
+      rules: [
+        (
+          kind: Assignment,
+          match: "locvar_randomname_s = rn1(rnd(length(rn1)))"
+        )
+      ]
+    ),
+    (
+      name: "*randomName_WHILE1_CONTINUE",
+      after: "*randomName_WHILE1",
+      loop_kind: WhileContinue
+    ),
+    (
+      name: "*randomName_BREAK",
+      after: "*randomName_WHILE1_CONTINUE",
+      loop_kind: Break
+    ),
+    (
+      name: "*random_title_loop",
+      rules: [
+        (
+          kind: Assignment,
+          match: "locvar_csvsort_p(2) = rnd(length2(rnlist))"
+        )
+      ]
+    ),
+    (
+      name: "*end_name",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "The army of "
+        )
+      ]
+    ),
+    (
+      name: "*time_warn_talk",
+      rules: [
+        (
+          kind: If,
+          match: "if ( hour_played == 1 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_encInit",
+      rules: [
+        (
+          kind: Function,
+          match: "dim encref, 8"
+        )
+      ]
+    ),
+    (
+      name: "*item_encdetail",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "ランダムなテレポートを引き起こす"
+        )
+      ]
+    ),
+    (
+      name: "*item_egoInit",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim egoname"
+        )
+      ]
+    ),
+    (
+      name: "*item_egoMinor",
+      rules: [
+        (
+          kind: Function,
+          match: "encadd ci, randomenc(randomenclv(egolv)), randomencp(), 8"
+        )
+      ]
+    ),
+    (
+      name: "*item_ego",
+      rules: [
+        (
+          kind: If,
+          match: "if ( egoref(1, cnt) != 0 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*item_enc",
+      rules: [
+        (
+          kind: Function,
+          match: "encadd ci, ENCHANT_ATTRIBUTE * EXT_ENCHANTMENT + SKILL_ATTR_MAG, randomencp()"
+        )
+      ]
+    ),
+    (
+      name: "*item_materialInit",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim mtname, 18, 2,"
+        )
+      ]
+    ),
+    (
+      name: "*item_material",
+      after: "*item_materialInit"
+    ),
+    (
+      name: "*choose_material",
+      rules: [
+        (
+          kind: Assignment,
+          match: "mtlv = rnd(objlv + 1) / 10 + 1"
+        )
+      ]
+    ),
+    (
+      name: "*remake_material",
+      rules: [
+        (
+          kind: Assignment,
+          match: "dbmode = DBMODE_SET_STATS"
+        )
+      ]
+    ),
+    (
+      name: "*apply_material",
+      rules: [
+        (
+          kind: Assignment,
+          match: "p(1) = 150, 80"
+        )
+      ]
+    ),
+    (
+      name: "*apply_materialEnc",
+      rules: [
+        (
+          kind: Function,
+          match: "encadd ci, mtenc(cnt * 2, p), mtenc(cnt * 2 + 1, p), 0, 1"
+        )
+      ]
+    ),
+    (
+      name: "*fish_init",
+      rules: [
+        (
+          kind: Function,
+          match: "dim fishdata, 10, 100"
+        )
+      ]
+    ),
+    (
+      name: "*itemNameSub",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "解読済みの"
+        )
+      ]
+    ),
+    (
+      name: "*skipName",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "(媚薬混入)"
+        )
+      ]
+    ),
+    (
+      name: "*skip_stack",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "をまとめた(計"
+        )
+      ]
+    ),
+    (
+      name: "*skipitemDraw",
+      rules: [
+        (
+          kind: If,
+          match: "if ( locvar_cell_draw_p == 528 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*fov_los_WHILE1",
+      rules: [
+        (
+          kind: If,
+          match: "if ( locvar_fov_los_ty < fov_los_arg4 == 0 ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_ID_PLUS_ONE) != 0 ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( mef(0, map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_ID_PLUS_ONE) - 1) == 9 ) {"
+        )
+      ],
+      loop_kind: While
+    ),
+    (
+      name: "*fov_los_WEND1",
+      after: "*fov_los_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*fov_los_WHILE2",
+      after: "*fov_los_WEND1",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND2",
+      after: "*fov_los_WHILE2",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*fov_los_WHILE3",
+      after: "*fov_los_WEND2",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND3",
+      after: "*fov_los_WHILE3",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE4",
+      after: "*fov_los_WEND3",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND4",
+      after: "*fov_los_WHILE4",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE5",
+      after: "*fov_los_WEND4",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND5",
+      after: "*fov_los_WHILE5",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE6",
+      after: "*fov_los_WEND5",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND6",
+      after: "*fov_los_WHILE6",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE7",
+      after: "*fov_los_WEND6",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND7",
+      after: "*fov_los_WHILE7",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE8",
+      after: "*fov_los_WEND7",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND8",
+      after: "*fov_los_WHILE8",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE9",
+      after: "*fov_los_WEND8",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND9",
+      after: "*fov_los_WHILE9",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*fov_los_WHILE10",
+      after: "*fov_los_WEND9",
+      loop_kind: While,
+    ),
+    (
+      name: "*fov_los_WEND10",
+      after: "*fov_los_WHILE10",
+      loop_kind: WhileEnd,
+    ),
+    (
+      name: "*get_route_WHILE1",
+      rules: [
+        (
+          kind: If,
+          match: "if ( locvar_fov_los_ty < get_route_arg4 == 0 ) {"
+        )
+      ],
+      loop_kind: While
+    ),
+    (
+      name: "*get_route_WEND1",
+      after: "*get_route_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*get_route_WHILE2",
+      after: "*get_route_WEND1",
+      loop_kind: While
+    ),
+    (
+      name: "*get_route_WEND2",
+      after: "*get_route_WHILE2",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*get_route_WHILE3",
+      after: "*get_route_WEND2",
+      loop_kind: While
+    ),
+    (
+      name: "*get_route_WEND3",
+      after: "*get_route_WHILE3",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*get_route_WHILE4",
+      after: "*get_route_WEND3",
+      loop_kind: While
+    ),
+    (
+      name: "*get_route_WEND4",
+      after: "*get_route_WHILE4",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*get_route_WHILE5",
+      after: "*get_route_WEND4",
+      loop_kind: While
+    ),
+    (
+      name: "*get_route_WEND5",
+      after: "*get_route_WHILE5",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*get_route_WHILE6",
+      after: "*get_route_WEND5",
+      loop_kind: While
+    ),
+    (
+      name: "*get_route_WEND6",
+      after: "*get_route_WHILE6",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*conv_crlf_@",
+      rules: [
+        (
+          kind: Function,
+          match: "getstr locvar_conv_crlf_tmpstr, conv_crlf_arg1, locvar_conv_crlf_i"
+        )
+      ]
+    ),
+    (
+      name: "*mRefDefine",
+      rules: [
+        (
+          kind: Function,
+          match: "dim matval, 4"
+        )
+      ]
+    ),
+    (
+      name: "*db_item",
+      rules: [
+        (
+          kind: If,
+          match: "if ( dbmode != DBMODE_FIND )"
+        ),
+        (
+          kind: Assignment,
+          match: "dbmax = 0"
+        ),
+        (
+          kind: Assignment,
+          match: "dbsum = 0"
+        ),
+      ]
+    ),
+    (
+      name: "*db_setFilterItem",
+      rules: [
+        (
+          kind: Assignment,
+          match: "filter_item(ITEM_ID_HAND_AXE) = \"\""
+        )
+      ]
+    ),
+    (
+      name: "*db_setItem",
+      rules: [
+        (
+          kind: Assignment,
+          match: "ipicref(ITEM_ID_LARGE_BOOKSHELF) = xy2pic(13, 16)"
+        )
+      ]
+    ),
+    (
+      name: "*recipe_ref",
+      rules: [
+        (
+          kind: Assignment,
+          match: "matneed = -1, -1, -1, -1, -1, -1, -1, -1, -1, -1"
+        )
+      ]
+    ),
+    (
+      name: "*conCalc",
+      rules: [
+        (
+          kind: Assignment,
+          match: "locvar_dmgcon_r = sdata(locvar_dmgcon_res, dmgcon_charid) / 50"
+        )
+      ]
+    ),
+    (
+      name: "*skipDmgTxt",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "死の宣告は無効になった。"
+        )
+      ]
+    ),
+    (
+      name: "*exit_death",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cfg_dhyouji == 2 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*net_read_WHILE1",
+      rules: [
+        (
+          kind: Function,
+          match: "txt \"[Chat Skipped]\""
+        )
+      ],
+      loop_kind: While
+    ),
+    (
+      name: "*net_read_WEND1",
+      after: "*net_read_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*net_init",
+      rules: [
+        (
+          kind: Function,
+          match: "sdim cgiurl2"
+        )
+      ]
+    ),
+    (
+      name: "*net_chat",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "もう少し待った方がいい気がする。"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_new",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "現在、処刑投票は行われていない。"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_new_loop",
+      after: "*com_vote_new",
+      loop_kind: While
+
+    ),
+    (
+      name: "*com_vote_new_loop_WHILE1",
+      after: "*com_vote_new_loop",
+      loop_kind: WhileContinue
+    ),
+    (
+      name: "*com_vote_new_loop_WEND1",
+      after: "*com_vote_new_loop_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*com_vote",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "あなたの異名を登録する"
+        )
+      ]
+    ),
+    (
+      name: "*com_vote_loop",
+      after: "*com_vote"
+    ),
+    (
+      name: "*com_vote_loop_WHILE1",
+      after: "*com_vote_loop",
+      loop_kind: While
+    ),
+    (
+      name: "*com_vote_loop_WEND1",
+      after: "*com_vote_loop_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*uploader",
+      rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\uploader.bmp\""
+        )
+      ]
+    ),
+    (
+      name: "*uploader_load",
+      after: "*uploader"
+    ),
+    (
+      name: "*uploader_main",
+      after: "*uploader_load"
+    ),
+    (
+      name: "*uploader_event",
+      after: "*uploader_main"
+    ),
+    (
+      name: "*OnNavigateComplete2",
+      rules: [
+        (
+          kind: Assignment,
+          match: "pdoc = ie(\"Document\")"
+        )
+      ]
+    ),
+    (
+      name: "*browser",
+      rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\browser.bmp\""
+        )
+      ]
+    ),
+    (
+      name: "*browser_load",
+      after: "*browser"
+    ),
+    (
+      name: "*browser_main",
+      after: "*browser_load"
+    ),
+    (
+      name: "*browser_event",
+      after: "*browser_main"
+    ),
+    (
+      name: "*screen_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "inf_barh = 16"
+        )
+      ]
+    ),
+    (
+      name: "*screen_txtAdv",
+      rules: [
+        (
+          kind: Function,
+          match: "gcopy BUFFER_INF, 192, 360, 24, 16"
+        )
+      ]
+    ),
+    (
+      name: "*screen_refresh",
+      after: "*screen_txtAdv"
+    ),
+    (
+      name: "*screen_refreshFull",
+      rules: [
+        (
+          kind: Function,
+          match: "gcopy BUFFER_INF, 120, 504, inf_msgx, inf_verh"
+        )
+      ]
+    ),
+    (
+      name: "*screen_raderRefresh",
+      rules: [
+        (
+          kind: If,
+          match: "if ( map(sx, sy, MAP_TILE_ID_MEMORY) == map(sx, sy, MAP_TILE_ID) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*screen_draw",
+      rules: [
+        (
+          kind: Assignment,
+          match: "screendrawhack = 1",
+          exact: true
+        )
+      ]
+    ),
+    (
+      name: "*screen_sync",
+      after: "*screen_draw"
+    ),
+    (
+      name: "*screen_drawStatus",
+      rules: [
+        (
+          kind: Function,
+          match: "mes _conblind"
+        )
+      ]
+    ),
+    (
+      name: "*autoTurn_pic",
+      rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"\\\\graphic\\\\anime2.bmp\""
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawAutoTurn",
+      rules: [
+        (
+          kind: Function,
+          match: "bmes \"AUTO TURN\", 235, 235, 235"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawMsg2",
+      rules: [
+        (
+          kind: Function,
+          match: "gcopy BUFFER_INF, 672, 477, ap, 2"
+        )
+      ]
+    ),
+    (
+      name: "*anime",
+      rules: [
+        (
+          kind: Assignment,
+          match: "anisound = 0"
+        )
+      ]
+    ),
+    (
+      name: "*anime_SWEND1",
+      after: "*anime",
+      loop_kind: SwitchEnd
+    ),
+    (
+      name: "*screen_setPos",
+      rules: [
+        (
+          kind: Assignment,
+          match: "sx = cdata(CDATA_X_NEW, CHARA_PLAYER) - scx, cdata(CDATA_X_NEW, CHARA_PLAYER)"
+        )
+      ]
+    ),
+    (
+      name: "*los",
+      rules: [
+        (
+          kind: Function,
+          match: "memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+        )
+      ]
+    ),
+    (
+      name: "*los_jump",
+      after: "*los"
+    ),
+    (
+      name: "*los_jump2",
+      rules: [
+        (
+          kind: Assignment,
+          match: "slight(lx, ly) += 1000"
+        )
+      ]
+    ),
+    (
+      name: "*los_Loc",
+      rules: [
+        (
+          kind: Function,
+          match: "memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+        )
+      ]
+    ),
+    (
+      name: "*los_draw",
+      rules: [
+        (
+          kind: Assignment,
+          match: "screendrawhack = 2"
+        )
+      ]
+    ),
+    (
+      name: "*screen_rain",
+      rules: [
+        (
+          kind: Function,
+          match: "line rainx(cnt) - 40, rainy(cnt) - cnt \\ 3 - 1, rainx(cnt) - 39 + cnt \\ 2, rainy(cnt)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_hardRain",
+      rules: [
+        (
+          kind: Function,
+          match: "line rainx(cnt) - 40, rainy(cnt) - cnt \\ 5 - 4, rainx(cnt) - 39 + cnt \\ 2, rainy(cnt)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_snow",
+      rules: [
+        (
+          kind: Function,
+          match: "gcopy BUFFER_INF, rainx(cnt) \\ 2 * 8, 600 + cnt \\ 6 * 8"
+        )
+      ]
+    ),
+    (
+      name: "*screen_ether",
+      rules: [
+        (
+          kind: Function,
+          match: "gcopy BUFFER_INF, 16 + rainx(cnt) \\ 2 * 8, 600 + cnt \\ 6 * 8"
+        )
+      ]
+    ),
+    (
+      name: "*screen_scroll",
+      rules: [
+        (
+          kind: Assignment,
+          match: "scrollp = cfg_walkwait"
+        )
+      ]
+    ),
+    (
+      name: "*rader_preDraw",
+      rules: [
+        (
+          kind: Function,
+          match: "gfini raderw * mdata(MDATA_WIDTH), raderh * mdata(MDATA_HEIGHT)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawRader",
+      rules: [
+        (
+          kind: Function,
+          match: "pos inf_raderx + sx(1), inf_radery + sy(1)"
+        )
+      ]
+    ),
+    (
+      name: "*screen_fade",
+      rules: [
+        (
+          kind: Function,
+          match: "gfini windoww, windowh - 88"
+        )
+      ]
     ),
     (
       name: "*screen_fadeIn",
@@ -14192,474 +14172,479 @@ AnalysisConfig(
       name: "*screen_fadeOut",
       after: "*screen_fadeIn"
     ),
-    // (
-    //   name: "*screen_drawEventFull",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*screen_drawEventMap",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*fishing_draw",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	fishdir = 0, 1, 3, 2"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcBodyFix",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cdata(CDATA_BODY_SPEED_FIX, r1) = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcBodyGain",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_EQUIP_SLOT_TOTAL, CDATA_STARTING_EQUIP_SLOTS"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcLevelUp",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cdata(CDATA_EXP, r1) -= cdata(CDATA_EXP_TO_NEXT_LVL, r1)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcGodRecruitingPenalty",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcMaileINITService",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcAdvRecruitingPenalty",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcSoulSpindlePenalty",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcPowerUp",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_SKILL_ATTR - STARTING_SKILL_ATTR, STARTING_SKILL_ATTR"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcExpToNextLevel",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cdata(CDATA_EXP_TO_NEXT_LVL, r1) = limit(cdata(CDATA_LEVEL, r1), 1, 200) * (limit(cdata(CDATA_LEVEL, r1), 1, 200) + 1) * (limit(cdata(CDATA_LEVEL, r1), 1, 200) + 2) * (limit(cdata(CDATA_LEVEL, r1), 1, 200) + 3) + 3000"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expDig",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_MINING, CHARA_PLAYER, 100"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expLiteracy",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_LITERACY, CHARA_PLAYER, 15, 10, 100"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expTrade",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( r2 >= limit((sdata(SKILL_NORMAL_NEGOTIATION, r1) + 10) * (sdata(SKILL_NORMAL_NEGOTIATION, r1) + 10), 1, 15000) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expOpenLock",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_LOCK_PICKING, r1, 100"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expDetection",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_DETECTION, cc, gdata(GDATA_LEVEL) * 2 + 20"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expCasting",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( tc != (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expMagicCapacity",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cdata(CDATA_MP, r1)) * 400 / (cdata(CDATA_MAX_MP, r1) + 1), 1, 2000)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expRegen",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_HP, r1) != cdata(CDATA_MAX_HP, r1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expStealth",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expInvesting",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_INVESTING, CHARA_PLAYER, 600"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expWeightLifting",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_BURDEN, CHARA_PLAYER) == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expSwimming",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_CONDITION_WET, r1) == 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expArmor",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expRiding",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( mdata(MDATA_TYPE) == MAP_TYPE_WORLD ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expMagicDevice",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( tc != (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expFishing",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_FISHING, CHARA_PLAYER, 100"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expMemorize",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_MEMORIZATION, CHARA_PLAYER, 10 + sdataref(SKILL_DATAREF_DIFF, efid) / 5"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expProduct",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp r1, CHARA_PLAYER, limit(100 + r2 * 30, 100, 1500)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*charaRefresh",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "			snd SOUNDLIST_BOLT1"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcInitialSkill",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	repeat MAX_SKILL_RESIST - STARTING_SKILL_RESIST, STARTING_SKILL_RESIST"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcReadCheck",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( ens2 != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcSearch",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( rnd(sdata(SKILL_NORMAL_DETECTION, cc) * 15 + 20 + sdata(SKILL_ATTR_PER, cc)) > rnd(gdata(GDATA_LEVEL) * 8 + 60) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcTrap",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( feat(2) == CELL_SUB_FEATURE_TRAP_QUEST_MINE ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*expDisarm",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	skillexp SKILL_NORMAL_DISARM_TRAP, cc, 50"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcDisarm",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( rnd(sdata(SKILL_NORMAL_DISARM_TRAP, cc) * 15 + 20 + sdata(SKILL_ATTR_DEX, cc)) > rnd(gdata(GDATA_LEVEL) * 12 + 100) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcStealth",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_CONDITION_SEPPUKU, r2) > 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcHunger",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( trait(TRAIT_RACE_SLOW_DIGESTION) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcThirst",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_THIRST, r1) <= 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcCondition",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( tarudmg != 0 ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*calcBurdenPc",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( findbuff(CHARA_PLAYER, BUFF_GRAVITY_ACCEL) != (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*learn_sp",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	overp = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*chara_initEquip",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cdata(CDATA_ID, rc) == CREATURE_ID_HYPER_YACATECT | cdata(CDATA_ID, rc) == CREATURE_ID_YACATECT ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*set_figure",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	p = 100"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*place_chara",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( rc == (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*place_necro",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	hitugi = 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*chara_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( rc == (-1) ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*chara_fix",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( fixlv == FIX_QUALITY_MIRACLE ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_finish",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cdata(CDATA_LEVEL, rc) = limit(cdata(CDATA_LEVEL, rc), 1, 6666)"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_finishPC",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	cdata(CDATA_QUALITY, rc) = FIX_QUALITY_GOOD"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*resurrect_ally",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	gosub *resurrect"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*screen_drawEventFull",
+      rules: [
+        (
+          kind: Assignment,
+          match: "evscrh = windowh / evtiles - 1"
+        )
+      ]
+    ),
+    (
+      name: "*screen_drawEventMap",
+      rules: [
+        (
+          kind: Function,
+          match: "pos x * evtiles, y * evtiles"
+        )
+      ]
+    ),
+    (
+      name: "*fishing_draw",
+      rules: [
+        (
+          kind: Assignment,
+          match: "fishdir = 0, 1, 3, 2"
+        )
+      ]
+    ),
+    (
+      name: "*calcBodyFix",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_BODY_SPEED_FIX, r1) = 0"
+        )
+      ]
+    ),
+    (
+      name: "*calcBodyGain",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "の身体から新たな"
+        )
+      ]
+    ),
+    (
+      name: "*calcLevelUp",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_SKILLPOINT, r1) += p"
+        )
+      ]
+    ),
+    (
+      name: "*calcGodRecruitingPenalty",
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1) / 5, 1000 * 50000, 1000 * 400000)"
+        )
+      ]
+    ),
+    (
+      name: "*calcMaileINITService",
+      rules: [
+        (
+          kind: If,
+          match: "if ( sdata(cnt + STARTING_SKILL_SPACT, r1) > 1000 * 20000 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcAdvRecruitingPenalty",
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1) / 2, 1, 1000 * 200000)"
+        )
+      ]
+    ),
+    (
+      name: "*calcSoulSpindlePenalty",
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1), 1, 1000 * 50000)"
+        )
+      ]
+    ),
+    (
+      name: "*calcPowerUp",
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(mainskill(cnt) + STARTING_SKILL_SPACT, r1) = limit(sdata(mainskill(cnt)"
+        )
+      ]
+    ),
+    (
+      name: "*calcExpToNextLevel",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_EXP_TO_NEXT_LVL, r1) = 100000000"
+        )
+      ]
+    ),
+    (
+      name: "*expDig",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_MINING, CHARA_PLAYER, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expLiteracy",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_LITERACY, CHARA_PLAYER, 15, 10, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expTrade",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_NEGOTIATION, r1, limit(r2 / (limit(sdata(SKILL_NORMAL_NEGOTIATION, r1), 1, 100) + 10), 10, 300), 10"
+        )
+      ]
+    ),
+    (
+      name: "*expOpenLock",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_LOCK_PICKING, r1, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expDetection",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_DETECTION, cc, gdata(GDATA_LEVEL) * 2 + 20"
+        )
+      ]
+    ),
+    (
+      name: "*expCasting",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_CASTING, r1, sdataref(SKILL_DATAREF_COST, r2) + 10, 5"
+        )
+      ]
+    ),
+    (
+      name: "*expMagicCapacity",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cdata(CDATA_MP, r1)) * 400 / (cdata(CDATA_MAX_MP, r1) + 1), 1, 2000)"
+        )
+      ]
+    ),
+    (
+      name: "*expRegen",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_HEALING, r1, 5 + sdata(SKILL_NORMAL_HEALING, r1), 1000"
+        )
+      ]
+    ),
+    (
+      name: "*expStealth",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_STEALTH, r1, 2, 0, 1000"
+        )
+      ]
+    ),
+    (
+      name: "*expInvesting",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_INVESTING, CHARA_PLAYER, 600"
+        )
+      ]
+    ),
+    (
+      name: "*expWeightLifting",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_WEIGHT_LIFTING, r1, 4, 0, 1000"
+        )
+      ]
+    ),
+    (
+      name: "*expSwimming",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_SWIMMING, r1, 4, 0, 1000"
+        )
+      ]
+    ),
+    (
+      name: "*expArmor",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_HEAVY_ARMOR, r1, 20, 0, 1000"
+        )
+      ]
+    ),
+    (
+      name: "*expRiding",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_ACTIVE_RIDING, r1, 4, 0, 1000"
+        )
+      ]
+    ),
+    (
+      name: "*expMagicDevice",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_MAGIC_DEVICE, cc, 40"
+        ),
+        (
+          kind: Function,
+          match: "return",
+          exact: true
+        )
+      ]
+    ),
+    (
+      name: "*expFishing",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_FISHING, CHARA_PLAYER, 100"
+        )
+      ]
+    ),
+    (
+      name: "*expMemorize",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_MEMORIZATION, CHARA_PLAYER, 10 + sdataref(SKILL_DATAREF_DIFF, efid) / 5"
+        )
+      ]
+    ),
+    (
+      name: "*expProduct",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp r1, CHARA_PLAYER, limit(100 + r2 * 30, 100, 1500)"
+        )
+      ]
+    ),
+    (
+      name: "*charaRefresh",
+      rules: [
+        (
+          kind: Assignment,
+          match: "chararefreshhack = TRUE"
+        )
+      ]
+    ),
+    (
+      name: "*calcInitialSkill",
+      rules: [
+        (
+          kind: Function,
+          match: "skillinit SKILL_WEAPON_LONGSWORD, r1, i"
+        )
+      ]
+    ),
+    (
+      name: "*calcReadCheck",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "は余計に混乱した。"
+        )
+      ]
+    ),
+    (
+      name: "*calcSearch",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *expDetection"
+        )
+      ]
+    ),
+    (
+      name: "*calcTrap",
+      rules: [
+        (
+          kind: If,
+          match: "if ( rnd(refdiff + 1) < sdata(SKILL_ATTR_PER, cc) + sdata(SKILL_NORMAL_DETECTION, cc) * 4 ) {"
+        )
+      ]
+    ),
+    (
+      name: "*expDisarm",
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_DISARM_TRAP, cc, 50"
+        )
+      ]
+    ),
+    (
+      name: "*calcDisarm",
+      rules: [
+        (
+          kind: Function,
+          match: "gosub *expDisarm"
+        )
+      ]
+    ),
+    (
+      name: "*calcStealth",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdata(CDATA_X, r1) > cdata(CDATA_X, r2) - cv & cdata(CDATA_X, r1) < cdata(CDATA_X, r2) + cv ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcHunger",
+      rules: [
+        (
+          kind: If,
+          match: "if ( trait(TRAIT_RACE_SLOW_DIGESTION) ) {"
+        )
+      ]
+    ),
+    (
+      name: "*calcThirst",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_THIRST, r1) = 1"
+        )
+      ]
+    ),
+    (
+      name: "*calcCondition",
+      rules: [
+        (
+          kind: Function,
+          match: "healcon r1, CONDITION_POISON, 1"
+        )
+      ]
+    ),
+    (
+      name: "*calcBurdenPc",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_BURDEN, CHARA_PLAYER) = 4"
+        )
+      ]
+    ),
+    (
+      name: "*learn_sp",
+      rules: [
+        (
+          kind: Assignment,
+          match: "overp = 0"
+        )
+      ]
+    ),
+    (
+      name: "*chara_initEquip",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdatan(CDATAN_RACE, rc) == \"mutant\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*set_figure",
+      rules: [
+        (
+          kind: If,
+          match: "if ( s == \"頭\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*place_chara",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_X, rc) = cdata(CDATA_X, CHARA_PLAYER)"
+        )
+      ]
+    ),
+    (
+      name: "*place_necro",
+      rules: [
+        (
+          kind: Assignment,
+          match: "hitugi = 0"
+        ),
+      ]
+    ),
+    (
+      name: "*chara_init",
+      rules: [
+        (
+          kind: Assignment,
+          match: "npcmemory(1, dbid)++"
+        )
+      ]
+    ),
+    (
+      name: "*chara_fix",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdatan(CDATAN_NAME, rc) = lang(\"《\", \"{\") + cdatan(CDATAN_NAME, rc) + lang(\"》\", \"}\")"
+        )
+      ]
+    ),
+    (
+      name: "*cm_finish",
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_HUNGER, rc) = 9000"
+        )
+      ]
+    ),
+    (
+      name: "*cm_finishPC",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cdatan(CDATAN_CLASS, CHARA_PLAYER) == \"pianist\" ) {"
+        )
+      ]
+    ),
+    (
+      name: "*resurrect_ally",
+      rules: [
+        (
+          kind: Function,
+          match: "txt cnven(cdatan(CDATAN_NAME, rc)) + lang(\"が現れた！\", \" \" + have(rc) + \" been resurrected!\")"
+        )
+      ]
+    ),
     (
       name: "*resurrect",
       rules: [
@@ -14669,6 +14654,9 @@ AnalysisConfig(
         )
       ]
     ),
+    
+    
+    
     (
       name: "*renewStatus",
       rules: [
@@ -14683,154 +14671,133 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "evadd EVENT_DEAD"
+          match: "skillmod SKILL_NORMAL_PERFORMER, rc, 1000"
         )
       ]
     ),
-    // (
-    //   name: "*cm_init",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	if ( cfg_wizard ) {"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_init_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		key_check"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_init_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_aka",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_aka_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_aka_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_past",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_past_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_race",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "		}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_race_loop_pgchk",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	page_check"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_race_loop",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_race_name_change",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_race_name_change_input",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_sex",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_sex_WHILE1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	redraw 0"
-    //     )
-    //   ]
-    // ),
-    // (
-    //   name: "*cm_sex_WEND1",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	}"
-    //     )
-    //   ]
-    // ),
+    (
+      name: "*cm_init",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cfg_wizard ) {"
+        ),
+        (
+          kind: Assignment,
+          match: "mode = MODELIST_CHARA_CREATION"
+        ),
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\void.bmp\", 1"
+        ),
+        (
+          kind: StringLiteral,
+          match: "これ以上は冒険者を保存できない。"
+        )
+      ]
+    ),
+    (
+      name: "*cm_init_WHILE1",
+      after: "*cm_init",
+      loop_kind: While
+    ),
+    (
+      name: "*cm_init_WEND1",
+      after: "*cm_init_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*cm_aka",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "Choose your Alias."
+        )
+      ]
+    ),
+    (
+      name: "*cm_aka_WHILE1",
+      after: "*cm_aka",
+      loop_kind: While
+    ),
+    (
+      name: "*cm_aka_WEND1",
+      after: "*cm_aka_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    (
+      name: "*cm_past",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "君の経歴を教えてくれるかな。内緒にしてもいいけれど。"
+        )
+      ]
+    ),
+    (
+      name: "*cm_past_loop",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "経歴のロール"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race",
+      rules: [
+        (
+          kind: If,
+          match: "if ( cfg_extrarace ) {"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race_loop",
+      after: "*cm_race"
+    ),
+    (
+      name: "*cm_race_loop_WHILE1",
+      after: "*cm_race_loop",
+      loop_kind: While
+    ),
+    (
+      name: "*cm_race_name_change",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "種族名を変更する？"
+        )
+      ]
+    ),
+    (
+      name: "*cm_race_name_change_input",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "新しい種族は？"
+        )
+      ]
+    ),
+    (
+      name: "*cm_sex",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "男性と女性に能力の違いはない。"
+        )
+      ]
+    ),
+    (
+      name: "*cm_sex_WHILE1",
+      after: "*cm_sex",
+      loop_kind: While
+    ),
+    (
+      name: "*cm_sex_WEND1",
+      after: "*cm_sex_WHILE1",
+      loop_kind: WhileEnd
+    ),
     (
       name: "*cm_class",
       rules: [
@@ -14957,8 +14924,8 @@ AnalysisConfig(
       name: "*cm_name_loop",
       rules: [
         (
-          kind: Assignment,
-          match: "playerid = \"sav_\" + cmname"
+          kind: StringLiteral,
+          match: "あいにく、その名前の冒険者はすでに存在する。"
         )
       ]
     ),
@@ -16809,13 +16776,13 @@ AnalysisConfig(
       ]
     ),
     (
-     name: "*god_pray",
-     rules: [
-       (
-         kind: StringLiteral,
-         match: "あなたの神に祈りを乞う？"
-       )
-     ]
+      name: "*god_pray",
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "あなたの神に祈りを乞う？"
+        )
+      ]
     ),
     (
       name: "*god_offer",
@@ -17060,8 +17027,8 @@ AnalysisConfig(
           match: "視界内にターゲットは存在しない。"
         ),
         (
-            kind: Assignment,
-            match: "page = cnt / pagesize"
+          kind: Assignment,
+          match: "page = cnt / pagesize"
         )
       ]
     ),
@@ -17366,8 +17333,8 @@ AnalysisConfig(
           match: "itemcreate -1, ITEM_ID_CARD, cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 0"
         ),
         (
-            kind: StringLiteral,
-            match: "足元に"
+          kind: StringLiteral,
+          match: "足元に"
         )
       ]
     ),
@@ -17379,8 +17346,8 @@ AnalysisConfig(
           match: "itemcreate -1, ITEM_ID_FIGURINE, cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 0"
         ),
         (
-            kind: StringLiteral,
-            match: "足元に"
+          kind: StringLiteral,
+          match: "足元に"
         )
       ]
     ),
@@ -19678,8 +19645,8 @@ AnalysisConfig(
       name: "*shop_tradePrice",
       rules: [
         (
-          kind: Function,
-          match: "dim trate, 9"
+          kind: Assignment,
+          match: "trate(cnt) = 100"
         )
       ]
     ),
@@ -20362,6 +20329,14 @@ AnalysisConfig(
     (
       name: "*com_chatlog",
       rules: [
+        (
+          kind: Function,
+          match: "picload exedir + \"graphic\\\\ie_scroll.bmp\""
+        ),
+        (
+          kind: StringLiteral,
+          match: "何かキーを押すと閉じる"
+        ),
         (
           kind: Assignment,
           match: "header = instr(netbuf, 0, \"<!--START-->\")"
