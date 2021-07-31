@@ -531,8 +531,106 @@ AnalysisConfig(
         ( name: "SOUNDLIST_TM2_SWITCH001", value: 186 ),
         ( name: "SOUNDLIST_TM2_HIT000", value: 187 ),
 
-        ( name: "STARTING_SOUNDLIST_USER_SE", value: 188 ),
-        ( name: "SOUNDLIST_USER_SE_RANGE", value: 99, exclude: true ),
+        ( name: "SOUNDLIST_USER_SE00", value: 188 ),
+        ( name: "SOUNDLIST_USER_SE01", value: 189 ),
+        ( name: "SOUNDLIST_USER_SE02", value: 190 ),
+        ( name: "SOUNDLIST_USER_SE03", value: 191 ),
+        ( name: "SOUNDLIST_USER_SE04", value: 192 ),
+        ( name: "SOUNDLIST_USER_SE05", value: 193 ),
+        ( name: "SOUNDLIST_USER_SE06", value: 194 ),
+        ( name: "SOUNDLIST_USER_SE07", value: 195 ),
+        ( name: "SOUNDLIST_USER_SE08", value: 196 ),
+        ( name: "SOUNDLIST_USER_SE09", value: 197 ),
+        ( name: "SOUNDLIST_USER_SE10", value: 198 ),
+        ( name: "SOUNDLIST_USER_SE11", value: 199 ),
+        ( name: "SOUNDLIST_USER_SE12", value: 200 ),
+        ( name: "SOUNDLIST_USER_SE13", value: 201 ),
+        ( name: "SOUNDLIST_USER_SE14", value: 202 ),
+        ( name: "SOUNDLIST_USER_SE15", value: 203 ),
+        ( name: "SOUNDLIST_USER_SE16", value: 204 ),
+        ( name: "SOUNDLIST_USER_SE17", value: 205 ),
+        ( name: "SOUNDLIST_USER_SE18", value: 206 ),
+        ( name: "SOUNDLIST_USER_SE19", value: 207 ),
+        ( name: "SOUNDLIST_USER_SE20", value: 208 ),
+        ( name: "SOUNDLIST_USER_SE21", value: 209 ),
+        ( name: "SOUNDLIST_USER_SE22", value: 210 ),
+        ( name: "SOUNDLIST_USER_SE23", value: 211 ),
+        ( name: "SOUNDLIST_USER_SE24", value: 212 ),
+        ( name: "SOUNDLIST_USER_SE25", value: 213 ),
+        ( name: "SOUNDLIST_USER_SE26", value: 214 ),
+        ( name: "SOUNDLIST_USER_SE27", value: 215 ),
+        ( name: "SOUNDLIST_USER_SE28", value: 216 ),
+        ( name: "SOUNDLIST_USER_SE29", value: 217 ),
+        ( name: "SOUNDLIST_USER_SE30", value: 218 ),
+        ( name: "SOUNDLIST_USER_SE31", value: 219 ),
+        ( name: "SOUNDLIST_USER_SE32", value: 220 ),
+        ( name: "SOUNDLIST_USER_SE33", value: 221 ),
+        ( name: "SOUNDLIST_USER_SE34", value: 222 ),
+        ( name: "SOUNDLIST_USER_SE35", value: 223 ),
+        ( name: "SOUNDLIST_USER_SE36", value: 224 ),
+        ( name: "SOUNDLIST_USER_SE37", value: 225 ),
+        ( name: "SOUNDLIST_USER_SE38", value: 226 ),
+        ( name: "SOUNDLIST_USER_SE39", value: 227 ),
+        ( name: "SOUNDLIST_USER_SE40", value: 228 ),
+        ( name: "SOUNDLIST_USER_SE41", value: 229 ),
+        ( name: "SOUNDLIST_USER_SE42", value: 230 ),
+        ( name: "SOUNDLIST_USER_SE43", value: 231 ),
+        ( name: "SOUNDLIST_USER_SE44", value: 232 ),
+        ( name: "SOUNDLIST_USER_SE45", value: 233 ),
+        ( name: "SOUNDLIST_USER_SE46", value: 234 ),
+        ( name: "SOUNDLIST_USER_SE47", value: 235 ),
+        ( name: "SOUNDLIST_USER_SE48", value: 236 ),
+        ( name: "SOUNDLIST_USER_SE49", value: 237 ),
+        ( name: "SOUNDLIST_USER_SE50", value: 238 ),
+        ( name: "SOUNDLIST_USER_SE51", value: 239 ),
+        ( name: "SOUNDLIST_USER_SE52", value: 240 ),
+        ( name: "SOUNDLIST_USER_SE53", value: 241 ),
+        ( name: "SOUNDLIST_USER_SE54", value: 242 ),
+        ( name: "SOUNDLIST_USER_SE55", value: 243 ),
+        ( name: "SOUNDLIST_USER_SE56", value: 244 ),
+        ( name: "SOUNDLIST_USER_SE57", value: 245 ),
+        ( name: "SOUNDLIST_USER_SE58", value: 246 ),
+        ( name: "SOUNDLIST_USER_SE59", value: 247 ),
+        ( name: "SOUNDLIST_USER_SE60", value: 248 ),
+        ( name: "SOUNDLIST_USER_SE61", value: 249 ),
+        ( name: "SOUNDLIST_USER_SE62", value: 250 ),
+        ( name: "SOUNDLIST_USER_SE63", value: 251 ),
+        ( name: "SOUNDLIST_USER_SE64", value: 252 ),
+        ( name: "SOUNDLIST_USER_SE65", value: 253 ),
+        ( name: "SOUNDLIST_USER_SE66", value: 254 ),
+        ( name: "SOUNDLIST_USER_SE67", value: 255 ),
+        ( name: "SOUNDLIST_USER_SE68", value: 256 ),
+        ( name: "SOUNDLIST_USER_SE69", value: 257 ),
+        ( name: "SOUNDLIST_USER_SE70", value: 258 ),
+        ( name: "SOUNDLIST_USER_SE71", value: 259 ),
+        ( name: "SOUNDLIST_USER_SE72", value: 260 ),
+        ( name: "SOUNDLIST_USER_SE73", value: 261 ),
+        ( name: "SOUNDLIST_USER_SE74", value: 262 ),
+        ( name: "SOUNDLIST_USER_SE75", value: 263 ),
+        ( name: "SOUNDLIST_USER_SE76", value: 264 ),
+        ( name: "SOUNDLIST_USER_SE77", value: 265 ),
+        ( name: "SOUNDLIST_USER_SE78", value: 266 ),
+        ( name: "SOUNDLIST_USER_SE79", value: 267 ),
+        ( name: "SOUNDLIST_USER_SE80", value: 268 ),
+        ( name: "SOUNDLIST_USER_SE81", value: 269 ),
+        ( name: "SOUNDLIST_USER_SE82", value: 270 ),
+        ( name: "SOUNDLIST_USER_SE83", value: 271 ),
+        ( name: "SOUNDLIST_USER_SE84", value: 272 ),
+        ( name: "SOUNDLIST_USER_SE85", value: 273 ),
+        ( name: "SOUNDLIST_USER_SE86", value: 274 ),
+        ( name: "SOUNDLIST_USER_SE87", value: 275 ),
+        ( name: "SOUNDLIST_USER_SE88", value: 276 ),
+        ( name: "SOUNDLIST_USER_SE89", value: 277 ),
+        ( name: "SOUNDLIST_USER_SE90", value: 278 ),
+        ( name: "SOUNDLIST_USER_SE91", value: 279 ),
+        ( name: "SOUNDLIST_USER_SE92", value: 280 ),
+        ( name: "SOUNDLIST_USER_SE93", value: 281 ),
+        ( name: "SOUNDLIST_USER_SE94", value: 282 ),
+        ( name: "SOUNDLIST_USER_SE95", value: 283 ),
+        ( name: "SOUNDLIST_USER_SE96", value: 284 ),
+        ( name: "SOUNDLIST_USER_SE97", value: 285 ),
+        ( name: "SOUNDLIST_USER_SE98", value: 286 ),
+        ( name: "SOUNDLIST_USER_SE99", value: 287 ),
 
         ( name: "SOUNDLIST_FREEZE01", value: 288 ),
         ( name: "SOUNDLIST_TM2_ALCHEMIST000", value: 289 ),
@@ -639,7 +737,91 @@ AnalysisConfig(
     ),
   },
 
-  functions: {},
+  functions: {
+    "_aisite": (
+      args: {
+        0: (name: "puncmark", type: Int)
+      }
+    ),
+    "calcmealvalued": (
+      args: {}
+    ),
+    "eatstatusfood": (
+      args: {
+        0: (name: "itemidx", type: Int),
+        1: (name: "charaidx", type: Int, indices: [ ( substitute: Group("chara") ) ])
+      }
+    ),
+    "findcharawork": (
+      args: {
+        0: (name: "charaid", type: Int, indices: [ ( substitute: Group("chara_id") ) ])
+      }
+    ),
+    "findunique": (
+      args: {
+        0: (name: "arg1", type: Int, indices: [ ( substitute: Group("chara_id") ) ])
+      }
+    ),
+    "modgauge": (
+      args: {
+        0: (name: "charaidx", type: Int, indices: [ ( substitute: Group("chara") ) ]),
+        1: (name: "amount", type: Int),
+      }
+    ),
+    "randwskill": (
+      args: {}
+    ),
+    "txtselectkimoti0": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtselectkimoti1": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtselectkimoti2": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetadvmes": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetendword": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetmimikaki": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetplant": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetplantr": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetwork": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+    "txtsetypoint": (
+      args: {
+        0: (name: "count", type: Int)
+      }
+    ),
+  },
 
   labels: {},
 

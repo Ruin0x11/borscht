@@ -2062,7 +2062,7 @@ AnalysisConfig(
         ( name: "COLOR_DARK_GRAY2", value: 28 ),
         ( name: "COLOR_DARK_GRAY3", value: 29 ),
 
-        ( name: "MAX_COLOR", value: Color("COLOR_DARK_GRAY3 + 1") ),
+        ( name: "MAX_COLOR", value: 30, code_value: "COLOR_DARK_GRAY3 + 1" ),
 
         ( name: "COLOR_TINT_MULT", value: 1000 ),
       ]
@@ -6564,7 +6564,7 @@ AnalysisConfig(
         ( name: "SKILL_NORMAL_MARKSMAN", value: 189, ),
         ( name: "SKILL_NORMAL_SWIMMING", value: 190, ),
 
-        ( name: "MAX_SKILL_NORMAL", value: 191, code_value: "SKILL_NORMAL_SWIMMING + 1", exclude: true ),
+        ( name: "MAX_SKILL_NORMAL", value: 191, code_value: "SKILL_NORMAL_SWIMMING + 1" ),
       ]
     ),
     "skill_active": (
@@ -6574,7 +6574,7 @@ AnalysisConfig(
         ( name: "SKILL_ACTIVE_PICKPOCKET", value: 300, ),
         ( name: "SKILL_ACTIVE_RIDING", value: 301, ),
 
-        ( name: "MAX_SKILL_ACTIVE", value: 302, code_value: "SKILL_ACTIVE_RIDING + 1", exclude: true ),
+        ( name: "MAX_SKILL_ACTIVE", value: 302, code_value: "SKILL_ACTIVE_RIDING + 1" ),
       ]
     ),
     "skill_spell": (
@@ -6658,7 +6658,7 @@ AnalysisConfig(
         ( name: "SKILL_SPELL_BUBBLE_STORM", value: 476, ),
         ( name: "SKILL_SPELL_GEM_POWER", value: 477, ),
 
-        ( name: "MAX_SPELL", value: 478, code_value: "SKILL_SPELL_GEM_POWER + 1", exlcude: true ),
+        ( name: "MAX_SPELL", value: 478, code_value: "SKILL_SPELL_GEM_POWER + 1" ),
       ]
     ),
     "skill_spact": (
@@ -8085,6 +8085,10 @@ AnalysisConfig(
         (
           rules: { 0: Expr },
           substitute: { 0: VariantRecursive("cdata", ["ARRAY_CDATA_BUFF"], Rhs("*")) }
+        ),
+        (
+          rules: { 0: Expr },
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_ACT_MAIN", "STARTING_CDATA_ACT_SUB"], Lhs("+")) }
         ),
         (
           rules: { 1: Group("chara"), },

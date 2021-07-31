@@ -1781,7 +1781,7 @@ fn merge_configs(config: &mut AnalysisConfig, parent: AnalysisConfig) -> Result<
             for parent_variable in group.variables.into_iter() {
                 let this_idx = this_group.variables.iter().position(|v| v.name == parent_variable.name);
                 match this_idx {
-                    Some(i) => this_group.variables.get_mut(i).unwrap().value = parent_variable.value.clone(),
+                    Some(_) => (),
                     None => this_group.variables.push(parent_variable.clone())
                 }
             }
@@ -1796,27 +1796,47 @@ fn merge_configs(config: &mut AnalysisConfig, parent: AnalysisConfig) -> Result<
 
     // Arrays
     for (array_name, array) in parent.arrays.into_iter() {
-        config.arrays.insert(array_name, array);
+        if config.arrays.contains_key(&array_name) {
+            let this_arraydef = config.arrays.get_mut(&array_name).unwrap();
+            for parent_index in array.indices.into_iter() {
+                this_arraydef.indices.push(parent_index);
+            }
+        } else {
+            config.arrays.insert(array_name, array);
+        }
     }
 
     // Expressions
     for (expr_name, expr) in parent.expressions.into_iter() {
-        config.expressions.insert(expr_name, expr);
+        if config.expressions.contains_key(&expr_name) {
+            let this_exprdef = config.expressions.get_mut(&expr_name).unwrap();
+            for parent_index in expr.indices.into_iter() {
+                this_exprdef.indices.push(parent_index);
+            }
+        } else {
+            config.expressions.insert(expr_name, expr);
+        }
     }
 
     // Functions
     for (func_name, func) in parent.functions.into_iter() {
-        config.functions.insert(func_name, func);
+        if !config.functions.contains_key(&func_name) {
+            config.functions.insert(func_name, func);
+        }
     }
 
     // Labels
     for (label_name, label) in parent.labels.into_iter() {
-        config.labels.insert(label_name, label);
+        if !config.labels.contains_key(&label_name) {
+            config.labels.insert(label_name, label);
+        }
     }
 
     // Files
     for (file_name, file) in parent.files.into_iter() {
-        config.files.insert(file_name, file);
+        if !config.files.contains_key(&file_name) {
+            config.files.insert(file_name, file);
+        }
     }
 
     Ok(())
