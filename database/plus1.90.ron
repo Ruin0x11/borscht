@@ -16555,12 +16555,12 @@ AnalysisConfig(
       name: "*select_action",
       rules: [
         (
-          kind: Assignment,
-          match: "locvar_makecardlist_p = 0"
-        ),
-        (
           kind: Function,
           match: "redraw 0"
+        ),
+        (
+          kind: Assignment,
+          match: "locvar_makecardlist_p = 0"
         ),
       ]
     ),
@@ -18675,8 +18675,8 @@ AnalysisConfig(
       name: "*read",
       rules: [
         (
-          kind: If,
-          match: "if ( inv(INV_ITEM_ID, ci) == ITEM_ID_SKILLBOOK ) {"
+          kind: StringLiteral,
+          match: "すくつの探索を許可する、という内容の文面が形式的に書いてある。"
         )
       ]
     ),
