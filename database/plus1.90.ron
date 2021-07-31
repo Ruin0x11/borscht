@@ -7,6 +7,7 @@ AnalysisConfig(
     version: "1.90",
     ax_sha256: "e3dca7fe66eed586b2da31159390f8ac86b48e17a61291eaac41c996b59864b9"
   ),
+
   variable_groups: {
     "food_type": (
       variables: [
@@ -2712,7 +2713,7 @@ AnalysisConfig(
         ( name: "CONDITION_INVERT", value: 20 ),
         ( name: "CONDITION_MPOISON", value: 21 ),
       ]
-    ),
+      ),
     "shield_style": (
       variables: [
         ( name: "SHIELD_STYLE_NORMAL", value: 1 ),
@@ -6511,7 +6512,7 @@ AnalysisConfig(
         ( name: "SKILL_WEAPON_FIREARM", value: 110, ),
         ( name: "SKILL_WEAPON_THROWING", value: 111, ),
 
-        ( name: "MAX_SKILL_WEAPON", value: 112, code_value: "SKILL_WEAPON_THROWING + 1", exclude: true ),
+        ( name: "MAX_SKILL_WEAPON", value: 112, code_value: "SKILL_WEAPON_THROWING + 1" ),
       ]
     ),
     "skill_normal": (
@@ -7249,7 +7250,8 @@ AnalysisConfig(
       includes: [
         "skill_id",
         "buff_id"
-      ]
+      ],
+      ignore: [ -1 ]
     ),
     "all_ai_actions": (
         includes: [
@@ -7280,7 +7282,7 @@ AnalysisConfig(
         "ai_action"
       ]
     ),
-    "action": (
+    "action_1": (
       variables: [
         ( name: "ACTION_NONE", value: 0, ),
         ( name: "ACTION_EAT", value: 1, ),
@@ -7307,13 +7309,22 @@ AnalysisConfig(
         ( name: "ACTION_INTIMIDATION", value: 22, ),
         ( name: "ACTION_MYSTERIOUS_SONG", value: 23, ),
         ( name: "ACTION_TUIN_DER_LUSTEN", value: 24, ),
-
+      ]
+    ),
+    "action_2": (
+      variables: [
         ( name: "ACTION_SLEEP", value: 100, ),
         ( name: "ACTION_CONSTRUCT", value: 101, ),
         ( name: "ACTION_OPEN_HATCH", value: 102, ),
         ( name: "ACTION_HARVEST", value: 103, ),
         ( name: "ACTION_TRAIN", value: 104, ),
         ( name: "ACTION_STEAL", value: 105, ),
+      ]
+    ),
+    "action": (
+      includes: [
+        "action_1",
+        "action_2",
       ]
     ),
     "skill_dataref": (

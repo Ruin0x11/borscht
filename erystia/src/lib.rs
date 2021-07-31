@@ -78,7 +78,17 @@ pub struct AnalysisResult {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+struct Metadata {
+    variant_name: String,
+    version: String,
+    ax_sha256: String
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 struct AnalysisConfig {
+    meta: Metadata,
+    #[serde(default)]
+    includes: Vec<String>,
     variable_groups: HashMap<GroupName, VariableGroup>,
     arrays: HashMap<String, ArrayDefinition>,
     expressions: HashMap<String, ExprDefinition>,
