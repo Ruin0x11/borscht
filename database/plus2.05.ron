@@ -262,6 +262,11 @@ AnalysisConfig(
           code_value: "STARTING_GDATA_FLAG + 410"
         ),
         (
+          name: "GDATA_FLAG_YACA_POINTS",
+          value: 661,
+          code_value: "STARTING_GDATA_FLAG + 411"
+        ),
+        (
           name: "GDATA_FLAG_HANDSHAKE_RIGHTS",
           value: 662,
           code_value: "STARTING_GDATA_FLAG + 412"
@@ -431,6 +436,26 @@ AnalysisConfig(
         ( name: "VEHICLE_LAND_BATTLESHIP", value: 4 ),
       ],
     ),
+    "area_id": (
+      variables: [
+        ( name: "AREA_SOUTH_RASKILIS", value: 95 ),
+        ( name: "AREA_WEST_RASKILIS", value: 96 ),
+      ],
+      ignore: [ 800, 900 ]
+    ),
+    "enchant_id": (
+      variables: [
+        ( name: "ENCHANT_KALPA_HAND", value: 77 ),
+        ( name: "ENCHANT_POTIOMAN_ROTATION", value: 78 ),
+        ( name: "ENCHANT_POTIOMAN_POWER", value: 79 ),
+        ( name: "ENCHANT_POTIOMAN_TWO_SHOTS", value: 80 ),
+        ( name: "ENCHANT_POTIOMAN_CONTINUOUS_SHOT", value: 81 ),
+        ( name: "ENCHANT_POTIOMAN_PRECISE_SHOT", value: 82 ),
+        ( name: "ENCHANT_POTIOMAN_CHANGING_TRAJECTORY", value: 83 ),
+
+        ( name: "MAX_ENCHANTMENT", value: 84, code_value: "ENCHANT_POTIOMAN_CHANGING_TRAJECTORY + 1" ),
+      ]
+    ),
     "skill_spact": (
       variables: [
         // Replaced/removed
@@ -467,6 +492,21 @@ AnalysisConfig(
           value: 1173,
           code_value: "SKILL_EFFECT_MIN + 73"
         ),
+      ]
+    ),
+    "event": (
+      variables: [
+        ( name: "EVENT_ARTIFACT_LOTTERY", value: 82 ),
+        ( name: "EVENT_CHAOS_CRADLE_NUKE_1", value: 83 ),
+        ( name: "EVENT_CHAOS_CRADLE_NUKE_2", value: 84 ),
+        ( name: "EVENT_CHAOS_CRADLE_SPAWN_YAYAUHQUI", value: 85 ),
+        ( name: "EVENT_CHAOS_CRADLE_CHAT_JALDABAOTH", value: 86 ),
+        ( name: "EVENT_CHAOS_CRADLE_SPAWN_JALDABAOTH", value: 87 ),
+        ( name: "EVENT_RETURN_FROM_CHAOS_CRADLE", value: 88 ),
+        ( name: "EVENT_DOCK_WORKER", value: 89 ),
+        ( name: "EVENT_EAR_CLEANING", value: 90 ),
+        ( name: "EVENT_AMURDEAD_SUB_CREATE_STAIRS", value: 91 ),
+        ( name: "EVENT_AMURDEAD_SUB_FIREWORKS", value: 92 ),
       ]
     ),
     "music_id": (
@@ -590,6 +630,10 @@ AnalysisConfig(
         MatchAll((
             rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_STUDY_BONUS_KIND"]) }) ),
             substitute: ( rhs: { 0: Group("study_bonus") } )
+          )),
+        MatchAll((
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_WORLD_MAP_VEHICLE_KIND", "GDATA_FLAG_WORLD_MAP_VEHICLE_KIND_COLORED"]) }) ),
+            substitute: ( rhs: { 0: Group("vehicle_kind") } )
           )),
       ]
     ),

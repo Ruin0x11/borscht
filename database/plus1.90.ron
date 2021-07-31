@@ -866,7 +866,7 @@ AnalysisConfig(
         ( name: "ENCHANT_POISON_AND_NERVE", value: 75 ),
         ( name: "ENCHANT_BANE_FLYING", value: 76 ),
 
-        ( name: "MAX_ENCHANTMENT", value: "ENCHANT_BANE_FLYING + 1" ),
+        ( name: "MAX_ENCHANTMENT", value: 77, code_value: "ENCHANT_BANE_FLYING + 1" ),
       ]
     ),
     "enchant_proc_id": (
