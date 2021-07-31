@@ -1453,7 +1453,7 @@ impl<'a> LabelRenameVisitor<'a> {
                     if let Some(after) = &defn.after {
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
                             if &prev_resolved.name == after {
-                                assert!(found_after.is_none(), "More than one label with same 'after' field found.");
+                                assert!(found_after.is_none(), "More than one label with same 'after' field found: {}", after);
                                 found_after = Some(i);
                             }
                         }
@@ -1465,6 +1465,7 @@ impl<'a> LabelRenameVisitor<'a> {
         if let Some(found) = found_after {
             let rule = self.labels_remaining.remove(found);
             let label = self.visiting_label.unwrap();
+            *self.hsp3as.label_usage.entry(label.clone()).or_insert(0) += 1;
             self.associate_label(rule, &label);
         }
     }

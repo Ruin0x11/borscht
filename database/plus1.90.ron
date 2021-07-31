@@ -169,7 +169,8 @@ AnalysisConfig(
         ( name: "CELL_FEATURE_POT", value: 30 ),
         ( name: "CELL_FEATURE_SMALL_MEDAL", value: 32 ),
         ( name: "CELL_FEATURE_BUILDING", value: 34 ),
-      ]
+      ],
+      ignore: [ -1 ]
     ),
     "cell_sub_feature": (
       variables: [
@@ -183,6 +184,7 @@ AnalysisConfig(
         ( name: "CELL_SUB_FEATURE_TRAP_QUEST_MINE", value: 7 ),
         ( name: "CELL_SUB_FEATURE_TRAP_BLADE_STRINGS", value: 8 ),
         ( name: "CELL_SUB_FEATURE_TRAP_QUEST_PITFALL", value: 9 ),
+        ( name: "CELL_SUB_FEATURE_TRAP_QUEST_PITFALL", value: 10 ),
         ( name: "CELL_SUB_FEATURE_TRAP_HOSTILE_BLADE_STRINGS", value: 20 ),
         ( name: "CELL_SUB_FEATURE_TRAP_PITFALL", value: 21 ),
         ( name: "CELL_SUB_FEATURE_TRAP_MINE", value: 22 ),
@@ -193,7 +195,8 @@ AnalysisConfig(
         ( name: "CELL_SUB_FEATURE_SEED_ARTIFACT", value: 40 ),
         ( name: "CELL_SUB_FEATURE_SEED_GEM", value: 41 ),
         ( name: "CELL_SUB_FEATURE_SEED_MAGIC", value: 42 ),
-      ]
+      ],
+      ignore: [ -1 ]
     ),
     "lightdata": (
       variables: [
@@ -8203,6 +8206,13 @@ AnalysisConfig(
         ),
       ]
     ),
+    "mapbk": (
+      indices: [
+        (
+          substitute: { 2: Group("map") }
+        ),
+      ]
+    ),
     "feat": (
       indices: [
         (
@@ -8769,11 +8779,11 @@ AnalysisConfig(
     "map": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 2: Variant("mdata", ["MAP_TILE_ID", "MAP_TILE_ID_MEMORY"]) }) ),
+          rules: ( lhs: Array({ 2: Variant("map", ["MAP_TILE_ID", "MAP_TILE_ID_MEMORY"]) }) ),
           substitute: ( rhs: { 0: XY2Pic } )
         )),
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("mdata", ["MAP_LIGHT_TYPE"]) }) ),
+          rules: ( lhs: Array({ 0: Variant("map", ["MAP_LIGHT_TYPE"]) }) ),
           substitute: ( rhs: { 0: Group("light_type") } )
         ))
       ]
@@ -8817,7 +8827,11 @@ AnalysisConfig(
     "gdata": (
       indices: [
         MatchAll((
-          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA", "GDATA_TELEPORT_AREA"]) }) ),
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_WORLD_RENEW"]) }) ),
+          substitute: ( rhs: { 0: Group("boolean") } )
+        )),
+        MatchAll((
+          rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_AREA", "GDATA_TELEPORT_AREA", "GDATA_WORLD"]) }) ),
           substitute: ( rhs: { 0: Group("area_id") } )
         )),
         MatchAll((
@@ -8836,7 +8850,6 @@ AnalysisConfig(
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST_STATE"]) }) ),
           substitute: ( rhs: { 0: Group("quest_state") } )
         )),
-
         MatchAll((
           rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
           substitute: ( rhs: { 0: Group("gamemode") } )
@@ -8883,6 +8896,16 @@ AnalysisConfig(
       indices: [
         MatchAll((
           substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("\\")) } )
+        )),
+      ]
+    ),
+    "cardrefpic": (
+      indices: [
+        MatchAll((
+          substitute: ( rhs: { 0: GroupRecursive("color", Rhs("+")) } )
+        )),
+        MatchAll((
+          substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("*")) } )
         )),
       ]
     ),
@@ -9367,31 +9390,31 @@ AnalysisConfig(
     "asettownn": (indices: [MatchAny((rule: Group("area_id"), substitute: Group("area_id")))]),
     "asettowns": (indices: [MatchAny((rule: Group("area_id"), substitute: Group("area_id")))]),
 
-    "tile_trap":         (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_doorclosed":   (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_doorclosed2":  (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_doorclosed3":  (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_doorclosed4":  (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_doorclosed5":  (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_dooropen":     (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_downstairs":   (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_upstairs":     (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_hidden":       (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_downlocked":   (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_re":           (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_plant":        (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_board":        (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_votebox":      (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_townboard":    (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_trans":        (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_dungeon":      (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_battlesite":   (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_default":      (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_fog":          (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_wall":         (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_room":         (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_tunnel":       (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
-    "tile_pot":          (indices: MatchAll((substitute: ( rhs: { 0: XY2Pic } )))),
+    "tile_trap":         (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_doorclosed":   (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_doorclosed2":  (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_doorclosed3":  (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_doorclosed4":  (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_doorclosed5":  (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_dooropen":     (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_downstairs":   (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_upstairs":     (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_hidden":       (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_downlocked":   (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_re":           (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_plant":        (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_board":        (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_votebox":      (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_townboard":    (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_trans":        (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_dungeon":      (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_battlesite":   (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_default":      (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_fog":          (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_wall":         (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_room":         (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_tunnel":       (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
+    "tile_pot":          (indices: [MatchAll((substitute: ( rhs: { 0: XY2Pic } )))]),
 
     // Functions
 
@@ -11095,8 +11118,8 @@ AnalysisConfig(
         0: (name: "x", type: Int),
         1: (name: "y", type: Int),
         2: (name: "chipid", type: Int),
-        3: (name: "featid", type: Int, indices: [ ( substitute: Group("cell_feature")) ])),
-        4: (name: "featsubid", type: Int, indices: [ ( substitute: Group("cell_sub_feature")) ])),),
+        3: (name: "featid", type: Int, indices: [ ( substitute: Group("cell_feature")) ]),
+        4: (name: "featsubid", type: Int, indices: [ ( rules: { 3: Variant("cell_feature", ["CELL_FEATURE_TRAP", "CELL_FEATURE_SEED"]) }, substitute: Group("cell_sub_feature")) ]),
         5: (name: "param", type: Int),
       }
     ),
@@ -11763,7 +11786,7 @@ AnalysisConfig(
     "resistmodh": (
       args: {
         0: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
-        1: (name: "ele", type: Int),
+        1: (name: "ele", type: Int, indices: [ ( substitute: Group("skill_resist")) ]),
         2: (name: "arg3", type: Int),
       }
     ),
@@ -12233,7 +12256,7 @@ AnalysisConfig(
     ),
     "map_tileset": (
       args: {
-        0: (name: "arg1", type: Int, indices: [ ( substitute: Group("map_tileset")) ])),
+        0: (name: "arg1", type: Int, indices: [ ( substitute: Group("map_tileset")) ]),
       }
     ),
     "map_initcustom": (
@@ -14845,7 +14868,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "君の特筆すべき才能を1つ、教えてほしいな。印がついているのは種族・職業と被っているものだね。	}"
+          match: "君の特筆すべき才能を1つ、教えてほしいな。印がついているのは種族・職業と被っているものだね。"
         )
       ]
     ),
@@ -14916,7 +14939,7 @@ AnalysisConfig(
       name: "*cm_birth_loop",
       rules: [
         (
-          kind: Function,
+          kind: Assignment,
           match: "cdatan(CDATAN_NAME, rc) = \"????\""
         )
       ]
@@ -14972,8 +14995,8 @@ AnalysisConfig(
       name: "*item_fltInit",
       rules: [
         (
-          kind: Function,
-          match: "	fsetincome = FILTER_ITEM_POTION, FILTER_ITEM_SCROLL, FILTER_ITEM_SCROLL, FILTER_ITEM_ROD, FILTER_ITEM_SPELLBOOK, FILTER_ORE, FILTER_ITEM_FOOD, FILTER_ITEM_FOOD"
+          kind: Assignment,
+          match: "fsetincome = FILTER_ITEM_POTION, FILTER_ITEM_SCROLL, FILTER_ITEM_SCROLL, FILTER_ITEM_ROD, FILTER_ITEM_SPELLBOOK, FILTER_ORE, FILTER_ITEM_FOOD, FILTER_ITEM_FOOD"
         )
       ]
     ),
@@ -15074,7 +15097,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "fdlist(0, fdmax) = SKILL_ATTR_STR, -100"
+          match: "nutrition = 1000"
         )
       ]
     ),
@@ -15387,7 +15410,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "tile_trap = xy2pic(7, 3)"
+          match: "tile_trap = xy2pic(3, 7)"
         )
       ]
     ),
@@ -15524,8 +15547,13 @@ AnalysisConfig(
     ),
     (
       name: "*mapEditor_main_WHILE1_CONTINUE",
-      after: "*mapEditor_WHILE1"
+      after: "*mapEditor_main_WHILE1",
       loop_kind: WhileContinue
+    ),
+    (
+      name: "*mapEditor_main_WEND1",
+      after: "*mapEditor_main_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
     ),
     (
       name: "*cmap_init1",
@@ -15636,7 +15664,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "mapbk(x, y, 0) = map(x, y, 0)"
+          match: "mapbk(x, y, MAP_TILE_ID) = map(x, y, MAP_TILE_ID)"
         )
       ]
     ),
@@ -15645,7 +15673,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( fmapfile == "" ) {"
+          match: "if ( fmapfile == \"\" ) {"
         )
       ]
     ),
@@ -15702,7 +15730,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( chipm(CHIPM_ROLE, map(x, y, 0)) == coasttile(3) ) {"
+          match: "if ( chipm(CHIPM_ROLE, map(x, y, MAP_TILE_ID)) == coasttile(3) ) {"
         )
       ]
     ),
@@ -16116,8 +16144,8 @@ AnalysisConfig(
       name: "*map_begin",
       rules: [
         (
-          kind: Function,
-          match: "	if ( gdata(GDATA_ADVENTURER_ORACLE) == 100 ) {"
+          kind: StringLiteral,
+          match: "マップのロードに失敗しました。"
         )
       ]
     ),
@@ -16126,7 +16154,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	procid = (procid + 1) \ 4"
+          match: "itemcreate cnt, ITEM_ID_STRADIVARIUS, -1, -1, 0"
         )
       ]
     ),
@@ -16134,8 +16162,8 @@ AnalysisConfig(
       name: "*map_prepareTile",
       rules: [
         (
-          kind: Function,
-          match: "	gosub *rader_preDraw"
+          kind: If,
+          match: "if ( gdata(GDATA_HOUR) >= 10 & gdata(GDATA_HOUR) < 12 ) {"
         )
       ]
     ),
@@ -16143,8 +16171,8 @@ AnalysisConfig(
       name: "*world_newRandArea",
       rules: [
         (
-          kind: Function,
-          match: "		}"
+          kind: Assignment,
+          match: "cyinit = rnd(mdata(MDATA_HEIGHT))"
         )
       ]
     ),
@@ -16152,26 +16180,21 @@ AnalysisConfig(
       name: "*world_update",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: If,
+          match: "if ( gdata(GDATA_WORLD_RENEW) == TRUE ) {"
         )
       ]
     ),
     (
       name: "*world_refresh",
-      rules: [
-        (
-          kind: Function,
-          match: "	return 1"
-        )
-      ]
+      after: "*world_update"
     ),
     (
       name: "*world_setArea",
       rules: [
         (
-          kind: Function,
-          match: "	return"
+          kind: If,
+          match: "if ( adata(ADATA_ID, cnt) == 900 ) {"
         )
       ]
     ),
@@ -16179,8 +16202,8 @@ AnalysisConfig(
       name: "*world_clear",
       rules: [
         (
-          kind: Function,
-          match: "	repeat mdata(MDATA_HEIGHT)"
+          kind: Assignment,
+          match: "map(x, y, MAP_LIGHT_TYPE) = 0"
         )
       ]
     ),
@@ -16188,8 +16211,8 @@ AnalysisConfig(
       name: "*setArea",
       rules: [
         (
-          kind: Function,
-          match: "	p = AREA_AIMWELL"
+          kind: Assignment,
+          match: "adata(ADATA_ID, p) = AREA_TEST_GROUND"
         )
       ]
     ),
@@ -16197,8 +16220,8 @@ AnalysisConfig(
       name: "*map_createRandArea",
       rules: [
         (
-          kind: Function,
-          match: "	repeat MAX_AREA_COUNT - STARTING_RANDOM_AREA, STARTING_RANDOM_AREA"
+          kind: Assignment,
+          match: "adata(ADATA_ID, p) = AREA_RANDOM_DUNGEON"
         )
       ]
     ),
@@ -16206,8 +16229,8 @@ AnalysisConfig(
       name: "*mapEvent",
       rules: [
         (
-          kind: Function,
-          match: "	if ( gdata(GDATA_AREA) == AREA_NOYEL ) {"
+          kind: If,
+          match: "if ( gdata(GDATA_FLAG_FIRE_GIANT) == 1 ) {"
         )
       ]
     ),
@@ -16216,7 +16239,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	inv_getheader -1"
+          match: "characreate -1, CREATURE_ID_PART_TIME_WORKER2, 30, 22"
         )
       ]
     ),
@@ -16225,7 +16248,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	inv_getheader -1"
+          match: "itemcreate -1, ITEM_ID_STATUE_JURE, 29, 16, 0"
         )
       ]
     ),
@@ -16233,8 +16256,8 @@ AnalysisConfig(
       name: "*db_card",
       rules: [
         (
-          kind: Function,
-          match: ""
+          kind: Assignment,
+          match: "cardreftype = 10"
         )
       ]
     ),
@@ -16243,115 +16266,104 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	await"
+          match: "await"
+        ),
+        (
+          kind: Function,
+          match: "stick locvar_dbghit_a"
+        ),
+        (
+          kind: If,
+          match: "if ( locvar_dbghit_a ) {"
+        ),
+        (
+          kind: Function,
+          match: "return"
         )
-      ]
+      ],
+      loop_kind: While
     ),
     (
       name: "*dbghit_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "#deffunc makecardlist"
-        )
-      ]
+      after: "*dbghit_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*tcgdraw_WHILE1",
       rules: [
         (
-          kind: Function,
-          match: "	t@tcg++"
+          kind: Assignment,
+          match: "locvar_tcgdraw_t++"
         )
-      ]
+      ],
+      loop_kind: While
     ),
     (
       name: "*tcgdraw_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
+      after: "*tcgdraw_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*getrandomcard_WHILE1",
       rules: [
         (
-          kind: Function,
-          match: "	c@tcg = rnd(maxcard@tcg)"
+          kind: Assignment,
+          match: "locvar_tcgdraw_c = rnd(locvar_makecardlist_maxcard)"
         )
-      ]
+      ],
+      loop_kind: While
     ),
     (
       name: "*getrandomcard_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "		}"
-        )
-      ]
+      after: "*getrandomcard_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*actionchain_WHILE1",
       rules: [
         (
-          kind: Function,
-          match: "	tcgdraw"
+          kind: Assignment,
+          match: "locvar_tcgdraw_chaintime--"
         )
-      ]
+      ],
+      loop_kind: While
     ),
     (
       name: "*actionchain_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
+      after: "*actionchain_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*actionproc_WHILE1",
       rules: [
         (
-          kind: Function,
-          match: "	if ( stack@tcg > 0 ) {"
+          kind: Assignment,
+          match: "locvar_tcgdraw_cc = locvar_actionproc_cardstack(0, locvar_actionproc_stack - 1)"
         )
-      ]
+      ],
+      loop_kind: While
     ),
     (
       name: "*actionproc_SWEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "		_switch_sw@tcg++"
-        )
-      ]
+      after: "*actionproc_WHILE1",
+      loop_kind: SwitchEnd
     ),
     (
       name: "*actionproc_WHILE1_CONTINUE",
-      rules: [
-        (
-          kind: Function,
-          match: "	goto *actionproc_WHILE1"
-        )
-      ]
+      after: "*actionproc_SWEND1",
+      loop_kind: WhileContinue
     ),
     (
       name: "*actionproc_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	stack@tcg = 0"
-        )
-      ]
+      after: "*actionproc_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
     ),
     (
       name: "*tcgDeck_loop",
       rules: [
         (
-          kind: Function,
-          match: "	tcgdrawbg"
+          kind: Assignment,
+          match: "locvar_cnvrare_s(cnt) += lang(\"のデッキ\", \" Deck\")"
         )
       ]
     ),
@@ -16360,25 +16372,26 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	cpisme"
+          match: "cpisme"
+        ),
+        (
+          kind: If,
+          match: "if ( gameover() ) {"
         )
-      ]
+      ],
+      loop_kind: While
     ),
     (
       name: "*tcgmain_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
+      after: "*tcgmain_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*phase_begin",
       rules: [
         (
-          kind: Function,
-          match: "	phase@tcg = 0"
+          kind: Assignment,
+          match: "locvar_tcgdraw_phase = 0"
         )
       ]
     ),
@@ -16386,8 +16399,8 @@ AnalysisConfig(
       name: "*phase_draw",
       rules: [
         (
-          kind: Function,
-          match: "	phase@tcg = 1"
+          kind: Assignment,
+          match: "locvar_tcgdraw_phase = 1"
         )
       ]
     ),
@@ -16395,8 +16408,8 @@ AnalysisConfig(
       name: "*phase_main",
       rules: [
         (
-          kind: Function,
-          match: "	phase@tcg = 2"
+          kind: Assignment,
+          match: "locvar_tcgdraw_phase = 2"
         )
       ]
     ),
@@ -16404,8 +16417,8 @@ AnalysisConfig(
       name: "*phase_end",
       rules: [
         (
-          kind: Function,
-          match: "	phase@tcg = 3"
+          kind: Assignment,
+          match: "locvar_tcgdraw_phase = 3"
         )
       ]
     ),
@@ -16414,7 +16427,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	gsel 4"
+          match: "dim locvar_cslinedown_mana, 10"
         )
       ]
     ),
@@ -16422,8 +16435,8 @@ AnalysisConfig(
       name: "*tcg_drawDeck",
       rules: [
         (
-          kind: Function,
-          match: "	font lang(cfg_font1, cfg_font2), 10 + en - en * 2, 0"
+          kind: If,
+          match: "if ( locvar_cslinedown_ccf == cnt ) {"
         )
       ]
     ),
@@ -16431,8 +16444,8 @@ AnalysisConfig(
       name: "*tcg_drawInterface",
       rules: [
         (
-          kind: Function,
-          match: "	gmode 0"
+          kind: Assignment,
+          match: "locvar_tcgdrawcard_x = locvar_dmgplayer_cpx(cnt)"
         )
       ]
     ),
@@ -16441,16 +16454,28 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "	gmode 4, , , 180"
-        )
+          match: "repeat 2"
+        ),
+        (
+          kind: Assignment,
+          match: "locvar_makecardlist_cnt2 = cnt"
+        ),
+        (
+          kind: Function,
+          match: "gsel BUFFER_SCREEN"
+        ),
+        (
+          kind: Function,
+          match: "return"
+        ),
       ]
     ),
     (
       name: "*select_deck_pos",
       rules: [
         (
-          kind: Function,
-          match: "	if ( dsc@tcg < 0 ) {"
+          kind: If,
+          match: "if ( locvar_tcgdrawcard_dsc < 0 ) {"
         )
       ]
     ),
@@ -16458,8 +16483,8 @@ AnalysisConfig(
       name: "*select_deck",
       rules: [
         (
-          kind: Function,
-          match: "	gsel 4"
+          kind: Assignment,
+          match: "locvar_cslinedown_cflist = 1, 2, 3, 4, 5, 6, 7, 8, 9"
         )
       ]
     ),
@@ -16467,134 +16492,94 @@ AnalysisConfig(
       name: "*select_deck_loop",
       rules: [
         (
-          kind: Function,
-          match: "	dlistmax@tcg = 0"
+          kind: If,
+          match: "if ( locvar_cdbit_card(0, cnt) != (-1) ) {"
         )
       ]
     ),
     (
       name: "*select_deck_loop_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
+      after: "*select_deck_loop",
+      loop_kind: While
     ),
     (
       name: "*select_deck_loop_WHILE2",
-      rules: [
-        (
-          kind: Function,
-          match: "			redraw 0"
-        )
-      ]
+      after: "*select_deck_loop_WHILE1",
+      loop_kind: While
     ),
     (
       name: "*select_deck_loop_WHILE2_CONTINUE",
-      rules: [
-        (
-          kind: Function,
-          match: "				}"
-        )
-      ]
+      after: "*select_deck_loop_WHILE2",
+      loop_kind: WhileContinue
     ),
     (
       name: "*select_deck_loop_WEND2",
-      rules: [
-        (
-          kind: Function,
-          match: "*select_deck_loop_WHILE2_CONTINUE"
-        )
-      ]
+      after: "*select_deck_loop_WHILE2_CONTINUE",
+      loop_kind: WhileEnd
     ),
     (
       name: "*select_deck_loop_WHILE1_CONTINUE",
-      rules: [
-        (
-          kind: Function,
-          match: "		}"
-        )
-      ]
+      after: "*select_deck_loop_WEND2",
+      loop_kind: WhileContinue
     ),
     (
       name: "*select_deck_loop_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
+      after: "*select_deck_loop_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
     ),
     (
       name: "*card_player",
       rules: [
         (
-          kind: Function,
-          match: "	if ( selectmode@tcg == 0 ) {"
+          kind: Assignment,
+          match: "locvar_tcgdrawcard_csline = 1"
         )
       ]
     ),
     (
       name: "*card_player_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "	tcgdraw"
-        )
-      ]
+      after: "*card_player",
+      loop_kind: While
     ),
     (
       name: "*card_player_WHILE1_CONTINUE",
-      rules: [
-        (
-          kind: Function,
-          match: "			}"
-        )
-      ]
+      after: "*card_player_WHILE1",
+      loop_kind: WhileContinue
     ),
     (
       name: "*card_player_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "				}"
-        )
-      ]
+      after: "*card_player_WHILE1_CONTINUE",
+      loop_kind: WhileEnd
     ),
     (
       name: "*select_action",
       rules: [
         (
+          kind: Assignment,
+          match: "locvar_makecardlist_p = 0"
+        ),
+        (
           kind: Function,
-          match: "	redraw 0"
-        )
+          match: "redraw 0"
+        ),
       ]
     ),
     (
       name: "*select_action_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "	p@tcg++"
-        )
-      ]
+      after: "*select_action",
+      loop_kind: While
     ),
     (
       name: "*select_action_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
+      after: "*select_action_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*ai_evaluate",
       rules: [
         (
-          kind: Function,
-          match: "	emax@tcg = 0"
+          kind: Assignment,
+          match: "locvar_validaction_emax = 0"
         )
       ]
     ),
@@ -16602,8 +16587,8 @@ AnalysisConfig(
       name: "*ai_sac",
       rules: [
         (
-          kind: Function,
-          match: "	if ( sac@tcg > 0 ) {"
+          kind: Assignment,
+          match: "locvar_makecardlist_p(1) = 50"
         )
       ]
     ),
@@ -16611,125 +16596,88 @@ AnalysisConfig(
       name: "*card_ai",
       rules: [
         (
-          kind: Function,
-          match: "	spellused@tcg = 0"
+          kind: Assignment,
+          match: "locvar_validaction_ec = 0"
         )
       ]
     ),
     (
       name: "*card_ai_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "	if ( gameover() ) {"
-        )
-      ]
+      after: "*card_ai",
+      loop_kind: While
     ),
     (
       name: "*card_ai_WEND1",
-      rules: [
-        (
-          kind: Function,
-          match: "	}"
-        )
-      ]
+      after: "*card_ai_WHILE1",
+      loop_kind: WhileEnd
     ),
     (
       name: "*com_product",
       rules: [
         (
-          kind: Function,
-          match: "	listmax = 0"
+          kind: StringLiteral,
+          match: "必要スキル: "
         )
       ]
     ),
     (
       name: "*com_product_loop",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
+      after: "*com_product"
     ),
     (
       name: "*com_material",
       rules: [
         (
-          kind: Function,
-          match: "	listmax = 0"
+          kind: If,
+          match: "if ( mat(cnt) != 0 ) {"
         )
       ]
     ),
     (
       name: "*com_material_loop_pgchk",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
+      after: "*com_material"
     ),
     (
       name: "*com_material_loop",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
+      after: "*com_material_loop_pgchk"
     ),
     (
       name: "*com_txtadv",
       rules: [
         (
-          kind: Function,
-          match: "	begintempinv"
+          kind: StringLiteral,
+          match: "ディーラーに話しかけた。"
         )
       ]
     ),
     (
       name: "*com_txtadv_loop",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
+      after: "*com_txtadv"
     ),
     (
       name: "*com_txtadv_loop_WHILE1",
-      rules: [
-        (
-          kind: Function,
-          match: "	redraw 0"
-        )
-      ]
+      after: "*com_txtadv_loop",
+      loop_kind: While
     ),
     (
       name: "*com_adv_anime1",
       rules: [
         (
-          kind: Function,
-          match: "	gosub *com_adv_animeSub"
+          kind: Assignment,
+          match: "mattile = rnd(mattile(2)) + mattile(1)"
         )
       ]
     ),
     (
       name: "*com_adv_anime2",
-      rules: [
-        (
-          kind: Function,
-          match: "	gosub *com_adv_animeSub"
-        )
-      ]
+      after: "*com_adv_anime1"
     ),
     (
       name: "*com_adv_animeSub",
       rules: [
         (
           kind: Function,
-          match: "	repeat 11"
+          match: "gcopy BUFFER_SCREEN, 170, noteinfo(0) * 20 + 120 + txtadvmsgfix + 16, x(1), 20 * listmax"
         )
       ]
     ),
@@ -16737,8 +16685,8 @@ AnalysisConfig(
       name: "*com_txtAdvQuit",
       rules: [
         (
-          kind: Function,
-          match: "	mtilefilecur = -1"
+          kind: StringLiteral,
+          match: "幾つかの戦利品がある。"
         )
       ]
     ),
@@ -16746,8 +16694,8 @@ AnalysisConfig(
       name: "*atx_RE",
       rules: [
         (
-          kind: Function,
-          match: "	atxap = 10"
+          kind: StringLiteral,
+          match: "ランダムサイト"
         )
       ]
     ),
@@ -16755,8 +16703,8 @@ AnalysisConfig(
       name: "*atx_RE_main",
       rules: [
         (
-          kind: Function,
-          match: "	if ( atxap <= 0 | cdata(CDATA_HP, CHARA_PLAYER) < 0 ) {"
+          kind: StringLiteral,
+          match: "何をしよう？"
         )
       ]
     ),
@@ -16764,8 +16712,8 @@ AnalysisConfig(
       name: "*atx_RE_search",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: StringLiteral,
+          match: "茂みを見つけた。"
         )
       ]
     ),
@@ -16773,8 +16721,8 @@ AnalysisConfig(
       name: "*atx_RE_end",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: StringLiteral,
+          match: "探索を終えた。"
         )
       ]
     ),
@@ -16782,8 +16730,8 @@ AnalysisConfig(
       name: "*adv_casinoCard",
       rules: [
         (
-          kind: Function,
-          match: "	atxbg = "bg14""
+          kind: StringLiteral,
+          match: "I want to play Blackjack."
         )
       ]
     ),
@@ -16791,8 +16739,8 @@ AnalysisConfig(
       name: "*adv_casinoBlackJack",
       rules: [
         (
-          kind: Function,
-          match: "	}"
+          kind: StringLiteral,
+          match: "では、賭けるチップを宣言してください。"
         )
       ]
     ),
@@ -16800,8 +16748,8 @@ AnalysisConfig(
       name: "*set_npcGod",
       rules: [
         (
-          kind: Function,
-          match: "	if ( cdata(CDATA_GOD, tc) != GOD_EYTH | cbit(CHARA_BIT_NO_GOD, tc) | tc == CHARA_PLAYER ) {"
+          kind: Assignment,
+          match: "cdata(CDATA_GOD, tc) = GOD_YACATECT"
         )
       ]
     ),
@@ -16993,7 +16941,7 @@ AnalysisConfig(
     ),
     (
       name: "*com_blend_recipe_loop_WHILE1_CONTINUE",
-      after: "*com_blend_recipe_loop",
+      after: "*com_blend_recipe_loop_WHILE1",
       loop_kind: WhileContinue
     ),
     (
@@ -18073,8 +18021,8 @@ AnalysisConfig(
       name: "*com_train",
       rules: [
         (
-          kind: StringLiteral,
-          match: "この本の内容には興味がない。それでも読む？"
+          kind: Assignment,
+          match: "gdata(GDATA_ROW_ACT) = ACTION_TRAIN"
         )
       ]
     ),
@@ -19239,7 +19187,7 @@ AnalysisConfig(
         ),
         (
           kind: Function,
-          match: "cell_featset refx, refy, 0, 0"
+          match: "cell_featset refx, refy, 0, CELL_FEATURE_NONE"
         ),
         (
           kind: Function,
@@ -19696,11 +19644,11 @@ AnalysisConfig(
         ),
         (
           kind: Assignment,
-          match: "mode = MODELIST_MAIN"
+          match: "fmode = 3"
         ),
         (
           kind: Assignment,
-          match: "fmode = 3"
+          match: "mode = MODELIST_MAIN"
         ),
         (
           kind: Function,
@@ -19947,8 +19895,8 @@ AnalysisConfig(
       name: "*db_creature2",
       rules: [
         (
-          kind: StringLiteral,
-          match: "platina bell"
+          kind: Function,
+          match: "return \"\" + \"/nefia1/\""
         )
       ]
     ),
