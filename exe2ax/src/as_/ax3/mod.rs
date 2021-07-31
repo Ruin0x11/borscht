@@ -392,7 +392,7 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
                     }
                 }
             },
-            _ => unreachable!()
+            _ => ()
         }
     }
 
@@ -444,7 +444,9 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
     if funcnamed_params {
         for func in file.functions.iter() {
             for (i, param) in func.get_params(file).iter().enumerate() {
-                params.insert(param.clone(), format!("{}_prm{}", resolved[func], i));
+                if let Some(funcname) = resolved.get(func) {
+                    params.insert(param.clone(), format!("{}_prm{}", funcname, i));
+                }
             }
         }
     } else {
@@ -1269,7 +1271,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         }
 
         if self.file.plugins.len() > 0 {
-            panic!("Plugins are not implemented yet.");
+            println!("Plugins are not implemented yet.");
         }
     }
 

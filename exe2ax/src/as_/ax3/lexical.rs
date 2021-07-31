@@ -26,6 +26,7 @@ pub struct TokenIterator<'a, R: Read + Seek> {
 bitflags! {
     pub struct PrimitiveTokenFlags: u8 {
         const None = 0x00;
+        const Unknown0x10 = 0x10;
         const IsLineHead = 0x20;
         const IsParamHead = 0x40;
         const HasLongTypeValue = 0x80;
@@ -107,8 +108,11 @@ fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u3
         HspCodeType::Operator => PrimitiveTokenKind::Operator,
         HspCodeType::Symbol => PrimitiveTokenKind::Symbol,
         HspCodeType::Variable => {
-            let name = &file.variable_names[value as usize];
-            PrimitiveTokenKind::GlobalVariable(name.to_string())
+            let name = match file.variable_names.get(value as usize) {
+                Some(name) => name.to_string(),
+                None => format!("var_{}", value)
+            };
+            PrimitiveTokenKind::GlobalVariable(name)
         }
         HspCodeType::String => {
             let s = file.read_str_literal(value as usize);
@@ -176,7 +180,8 @@ impl<'a, R: Read + Seek> Iterator for TokenIterator<'a, R> {
         }
 
         let type_ = self.reader.read_u8().unwrap();
-        let flag = PrimitiveTokenFlags::from_bits(self.reader.read_u8().unwrap()).unwrap();
+        let flag_ = self.reader.read_u8().unwrap();
+        let flag = PrimitiveTokenFlags::from_bits(flag_).unwrap();
 
         let token_offset = self.token_offset;
         self.token_offset += 1;

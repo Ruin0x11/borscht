@@ -83,7 +83,7 @@ struct AnalysisConfig {
     arrays: HashMap<String, ArrayDefinition>,
     expressions: HashMap<String, ExprDefinition>,
     functions: HashMap<String, FunctionDefinition>,
-    labels: Vec<LabelDefinition>,
+    labels: HashMap<String, LabelDefinition>,
     files: HashMap<String, FileDefinition>
 }
 
@@ -1423,7 +1423,6 @@ struct LabelRenameRule {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct LabelDefinition {
-    name: String,
     #[serde(default)]
     rules: Vec<LabelRenameRule>,
 
@@ -1458,7 +1457,7 @@ struct FileDefinition {
 
 struct LabelRenameVisitor<'a> {
     hsp3as: &'a mut Hsp3As,
-    labels_remaining: Vec<LabelDefinition>,
+    labels_remaining: HashMap<String, LabelDefinition>,
     resolved_labels: &'a mut HashMap<ResolvedLabel, LabelDefinition>,
     visiting_label: Option<ResolvedLabel>,
     previous_label: Option<ResolvedLabel>,
@@ -1474,16 +1473,16 @@ impl<'a> LabelRenameVisitor<'a> {
 
         let mut found_after = None;
 
-        for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
+        for (i, (label_name, defn)) in self.labels_remaining.iter_mut().enumerate() {
             defn._matched_so_far = 0;
 
             if defn.rules.len() == 0 {
                 if let Some(prev) = &self.previous_label {
                     if let Some(after) = &defn.after {
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
-                            if &prev_resolved.name == after {
+                            if self.hsp3as.label_names.get(prev).unwrap() == after {
                                 assert!(found_after.is_none(), "More than one label with same 'after' field found: {}", after);
-                                found_after = Some(i);
+                                found_after = Some(label_name.clone());
                             }
                         }
                     }
@@ -1492,10 +1491,10 @@ impl<'a> LabelRenameVisitor<'a> {
         }
 
         if let Some(found) = found_after {
-            let rule = self.labels_remaining.remove(found);
+            let rule = self.labels_remaining.remove(&found).unwrap();
             let label = self.visiting_label.unwrap();
             *self.hsp3as.label_usage.entry(label.clone()).or_insert(0) += 1;
-            self.associate_label(rule, &label);
+            self.associate_label(rule, found, &label);
         }
     }
 
@@ -1513,10 +1512,10 @@ impl<'a> LabelRenameVisitor<'a> {
         self.visiting_label = Some(label);
     }
 
-    fn associate_label(&mut self, rule: LabelDefinition, label: &ResolvedLabel) {
+    fn associate_label(&mut self, rule: LabelDefinition, label_name: String, label: &ResolvedLabel) {
         self.previous_label = Some(label.clone());
         self.visiting_label = None;
-        self.hsp3as.label_names.insert(label.clone(), rule.name.clone());
+        self.hsp3as.label_names.insert(label.clone(), label_name);
 
         match self.resolved_labels.get(label) {
             Some(existing) => {
@@ -1537,7 +1536,7 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
             let mut matched = false;
             let mut found = None;
             let mut source = None;
-            for (i, defn) in self.labels_remaining.iter_mut().enumerate() {
+            for (i, (label_name, defn)) in self.labels_remaining.iter_mut().enumerate() {
                 if defn.rules.len() > 0 {
                     let rule = defn.rules.get_mut(defn._matched_so_far).unwrap();
                     if ast_node_matches(&node, &rule.kind) {
@@ -1555,7 +1554,7 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
                         if get {
                             defn._matched_so_far += 1;
                             if defn._matched_so_far == defn.rules.len() {
-                                found = Some(i);
+                                found = Some(label_name.clone());
                                 break;
                             }
                         }
@@ -1564,10 +1563,10 @@ impl<'a> Visitor for LabelRenameVisitor<'a> {
             }
 
             if matched {
-                if let Some(i) = found {
-                    let rule = self.labels_remaining.remove(i);
+                if let Some(label_name) = found {
+                    let rule = self.labels_remaining.remove(&label_name).unwrap();
                     let label = self.visiting_label.unwrap();
-                    self.associate_label(rule, &label);
+                    self.associate_label(rule, label_name, &label);
                 } else {
                     visitor::visit_node(self, node);
                 }
@@ -1717,13 +1716,15 @@ impl<'a> Visitor for FileSplitVisitor<'a> {
     }
 
     fn visit_label_declaration(&mut self, node: &ast::LabelDeclarationNode) {
-        self.push_blank_line();
+        if self.hsp3as.label_usage.contains_key(&node.label) {
+            self.push_blank_line();
 
-        for (filename, file) in self.files.iter() {
-            let label_name = self.hsp3as.label_names.get(&node.label).unwrap();
-            if file.begin.matches(&label_name) {
-                self.visiting_file = filename.clone();
-                break;
+            for (filename, file) in self.files.iter() {
+                let label_name = self.hsp3as.label_names.get(&node.label).unwrap();
+                if file.begin.matches(&label_name) {
+                    self.visiting_file = filename.clone();
+                    break;
+                }
             }
         }
     }
@@ -1755,21 +1756,21 @@ fn resolve_variables(config: &AnalysisConfig, group: &VariableGroup) -> Vec<Vari
 }
 
 fn validate_config(config: &AnalysisConfig) -> Result<()> {
-    for defn in config.labels.iter() {
+    for (label_name, defn) in config.labels.iter() {
         if defn.rules.len() == 0 {
             match &defn.after {
                 Some(after) => {
-                    if !config.labels.iter().any(|l| &l.name == after)  {
-                        return Err(anyhow!("Label given in after property '{}' not declared (on label definition {})", after, defn.name))
+                    if !config.labels.iter().any(|(label_name, _)| label_name == after)  {
+                        return Err(anyhow!("Label given in after property '{}' not declared (on label definition {})", after, label_name))
                     }
                 },
-                None => return Err(anyhow!("Label definition '{}' must have either 'rules' or 'after' field", defn.name))
+                None => return Err(anyhow!("Label definition '{}' must have either 'rules' or 'after' field", label_name))
             }
             if defn.after.is_none() {
             }
         } else {
             if defn.after.is_some() {
-                return Err(anyhow!("Label definition '{}' cannot have both 'rules' and 'after' fields", defn.name))
+                return Err(anyhow!("Label definition '{}' cannot have both 'rules' and 'after' fields", label_name))
             }
         }
     }
@@ -1857,8 +1858,8 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As) -> Result<AnalysisResult> {
         visitor.visit_node(&node);
 
         if visitor.labels_remaining.len() > 0 {
-            for rule in visitor.labels_remaining.iter() {
-                diagnostics.push(DiagnosticKind::Error, format!("Error: No match for label rule {}", rule.name));
+            for (label_name, _) in visitor.labels_remaining.iter() {
+                diagnostics.push(DiagnosticKind::Error, format!("Error: No match for label rule {}", label_name));
             }
         }
     };

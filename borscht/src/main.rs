@@ -149,6 +149,7 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
 
     if split {
         let output_dir = output_dir.join(input_file.file_stem().unwrap());
+        fs::create_dir_all(&output_dir)?;
         let now = Instant::now();
         let file_count = result.files.len();
 

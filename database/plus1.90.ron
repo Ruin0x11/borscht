@@ -13168,9 +13168,8 @@ AnalysisConfig(
     )
   },
 
-  labels: [
-    (
-      name: "*rank_init",
+  labels: {
+    "*rank_init": (
       rules: [
         (
           kind: Function,
@@ -13178,8 +13177,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*politics_init",
+    "*politics_init": (
       rules: [
         (
           kind: Function,
@@ -13187,8 +13185,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*building_init",
+    "*building_init": (
       rules: [
         (
           kind: Function,
@@ -13196,8 +13193,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*bRefDefine",
+    "*bRefDefine": (
       rules: [
         (
           kind: Function,
@@ -13205,8 +13201,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sRefDefine",
+    "*sRefDefine": (
       rules: [
         (
           kind: Function,
@@ -13214,8 +13209,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*trait_init",
+    "*trait_init": (
       rules: [
         (
           kind: Function,
@@ -13223,8 +13217,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*trait_ref",
+    "*trait_ref": (
       rules: [
         (
           kind: If,
@@ -13232,8 +13225,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_putTrait",
+    "*cm_putTrait": (
       rules: [
         (
           kind: If,
@@ -13241,8 +13233,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sound_init",
+    "*sound_init": (
       rules: [
         (
           kind: Function,
@@ -13250,8 +13241,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*music_init",
+    "*music_init": (
       rules: [
         (
           kind: Assignment,
@@ -13259,8 +13249,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*music_play",
+    "*music_play": (
       rules: [
         (
           kind: Assignment,
@@ -13268,8 +13257,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_randNameInit",
+    "*map_randNameInit": (
       rules: [
         (
           kind: StringLiteral,
@@ -13277,8 +13265,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_foodInit",
+    "*item_foodInit": (
       rules: [
         (
           kind: Function,
@@ -13286,8 +13273,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*convert_word",
+    "*convert_word": (
       rules: [
         (
           kind: Assignment,
@@ -13295,8 +13281,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*convert_talk",
+    "*convert_talk": (
       rules: [
         (
           kind: Assignment,
@@ -13304,12 +13289,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*spec_talk",
+    "*spec_talk": (
       after: "*convert_talk"
     ),
-    (
-      name: "*random_talk",
+    "*random_talk": (
       rules: [
         (
           kind: Assignment,
@@ -13317,8 +13300,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_info",
+    "*quest_info": (
       rules: [
         (
           kind: StringLiteral,
@@ -13326,8 +13308,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_info2",
+    "*quest_info2": (
       rules: [
         (
           kind: StringLiteral,
@@ -13335,8 +13316,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_item",
+    "*quest_item": (
       rules: [
         (
           kind: StringLiteral,
@@ -13344,8 +13324,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*talk_quest_load",
+    "*talk_quest_load": (
       rules: [
         (
           kind: Assignment,
@@ -13353,8 +13332,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*talk_quest",
+    "*talk_quest": (
       rules: [
         (
           kind: Assignment,
@@ -13362,8 +13340,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*talktxt_conv",
+    "*talktxt_conv": (
       rules: [
         (
           kind: If,
@@ -13371,8 +13348,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*system_init",
+    "*system_init": (
       rules: [
         (
           kind: Function,
@@ -13380,8 +13356,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*exit_game",
+    "*exit_game": (
       rules: [
         (
           kind: Function,
@@ -13389,8 +13364,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*exit_game_error",
+    "*exit_game_error": (
       rules: [
         (
           kind: StringLiteral,
@@ -13398,8 +13372,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pcc_wear",
+    "*pcc_wear": (
       rules: [
         (
           kind: Assignment,
@@ -13407,8 +13380,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cloud_init",
+    "*cloud_init": (
       rules: [
         (
           kind: Assignment,
@@ -13416,8 +13388,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapchip_init",
+    "*mapchip_init": (
       rules: [
         (
           kind: Assignment,
@@ -13425,8 +13396,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chip_init",
+    "*chip_init": (
       rules: [
         (
           kind: Function,
@@ -13434,8 +13404,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*random_titleInit",
+    "*random_titleInit": (
       rules: [
         (
           kind: Function,
@@ -13443,8 +13412,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*randomName_WHILE1",
+    "*randomName_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -13452,18 +13420,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*randomName_WHILE1_CONTINUE",
+    "*randomName_WHILE1_CONTINUE": (
       after: "*randomName_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*randomName_BREAK",
+    "*randomName_BREAK": (
       after: "*randomName_WHILE1_CONTINUE",
       loop_kind: Break
     ),
-    (
-      name: "*random_title_loop",
+    "*random_title_loop": (
       rules: [
         (
           kind: Assignment,
@@ -13471,8 +13436,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*end_name",
+    "*end_name": (
       rules: [
         (
           kind: StringLiteral,
@@ -13480,8 +13444,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*time_warn_talk",
+    "*time_warn_talk": (
       rules: [
         (
           kind: If,
@@ -13489,8 +13452,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_encInit",
+    "*item_encInit": (
       rules: [
         (
           kind: Function,
@@ -13498,8 +13460,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_encdetail",
+    "*item_encdetail": (
       rules: [
         (
           kind: StringLiteral,
@@ -13507,8 +13468,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_egoInit",
+    "*item_egoInit": (
       rules: [
         (
           kind: Function,
@@ -13516,8 +13476,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_egoMinor",
+    "*item_egoMinor": (
       rules: [
         (
           kind: Function,
@@ -13525,8 +13484,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_ego",
+    "*item_ego": (
       rules: [
         (
           kind: If,
@@ -13534,8 +13492,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_enc",
+    "*item_enc": (
       rules: [
         (
           kind: Function,
@@ -13543,8 +13500,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_materialInit",
+    "*item_materialInit": (
       rules: [
         (
           kind: Function,
@@ -13552,12 +13508,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_material",
+    "*item_material": (
       after: "*item_materialInit"
     ),
-    (
-      name: "*choose_material",
+    "*choose_material": (
       rules: [
         (
           kind: Assignment,
@@ -13565,8 +13519,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*remake_material",
+    "*remake_material": (
       rules: [
         (
           kind: Assignment,
@@ -13574,8 +13527,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*apply_material",
+    "*apply_material": (
       rules: [
         (
           kind: Assignment,
@@ -13583,8 +13535,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*apply_materialEnc",
+    "*apply_materialEnc": (
       rules: [
         (
           kind: Function,
@@ -13592,8 +13543,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*fish_init",
+    "*fish_init": (
       rules: [
         (
           kind: Function,
@@ -13601,8 +13551,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*itemNameSub",
+    "*itemNameSub": (
       rules: [
         (
           kind: StringLiteral,
@@ -13610,8 +13559,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skipName",
+    "*skipName": (
       rules: [
         (
           kind: StringLiteral,
@@ -13619,8 +13567,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skip_stack",
+    "*skip_stack": (
       rules: [
         (
           kind: StringLiteral,
@@ -13628,8 +13575,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skipitemDraw",
+    "*skipitemDraw": (
       rules: [
         (
           kind: If,
@@ -13637,8 +13583,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*fov_los_WHILE1",
+    "*fov_los_WHILE1": (
       rules: [
         (
           kind: If,
@@ -13655,103 +13600,83 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*fov_los_WEND1",
+    "*fov_los_WEND1": (
       after: "*fov_los_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*fov_los_WHILE2",
+    "*fov_los_WHILE2": (
       after: "*fov_los_WEND1",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND2",
+    "*fov_los_WEND2": (
       after: "*fov_los_WHILE2",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*fov_los_WHILE3",
+    "*fov_los_WHILE3": (
       after: "*fov_los_WEND2",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND3",
+    "*fov_los_WEND3": (
       after: "*fov_los_WHILE3",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE4",
+    "*fov_los_WHILE4": (
       after: "*fov_los_WEND3",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND4",
+    "*fov_los_WEND4": (
       after: "*fov_los_WHILE4",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE5",
+    "*fov_los_WHILE5": (
       after: "*fov_los_WEND4",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND5",
+    "*fov_los_WEND5": (
       after: "*fov_los_WHILE5",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE6",
+    "*fov_los_WHILE6": (
       after: "*fov_los_WEND5",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND6",
+    "*fov_los_WEND6": (
       after: "*fov_los_WHILE6",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE7",
+    "*fov_los_WHILE7": (
       after: "*fov_los_WEND6",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND7",
+    "*fov_los_WEND7": (
       after: "*fov_los_WHILE7",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE8",
+    "*fov_los_WHILE8": (
       after: "*fov_los_WEND7",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND8",
+    "*fov_los_WEND8": (
       after: "*fov_los_WHILE8",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE9",
+    "*fov_los_WHILE9": (
       after: "*fov_los_WEND8",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND9",
+    "*fov_los_WEND9": (
       after: "*fov_los_WHILE9",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*fov_los_WHILE10",
+    "*fov_los_WHILE10": (
       after: "*fov_los_WEND9",
       loop_kind: While,
     ),
-    (
-      name: "*fov_los_WEND10",
+    "*fov_los_WEND10": (
       after: "*fov_los_WHILE10",
       loop_kind: WhileEnd,
     ),
-    (
-      name: "*get_route_WHILE1",
+    "*get_route_WHILE1": (
       rules: [
         (
           kind: If,
@@ -13760,63 +13685,51 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*get_route_WEND1",
+    "*get_route_WEND1": (
       after: "*get_route_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*get_route_WHILE2",
+    "*get_route_WHILE2": (
       after: "*get_route_WEND1",
       loop_kind: While
     ),
-    (
-      name: "*get_route_WEND2",
+    "*get_route_WEND2": (
       after: "*get_route_WHILE2",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*get_route_WHILE3",
+    "*get_route_WHILE3": (
       after: "*get_route_WEND2",
       loop_kind: While
     ),
-    (
-      name: "*get_route_WEND3",
+    "*get_route_WEND3": (
       after: "*get_route_WHILE3",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*get_route_WHILE4",
+    "*get_route_WHILE4": (
       after: "*get_route_WEND3",
       loop_kind: While
     ),
-    (
-      name: "*get_route_WEND4",
+    "*get_route_WEND4": (
       after: "*get_route_WHILE4",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*get_route_WHILE5",
+    "*get_route_WHILE5": (
       after: "*get_route_WEND4",
       loop_kind: While
     ),
-    (
-      name: "*get_route_WEND5",
+    "*get_route_WEND5": (
       after: "*get_route_WHILE5",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*get_route_WHILE6",
+    "*get_route_WHILE6": (
       after: "*get_route_WEND5",
       loop_kind: While
     ),
-    (
-      name: "*get_route_WEND6",
+    "*get_route_WEND6": (
       after: "*get_route_WHILE6",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*conv_crlf_@",
+    "*conv_crlf_@": (
       rules: [
         (
           kind: Function,
@@ -13824,8 +13737,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mRefDefine",
+    "*mRefDefine": (
       rules: [
         (
           kind: Function,
@@ -13833,8 +13745,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_item",
+    "*db_item": (
       rules: [
         (
           kind: If,
@@ -13850,8 +13761,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*db_setFilterItem",
+    "*db_setFilterItem": (
       rules: [
         (
           kind: Assignment,
@@ -13859,8 +13769,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_setItem",
+    "*db_setItem": (
       rules: [
         (
           kind: Assignment,
@@ -13868,8 +13777,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*recipe_ref",
+    "*recipe_ref": (
       rules: [
         (
           kind: Assignment,
@@ -13877,8 +13785,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*conCalc",
+    "*conCalc": (
       rules: [
         (
           kind: Assignment,
@@ -13886,8 +13793,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skipDmgTxt",
+    "*skipDmgTxt": (
       rules: [
         (
           kind: StringLiteral,
@@ -13895,8 +13801,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*exit_death",
+    "*exit_death": (
       rules: [
         (
           kind: If,
@@ -13904,8 +13809,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*net_read_WHILE1",
+    "*net_read_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -13914,13 +13818,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*net_read_WEND1",
+    "*net_read_WEND1": (
       after: "*net_read_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*net_init",
+    "*net_init": (
       rules: [
         (
           kind: Function,
@@ -13928,8 +13830,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*net_chat",
+    "*net_chat": (
       rules: [
         (
           kind: StringLiteral,
@@ -13937,8 +13838,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_vote_new",
+    "*com_vote_new": (
       rules: [
         (
           kind: StringLiteral,
@@ -13946,24 +13846,20 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_vote_new_loop",
+    "*com_vote_new_loop": (
       after: "*com_vote_new",
       loop_kind: While
 
     ),
-    (
-      name: "*com_vote_new_loop_WHILE1",
+    "*com_vote_new_loop_WHILE1": (
       after: "*com_vote_new_loop",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*com_vote_new_loop_WEND1",
+    "*com_vote_new_loop_WEND1": (
       after: "*com_vote_new_loop_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_vote",
+    "*com_vote": (
       rules: [
         (
           kind: StringLiteral,
@@ -13971,22 +13867,18 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_vote_loop",
+    "*com_vote_loop": (
       after: "*com_vote"
     ),
-    (
-      name: "*com_vote_loop_WHILE1",
+    "*com_vote_loop_WHILE1": (
       after: "*com_vote_loop",
       loop_kind: While
     ),
-    (
-      name: "*com_vote_loop_WEND1",
+    "*com_vote_loop_WEND1": (
       after: "*com_vote_loop_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*uploader",
+    "*uploader": (
       rules: [
         (
           kind: Function,
@@ -13994,20 +13886,16 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*uploader_load",
+    "*uploader_load": (
       after: "*uploader"
     ),
-    (
-      name: "*uploader_main",
+    "*uploader_main": (
       after: "*uploader_load"
     ),
-    (
-      name: "*uploader_event",
+    "*uploader_event": (
       after: "*uploader_main"
     ),
-    (
-      name: "*OnNavigateComplete2",
+    "*OnNavigateComplete2": (
       rules: [
         (
           kind: Assignment,
@@ -14015,8 +13903,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*browser",
+    "*browser": (
       rules: [
         (
           kind: Function,
@@ -14024,20 +13911,16 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*browser_load",
+    "*browser_load": (
       after: "*browser"
     ),
-    (
-      name: "*browser_main",
+    "*browser_main": (
       after: "*browser_load"
     ),
-    (
-      name: "*browser_event",
+    "*browser_event": (
       after: "*browser_main"
     ),
-    (
-      name: "*screen_init",
+    "*screen_init": (
       rules: [
         (
           kind: Assignment,
@@ -14045,8 +13928,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_txtAdv",
+    "*screen_txtAdv": (
       rules: [
         (
           kind: Function,
@@ -14054,12 +13936,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_refresh",
+    "*screen_refresh": (
       after: "*screen_txtAdv"
     ),
-    (
-      name: "*screen_refreshFull",
+    "*screen_refreshFull": (
       rules: [
         (
           kind: Function,
@@ -14067,8 +13947,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_raderRefresh",
+    "*screen_raderRefresh": (
       rules: [
         (
           kind: If,
@@ -14076,8 +13955,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_draw",
+    "*screen_draw": (
       rules: [
         (
           kind: Assignment,
@@ -14086,12 +13964,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_sync",
+    "*screen_sync": (
       after: "*screen_draw"
     ),
-    (
-      name: "*screen_drawStatus",
+    "*screen_drawStatus": (
       rules: [
         (
           kind: Function,
@@ -14099,8 +13975,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*autoTurn_pic",
+    "*autoTurn_pic": (
       rules: [
         (
           kind: Function,
@@ -14108,8 +13983,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_drawAutoTurn",
+    "*screen_drawAutoTurn": (
       rules: [
         (
           kind: Function,
@@ -14117,8 +13991,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_drawMsg2",
+    "*screen_drawMsg2": (
       rules: [
         (
           kind: Function,
@@ -14126,8 +13999,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*anime",
+    "*anime": (
       rules: [
         (
           kind: Assignment,
@@ -14135,13 +14007,11 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*anime_SWEND1",
+    "*anime_SWEND1": (
       after: "*anime",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*screen_setPos",
+    "*screen_setPos": (
       rules: [
         (
           kind: Assignment,
@@ -14149,8 +14019,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*los",
+    "*los": (
       rules: [
         (
           kind: Function,
@@ -14158,12 +14027,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*los_jump",
+    "*los_jump": (
       after: "*los"
     ),
-    (
-      name: "*los_jump2",
+    "*los_jump2": (
       rules: [
         (
           kind: Assignment,
@@ -14171,8 +14038,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*los_Loc",
+    "*los_Loc": (
       rules: [
         (
           kind: Function,
@@ -14180,8 +14046,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*los_draw",
+    "*los_draw": (
       rules: [
         (
           kind: Assignment,
@@ -14189,8 +14054,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_rain",
+    "*screen_rain": (
       rules: [
         (
           kind: Function,
@@ -14198,8 +14062,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_hardRain",
+    "*screen_hardRain": (
       rules: [
         (
           kind: Function,
@@ -14207,8 +14070,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_snow",
+    "*screen_snow": (
       rules: [
         (
           kind: Function,
@@ -14216,8 +14078,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_ether",
+    "*screen_ether": (
       rules: [
         (
           kind: Function,
@@ -14225,8 +14086,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_scroll",
+    "*screen_scroll": (
       rules: [
         (
           kind: Assignment,
@@ -14234,8 +14094,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*rader_preDraw",
+    "*rader_preDraw": (
       rules: [
         (
           kind: Function,
@@ -14243,8 +14102,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_drawRader",
+    "*screen_drawRader": (
       rules: [
         (
           kind: Function,
@@ -14252,8 +14110,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_fade",
+    "*screen_fade": (
       rules: [
         (
           kind: Function,
@@ -14261,8 +14118,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_fadeIn",
+    "*screen_fadeIn": (
       rules: [
         (
           kind: Function,
@@ -14271,12 +14127,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_fadeOut",
+    "*screen_fadeOut": (
       after: "*screen_fadeIn"
     ),
-    (
-      name: "*screen_drawEventFull",
+    "*screen_drawEventFull": (
       rules: [
         (
           kind: Assignment,
@@ -14284,8 +14138,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*screen_drawEventMap",
+    "*screen_drawEventMap": (
       rules: [
         (
           kind: Function,
@@ -14293,8 +14146,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*fishing_draw",
+    "*fishing_draw": (
       rules: [
         (
           kind: Assignment,
@@ -14302,8 +14154,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcBodyFix",
+    "*calcBodyFix": (
       rules: [
         (
           kind: Assignment,
@@ -14311,8 +14162,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcBodyGain",
+    "*calcBodyGain": (
       rules: [
         (
           kind: StringLiteral,
@@ -14320,8 +14170,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcLevelUp",
+    "*calcLevelUp": (
       rules: [
         (
           kind: Assignment,
@@ -14329,8 +14178,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcGodRecruitingPenalty",
+    "*calcGodRecruitingPenalty": (
       rules: [
         (
           kind: Assignment,
@@ -14338,8 +14186,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcMaileINITService",
+    "*calcMaileINITService": (
       rules: [
         (
           kind: If,
@@ -14347,8 +14194,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcAdvRecruitingPenalty",
+    "*calcAdvRecruitingPenalty": (
       rules: [
         (
           kind: Assignment,
@@ -14356,8 +14202,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcSoulSpindlePenalty",
+    "*calcSoulSpindlePenalty": (
       rules: [
         (
           kind: Assignment,
@@ -14365,8 +14210,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcPowerUp",
+    "*calcPowerUp": (
       rules: [
         (
           kind: Assignment,
@@ -14374,8 +14218,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcExpToNextLevel",
+    "*calcExpToNextLevel": (
       rules: [
         (
           kind: Assignment,
@@ -14383,8 +14226,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expDig",
+    "*expDig": (
       rules: [
         (
           kind: Function,
@@ -14392,8 +14234,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expLiteracy",
+    "*expLiteracy": (
       rules: [
         (
           kind: Function,
@@ -14401,8 +14242,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expTrade",
+    "*expTrade": (
       rules: [
         (
           kind: Function,
@@ -14410,8 +14250,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expOpenLock",
+    "*expOpenLock": (
       rules: [
         (
           kind: Function,
@@ -14419,8 +14258,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expDetection",
+    "*expDetection": (
       rules: [
         (
           kind: Function,
@@ -14428,8 +14266,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expCasting",
+    "*expCasting": (
       rules: [
         (
           kind: Function,
@@ -14437,8 +14274,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expMagicCapacity",
+    "*expMagicCapacity": (
       rules: [
         (
           kind: Function,
@@ -14446,8 +14282,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expRegen",
+    "*expRegen": (
       rules: [
         (
           kind: Function,
@@ -14455,8 +14290,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expStealth",
+    "*expStealth": (
       rules: [
         (
           kind: Function,
@@ -14464,8 +14298,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expInvesting",
+    "*expInvesting": (
       rules: [
         (
           kind: Function,
@@ -14473,8 +14306,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expWeightLifting",
+    "*expWeightLifting": (
       rules: [
         (
           kind: Function,
@@ -14482,8 +14314,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expSwimming",
+    "*expSwimming": (
       rules: [
         (
           kind: Function,
@@ -14491,8 +14322,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expArmor",
+    "*expArmor": (
       rules: [
         (
           kind: Function,
@@ -14500,8 +14330,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expRiding",
+    "*expRiding": (
       rules: [
         (
           kind: Function,
@@ -14509,8 +14338,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expMagicDevice",
+    "*expMagicDevice": (
       rules: [
         (
           kind: Function,
@@ -14523,8 +14351,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expFishing",
+    "*expFishing": (
       rules: [
         (
           kind: Function,
@@ -14532,8 +14359,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expMemorize",
+    "*expMemorize": (
       rules: [
         (
           kind: Function,
@@ -14541,8 +14367,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expProduct",
+    "*expProduct": (
       rules: [
         (
           kind: Function,
@@ -14550,8 +14375,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*charaRefresh",
+    "*charaRefresh": (
       rules: [
         (
           kind: Assignment,
@@ -14559,8 +14383,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcInitialSkill",
+    "*calcInitialSkill": (
       rules: [
         (
           kind: Function,
@@ -14568,8 +14391,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcReadCheck",
+    "*calcReadCheck": (
       rules: [
         (
           kind: StringLiteral,
@@ -14577,8 +14399,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcSearch",
+    "*calcSearch": (
       rules: [
         (
           kind: Function,
@@ -14586,8 +14407,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcTrap",
+    "*calcTrap": (
       rules: [
         (
           kind: If,
@@ -14595,8 +14415,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*expDisarm",
+    "*expDisarm": (
       rules: [
         (
           kind: Function,
@@ -14604,8 +14423,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcDisarm",
+    "*calcDisarm": (
       rules: [
         (
           kind: Function,
@@ -14613,8 +14431,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcStealth",
+    "*calcStealth": (
       rules: [
         (
           kind: If,
@@ -14622,8 +14439,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcHunger",
+    "*calcHunger": (
       rules: [
         (
           kind: If,
@@ -14631,8 +14447,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcThirst",
+    "*calcThirst": (
       rules: [
         (
           kind: Assignment,
@@ -14640,8 +14455,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcCondition",
+    "*calcCondition": (
       rules: [
         (
           kind: Function,
@@ -14649,8 +14463,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*calcBurdenPc",
+    "*calcBurdenPc": (
       rules: [
         (
           kind: Assignment,
@@ -14658,8 +14471,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*learn_sp",
+    "*learn_sp": (
       rules: [
         (
           kind: Assignment,
@@ -14667,8 +14479,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_initEquip",
+    "*chara_initEquip": (
       rules: [
         (
           kind: If,
@@ -14676,8 +14487,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*set_figure",
+    "*set_figure": (
       rules: [
         (
           kind: If,
@@ -14685,8 +14495,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*place_chara",
+    "*place_chara": (
       rules: [
         (
           kind: Assignment,
@@ -14694,8 +14503,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*place_necro",
+    "*place_necro": (
       rules: [
         (
           kind: Assignment,
@@ -14703,8 +14511,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*chara_init",
+    "*chara_init": (
       rules: [
         (
           kind: Assignment,
@@ -14712,8 +14519,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_fix",
+    "*chara_fix": (
       rules: [
         (
           kind: Assignment,
@@ -14721,8 +14527,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_finish",
+    "*cm_finish": (
       rules: [
         (
           kind: Assignment,
@@ -14730,8 +14535,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_finishPC",
+    "*cm_finishPC": (
       rules: [
         (
           kind: If,
@@ -14739,8 +14543,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*resurrect_ally",
+    "*resurrect_ally": (
       rules: [
         (
           kind: Function,
@@ -14748,8 +14551,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*resurrect",
+    "*resurrect": (
       rules: [
         (
           kind: Function,
@@ -14757,11 +14559,8 @@ AnalysisConfig(
         )
       ]
     ),
-    
-    
-    
-    (
-      name: "*renewStatus",
+
+    "*renewStatus": (
       rules: [
         (
           kind: If,
@@ -14769,8 +14568,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_respawn",
+    "*chara_respawn": (
       rules: [
         (
           kind: Function,
@@ -14778,8 +14576,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_init",
+    "*cm_init": (
       rules: [
         (
           kind: If,
@@ -14799,18 +14596,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_init_WHILE1",
+    "*cm_init_WHILE1": (
       after: "*cm_init",
       loop_kind: While
     ),
-    (
-      name: "*cm_init_WEND1",
+    "*cm_init_WEND1": (
       after: "*cm_init_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*cm_aka",
+    "*cm_aka": (
       rules: [
         (
           kind: StringLiteral,
@@ -14818,18 +14612,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_aka_WHILE1",
+    "*cm_aka_WHILE1": (
       after: "*cm_aka",
       loop_kind: While
     ),
-    (
-      name: "*cm_aka_WEND1",
+    "*cm_aka_WEND1": (
       after: "*cm_aka_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*cm_past",
+    "*cm_past": (
       rules: [
         (
           kind: StringLiteral,
@@ -14837,8 +14628,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_past_loop",
+    "*cm_past_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -14846,8 +14636,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_race",
+    "*cm_race": (
       rules: [
         (
           kind: If,
@@ -14855,17 +14644,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_race_loop",
+    "*cm_race_loop": (
       after: "*cm_race"
     ),
-    (
-      name: "*cm_race_loop_WHILE1",
+    "*cm_race_loop_WHILE1": (
       after: "*cm_race_loop",
       loop_kind: While
     ),
-    (
-      name: "*cm_race_name_change",
+    "*cm_race_name_change": (
       rules: [
         (
           kind: StringLiteral,
@@ -14873,8 +14659,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_race_name_change_input",
+    "*cm_race_name_change_input": (
       rules: [
         (
           kind: StringLiteral,
@@ -14882,8 +14667,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_sex",
+    "*cm_sex": (
       rules: [
         (
           kind: StringLiteral,
@@ -14891,18 +14675,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_sex_WHILE1",
+    "*cm_sex_WHILE1": (
       after: "*cm_sex",
       loop_kind: While
     ),
-    (
-      name: "*cm_sex_WEND1",
+    "*cm_sex_WEND1": (
       after: "*cm_sex_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*cm_class",
+    "*cm_class": (
       rules: [
         (
           kind: StringLiteral,
@@ -14910,13 +14691,11 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_class_WHILE1",
+    "*cm_class_WHILE1": (
       after: "*cm_class",
       loop_kind: While
     ),
-    (
-      name: "*cm_class_change_name",
+    "*cm_class_change_name": (
       rules: [
         (
           kind: StringLiteral,
@@ -14924,8 +14703,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_class_change_name_input",
+    "*cm_class_change_name_input": (
       rules: [
         (
           kind: StringLiteral,
@@ -14933,8 +14711,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_skill",
+    "*cm_skill": (
       rules: [
         (
           kind: StringLiteral,
@@ -14942,8 +14719,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_stats",
+    "*cm_stats": (
       rules: [
         (
           kind: StringLiteral,
@@ -14951,13 +14727,11 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_stats_WHILE1",
+    "*cm_stats_WHILE1": (
       after: "*cm_stats",
       loop_kind: While
     ),
-    (
-      name: "*cm_feat",
+    "*cm_feat": (
       rules: [
         (
           kind: StringLiteral,
@@ -14965,8 +14739,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_portrait",
+    "*cm_portrait": (
       rules: [
         (
           kind: StringLiteral,
@@ -14974,12 +14747,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cmSubTxt",
+    "*cmSubTxt": (
       after: "*cm_portrait"
     ),
-    (
-      name: "*cm_gamemode",
+    "*cm_gamemode": (
       rules: [
         (
           kind: StringLiteral,
@@ -14987,8 +14758,7 @@ AnalysisConfig(
         )
       ]
     ),
-    // (
-    //   name: "*cm_confirm",
+    //"*cm_confirm":  (
     //   rules: [
     //     (
     //       kind: Function,
@@ -15005,8 +14775,7 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    (
-      name: "*cm_birth_loop",
+    "*cm_birth_loop": (
       rules: [
         (
           kind: Assignment,
@@ -15014,8 +14783,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_end",
+    "*cm_end": (
       rules: [
         (
           kind: StringLiteral,
@@ -15023,8 +14791,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_name_loop",
+    "*cm_name_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -15032,12 +14799,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cm_bg",
+    "*cm_bg": (
       after: "*cm_name_loop"
     ),
-    (
-      name: "*cm_refer",
+    "*cm_refer": (
       rules: [
         (
           kind: StringLiteral,
@@ -15046,8 +14811,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*convertartifact_WHILE1",
+    "*convertartifact_WHILE1": (
       rules: [
         (
           kind: StringLiteral,
@@ -15056,13 +14820,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*convertartifact_WEND1",
+    "*convertartifact_WEND1": (
       after: "*convertartifact_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*item_fltInit",
+    "*item_fltInit": (
       rules: [
         (
           kind: Assignment,
@@ -15070,8 +14832,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_loot",
+    "*item_loot": (
       rules: [
         (
           kind: Assignment,
@@ -15079,18 +14840,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_loot_SWEND1",
+    "*item_loot_SWEND1": (
       after: "*item_loot",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*item_loot_SWEND2",
+    "*item_loot_SWEND2": (
       after: "*item_loot_SWEND1",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*item_rot",
+    "*item_rot": (
       rules: [
         (
           kind: StringLiteral,
@@ -15098,8 +14856,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*curse",
+    "*curse": (
       rules: [
         (
           kind: StringLiteral,
@@ -15107,8 +14864,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pregnant",
+    "*pregnant": (
       rules: [
         (
           kind: StringLiteral,
@@ -15116,8 +14872,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*curse_enc",
+    "*curse_enc": (
       rules: [
         (
           kind: StringLiteral,
@@ -15125,8 +14880,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_senseQuality",
+    "*item_senseQuality": (
       rules: [
         (
           kind: StringLiteral,
@@ -15135,8 +14889,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_fix",
+    "*item_fix": (
       rules: [
         (
           kind: Function,
@@ -15144,8 +14897,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_init",
+    "*item_init": (
       rules: [
         (
           kind: Assignment,
@@ -15153,8 +14905,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_value",
+    "*item_value": (
       rules: [
         (
           kind: Assignment,
@@ -15162,8 +14913,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*foodRotten",
+    "*foodRotten": (
       rules: [
         (
           kind: Assignment,
@@ -15171,8 +14921,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_cook",
+    "*item_cook": (
       rules: [
         (
           kind: Function,
@@ -15180,8 +14929,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatEffect",
+    "*eatEffect": (
       rules: [
         (
           kind: Function,
@@ -15189,8 +14937,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatHard",
+    "*eatHard": (
       rules: [
         (
           kind: StringLiteral,
@@ -15198,8 +14945,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatInsane",
+    "*eatInsane": (
       rules: [
         (
           kind: StringLiteral,
@@ -15207,8 +14953,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatHorse",
+    "*eatHorse": (
       rules: [
         (
           kind: StringLiteral,
@@ -15216,8 +14961,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatHoly",
+    "*eatHoly": (
       rules: [
         (
           kind: StringLiteral,
@@ -15225,8 +14969,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatPlayer",
+    "*eatPlayer": (
       rules: [
         (
           kind: StringLiteral,
@@ -15234,8 +14977,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatGuard",
+    "*eatGuard": (
       rules: [
         (
           kind: StringLiteral,
@@ -15243,8 +14985,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatVesda",
+    "*eatVesda": (
       rules: [
         (
           kind: StringLiteral,
@@ -15252,8 +14993,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatIssizzle",
+    "*eatIssizzle": (
       rules: [
         (
           kind: StringLiteral,
@@ -15273,8 +15013,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatPutit",
+    "*eatPutit": (
       rules: [
         (
           kind: StringLiteral,
@@ -15282,8 +15021,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatCupid",
+    "*eatCupid": (
       rules: [
         (
           kind: StringLiteral,
@@ -15291,8 +15029,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatPoison",
+    "*eatPoison": (
       rules: [
         (
           kind: StringLiteral,
@@ -15300,8 +15037,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatTroll",
+    "*eatTroll": (
       rules: [
         (
           kind: StringLiteral,
@@ -15309,8 +15045,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatRotten",
+    "*eatRotten": (
       rules: [
         (
           kind: StringLiteral,
@@ -15318,8 +15053,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatBeetle",
+    "*eatBeetle": (
       rules: [
         (
           kind: StringLiteral,
@@ -15327,8 +15061,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatMandrake",
+    "*eatMandrake": (
       rules: [
         (
           kind: StringLiteral,
@@ -15336,8 +15069,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatGhost",
+    "*eatGhost": (
       rules: [
         (
           kind: StringLiteral,
@@ -15345,8 +15077,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatHealSan",
+    "*eatHealSan": (
       rules: [
         (
           kind: StringLiteral,
@@ -15354,8 +15085,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatYith",
+    "*eatYith": (
       rules: [
         (
           kind: Function,
@@ -15375,8 +15105,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatChaos",
+    "*eatChaos": (
       rules: [
         (
           kind: StringLiteral,
@@ -15384,8 +15113,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatEye",
+    "*eatEye": (
       rules: [
         (
           kind: StringLiteral,
@@ -15393,8 +15121,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatCat",
+    "*eatCat": (
       rules: [
         (
           kind: StringLiteral,
@@ -15402,8 +15129,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatEther",
+    "*eatEther": (
       rules: [
         (
           kind: StringLiteral,
@@ -15411,8 +15137,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatEND",
+    "*eatEND": (
       rules: [
         (
           kind: StringLiteral,
@@ -15420,8 +15145,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatMAG",
+    "*eatMAG": (
       rules: [
         (
           kind: StringLiteral,
@@ -15429,8 +15153,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatSTR",
+    "*eatSTR": (
       rules: [
         (
           kind: StringLiteral,
@@ -15439,8 +15162,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatWIL",
+    "*eatWIL": (
       rules: [
         (
           kind: StringLiteral,
@@ -15448,8 +15170,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatQuickling",
+    "*eatQuickling": (
       rules: [
         (
           kind: StringLiteral,
@@ -15457,8 +15178,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eatAlien",
+    "*eatAlien": (
       rules: [
         (
           kind: StringLiteral,
@@ -15466,8 +15186,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*alien_effect",
+    "*alien_effect": (
       rules: [
         (
           kind: StringLiteral,
@@ -15475,8 +15194,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setCellObj",
+    "*setCellObj": (
       rules: [
         (
           kind: Assignment,
@@ -15484,8 +15202,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createRoom_FOR1",
+    "*map_createRoom_FOR1": (
       rules: [
         (
           kind: If,
@@ -15494,18 +15211,15 @@ AnalysisConfig(
       ],
       loop_kind: For
     ),
-    (
-      name: "*map_createRoom_FOR1_CONTINUE",
+    "*map_createRoom_FOR1_CONTINUE": (
       after: "*map_createRoom_FOR1",
       loop_kind: ForContinue
     ),
-    (
-      name: "*map_createRoom_FOR1_BREAK1",
+    "*map_createRoom_FOR1_BREAK1": (
       after: "*map_createRoom_FOR1_CONTINUE",
       loop_kind: ForBreak
     ),
-    (
-      name: "*map_trap_FOR1",
+    "*map_trap_FOR1": (
       rules: [
         (
           kind: Function,
@@ -15514,13 +15228,11 @@ AnalysisConfig(
       ],
       loop_kind: For
     ),
-    (
-      name: "*map_trap_FOR1_BREAK1",
+    "*map_trap_FOR1_BREAK1": (
       after: "*map_trap_FOR1",
       loop_kind: ForBreak
     ),
-    (
-      name: "*map_web_FOR1",
+    "*map_web_FOR1": (
       rules: [
         (
           kind: If,
@@ -15529,13 +15241,11 @@ AnalysisConfig(
       ],
       loop_kind: For
     ),
-    (
-      name: "*map_web_FOR1_BREAK1",
+    "*map_web_FOR1_BREAK1": (
       after: "*map_web_FOR1",
       loop_kind: ForBreak
     ),
-    (
-      name: "*map_barrel_FOR1",
+    "*map_barrel_FOR1": (
       rules: [
         (
           kind: Function,
@@ -15544,13 +15254,11 @@ AnalysisConfig(
       ],
       loop_kind: For
     ),
-    (
-      name: "*map_barrel_FOR1_BREAK1",
+    "*map_barrel_FOR1_BREAK1": (
       after: "*map_barrel_FOR1",
       loop_kind: ForBreak
     ),
-    (
-      name: "*map_connectroom_FOR1",
+    "*map_connectroom_FOR1": (
       rules: [
         (
           kind: Function,
@@ -15559,13 +15267,11 @@ AnalysisConfig(
       ],
       loop_kind: For
     ),
-    (
-      name: "*map_connectroom_FOR1_BREAK1",
+    "*map_connectroom_FOR1_BREAK1": (
       after: "*map_connectroom_FOR1",
       loop_kind: ForBreak
     ),
-    (
-      name: "*map_makedoor_FOR1",
+    "*map_makedoor_FOR1": (
       rules: [
         (
           kind: Function,
@@ -15574,13 +15280,11 @@ AnalysisConfig(
       ],
       loop_kind: For
     ),
-    (
-      name: "*map_makedoor_FOR1_BREAK1",
+    "*map_makedoor_FOR1_BREAK1": (
       after: "*map_makedoor_FOR1",
       loop_kind: ForBreak
     ),
-    (
-      name: "*mapEditor_new",
+    "*mapEditor_new": (
       rules: [
         (
           kind: Function,
@@ -15588,8 +15292,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_menu",
+    "*mapEditor_menu": (
       rules: [
         (
           kind: Assignment,
@@ -15597,8 +15300,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_init",
+    "*mapEditor_init": (
       rules: [
         (
           kind: Function,
@@ -15606,27 +15308,22 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_main",
+    "*mapEditor_main": (
       after: "*mapEditor_init"
     ),
-    (
-      name: "*mapEditor_main_WHILE1",
+    "*mapEditor_main_WHILE1": (
       after: "*mapEditor_main",
       loop_kind: While
     ),
-    (
-      name: "*mapEditor_main_WHILE1_CONTINUE",
+    "*mapEditor_main_WHILE1_CONTINUE": (
       after: "*mapEditor_main_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*mapEditor_main_WEND1",
+    "*mapEditor_main_WEND1": (
       after: "*mapEditor_main_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*cmap_init1",
+    "*cmap_init1": (
       rules: [
         (
           kind: Assignment,
@@ -15634,8 +15331,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cmap_search1",
+    "*cmap_search1": (
       rules: [
         (
           kind: Assignment,
@@ -15643,8 +15339,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cmap_refresh1",
+    "*cmap_refresh1": (
       rules: [
         (
           kind: Function,
@@ -15652,8 +15347,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cmap_init2",
+    "*cmap_init2": (
       rules: [
         (
           kind: Assignment,
@@ -15661,8 +15355,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cmap_init3",
+    "*cmap_init3": (
       rules: [
         (
           kind: Assignment,
@@ -15670,8 +15363,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*cmap_init_list",
+    "*cmap_init_list": (
       rules: [
         (
           kind: Function,
@@ -15683,8 +15375,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_editMode",
+    "*mapEditor_editMode": (
       rules: [
         (
           kind: If,
@@ -15692,8 +15383,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_delObj",
+    "*mapEditor_delObj": (
       rules: [
         (
           kind: Assignment,
@@ -15701,8 +15391,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_changeProperty",
+    "*mapEditor_changeProperty": (
       rules: [
         (
           kind: If,
@@ -15710,8 +15399,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_fill",
+    "*mapEditor_fill": (
       rules: [
         (
           kind: Assignment,
@@ -15719,8 +15407,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_setFog",
+    "*mapEditor_setFog": (
       rules: [
         (
           kind: Assignment,
@@ -15729,8 +15416,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_resize",
+    "*mapEditor_resize": (
       rules: [
         (
           kind: Assignment,
@@ -15738,8 +15424,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_save1",
+    "*mapEditor_save1": (
       rules: [
         (
           kind: If,
@@ -15747,8 +15432,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_save2",
+    "*mapEditor_save2": (
       rules: [
         (
           kind: Assignment,
@@ -15760,8 +15444,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_load",
+    "*mapEditor_load": (
       rules: [
         (
           kind: Assignment,
@@ -15773,8 +15456,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_renewList",
+    "*mapEditor_renewList": (
       rules: [
         (
           kind: Assignment,
@@ -15786,8 +15468,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_setCoast",
+    "*mapEditor_setCoast": (
       rules: [
         (
           kind: Assignment,
@@ -15795,8 +15476,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_setCoast2",
+    "*mapEditor_setCoast2": (
       rules: [
         (
           kind: If,
@@ -15804,8 +15484,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEditor_export",
+    "*mapEditor_export": (
       rules: [
         (
           kind: Assignment,
@@ -15813,8 +15492,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_randomDungeon",
+    "*map_randomDungeon": (
       rules: [
         (
           kind: Assignment,
@@ -15822,8 +15500,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonHunt",
+    "*map_createDungeonHunt": (
       rules: [
         (
           kind: Function,
@@ -15831,8 +15508,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonMinefield",
+    "*map_createDungeonMinefield": (
       rules: [
         (
           kind: StringLiteral,
@@ -15840,8 +15516,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonHarvest",
+    "*map_createDungeonHarvest": (
       rules: [
         (
           kind: StringLiteral,
@@ -15849,8 +15524,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonStandard",
+    "*map_createDungeonStandard": (
       rules: [
         (
           kind: Function,
@@ -15858,16 +15532,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonResident",
+    "*map_createDungeonResident": (
       after: "*map_createDungeonStandard"
     ),
-    (
-      name: "*map_createDungeonJail",
+    "*map_createDungeonJail": (
       after: "*map_createDungeonResident"
     ),
-    (
-      name: "*map_createDungeonWide",
+    "*map_createDungeonWide": (
       rules: [
         (
           kind: Assignment,
@@ -15875,8 +15546,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonBigRoom",
+    "*map_createDungeonBigRoom": (
       rules: [
         (
           kind: Assignment,
@@ -15884,8 +15554,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonPerform",
+    "*map_createDungeonPerform": (
       rules: [
         (
           kind: Assignment,
@@ -15897,8 +15566,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonConquer",
+    "*map_createDungeonConquer": (
       rules: [
         (
           kind: Assignment,
@@ -15906,8 +15574,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonHighPass",
+    "*map_createDungeonHighPass": (
       rules: [
         (
           kind: Assignment,
@@ -15915,8 +15582,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonMaze",
+    "*map_createDungeonMaze": (
       rules: [
         (
           kind: Assignment,
@@ -15924,8 +15590,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dighole",
+    "*dighole": (
       rules: [
         (
           kind: Function,
@@ -15933,8 +15598,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createDungeonDog",
+    "*map_createDungeonDog": (
       rules: [
         (
           kind: If,
@@ -15969,8 +15633,7 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    (
-      name: "*home_setup",
+    "*home_setup": (
       rules: [
         (
           kind: Assignment,
@@ -15978,8 +15641,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*building_new",
+    "*building_new": (
       rules: [
         (
           kind: StringLiteral,
@@ -15987,8 +15649,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setHome",
+    "*setHome": (
       rules: [
         (
           kind: Assignment,
@@ -15996,8 +15657,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_home",
+    "*com_home": (
       rules: [
         (
           kind: StringLiteral,
@@ -16005,43 +15665,35 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_home_WHILE1",
+    "*com_home_WHILE1": (
       after: "*com_home",
       loop_kind: While
     ),
-    (
-      name: "*com_home_WEND1",
+    "*com_home_WEND1": (
       after: "*com_home_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_home_WHILE2",
+    "*com_home_WHILE2": (
       after: "*com_home_WEND1",
       loop_kind: While
     ),
-    (
-      name: "*com_home_WHILE3",
+    "*com_home_WHILE3": (
       after: "*com_home_WHILE2",
       loop_kind: While
     ),
-    (
-      name: "*com_home_SWEND1",
+    "*com_home_SWEND1": (
       after: "*com_home_WHILE3",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*com_home_WEND2",
+    "*com_home_WEND2": (
       after: "*com_home_SWEND1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_home_WEND3",
+    "*com_home_WEND3": (
       after: "*com_home_WEND2",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*home_setWallTile",
+    "*home_setWallTile": (
       rules: [
         (
           kind: If,
@@ -16049,8 +15701,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*shop_turn",
+    "*shop_turn": (
       rules: [
         (
           kind: Assignment,
@@ -16062,8 +15713,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*shop_turn_main",
+    "*shop_turn_main": (
       rules: [
         (
           kind: StringLiteral,
@@ -16071,8 +15721,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*shop_update",
+    "*shop_update": (
       rules: [
         (
           kind: Assignment,
@@ -16080,8 +15729,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*museum_value",
+    "*museum_value": (
       rules: [
         (
           kind: Assignment,
@@ -16089,8 +15737,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*museum_unique_level",
+    "*museum_unique_level": (
       rules: [
         (
           kind: If,
@@ -16098,8 +15745,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*museum_update",
+    "*museum_update": (
       rules: [
         (
           kind: StringLiteral,
@@ -16107,8 +15753,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*house_value",
+    "*house_value": (
       rules: [
         (
           kind: Assignment,
@@ -16116,8 +15761,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*house_update",
+    "*house_update": (
       rules: [
         (
           kind: StringLiteral,
@@ -16125,8 +15769,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ranch_update",
+    "*ranch_update": (
       rules: [
         (
           kind: Assignment,
@@ -16134,8 +15777,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skipBreeder",
+    "*skipBreeder": (
       rules: [
         (
           kind: Function,
@@ -16143,8 +15785,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*fltChara",
+    "*fltChara": (
       rules: [
         (
           kind: Function,
@@ -16152,8 +15793,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_spawn",
+    "*chara_spawn": (
       rules: [
         (
           kind: If,
@@ -16161,8 +15801,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_exit",
+    "*map_exit": (
       rules: [
         (
           kind: Assignment,
@@ -16170,8 +15809,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_clean",
+    "*map_clean": (
       rules: [
         (
           kind: Assignment,
@@ -16180,8 +15818,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_save",
+    "*map_save": (
       rules: [
         (
           kind: Assignment,
@@ -16189,8 +15826,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_init",
+    "*map_init": (
       rules: [
         (
           kind: StringLiteral,
@@ -16198,8 +15834,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_init_main",
+    "*map_init_main": (
       rules: [
         (
           kind: Assignment,
@@ -16207,8 +15842,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_preBegin",
+    "*map_preBegin": (
       rules: [
         (
           kind: StringLiteral,
@@ -16216,8 +15850,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skip_advPlace",
+    "*skip_advPlace": (
       rules: [
         (
           kind: If,
@@ -16225,8 +15858,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_begin",
+    "*map_begin": (
       rules: [
         (
           kind: StringLiteral,
@@ -16234,8 +15866,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*check_renew",
+    "*check_renew": (
       rules: [
         (
           kind: Function,
@@ -16243,8 +15874,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_prepareTile",
+    "*map_prepareTile": (
       rules: [
         (
           kind: If,
@@ -16252,8 +15882,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*world_newRandArea",
+    "*world_newRandArea": (
       rules: [
         (
           kind: Assignment,
@@ -16261,8 +15890,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*world_update",
+    "*world_update": (
       rules: [
         (
           kind: If,
@@ -16270,12 +15898,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*world_refresh",
+    "*world_refresh": (
       after: "*world_update"
     ),
-    (
-      name: "*world_setArea",
+    "*world_setArea": (
       rules: [
         (
           kind: If,
@@ -16283,8 +15909,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*world_clear",
+    "*world_clear": (
       rules: [
         (
           kind: Assignment,
@@ -16292,8 +15917,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setArea",
+    "*setArea": (
       rules: [
         (
           kind: Assignment,
@@ -16301,8 +15925,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*map_createRandArea",
+    "*map_createRandArea": (
       rules: [
         (
           kind: Assignment,
@@ -16310,8 +15933,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapEvent",
+    "*mapEvent": (
       rules: [
         (
           kind: If,
@@ -16319,8 +15941,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ludus_festival",
+    "*ludus_festival": (
       rules: [
         (
           kind: Function,
@@ -16328,8 +15949,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*noyel_festival",
+    "*noyel_festival": (
       rules: [
         (
           kind: Function,
@@ -16337,8 +15957,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_card",
+    "*db_card": (
       rules: [
         (
           kind: Assignment,
@@ -16346,8 +15965,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dbghit_WHILE1",
+    "*dbghit_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -16368,13 +15986,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*dbghit_WEND1",
+    "*dbghit_WEND1": (
       after: "*dbghit_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*tcgdraw_WHILE1",
+    "*tcgdraw_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -16383,13 +15999,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*tcgdraw_WEND1",
+    "*tcgdraw_WEND1": (
       after: "*tcgdraw_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*getrandomcard_WHILE1",
+    "*getrandomcard_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -16398,13 +16012,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*getrandomcard_WEND1",
+    "*getrandomcard_WEND1": (
       after: "*getrandomcard_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*actionchain_WHILE1",
+    "*actionchain_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -16413,13 +16025,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*actionchain_WEND1",
+    "*actionchain_WEND1": (
       after: "*actionchain_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*actionproc_WHILE1",
+    "*actionproc_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -16428,23 +16038,19 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*actionproc_SWEND1",
+    "*actionproc_SWEND1": (
       after: "*actionproc_WHILE1",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*actionproc_WHILE1_CONTINUE",
+    "*actionproc_WHILE1_CONTINUE": (
       after: "*actionproc_SWEND1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*actionproc_WEND1",
+    "*actionproc_WEND1": (
       after: "*actionproc_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*tcgDeck_loop",
+    "*tcgDeck_loop": (
       rules: [
         (
           kind: Assignment,
@@ -16452,8 +16058,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*tcgmain_WHILE1",
+    "*tcgmain_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -16466,13 +16071,11 @@ AnalysisConfig(
       ],
       loop_kind: While
     ),
-    (
-      name: "*tcgmain_WEND1",
+    "*tcgmain_WEND1": (
       after: "*tcgmain_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*phase_begin",
+    "*phase_begin": (
       rules: [
         (
           kind: Assignment,
@@ -16480,8 +16083,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*phase_draw",
+    "*phase_draw": (
       rules: [
         (
           kind: Assignment,
@@ -16489,8 +16091,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*phase_main",
+    "*phase_main": (
       rules: [
         (
           kind: Assignment,
@@ -16498,8 +16099,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*phase_end",
+    "*phase_end": (
       rules: [
         (
           kind: Assignment,
@@ -16507,8 +16107,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*refresh_bg",
+    "*refresh_bg": (
       rules: [
         (
           kind: Function,
@@ -16516,8 +16115,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*tcg_drawDeck",
+    "*tcg_drawDeck": (
       rules: [
         (
           kind: If,
@@ -16525,8 +16123,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*tcg_drawInterface",
+    "*tcg_drawInterface": (
       rules: [
         (
           kind: Assignment,
@@ -16534,8 +16131,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*tcg_initBg",
+    "*tcg_initBg": (
       rules: [
         (
           kind: Function,
@@ -16555,8 +16151,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*select_deck_pos",
+    "*select_deck_pos": (
       rules: [
         (
           kind: If,
@@ -16564,8 +16159,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*select_deck",
+    "*select_deck": (
       rules: [
         (
           kind: Assignment,
@@ -16573,8 +16167,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*select_deck_loop",
+    "*select_deck_loop": (
       rules: [
         (
           kind: If,
@@ -16582,38 +16175,31 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*select_deck_loop_WHILE1",
+    "*select_deck_loop_WHILE1": (
       after: "*select_deck_loop",
       loop_kind: While
     ),
-    (
-      name: "*select_deck_loop_WHILE2",
+    "*select_deck_loop_WHILE2": (
       after: "*select_deck_loop_WHILE1",
       loop_kind: While
     ),
-    (
-      name: "*select_deck_loop_WHILE2_CONTINUE",
+    "*select_deck_loop_WHILE2_CONTINUE": (
       after: "*select_deck_loop_WHILE2",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*select_deck_loop_WEND2",
+    "*select_deck_loop_WEND2": (
       after: "*select_deck_loop_WHILE2_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*select_deck_loop_WHILE1_CONTINUE",
+    "*select_deck_loop_WHILE1_CONTINUE": (
       after: "*select_deck_loop_WEND2",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*select_deck_loop_WEND1",
+    "*select_deck_loop_WEND1": (
       after: "*select_deck_loop_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*card_player",
+    "*card_player": (
       rules: [
         (
           kind: Assignment,
@@ -16621,23 +16207,19 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*card_player_WHILE1",
+    "*card_player_WHILE1": (
       after: "*card_player",
       loop_kind: While
     ),
-    (
-      name: "*card_player_WHILE1_CONTINUE",
+    "*card_player_WHILE1_CONTINUE": (
       after: "*card_player_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*card_player_WEND1",
+    "*card_player_WEND1": (
       after: "*card_player_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*select_action",
+    "*select_action": (
       rules: [
         (
           kind: Function,
@@ -16649,18 +16231,15 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*select_action_WHILE1",
+    "*select_action_WHILE1": (
       after: "*select_action",
       loop_kind: While
     ),
-    (
-      name: "*select_action_WEND1",
+    "*select_action_WEND1": (
       after: "*select_action_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*ai_evaluate",
+    "*ai_evaluate": (
       rules: [
         (
           kind: Assignment,
@@ -16668,8 +16247,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_sac",
+    "*ai_sac": (
       rules: [
         (
           kind: Assignment,
@@ -16677,8 +16255,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*card_ai",
+    "*card_ai": (
       rules: [
         (
           kind: Assignment,
@@ -16686,18 +16263,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*card_ai_WHILE1",
+    "*card_ai_WHILE1": (
       after: "*card_ai",
       loop_kind: While
     ),
-    (
-      name: "*card_ai_WEND1",
+    "*card_ai_WEND1": (
       after: "*card_ai_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_product",
+    "*com_product": (
       rules: [
         (
           kind: StringLiteral,
@@ -16705,12 +16279,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_product_loop",
+    "*com_product_loop": (
       after: "*com_product"
     ),
-    (
-      name: "*com_material",
+    "*com_material": (
       rules: [
         (
           kind: If,
@@ -16718,16 +16290,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_material_loop_pgchk",
+    "*com_material_loop_pgchk": (
       after: "*com_material"
     ),
-    (
-      name: "*com_material_loop",
+    "*com_material_loop": (
       after: "*com_material_loop_pgchk"
     ),
-    (
-      name: "*com_txtadv",
+    "*com_txtadv": (
       rules: [
         (
           kind: StringLiteral,
@@ -16735,17 +16304,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_txtadv_loop",
+    "*com_txtadv_loop": (
       after: "*com_txtadv"
     ),
-    (
-      name: "*com_txtadv_loop_WHILE1",
+    "*com_txtadv_loop_WHILE1": (
       after: "*com_txtadv_loop",
       loop_kind: While
     ),
-    (
-      name: "*com_adv_anime1",
+    "*com_adv_anime1": (
       rules: [
         (
           kind: Assignment,
@@ -16753,12 +16319,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_adv_anime2",
+    "*com_adv_anime2": (
       after: "*com_adv_anime1"
     ),
-    (
-      name: "*com_adv_animeSub",
+    "*com_adv_animeSub": (
       rules: [
         (
           kind: Function,
@@ -16766,8 +16330,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_txtAdvQuit",
+    "*com_txtAdvQuit": (
       rules: [
         (
           kind: StringLiteral,
@@ -16775,8 +16338,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*atx_RE",
+    "*atx_RE": (
       rules: [
         (
           kind: StringLiteral,
@@ -16784,8 +16346,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*atx_RE_main",
+    "*atx_RE_main": (
       rules: [
         (
           kind: StringLiteral,
@@ -16793,8 +16354,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*atx_RE_search",
+    "*atx_RE_search": (
       rules: [
         (
           kind: StringLiteral,
@@ -16802,8 +16362,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*atx_RE_end",
+    "*atx_RE_end": (
       rules: [
         (
           kind: StringLiteral,
@@ -16811,8 +16370,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*adv_casinoCard",
+    "*adv_casinoCard": (
       rules: [
         (
           kind: StringLiteral,
@@ -16820,8 +16378,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*adv_casinoBlackJack",
+    "*adv_casinoBlackJack": (
       rules: [
         (
           kind: StringLiteral,
@@ -16829,8 +16386,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*set_npcGod",
+    "*set_npcGod": (
       rules: [
         (
           kind: Assignment,
@@ -16838,8 +16394,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_init",
+    "*god_init": (
       rules: [
         (
           kind: Function,
@@ -16847,8 +16402,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_effect",
+    "*god_effect": (
       rules: [
         (
           kind: If,
@@ -16856,8 +16410,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_detail",
+    "*god_detail": (
       rules: [
         (
           kind: StringLiteral,
@@ -16865,8 +16418,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_select",
+    "*god_select": (
       rules: [
         (
           kind: StringLiteral,
@@ -16874,18 +16426,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_select_WHILE1",
+    "*god_select_WHILE1": (
       after: "*god_select",
       loop_kind: While
     ),
-    (
-      name: "*god_select_WEND1",
+    "*god_select_WEND1": (
       after: "*god_select_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*change_god",
+    "*change_god": (
       rules: [
         (
           kind: Assignment,
@@ -16893,8 +16442,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_pray",
+    "*god_pray": (
       rules: [
         (
           kind: StringLiteral,
@@ -16902,8 +16450,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_offer",
+    "*god_offer": (
       rules: [
         (
           kind: StringLiteral,
@@ -16911,8 +16458,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*god_punish",
+    "*god_punish": (
       rules: [
         (
           kind: Assignment,
@@ -16928,8 +16474,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*random_event",
+    "*random_event": (
       rules: [
         (
           kind: Assignment,
@@ -16937,8 +16482,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*random_eventProc",
+    "*random_eventProc": (
       rules: [
         (
           kind: StringLiteral,
@@ -16946,13 +16490,11 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*random_eventProc_SWEND1",
+    "*random_eventProc_SWEND1": (
       after: "*random_eventProc",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*re_select",
+    "*re_select": (
       rules: [
         (
           kind: Function,
@@ -16960,18 +16502,15 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*re_select_WHILE1",
+    "*re_select_WHILE1": (
       after: "*re_select",
       loop_kind: While
     ),
-    (
-      name: "*re_select_WEND1",
+    "*re_select_WEND1": (
       after: "*re_select_WHILE1",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*event_income",
+    "*event_income": (
       rules: [
         (
           kind: StringLiteral,
@@ -16979,8 +16518,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*initial_recipe",
+    "*initial_recipe": (
       rules: [
         (
           kind: Function,
@@ -16988,8 +16526,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*recipe_init",
+    "*recipe_init": (
       rules: [
         (
           kind: Assignment,
@@ -16997,8 +16534,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_blend",
+    "*com_blend": (
       rules: [
         (
           kind: Function,
@@ -17006,8 +16542,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_blend_step",
+    "*com_blend_step": (
       rules: [
         (
           kind: StringLiteral,
@@ -17015,40 +16550,32 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_blend_recipe_loop",
+    "*com_blend_recipe_loop": (
       after: "*com_blend_step"
     ),
-    (
-      name: "*com_blend_recipe_loop_WHILE1",
+    "*com_blend_recipe_loop_WHILE1": (
       after: "*com_blend_recipe_loop",
       loop_kind: While
     ),
-    (
-      name: "*com_blend_recipe_loop_WHILE1_CONTINUE",
+    "*com_blend_recipe_loop_WHILE1_CONTINUE": (
       after: "*com_blend_recipe_loop_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*com_blend_material_loop",
+    "*com_blend_material_loop": (
       after: "*com_blend_recipe_loop_WHILE1_CONTINUE"
     ),
-    (
-      name: "*com_blend_material_loop_WHILE1",
+    "*com_blend_material_loop_WHILE1": (
       after: "*com_blend_material_loop",
     ),
-    (
-      name: "*com_blend_material_loop_WHILE1_CONTINUE",
+    "*com_blend_material_loop_WHILE1_CONTINUE": (
       after: "*com_blend_material_loop_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*com_blend_material_loop_WEND1",
+    "*com_blend_material_loop_WEND1": (
       after: "*com_blend_material_loop_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*blend_checkMat",
+    "*blend_checkMat": (
       rules: [
         (
           kind: If,
@@ -17060,8 +16587,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*blend_deleteMat",
+    "*blend_deleteMat": (
       rules: [
         (
           kind: If,
@@ -17069,8 +16595,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*blend_complete",
+    "*blend_complete": (
       rules: [
         (
           kind: StringLiteral,
@@ -17078,8 +16603,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*blend",
+    "*blend": (
       rules: [
         (
           kind: StringLiteral,
@@ -17087,8 +16611,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*blend_act",
+    "*blend_act": (
       rules: [
         (
           kind: StringLiteral,
@@ -17096,13 +16619,11 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*blend_act_SWEND1",
+    "*blend_act_SWEND1": (
       after: "*blend_act",
       loop_kind: SwitchEnd
     ),
-    (
-      name: "*com_import",
+    "*com_import": (
       rules: [
         (
           kind: Function,
@@ -17110,17 +16631,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_import_loop_pgchk",
+    "*com_import_loop_pgchk": (
       after: "*com_import"
     ),
-    (
-      name: "*com_import_loop",
+    "*com_import_loop": (
       after: "*com_import_loop_pgchk",
       loop_kind: While
     ),
-    (
-      name: "*findLocation",
+    "*findLocation": (
       rules: [
         (
           kind: Assignment,
@@ -17128,17 +16646,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*findLocation_WHILE1",
+    "*findLocation_WHILE1": (
       after: "*findLocation"
     ),
-    (
-      name: "*findLocation_WHILE1_CONTINUE",
+    "*findLocation_WHILE1_CONTINUE": (
       after: "*findLocation_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*com_target",
+    "*com_target": (
       rules: [
         (
           kind: StringLiteral,
@@ -17150,21 +16665,17 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_target_loop_pgchk",
+    "*com_target_loop_pgchk": (
       after: "*com_target"
     ),
-    (
-      name: "*com_target_loop",
+    "*com_target_loop": (
       after: "*com_target_loop_pgchk"
     ),
-    (
-      name: "*com_target_loop_WEND1",
+    "*com_target_loop_WEND1": (
       after: "*com_target_loop",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_mapset",
+    "*com_mapset": (
       rules: [
         (
           kind: Assignment,
@@ -17172,23 +16683,19 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_mapset_WHILE1",
+    "*com_mapset_WHILE1": (
       after: "*com_mapset",
       loop_kind: While
     ),
-    (
-      name: "*com_mapset_WHILE1_CONTINUE",
+    "*com_mapset_WHILE1_CONTINUE": (
       after: "*com_mapset_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*com_mapset_WEND1",
+    "*com_mapset_WEND1": (
       after: "*com_mapset_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_ally",
+    "*com_ally": (
       rules: [
         (
           kind: If,
@@ -17196,22 +16703,18 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_ally_loop",
+    "*com_ally_loop": (
       after: "*com_ally"
     ),
-    (
-      name: "*com_ally_loop_WHILE1",
+    "*com_ally_loop_WHILE1": (
       after: "*com_ally_loop",
       loop_type: While
     ),
-    (
-      name: "*com_ally_loop_WHILE1_CONTINUE",
+    "*com_ally_loop_WHILE1_CONTINUE": (
       after: "*com_ally_loop_WHILE1",
       loop_type: Continue
     ),
-    (
-      name: "*com_knowOther",
+    "*com_knowOther": (
       rules: [
         (
           kind: StringLiteral,
@@ -17219,16 +16722,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_knowOther_loop",
+    "*com_knowOther_loop": (
       after: "*com_knowOther"
     ),
-    (
-      name: "*com_knowOther_pgchg",
+    "*com_knowOther_pgchg": (
       after: "*com_knowOther_loop"
     ),
-    (
-      name: "*com_knowSelf",
+    "*com_knowSelf": (
       rules: [
         (
           kind: StringLiteral,
@@ -17236,16 +16736,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_knowSelf_loop",
+    "*com_knowSelf_loop": (
       after: "*com_knowSelf"
     ),
-    (
-      name: "*com_knowSelf_pgchg",
+    "*com_knowSelf_pgchg": (
       after: "*com_knowSelf_loop"
     ),
-    (
-      name: "*com_trait",
+    "*com_trait": (
       rules: [
         (
           kind: Function,
@@ -17257,17 +16754,14 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*com_trait_loop",
+    "*com_trait_loop": (
       after: "*com_trait"
     ),
-    (
-      name: "*com_trait_loop_WHILE1",
+    "*com_trait_loop_WHILE1": (
       after: "*com_trait_loop",
       loop_kind: While
     ),
-    (
-      name: "*com_journal",
+    "*com_journal": (
       rules: [
         (
           kind: StringLiteral,
@@ -17275,16 +16769,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_journal_loop",
+    "*com_journal_loop": (
       after: "*com_journal"
     ),
-    (
-      name: "*com_journal_loop_pgchg",
+    "*com_journal_loop_pgchg": (
       after: "*com_journal_loop"
     ),
-    (
-      name: "*com_quest",
+    "*com_quest": (
       rules: [
         (
           kind: StringLiteral,
@@ -17292,17 +16783,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_quest_loop_pgchk",
+    "*com_quest_loop_pgchk": (
       after: "*com_quest"
     ),
-    (
-      name: "*com_quest_loop",
+    "*com_quest_loop": (
       after: "*com_quest_loop_pgchk",
       loop_kind: While
     ),
-    (
-      name: "*com_listNpc",
+    "*com_listNpc": (
       rules: [
         (
           kind: If,
@@ -17314,17 +16802,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_listNpc_loop_pgchk",
+    "*com_listNpc_loop_pgchk": (
       after: "*com_listNpc"
     ),
-    (
-      name: "*com_listNpc_loop",
+    "*com_listNpc_loop": (
       after: "*com_listNpc_loop_pgchk",
       loop_kind: While
     ),
-    (
-      name: "*com_reserve",
+    "*com_reserve": (
       rules: [
         (
           kind: If,
@@ -17332,17 +16817,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_reserve_loop_pgchk",
+    "*com_reserve_loop_pgchk": (
       after: "*com_reserve"
     ),
-    (
-      name: "*com_reserve_loop",
+    "*com_reserve_loop": (
       after: "*com_reserve_loop_pgchk",
       loop_kind: While
     ),
-    (
-      name: "*com_jukebox",
+    "*com_jukebox": (
       rules: [
         (
           kind: Function,
@@ -17350,12 +16832,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_jukebox_loop_pgchk",
+    "*com_jukebox_loop_pgchk": (
       after: "*com_jukebox"
     ),
-    (
-      name: "*com_jukebox_loop",
+    "*com_jukebox_loop": (
       rules: [
         (
           kind: Assignment,
@@ -17363,8 +16843,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_listAdv",
+    "*com_listAdv": (
       rules: [
         (
           kind: Assignment,
@@ -17372,17 +16851,14 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_listAdv_loop_pgchk",
+    "*com_listAdv_loop_pgchk": (
       after: "*com_listAdv"
     ),
-    (
-      name: "*com_listAdv_loop",
+    "*com_listAdv_loop": (
       after: "*com_listAdv_loop_pgchk",
       loop_kind: While
     ),
-    (
-      name: "*wish_fix",
+    "*wish_fix": (
       rules: [
         (
           kind: Assignment,
@@ -17390,8 +16866,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_aka",
+    "*com_aka": (
       rules: [
         (
           kind: Assignment,
@@ -17399,16 +16874,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_aka_WHILE1",
+    "*com_aka_WHILE1": (
       after: "*com_aka"
     ),
-    (
-      name: "*com_aka_WEND1",
+    "*com_aka_WEND1": (
       after: "*com_aka_WHILE1"
     ),
-    (
-      name: "*com_wish_end",
+    "*com_wish_end": (
       rules: [
         (
           kind: StringLiteral,
@@ -17416,8 +16888,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_wish",
+    "*com_wish": (
       rules: [
         (
           kind: Function,
@@ -17425,8 +16896,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*wish_item",
+    "*wish_item": (
       rules: [
         (
           kind: If,
@@ -17434,8 +16904,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*wish_skill",
+    "*wish_skill": (
       rules: [
         (
           kind: StringLiteral,
@@ -17443,8 +16912,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*wish_card",
+    "*wish_card": (
       rules: [
         (
           kind: Function,
@@ -17456,8 +16924,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*wish_figure",
+    "*wish_figure": (
       rules: [
         (
           kind: Function,
@@ -17469,8 +16936,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*wish_monster",
+    "*wish_monster": (
       rules: [
         (
           kind: Assignment,
@@ -17478,8 +16944,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_shortcut",
+    "*com_shortcut": (
       rules: [
         (
           kind: StringLiteral,
@@ -17487,8 +16952,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_dig",
+    "*com_dig": (
       rules: [
         (
           kind: StringLiteral,
@@ -17496,8 +16960,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_bash",
+    "*com_bash": (
       rules: [
         (
           kind: StringLiteral,
@@ -17505,12 +16968,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_skill",
+    "*com_skill": (
       after: "*com_bash"
     ),
-    (
-      name: "*com_applySkill",
+    "*com_applySkill": (
       rules: [
         (
           kind: If,
@@ -17522,17 +16983,14 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*com_applySkill_loop",
+    "*com_applySkill_loop": (
       after: "*com_applySkill",
     ),
-    (
-      name: "*com_applySkill_loop_WHILE1",
+    "*com_applySkill_loop_WHILE1": (
       after: "*com_applySkill_loop",
       loop_kind: While
     ),
-    (
-      name: "*com_applyWideSkill",
+    "*com_applyWideSkill": (
       rules: [
         (
           kind: If,
@@ -17544,17 +17002,14 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*com_applyWideSkill_loop_pgchk",
+    "*com_applyWideSkill_loop_pgchk": (
       after: "*com_applyWideSkill"
     ),
-    (
-      name: "*com_applyWideSkill_loop",
+    "*com_applyWideSkill_loop": (
       after: "*com_applyWideSkill_loop_pgchk",
       loop_kind: While
     ),
-    (
-      name: "*com_stack",
+    "*com_stack": (
       rules: [
         (
           kind: StringLiteral,
@@ -17562,8 +17017,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_give",
+    "*com_give": (
       rules: [
         (
           kind: StringLiteral,
@@ -17571,8 +17025,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_interact",
+    "*com_interact": (
       rules: [
         (
           kind: StringLiteral,
@@ -17580,8 +17033,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_name",
+    "*com_name": (
       after: "*com_interact",
       // rules: [
       //   (
@@ -17591,8 +17043,7 @@ AnalysisConfig(
       //   )
       // ]
     ),
-    (
-      name: "*com_tone",
+    "*com_tone": (
       rules: [
         (
           kind: StringLiteral,
@@ -17600,16 +17051,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_tone_loop_pgchk",
+    "*com_tone_loop_pgchk": (
       after: "*com_tone"
     ),
-    (
-      name: "*com_tone_loop",
+    "*com_tone_loop": (
       after: "*com_tone_loop_pgchk"
     ),
-    (
-      name: "*com_userNpc",
+    "*com_userNpc": (
       rules: [
         (
           kind: If,
@@ -17617,16 +17065,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_userNpc_loop_pgchk",
+    "*com_userNpc_loop_pgchk": (
       after: "*com_userNpc"
     ),
-    (
-      name: "*com_userNpc_loop",
+    "*com_userNpc_loop": (
       after: "*com_userNpc_loop_pgchk"
     ),
-    (
-      name: "*com_book",
+    "*com_book": (
       rules: [
         (
           kind: Function,
@@ -17638,20 +17083,16 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*com_book_loop",
+    "*com_book_loop": (
       after: "*com_book"
     ),
-    (
-      name: "*com_book_loop_pgchg",
+    "*com_book_loop_pgchg": (
       after: "*com_book_loop"
     ),
-    (
-      name: "*com_spellcast",
+    "*com_spellcast": (
       after: "*com_book_loop_pgchg"
     ),
-    (
-      name: "*com_spell",
+    "*com_spell": (
       rules: [
         (
           kind: If,
@@ -17659,16 +17100,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_spell_loop_pgchk",
+    "*com_spell_loop_pgchk": (
       after: "*com_spell"
     ),
-    (
-      name: "*com_spell_loop",
+    "*com_spell_loop": (
       after: "*com_spell_loop_pgchk"
     ),
-    (
-      name: "*skill_desc",
+    "*skill_desc": (
       rules: [
         (
           kind: Assignment,
@@ -17676,8 +17114,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*trainer_skill",
+    "*trainer_skill": (
       rules: [
         (
           kind: Assignment,
@@ -17693,12 +17130,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*notable_skill",
+    "*notable_skill": (
       after: "*trainer_skill"
     ),
-    (
-      name: "*setHistory1",
+    "*setHistory1": (
       rules: [
         (
           kind: StringLiteral,
@@ -17706,8 +17141,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setHistory2",
+    "*setHistory2": (
       rules: [
         (
           kind: StringLiteral,
@@ -17715,8 +17149,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setHistory3",
+    "*setHistory3": (
       rules: [
         (
           kind: StringLiteral,
@@ -17724,8 +17157,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setHistory4",
+    "*setHistory4": (
       rules: [
         (
           kind: StringLiteral,
@@ -17733,8 +17165,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*setHistory5",
+    "*setHistory5": (
       rules: [
         (
           kind: StringLiteral,
@@ -17742,8 +17173,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_charainfo",
+    "*com_charainfo": (
       rules: [
         (
           kind: If,
@@ -17751,20 +17181,16 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_charainfo_loop",
+    "*com_charainfo_loop": (
       after: "*com_charainfo"
     ),
-    (
-      name: "*com_charainfo_loop_WHILE1",
+    "*com_charainfo_loop_WHILE1": (
       after: "*com_charainfo_loop"
     ),
-    (
-      name: "*com_charainfo_loop_WHILE1_CONTINUE",
+    "*com_charainfo_loop_WHILE1_CONTINUE": (
       after: "*com_charainfo_loop_WHILE1"
     ),
-    (
-      name: "*portrait_item",
+    "*portrait_item": (
       rules: [
         (
           kind: Assignment,
@@ -17772,8 +17198,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*get_pic_selection",
+    "*get_pic_selection": (
       rules: [
         (
           kind: Assignment,
@@ -17781,8 +17206,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_item_mark",
+    "*com_item_mark": (
       rules: [
         (
           kind: StringLiteral,
@@ -17790,12 +17214,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_item_mark_loop",
+    "*com_item_mark_loop": (
       after: "*com_item_mark"
     ),
-    (
-      name: "*com_item_mark_adjust",
+    "*com_item_mark_adjust": (
       rules: [
         (
           kind: Assignment,
@@ -17803,12 +17225,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_item_mark_adjust_loop",
+    "*com_item_mark_adjust_loop": (
       after: "*com_item_mark_adjust"
     ),
-    (
-      name: "*com_shape_change",
+    "*com_shape_change": (
       rules: [
         (
           kind: StringLiteral,
@@ -17816,16 +17236,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_shape_change_WHILE1",
+    "*com_shape_change_WHILE1": (
       after: "*com_shape_change"
     ),
-    (
-      name: "*com_shape_change_WHILE1_CONTINUE",
+    "*com_shape_change_WHILE1_CONTINUE": (
       after: "*com_shape_change_WHILE1"
     ),
-    (
-      name: "*com_portrait",
+    "*com_portrait": (
       rules: [
         (
           kind: Function,
@@ -17833,20 +17250,16 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_portrait_loop",
+    "*com_portrait_loop": (
       after: "*com_portrait"
     ),
-    (
-      name: "*com_portrait_loop_WHILE1",
+    "*com_portrait_loop_WHILE1": (
       after: "*com_portrait_loop"
     ),
-    (
-      name: "*com_portrait_loop_WHILE1_CONTINUE",
+    "*com_portrait_loop_WHILE1_CONTINUE": (
       after: "*com_portrait_loop_WHILE1"
     ),
-    (
-      name: "*com_mirror",
+    "*com_mirror": (
       rules: [
         (
           kind: StringLiteral,
@@ -17854,12 +17267,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_mirror_loop_WHILE1",
+    "*com_mirror_loop_WHILE1": (
       after: "*com_mirror"
     ),
-    (
-      name: "*com_calcAttack",
+    "*com_calcAttack": (
       rules: [
         (
           kind: StringLiteral,
@@ -17868,8 +17279,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_skill_calcAttack",
+    "*com_skill_calcAttack": (
       rules: [
         (
           kind: Function,
@@ -17877,8 +17287,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*show_weaponStat",
+    "*show_weaponStat": (
       rules: [
         (
           kind: StringLiteral,
@@ -17886,8 +17295,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_wear",
+    "*com_wear": (
       rules: [
         (
           kind: Assignment,
@@ -17895,16 +17303,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_wear_loop_pgchk",
+    "*com_wear_loop_pgchk": (
       after: "*com_wear"
     ),
-    (
-      name: "*com_wear_loop",
+    "*com_wear_loop": (
       after: "*com_wear_loop_pgchk"
     ),
-    (
-      name: "*com_get",
+    "*com_get": (
       rules: [
         (
           kind: StringLiteral,
@@ -17912,8 +17317,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_allyInventory",
+    "*com_allyInventory": (
       rules: [
         (
           kind: StringLiteral,
@@ -17921,8 +17325,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sort_list",
+    "*sort_list": (
       rules: [
         (
           kind: Assignment,
@@ -17930,12 +17333,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sort_list2",
+    "*sort_list2": (
       after: "*sort_list"
     ),
-    (
-      name: "*com_inventory",
+    "*com_inventory": (
       rules: [
         (
           kind: StringLiteral,
@@ -17943,8 +17344,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_inventory_loop",
+    "*com_inventory_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -17952,12 +17352,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_inventory_loop_WHILE1",
+    "*com_inventory_loop_WHILE1": (
       after: "*com_inventory_loop"
     ),
-    (
-      name: "*inv_skipSc",
+    "*inv_skipSc": (
       rules: [
         (
           kind: StringLiteral,
@@ -17965,8 +17363,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_inventory_end",
+    "*com_inventory_end": (
       rules: [
         (
           kind: Function,
@@ -17974,16 +17371,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_inventory_loop_WHILE1_CONTINUE",
+    "*com_inventory_loop_WHILE1_CONTINUE": (
       after: "*com_inventory_end"
     ),
-    (
-      name: "*com_inventory_loop_WEND1",
+    "*com_inventory_loop_WEND1": (
       after: "*com_inventory_loop_WHILE1_CONTINUE"
     ),
-    (
-      name: "*com_identify",
+    "*com_identify": (
       rules: [
         (
           kind: StringLiteral,
@@ -17991,16 +17385,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_identify_loop_pgchk",
+    "*com_identify_loop_pgchk": (
       after: "*com_identify",
     ),
-    (
-      name: "*com_identify_loop",
+    "*com_identify_loop": (
       after: "*com_identify_loop_pgchk"
     ),
-    (
-      name: "*findTarget",
+    "*findTarget": (
       rules: [
         (
           kind: If,
@@ -18008,8 +17399,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_confirmAttack",
+    "*com_confirmAttack": (
       rules: [
         (
           kind: StringLiteral,
@@ -18017,8 +17407,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_fire",
+    "*com_fire": (
       rules: [
         (
           kind: Function,
@@ -18035,8 +17424,7 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    (
-      name: "*com_findTarget",
+    "*com_findTarget": (
       rules: [
         (
           kind: Assignment,
@@ -18044,8 +17432,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_rest",
+    "*com_rest": (
       rules: [
         (
           kind: Assignment,
@@ -18053,8 +17440,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_rowActCancel",
+    "*com_rowActCancel": (
       rules: [
         (
           kind: StringLiteral,
@@ -18062,8 +17448,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_save",
+    "*com_save": (
       rules: [
         (
           kind: Function,
@@ -18071,8 +17456,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*check_return",
+    "*check_return": (
       rules: [
         (
           kind: Assignment,
@@ -18084,8 +17468,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_return",
+    "*com_return": (
       rules: [
         (
           kind: StringLiteral,
@@ -18093,8 +17476,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_gasha",
+    "*com_gasha": (
       rules: [
         (
           kind: StringLiteral,
@@ -18102,8 +17484,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_train",
+    "*com_train": (
       rules: [
         (
           kind: Assignment,
@@ -18111,8 +17492,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_dump",
+    "*com_dump": (
       rules: [
         (
           kind: StringLiteral,
@@ -18120,8 +17500,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dump_chara",
+    "*dump_chara": (
       rules: [
         (
           kind: StringLiteral,
@@ -18129,8 +17508,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_ammo",
+    "*com_ammo": (
       rules: [
         (
           kind: StringLiteral,
@@ -18138,8 +17516,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*gene_itemfix",
+    "*gene_itemfix": (
       rules: [
         (
           kind: If,
@@ -18147,8 +17524,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*fixOnMapEnter",
+    "*fixOnMapEnter": (
       rules: [
         (
           kind: Assignment,
@@ -18156,8 +17532,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*fixSave",
+    "*fixSave": (
       rules: [
         (
           kind: If,
@@ -18169,8 +17544,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mapReset",
+    "*mapReset": (
       rules: [
         (
           kind: Assignment,
@@ -18178,8 +17552,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*apply_gene",
+    "*apply_gene": (
       rules: [
         (
           kind: Assignment,
@@ -18187,8 +17560,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*load_gene",
+    "*load_gene": (
       rules: [
         (
           kind: Assignment,
@@ -18196,8 +17568,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*generate_gene",
+    "*generate_gene": (
       rules: [
         (
           kind: Assignment,
@@ -18205,8 +17576,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*unzip",
+    "*unzip": (
       rules: [
         (
           kind: Function,
@@ -18214,8 +17584,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*set_userNpc",
+    "*set_userNpc": (
       rules: [
         (
           kind: Assignment,
@@ -18223,8 +17592,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*userNpc_update",
+    "*userNpc_update": (
       rules: [
         (
           kind: Assignment,
@@ -18232,8 +17600,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*user_npc",
+    "*user_npc": (
       rules: [
         (
           kind: StringLiteral,
@@ -18241,8 +17608,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_ctrlFile",
+    "*game_ctrlFile": (
       rules: [
         (
           kind: Function,
@@ -18250,8 +17616,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*export_map",
+    "*export_map": (
       rules: [
         (
           kind: StringLiteral,
@@ -18259,8 +17624,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*export_chara",
+    "*export_chara": (
       rules: [
         (
           kind: Assignment,
@@ -18268,8 +17632,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*del_userNpc",
+    "*del_userNpc": (
       rules: [
         (
           kind: Function,
@@ -18277,8 +17640,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*del_userTemp",
+    "*del_userTemp": (
       rules: [
         (
           kind: Function,
@@ -18286,8 +17648,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_load",
+    "*game_load": (
       rules: [
         (
           kind: Function,
@@ -18295,8 +17656,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_save",
+    "*game_save": (
       rules: [
         (
           kind: Function,
@@ -18304,8 +17664,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*extract_map",
+    "*extract_map": (
       rules: [
         (
           kind: Assignment,
@@ -18313,8 +17672,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_title",
+    "*game_title": (
       rules: [
         (
           kind: Assignment,
@@ -18322,12 +17680,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_title_WHILE1",
+    "*game_title_WHILE1": (
       after: "*game_title"
     ),
-    (
-      name: "*game_title_selectID",
+    "*game_title_selectID": (
       rules: [
         (
           kind: StringLiteral,
@@ -18335,12 +17691,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_title_selectID_WHILE1",
+    "*game_title_selectID_WHILE1": (
       after: "*game_title_selectID"
     ),
-    (
-      name: "*game_title_selectGen",
+    "*game_title_selectGen": (
       rules: [
         (
           kind: StringLiteral,
@@ -18348,8 +17702,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_title_selectGen_WHILE1",
+    "*game_title_selectGen_WHILE1": (
       rules: [
         (
           kind: StringLiteral,
@@ -18357,8 +17710,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*define_los",
+    "*define_los": (
       rules: [
         (
           kind: Function,
@@ -18366,8 +17718,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*esc_check",
+    "*esc_check": (
       rules: [
         (
           kind: If,
@@ -18375,8 +17726,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*prompt_word",
+    "*prompt_word": (
       rules: [
         (
           kind: Assignment,
@@ -18384,8 +17734,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*prompt_direction",
+    "*prompt_direction": (
       rules: [
         (
           kind: Function,
@@ -18393,8 +17742,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*prompt_direction_WHILE1",
+    "*prompt_direction_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -18402,8 +17750,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*prompt_direction_WHILE1_CONTINUE",
+    "*prompt_direction_WHILE1_CONTINUE": (
       rules: [
         (
           kind: Function,
@@ -18411,8 +17758,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*prompt_key",
+    "*prompt_key": (
       rules: [
         (
           kind: If,
@@ -18420,8 +17766,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*prompt_key_WHILE1",
+    "*prompt_key_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -18429,8 +17774,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_debug",
+    "*game_debug": (
       rules: [
         (
           kind: StringLiteral,
@@ -18438,16 +17782,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_debug_WHILE1",
+    "*game_debug_WHILE1": (
       after: "*game_debug"
     ),
-    (
-      name: "*game_debug_WEND1",
+    "*game_debug_WEND1": (
       after: "*game_debug_WHILE1"
     ),
-    (
-      name: "*dbg_GetInfo",
+    "*dbg_GetInfo": (
       rules: [
         (
           kind: StringLiteral,
@@ -18455,8 +17796,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*console_write",
+    "*console_write": (
       rules: [
         (
           kind: Function,
@@ -18464,8 +17804,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*mutexobj",
+    "*mutexobj": (
       rules: [
         (
           kind: Assignment,
@@ -18473,8 +17812,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*randomSite",
+    "*randomSite": (
       rules: [
         (
           kind: StringLiteral,
@@ -18482,8 +17820,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*disarmTrap",
+    "*disarmTrap": (
       rules: [
         (
           kind: StringLiteral,
@@ -18491,8 +17828,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*procMove",
+    "*procMove": (
       rules: [
         (
           kind: StringLiteral,
@@ -18500,8 +17836,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*perform",
+    "*perform": (
       rules: [
         (
           kind: Assignment,
@@ -18509,8 +17844,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*perform_dance",
+    "*perform_dance": (
       rules: [
         (
           kind: Assignment,
@@ -18518,8 +17852,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*perform_preach",
+    "*perform_preach": (
       rules: [
         (
           kind: Assignment,
@@ -18527,8 +17860,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_charge",
+    "*skill_charge": (
       rules: [
         (
           kind: Assignment,
@@ -18536,8 +17868,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_persuasion",
+    "*skill_persuasion": (
       rules: [
         (
           kind: Assignment,
@@ -18545,8 +17876,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_peculiar_joke",
+    "*skill_peculiar_joke": (
       rules: [
         (
           kind: Assignment,
@@ -18554,8 +17884,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_blended_lie",
+    "*skill_blended_lie": (
       rules: [
         (
           kind: Assignment,
@@ -18563,8 +17892,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_intimidation",
+    "*skill_intimidation": (
       rules: [
         (
           kind: Assignment,
@@ -18572,8 +17900,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_mysterious_song",
+    "*skill_mysterious_song": (
       rules: [
         (
           kind: Assignment,
@@ -18581,8 +17908,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eat_meal",
+    "*eat_meal": (
       rules: [
         (
           kind: Assignment,
@@ -18590,8 +17916,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eat_meal_xmas_cake",
+    "*eat_meal_xmas_cake": (
       rules: [
         (
           kind: Assignment,
@@ -18599,8 +17924,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sexsex",
+    "*sexsex": (
       rules: [
         (
           kind: Assignment,
@@ -18608,8 +17932,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skill_tuin_der_lusten",
+    "*skill_tuin_der_lusten": (
       rules: [
         (
           kind: Assignment,
@@ -18617,8 +17940,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*generalAct",
+    "*generalAct": (
       rules: [
         (
           kind: Assignment,
@@ -18626,12 +17948,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sleep_draw",
+    "*sleep_draw": (
       after: "*generalAct"
     ),
-    (
-      name: "*sleep_draw_init",
+    "*sleep_draw_init": (
       rules: [
         (
           kind: Function,
@@ -18639,8 +17959,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sleep",
+    "*sleep": (
       rules: [
         (
           kind: StringLiteral,
@@ -18648,8 +17967,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*rest",
+    "*rest": (
       rules: [
         (
           kind: StringLiteral,
@@ -18657,8 +17975,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*travel",
+    "*travel": (
       rules: [
         (
           kind: Assignment,
@@ -18666,8 +17983,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*choose_fish",
+    "*choose_fish": (
       rules: [
         (
           kind: Assignment,
@@ -18675,8 +17991,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*get_fish",
+    "*get_fish": (
       rules: [
         (
           kind: StringLiteral,
@@ -18684,8 +17999,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*fishing",
+    "*fishing": (
       rules: [
         (
           kind: StringLiteral,
@@ -18693,8 +18007,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*plant",
+    "*plant": (
       rules: [
         (
           kind: StringLiteral,
@@ -18702,8 +18015,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*search",
+    "*search": (
       rules: [
         (
           kind: StringLiteral,
@@ -18711,8 +18023,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dig",
+    "*dig": (
       rules: [
         (
           kind: StringLiteral,
@@ -18720,8 +18031,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eat",
+    "*eat": (
       rules: [
         (
           kind: StringLiteral,
@@ -18729,8 +18039,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*insta_eat",
+    "*insta_eat": (
       rules: [
         (
           kind: Assignment,
@@ -18738,8 +18047,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*eat_finish",
+    "*eat_finish": (
       rules: [
         (
           kind: Function,
@@ -18747,8 +18055,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*readSpellbook",
+    "*readSpellbook": (
       rules: [
         (
           kind: StringLiteral,
@@ -18756,8 +18063,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*read",
+    "*read": (
       rules: [
         (
           kind: StringLiteral,
@@ -18765,8 +18071,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cast",
+    "*cast": (
       rules: [
         (
           kind: Assignment,
@@ -18774,8 +18079,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cast_proc",
+    "*cast_proc": (
       rules: [
         (
           kind: Assignment,
@@ -18783,8 +18087,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*drinkPotion",
+    "*drinkPotion": (
       rules: [
         (
           kind: If,
@@ -18792,8 +18095,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*drinkWell",
+    "*drinkWell": (
       rules: [
         (
           kind: StringLiteral,
@@ -18801,8 +18103,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*readScroll",
+    "*readScroll": (
       rules: [
         (
           kind: Function,
@@ -18810,8 +18111,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*zapStaff",
+    "*zapStaff": (
       rules: [
         (
           kind: Function,
@@ -18819,12 +18119,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*zapStaffSkip",
+    "*zapStaffSkip": (
       after: "*zapStaff"
     ),
-    (
-      name: "*action",
+    "*action": (
       rules: [
         (
           kind: If,
@@ -18832,8 +18130,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*effect_selectTg",
+    "*effect_selectTg": (
       rules: [
         (
           kind: Assignment,
@@ -18841,8 +18138,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*effect",
+    "*effect": (
       rules: [
         (
           kind: Assignment,
@@ -18850,8 +18146,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chainBomb_loop",
+    "*chainBomb_loop": (
       rules: [
         (
           kind: Assignment,
@@ -18859,8 +18154,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chainBomb_loop_WHILE1",
+    "*chainBomb_loop_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -18868,16 +18162,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chainBomb_loop_WEND1",
+    "*chainBomb_loop_WEND1": (
       after: "*chainBomb_loop_WHILE1"
     ),
-    (
-      name: "*effect_SWEND1",
+    "*effect_SWEND1": (
       after: "*chainBomb_loop_WEND1"
     ),
-    (
-      name: "*effect2",
+    "*effect2": (
       rules: [
         (
           kind: StringLiteral,
@@ -18885,8 +18176,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*delMutation_cursed",
+    "*delMutation_cursed": (
       rules: [
         (
           kind: StringLiteral,
@@ -18894,8 +18184,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*spUncurse_cursed",
+    "*spUncurse_cursed": (
       rules: [
         (
           kind: If,
@@ -18903,8 +18192,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*jump_changeCreature",
+    "*jump_changeCreature": (
       rules: [
         (
           kind: StringLiteral,
@@ -18912,8 +18200,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*effect_end",
+    "*effect_end": (
       rules: [
         (
           kind: Assignment,
@@ -18933,8 +18220,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*effect_heal",
+    "*effect_heal": (
       rules: [
         (
           kind: Assignment,
@@ -18942,8 +18228,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*effect_directive",
+    "*effect_directive": (
       rules: [
         (
           kind: Assignment,
@@ -18951,12 +18236,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*effect_elixer",
+    "*effect_elixer": (
       after: "*effect_directive"
     ),
-    (
-      name: "*act_throw",
+    "*act_throw": (
       rules: [
         (
           kind: StringLiteral,
@@ -18964,8 +18247,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_pray",
+    "*act_pray": (
       rules: [
         (
           kind: Function,
@@ -18973,8 +18255,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_exchange",
+    "*act_exchange": (
       rules: [
         (
           kind: Function,
@@ -18982,8 +18263,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_get",
+    "*act_get": (
       rules: [
         (
           kind: StringLiteral,
@@ -18991,8 +18271,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_drop",
+    "*act_drop": (
       rules: [
         (
           kind: StringLiteral,
@@ -19000,8 +18279,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_equip",
+    "*act_equip": (
       rules: [
         (
           kind: Assignment,
@@ -19009,8 +18287,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_unequip",
+    "*act_unequip": (
       rules: [
         (
           kind: Assignment,
@@ -19022,8 +18299,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_unequip_part",
+    "*act_unequip_part": (
       rules: [
         (
           kind: If,
@@ -19031,8 +18307,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_read",
+    "*act_read": (
       rules: [
         (
           kind: Assignment,
@@ -19040,8 +18315,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_eat",
+    "*act_eat": (
       rules: [
         (
           kind: StringLiteral,
@@ -19049,12 +18323,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_drink",
+    "*act_drink": (
       after: "*act_eat"
     ),
-    (
-      name: "*act_zap",
+    "*act_zap": (
       rules: [
         (
           kind: Function,
@@ -19062,8 +18334,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_bash",
+    "*act_bash": (
       rules: [
         (
           kind: StringLiteral,
@@ -19071,8 +18342,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*search_for_chara",
+    "*search_for_chara": (
       rules: [
         (
           kind: Assignment,
@@ -19080,8 +18350,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_movePC",
+    "*act_movePC": (
       rules: [
         (
           kind: StringLiteral,
@@ -19089,8 +18358,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*move_skip",
+    "*move_skip": (
       rules: [
         (
           kind: StringLiteral,
@@ -19098,8 +18366,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_move",
+    "*act_move": (
       rules: [
         (
           kind: StringLiteral,
@@ -19107,8 +18374,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*cell_info",
+    "*cell_info": (
       rules: [
         (
           kind: StringLiteral,
@@ -19116,8 +18382,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_moveLevel",
+    "*act_moveLevel": (
       rules: [
         (
           kind: If,
@@ -19125,8 +18390,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*lockpick_val",
+    "*lockpick_val": (
       rules: [
         (
           kind: Assignment,
@@ -19134,8 +18398,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*lockpick",
+    "*lockpick": (
       rules: [
         (
           kind: StringLiteral,
@@ -19143,16 +18406,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*lockpick_WHILE1_CONTINUE",
+    "*lockpick_WHILE1_CONTINUE": (
       after: "*lockpick"
     ),
-    (
-      name: "*lockpick_WEND1",
+    "*lockpick_WEND1": (
       after: "*lockpick_WHILE1_CONTINUE"
     ),
-    (
-      name: "*act_open",
+    "*act_open": (
       rules: [
         (
           kind: StringLiteral,
@@ -19160,12 +18420,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_open_SWEND1",
+    "*act_open_SWEND1": (
       after: "*act_open"
     ),
-    (
-      name: "*open_chest",
+    "*open_chest": (
       rules: [
         (
           kind: If,
@@ -19173,8 +18431,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*open_newYear",
+    "*open_newYear": (
       rules: [
         (
           kind: StringLiteral,
@@ -19182,8 +18439,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*open_catbox",
+    "*open_catbox": (
       rules: [
         (
           kind: StringLiteral,
@@ -19191,8 +18447,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_openDoor",
+    "*act_openDoor": (
       rules: [
         (
           kind: StringLiteral,
@@ -19200,8 +18455,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_close",
+    "*act_close": (
       rules: [
         (
           kind: StringLiteral,
@@ -19209,8 +18463,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_fire",
+    "*act_fire": (
       rules: [
         (
           kind: StringLiteral,
@@ -19218,8 +18471,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_melee",
+    "*act_melee": (
       rules: [
         (
           kind: If,
@@ -19227,8 +18479,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_attack",
+    "*act_attack": (
       rules: [
         (
           kind: StringLiteral,
@@ -19236,8 +18487,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_attackSub",
+    "*act_attackSub": (
       rules: [
         (
           kind: If,
@@ -19245,8 +18495,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_search",
+    "*act_search": (
       rules: [
         (
           kind: StringLiteral,
@@ -19254,8 +18503,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*revealTrap",
+    "*revealTrap": (
       rules: [
         (
           kind: Function,
@@ -19263,8 +18511,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*revealHiddenPath",
+    "*revealHiddenPath": (
       rules: [
         (
           kind: Assignment,
@@ -19280,8 +18527,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*act_dig",
+    "*act_dig": (
       rules: [
         (
           kind: Assignment,
@@ -19289,8 +18535,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_dip",
+    "*act_dip": (
       rules: [
         (
           kind: StringLiteral,
@@ -19298,8 +18543,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_use",
+    "*act_use": (
       rules: [
         (
           kind: StringLiteral,
@@ -19307,12 +18551,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_use_SWEND1",
+    "*act_use_SWEND1": (
       after: "*act_use"
     ),
-    (
-      name: "*gene_skill",
+    "*gene_skill": (
       rules: [
         (
           kind: If,
@@ -19320,8 +18562,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*gene_body",
+    "*gene_body": (
       rules: [
         (
           kind: Assignment,
@@ -19329,8 +18570,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_seed",
+    "*item_seed": (
       rules: [
         (
           kind: StringLiteral,
@@ -19338,8 +18578,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_seedGrowth",
+    "*item_seedGrowth": (
       rules: [
         (
           kind: If,
@@ -19347,8 +18586,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_seedNextGrowth",
+    "*item_seedNextGrowth": (
       rules: [
         (
           kind: Assignment,
@@ -19356,8 +18594,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_seedRegrowth",
+    "*item_seedRegrowth": (
       rules: [
         (
           kind: StringLiteral,
@@ -19383,8 +18620,7 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    (
-      name: "*item_seedPick",
+    "*item_seedPick": (
       rules: [
         (
           kind: StringLiteral,
@@ -19392,8 +18628,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*act_pickpocket",
+    "*act_pickpocket": (
       rules: [
         (
           kind: Assignment,
@@ -19405,8 +18640,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_refresh",
+    "*chat_refresh": (
       rules: [
         (
           kind: Function,
@@ -19418,8 +18652,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat",
+    "*chat": (
       rules: [
         (
           kind: StringLiteral,
@@ -19427,12 +18660,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_scene",
+    "*chat_scene": (
       after: "*chat"
     ),
-    (
-      name: "*chat_event",
+    "*chat_event": (
       rules: [
         (
           kind: StringLiteral,
@@ -19440,12 +18671,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_event_SWEND1",
+    "*chat_event_SWEND1": (
       after: "*chat_event"
     ),
-    (
-      name: "*chat_unique",
+    "*chat_unique": (
       rules: [
         (
           kind: StringLiteral,
@@ -19453,8 +18682,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_mizuki",
+    "*chat_unique_mizuki": (
       rules: [
         (
           kind: StringLiteral,
@@ -19462,8 +18690,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_SWEND1",
+    "*chat_unique_SWEND1": (
       rules: [
         (
           kind: StringLiteral,
@@ -19471,8 +18698,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_leold_limb",
+    "*chat_unique_leold_limb": (
       rules: [
         (
           kind: StringLiteral,
@@ -19489,8 +18715,7 @@ AnalysisConfig(
     //     )
     //   ]
     // ),
-    (
-      name: "*com_change_gamemode_loop",
+    "*com_change_gamemode_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -19498,8 +18723,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_change_gamemode_finish",
+    "*com_change_gamemode_finish": (
       rules: [
         (
           kind: StringLiteral,
@@ -19507,8 +18731,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_leold_maxspeed",
+    "*chat_unique_leold_maxspeed": (
       rules: [
         (
           kind: StringLiteral,
@@ -19516,8 +18739,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_leold_lack_ap",
+    "*chat_unique_leold_lack_ap": (
       rules: [
         (
           kind: Function,
@@ -19525,8 +18747,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_leold_done",
+    "*chat_unique_leold_done": (
       rules: [
         (
           kind: Assignment,
@@ -19534,8 +18755,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_leold_awaken",
+    "*chat_unique_leold_awaken": (
       rules: [
         (
           kind: Function,
@@ -19543,8 +18763,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*evochat_portrait",
+    "*evochat_portrait": (
       rules: [
         (
           kind: StringLiteral,
@@ -19552,8 +18771,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*sqMother_1",
+    "*sqMother_1": (
       rules: [
         (
           kind: Function,
@@ -19561,8 +18779,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_enthumesis",
+    "*chat_unique_enthumesis": (
       rules: [
         (
           kind: Assignment,
@@ -19570,8 +18787,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_unique_lankata",
+    "*chat_unique_lankata": (
       rules: [
         (
           kind: Function,
@@ -19579,8 +18795,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_evOpening",
+    "*chat_evOpening": (
       rules: [
         (
           kind: Function,
@@ -19588,8 +18803,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_evReached",
+    "*chat_evReached": (
       rules: [
         (
           kind: Function,
@@ -19597,8 +18811,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_default",
+    "*chat_default": (
       rules: [
         (
           kind: Assignment,
@@ -19606,8 +18819,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_slave",
+    "*chat_slave": (
       rules: [
         (
           kind: Function,
@@ -19615,8 +18827,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_quest",
+    "*chat_quest": (
       rules: [
         (
           kind: Function,
@@ -19624,8 +18835,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_instaQuest",
+    "*chat_instaQuest": (
       rules: [
         (
           kind: If,
@@ -19633,8 +18843,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_train",
+    "*chat_train": (
       rules: [
         (
           kind: Function,
@@ -19642,8 +18851,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_invest",
+    "*chat_invest": (
       rules: [
         (
           kind: Function,
@@ -19651,8 +18859,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_end",
+    "*chat_end": (
       rules: [
         (
           kind: Assignment,
@@ -19668,20 +18875,16 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*chat_select",
+    "*chat_select": (
       after: "*chat_end"
     ),
-    (
-      name: "*chat_select_WHILE1",
+    "*chat_select_WHILE1": (
       after: "*chat_select"
     ),
-    (
-      name: "*chat_select_WEND1",
+    "*chat_select_WEND1": (
       after: "*chat_select_WHILE1"
     ),
-    (
-      name: "*chat_draw",
+    "*chat_draw": (
       rules: [
         (
           kind: Assignment,
@@ -19689,8 +18892,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chat_draw2",
+    "*chat_draw2": (
       rules: [
         (
           kind: If,
@@ -19698,8 +18900,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*shop_init",
+    "*shop_init": (
       rules: [
         (
           kind: If,
@@ -19711,8 +18912,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*shop",
+    "*shop": (
       rules: [
         (
           kind: Assignment,
@@ -19720,8 +18920,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*shop_end",
+    "*shop_end": (
       rules: [
         (
           kind: Assignment,
@@ -19741,8 +18940,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*shop_restock",
+    "*shop_restock": (
       rules: [
         (
           kind: Assignment,
@@ -19750,8 +18948,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*item_quantity",
+    "*item_quantity": (
       rules: [
         (
           kind: Assignment,
@@ -19759,8 +18956,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*shop_tradePrice",
+    "*shop_tradePrice": (
       rules: [
         (
           kind: Assignment,
@@ -19768,8 +18964,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*renew_economy",
+    "*renew_economy": (
       rules: [
         (
           kind: Assignment,
@@ -19777,8 +18972,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_politics_chart",
+    "*com_politics_chart": (
       rules: [
         (
           kind: Function,
@@ -19790,8 +18984,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_politics_chart_loop",
+    "*com_politics_chart_loop": (
       rules: [
         (
           kind: Assignment,
@@ -19799,8 +18992,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_politics_economy",
+    "*com_politics_economy": (
       rules: [
         (
           kind: Function,
@@ -19812,8 +19004,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_politics_economy_loop",
+    "*com_politics_economy_loop": (
       rules: [
         (
           kind: Assignment,
@@ -19821,8 +19012,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_politics_rule",
+    "*com_politics_rule": (
       rules: [
         (
           kind: StringLiteral,
@@ -19830,8 +19020,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*skip_rule",
+    "*skip_rule": (
       rules: [
         (
           kind: Function,
@@ -19843,12 +19032,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_politics_rule_loop_pgchk",
+    "*com_politics_rule_loop_pgchk": (
       after: "*skip_rule"
     ),
-    (
-      name: "*com_politics_rule_loop",
+    "*com_politics_rule_loop": (
       rules: [
         (
           kind: Function,
@@ -19856,8 +19043,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_build",
+    "*com_build": (
       rules: [
         (
           kind: Assignment,
@@ -19865,23 +19051,19 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_build_WHILE1",
+    "*com_build_WHILE1": (
       after: "*com_build",
       loop_kind: While
     ),
-    (
-      name: "*com_build_WHILE1_CONTINUE",
+    "*com_build_WHILE1_CONTINUE": (
       after: "*com_build_WHILE1",
       loop_kind: WhileContinue
     ),
-    (
-      name: "*com_build_WEND1",
+    "*com_build_WEND1": (
       after: "*com_build_WHILE1_CONTINUE",
       loop_kind: WhileEnd
     ),
-    (
-      name: "*com_select_building",
+    "*com_select_building": (
       rules: [
         (
           kind: Function,
@@ -19897,8 +19079,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_select_building_loop",
+    "*com_select_building_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -19906,16 +19087,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_select_building_loop_WHILE1",
+    "*com_select_building_loop_WHILE1": (
       after: "*com_select_building_loop"
     ),
-    (
-      name: "*com_select_building_loop_WHILE1_CONTINUE",
+    "*com_select_building_loop_WHILE1_CONTINUE": (
       after: "*com_select_building_loop_WHILE1"
     ),
-    (
-      name: "*draw_budget",
+    "*draw_budget": (
       rules: [
         (
           kind: Function,
@@ -19923,8 +19101,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*raceID_fix",
+    "*raceID_fix": (
       rules: [
         (
           kind: Assignment,
@@ -19932,8 +19109,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_setFilterRace",
+    "*db_setFilterRace": (
       rules: [
         (
           kind: Function,
@@ -19941,8 +19117,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_race",
+    "*db_race": (
       rules: [
         (
           kind: Assignment,
@@ -19950,8 +19125,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_class",
+    "*db_class": (
       rules: [
         (
           kind: Assignment,
@@ -19959,8 +19133,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_creature",
+    "*db_creature": (
       rules: [
         (
           kind: If,
@@ -19976,8 +19149,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*db_creature2",
+    "*db_creature2": (
       rules: [
         (
           kind: Function,
@@ -19985,8 +19157,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*db_setFilterCreature",
+    "*db_setFilterCreature": (
       rules: [
         (
           kind: Assignment,
@@ -19994,8 +19165,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*randname_test",
+    "*randname_test": (
       rules: [
         (
           kind: Function,
@@ -20003,8 +19173,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*add_ally",
+    "*add_ally": (
       rules: [
         (
           kind: Assignment,
@@ -20012,12 +19181,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*adv_init",
+    "*adv_init": (
       after: "*add_ally"
     ),
-    (
-      name: "*adv_generate",
+    "*adv_generate": (
       rules: [
         (
           kind: Assignment,
@@ -20025,8 +19192,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*adv_action",
+    "*adv_action": (
       rules: [
         (
           kind: Function,
@@ -20034,8 +19200,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_item",
+    "*chara_item": (
       rules: [
         (
           kind: Assignment,
@@ -20043,8 +19208,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*adv_gainItem",
+    "*adv_gainItem": (
       rules: [
         (
           kind: Assignment,
@@ -20064,8 +19228,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_adjustInv",
+    "*chara_adjustInv": (
       rules: [
         (
           kind: Assignment,
@@ -20077,8 +19240,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_equipFull",
+    "*chara_equipFull": (
       rules: [
         (
           kind: If,
@@ -20086,8 +19248,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*chara_equip",
+    "*chara_equip": (
       rules: [
         (
           kind: Assignment,
@@ -20095,8 +19256,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*supplyEquip",
+    "*supplyEquip": (
       rules: [
         (
           kind: Assignment,
@@ -20104,8 +19264,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*client_update",
+    "*client_update": (
       rules: [
         (
           kind: Assignment,
@@ -20113,8 +19272,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_reward",
+    "*quest_reward": (
       rules: [
         (
           kind: If,
@@ -20122,8 +19280,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_update",
+    "*quest_update": (
       rules: [
         (
           kind: Function,
@@ -20143,8 +19300,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_create",
+    "*quest_create": (
       rules: [
         (
           kind: Assignment,
@@ -20152,8 +19308,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_check",
+    "*quest_check": (
       rules: [
         (
           kind: Assignment,
@@ -20161,8 +19316,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_exit",
+    "*quest_exit": (
       rules: [
         (
           kind: Assignment,
@@ -20170,8 +19324,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_death",
+    "*quest_death": (
       rules: [
         (
           kind: Function,
@@ -20183,8 +19336,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_fail",
+    "*quest_fail": (
       rules: [
         (
           kind: Assignment,
@@ -20192,8 +19344,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_petArenaWin",
+    "*quest_petArenaWin": (
       rules: [
         (
           kind: If,
@@ -20201,8 +19352,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_eliminate",
+    "*quest_eliminate": (
       rules: [
         (
           kind: If,
@@ -20210,8 +19360,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*quest_success",
+    "*quest_success": (
       rules: [
         (
           kind: Assignment,
@@ -20219,8 +19368,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*scene",
+    "*scene": (
       rules: [
         (
           kind: Assignment,
@@ -20228,8 +19376,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*scene_loop",
+    "*scene_loop": (
       rules: [
         (
           kind: Function,
@@ -20241,8 +19388,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*scene_loop_WHILE1",
+    "*scene_loop_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -20250,8 +19396,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*scene_loop_WHILE1_CONTINUE",
+    "*scene_loop_WHILE1_CONTINUE": (
       rules: [
         (
           kind: Function,
@@ -20259,8 +19404,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*scene_loop_WEND1",
+    "*scene_loop_WEND1": (
       rules: [
         (
           kind: Assignment,
@@ -20268,8 +19412,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*scene_end",
+    "*scene_end": (
       rules: [
         (
           kind: Function,
@@ -20281,8 +19424,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*ai_turn",
+    "*ai_turn": (
       rules: [
         (
           kind: Assignment,
@@ -20290,8 +19432,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_item",
+    "*ai_item": (
       rules: [
         (
           kind: If,
@@ -20303,8 +19444,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*ai_action",
+    "*ai_action": (
       rules: [
         (
           kind: Assignment,
@@ -20312,8 +19452,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_calmMove",
+    "*ai_calmMove": (
       rules: [
         (
           kind: If,
@@ -20321,8 +19460,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_calmMove_WEND1",
+    "*ai_calmMove_WEND1": (
       rules: [
         (
           kind: Assignment,
@@ -20330,8 +19468,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_followMove",
+    "*ai_followMove": (
       rules: [
         (
           kind: StringLiteral,
@@ -20340,8 +19477,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_moveH",
+    "*ai_moveH": (
       rules: [
         (
           kind: Assignment,
@@ -20349,8 +19485,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_moveV",
+    "*ai_moveV": (
       rules: [
         (
           kind: Assignment,
@@ -20358,8 +19493,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*ai_actMain",
+    "*ai_actMain": (
       rules: [
         (
           kind: Assignment,
@@ -20367,8 +19501,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_quick",
+    "*com_quick": (
       rules: [
         (
           kind: Assignment,
@@ -20376,8 +19509,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_quick_loop",
+    "*com_quick_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -20386,8 +19518,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*com_quick_loop_WHILE1",
+    "*com_quick_loop_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -20395,8 +19526,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_quick_loop_WEND1",
+    "*com_quick_loop_WEND1": (
       rules: [
         (
           kind: Assignment,
@@ -20404,8 +19534,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*elona_help",
+    "*elona_help": (
       rules: [
         (
           kind: Function,
@@ -20413,8 +19542,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*convertHelp",
+    "*convertHelp": (
       rules: [
         (
           kind: If,
@@ -20422,8 +19550,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_help",
+    "*com_help": (
       rules: [
         (
           kind: Function,
@@ -20431,12 +19558,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_help_loop_pgchk",
+    "*com_help_loop_pgchk": (
       after: "*com_help"
     ),
-    (
-      name: "*com_help_loop",
+    "*com_help_loop": (
       rules: [
         (
           kind: StringLiteral,
@@ -20444,8 +19569,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_chatlog",
+    "*com_chatlog": (
       rules: [
         (
           kind: Function,
@@ -20461,12 +19585,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_chatlog_WHILE1",
+    "*com_chatlog_WHILE1": (
       after: "*com_chatlog"
     ),
-    (
-      name: "*com_log",
+    "*com_log": (
       rules: [
         (
           kind: Function,
@@ -20474,12 +19596,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_log_WHILE1",
+    "*com_log_WHILE1": (
       after: "*com_log"
     ),
-    (
-      name: "*cfg_write",
+    "*cfg_write": (
       rules: [
         (
           kind: Function,
@@ -20487,8 +19607,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*config_init",
+    "*config_init": (
       rules: [
         (
           kind: Function,
@@ -20496,8 +19615,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*config_loadCore",
+    "*config_loadCore": (
       rules: [
         (
           kind: StringLiteral,
@@ -20505,8 +19623,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*config_load",
+    "*config_load": (
       rules: [
         (
           kind: StringLiteral,
@@ -20514,8 +19631,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*config_load_WHILE1",
+    "*config_load_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -20523,8 +19639,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*config_load_WEND1",
+    "*config_load_WEND1": (
       rules: [
         (
           kind: Assignment,
@@ -20532,8 +19647,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dump_config",
+    "*dump_config": (
       rules: [
         (
           kind: Function,
@@ -20541,8 +19655,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dump_config_import",
+    "*dump_config_import": (
       rules: [
         (
           kind: Assignment,
@@ -20550,8 +19663,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_config",
+    "*com_config": (
       rules: [
         (
           kind: Assignment,
@@ -20559,8 +19671,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_config_loop",
+    "*com_config_loop": (
       rules: [
         (
           kind: Assignment,
@@ -20572,8 +19683,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_config_loop_WHILE1",
+    "*com_config_loop_WHILE1": (
       rules: [
         (
           kind: Function,
@@ -20581,8 +19691,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_story",
+    "*com_story": (
       rules: [
         (
           kind: Function,
@@ -20590,12 +19699,10 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_story_loop_pgchk",
+    "*com_story_loop_pgchk": (
       after: "*com_story"
     ),
-    (
-      name: "*com_story_loop",
+    "*com_story_loop": (
       rules: [
         (
           kind: Function,
@@ -20603,8 +19710,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*com_story_loop_UNUSED",
+    "*com_story_loop_UNUSED": (
       rules: [
         (
           kind: If,
@@ -20612,8 +19718,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_init",
+    "*game_init": (
       rules: [
         (
           kind: If,
@@ -20621,8 +19726,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*world_init",
+    "*world_init": (
       rules: [
         (
           kind: Function,
@@ -20630,8 +19734,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*main_init",
+    "*main_init": (
       rules: [
         (
           kind: Assignment,
@@ -20639,8 +19742,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*spdSkip",
+    "*spdSkip": (
       rules: [
         (
           kind: StringLiteral,
@@ -20648,8 +19750,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*weather_change",
+    "*weather_change": (
       rules: [
         (
           kind: If,
@@ -20657,8 +19758,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*advance_hour",
+    "*advance_hour": (
       rules: [
         (
           kind: Assignment,
@@ -20666,8 +19766,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_main",
+    "*game_main": (
       rules: [
         (
           kind: Assignment,
@@ -20675,8 +19774,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_main_redo",
+    "*game_main_redo": (
       rules: [
         (
           kind: Assignment,
@@ -20684,8 +19782,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_main_redo_WHILE1",
+    "*game_main_redo_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -20693,8 +19790,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_main_redo_WEND1",
+    "*game_main_redo_WEND1": (
       rules: [
         (
           kind: Function,
@@ -20702,8 +19798,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*turn_init",
+    "*turn_init": (
       rules: [
         (
           kind: If,
@@ -20711,8 +19806,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*turn_end",
+    "*turn_end": (
       rules: [
         (
           kind: Assignment,
@@ -20720,8 +19814,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pc_turn_init",
+    "*pc_turn_init": (
       rules: [
         (
           kind: Function,
@@ -20729,8 +19822,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pc_turn_init_WHILE1",
+    "*pc_turn_init_WHILE1": (
       rules: [
         (
           kind: Assignment,
@@ -20738,8 +19830,7 @@ AnalysisConfig(
         ),
       ]
     ),
-    (
-      name: "*pc_turn_init_WHILE1_CONTINUE",
+    "*pc_turn_init_WHILE1_CONTINUE": (
       rules: [
         (
           kind: Function,
@@ -20747,8 +19838,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pc_turn_init_WEND1",
+    "*pc_turn_init_WEND1": (
       rules: [
         (
           kind: If,
@@ -20756,8 +19846,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pc_turn",
+    "*pc_turn": (
       rules: [
         (
           kind: If,
@@ -20765,8 +19854,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*pcQuitY",
+    "*pcQuitY": (
       rules: [
         (
           kind: If,
@@ -20774,8 +19862,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_win",
+    "*game_win": (
       rules: [
         (
           kind: StringLiteral,
@@ -20783,16 +19870,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_win_WHILE1",
+    "*game_win_WHILE1": (
       after: "*game_win"
     ),
-    (
-      name: "*game_win_WEND1",
+    "*game_win_WEND1": (
       after: "*game_win_WHILE1"
     ),
-    (
-      name: "*game_win2",
+    "*game_win2": (
       rules: [
         (
           kind: StringLiteral,
@@ -20800,16 +19884,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_win2_WHILE1",
+    "*game_win2_WHILE1": (
       after: "*game_win2"
     ),
-    (
-      name: "*game_win2_WEND1",
+    "*game_win2_WEND1": (
       after: "*game_win2_WHILE1"
     ),
-    (
-      name: "*game_win3",
+    "*game_win3": (
       rules: [
         (
           kind: StringLiteral,
@@ -20817,16 +19898,13 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*game_win3_WHILE1",
+    "*game_win3_WHILE1": (
       after: "*game_win3",
     ),
-    (
-      name: "*game_win3_WEND1",
+    "*game_win3_WEND1": (
       after: "*game_win3_WHILE1",
     ),
-    (
-      name: "*pc_dead",
+    "*pc_dead": (
       rules: [
         (
           kind: Function,
@@ -20834,8 +19912,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*dead_draw",
+    "*dead_draw": (
       rules: [
         (
           kind: Assignment,
@@ -20843,8 +19920,7 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*event",
+    "*event": (
       rules: [
         (
           kind: StringLiteral,
@@ -20852,139 +19928,138 @@ AnalysisConfig(
         )
       ]
     ),
-    (
-      name: "*event_SWEND1",
+    "*event_SWEND1": (
       after: "*event"
     ),
-  ],
+  },
 
   files: {
-      "init.hsp": (
-          begin: Function("hantozen")
-      ),
-      "chips.hsp": (
-          begin: Function("create_pcpic")
-      ),
-      "etc.hsp": (
-          begin: Function("cardplayerinit")
-      ),
-      "item_data.hsp": (
-          begin: Function("getinheritance")
-      ),
-      "item_func.hsp": (
-          begin: Function("itemcreate")
-      ),
-      "module.hsp": (
-          begin: Function("csvstr2")
-      ),
-      "material_data.hsp": (
-          begin: Label("*mRefDefine")
-      ),
-      "db_item.hsp": (
-          begin: Label("*db_item")
-      ),
-      "chara_func.hsp": (
-          begin: Function("fixaiact")
-      ),
-      "net.hsp": (
-          begin: Function("net_send")
-      ),
-      "screen.hsp": (
-          begin: Label("*screen_init")
-      ),
-      "calculation.hsp": (
-          begin: Function("calcmedalvalue")
-      ),
-      "chara.hsp": (
-          begin: Label("*learn_sp")
-      ),
-      "item.hsp": (
-          begin: Function("convertartifact")
-      ),
-      "map_func.hsp": (
-          begin: Label("*setCellObj")
-      ),
-      "map_rand.hsp": (
-          begin: Label("*map_randomDungeon")
-      ),
-      "map_user.hsp": (
-          begin: Label("*home_setup")
-      ),
-      "map.hsp": (
-          begin: Label("*fltChara")
-      ),
-      "db_card.hsp": (
-          begin: Label("*db_card")
-      ),
-      "tcg.hsp": (
-          begin: Function("cdbit")
-      ),
-      "tcg_skill.hsp": (
-          begin: Label("*cdAct_init"),
-          end: Function("actionproc")
-      ),
-      "tcg_ai.hsp": (
-          begin: Function("validaction")
-      ),
-      "material.hsp": (
-          begin: Function("random_material")
-      ),
-      "txtadv.hsp": (
-          begin: Function("atxinit")
-      ),
-      "god.hsp": (
-          begin: Function("modpiety")
-      ),
-      "event.hsp": (
-          begin: Label("*random_event")
-      ),
-      "blend.hsp": (
-          begin: Function("rpmatname")
-      ),
-      "command.hsp": (
-          begin: Function("txtitemoncell")
-      ),
-      "system.hsp": (
-          begin: Label("*gene_itemfix")
-      ),
-      "proc.hsp": (
-          begin: Function("efstatusfix")
-      ),
-      "action.hsp": (
-          begin: Label("*act_throw")
-      ),
-      "chat.hsp": (
-          begin: Function("clientguide")
-      ),
-      "economy.hsp": (
-          begin: Function("addbuilding")
-      ),
-      "db_race.hsp": (
-          begin: Label("*raceID_fix")
-      ),
-      "db_class.hsp": (
-          begin: Label("*db_class")
-      ),
-      "db_creature.hsp": (
-          begin: Label("*db_creature")
-      ),
-      "randname.hsp": (
-          begin: Function("randname")
-      ),
-      "adv.hsp": (
-          begin: Label("*add_ally")
-      ),
-      "quest.hsp": (
-          begin: Label("*client_update")
-      ),
-      "scene.hsp": (
-          begin: Label("*scene")
-      ),
-      "ai.hsp": (
-          begin: Function("*ai_check")
-      ),
-      "help.hsp": (
-          begin: Label("*com_quick")
-      ),
+    "init.hsp": (
+      begin: Function("hantozen")
+    ),
+    "chips.hsp": (
+      begin: Function("create_pcpic")
+    ),
+    "etc.hsp": (
+      begin: Function("cardplayerinit")
+    ),
+    "item_data.hsp": (
+      begin: Function("getinheritance")
+    ),
+    "item_func.hsp": (
+      begin: Function("itemcreate")
+    ),
+    "module.hsp": (
+      begin: Function("csvstr2")
+    ),
+    "material_data.hsp": (
+      begin: Label("*mRefDefine")
+    ),
+    "db_item.hsp": (
+      begin: Label("*db_item")
+    ),
+    "chara_func.hsp": (
+      begin: Function("fixaiact")
+    ),
+    "net.hsp": (
+      begin: Function("net_send")
+    ),
+    "screen.hsp": (
+      begin: Label("*screen_init")
+    ),
+    "calculation.hsp": (
+      begin: Function("calcmedalvalue")
+    ),
+    "chara.hsp": (
+      begin: Label("*learn_sp")
+    ),
+    "item.hsp": (
+      begin: Function("convertartifact")
+    ),
+    "map_func.hsp": (
+      begin: Label("*setCellObj")
+    ),
+    "map_rand.hsp": (
+      begin: Label("*map_randomDungeon")
+    ),
+    "map_user.hsp": (
+      begin: Label("*home_setup")
+    ),
+    "map.hsp": (
+      begin: Label("*fltChara")
+    ),
+    "db_card.hsp": (
+      begin: Label("*db_card")
+    ),
+    "tcg.hsp": (
+      begin: Function("cdbit")
+    ),
+    "tcg_skill.hsp": (
+      begin: Label("*cdAct_init"),
+      end: Function("actionproc")
+    ),
+    "tcg_ai.hsp": (
+      begin: Function("validaction")
+    ),
+    "material.hsp": (
+      begin: Function("random_material")
+    ),
+    "txtadv.hsp": (
+      begin: Function("atxinit")
+    ),
+    "god.hsp": (
+      begin: Function("modpiety")
+    ),
+    "event.hsp": (
+      begin: Label("*random_event")
+    ),
+    "blend.hsp": (
+      begin: Function("rpmatname")
+    ),
+    "command.hsp": (
+      begin: Function("txtitemoncell")
+    ),
+    "system.hsp": (
+      begin: Label("*gene_itemfix")
+    ),
+    "proc.hsp": (
+      begin: Function("efstatusfix")
+    ),
+    "action.hsp": (
+      begin: Label("*act_throw")
+    ),
+    "chat.hsp": (
+      begin: Function("clientguide")
+    ),
+    "economy.hsp": (
+      begin: Function("addbuilding")
+    ),
+    "db_race.hsp": (
+      begin: Label("*raceID_fix")
+    ),
+    "db_class.hsp": (
+      begin: Label("*db_class")
+    ),
+    "db_creature.hsp": (
+      begin: Label("*db_creature")
+    ),
+    "randname.hsp": (
+      begin: Function("randname")
+    ),
+    "adv.hsp": (
+      begin: Label("*add_ally")
+    ),
+    "quest.hsp": (
+      begin: Label("*client_update")
+    ),
+    "scene.hsp": (
+      begin: Label("*scene")
+    ),
+    "ai.hsp": (
+      begin: Function("*ai_check")
+    ),
+    "help.hsp": (
+      begin: Label("*com_quick")
+    ),
   }
 )
