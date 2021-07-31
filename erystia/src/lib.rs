@@ -1223,7 +1223,7 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
                                 Some(arg) => {
                                     self.hsp3as.param_names.entry(param.clone()).insert(format!("{}_{}", funcdef.default_name, arg.name));
                                 },
-                                None => self.diagnostics.push(DiagnosticKind::Error, format!("Missing argument {} for function '{}", i, funcdef.default_name)),
+                                None => self.diagnostics.push(DiagnosticKind::Error, format!("Missing argument {} for function '{}'", i, funcdef.default_name)),
                             }
                         }
                         self.visiting_function = Some((func_conf.clone(), funcdef.default_name.clone()));

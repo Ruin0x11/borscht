@@ -738,6 +738,15 @@ AnalysisConfig(
   },
 
   functions: {
+    "calcskill": (
+      args: {
+        0: (name: "skillid", type: Int, indices: [ ( substitute: Group("skill_id")) ]),
+        1: (name: "charid", type: Int, indices: [ ( substitute: Group("chara")) ]),
+        2: (name: "spellpower_dice_y", type: Int),
+        3: (name: "spellpower_dice_x", type: Int),
+      }
+    ),
+
     "_aisite": (
       args: {
         0: (name: "puncmark", type: Int)
@@ -823,7 +832,32 @@ AnalysisConfig(
     ),
   },
 
-  labels: {},
+  labels: {
+    "*expMemorize": (
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_MEMORIZATION, CHARA_PLAYER, 30 + sdataref(SKILL_DATAREF_DIFF, efid)"
+        )
+      ]
+    ),
+    "*com_jukebox": (
+      rules: [
+        (
+          kind: Function,
+          match: "repeat 136 - 50 - 1, 50"
+        )
+      ]
+    ),
+    "*eatEffect": (
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_ATTR_STR, cc, 6000"
+        )
+      ]
+    ),
+  },
 
   files: {}
 )

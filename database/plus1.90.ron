@@ -14296,7 +14296,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cdata(CDATA_MP, r1)) * 400 / (cdata(CDATA_MAX_MP, r1) + 1), 1, 2000)"
+          match: "skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cdata(CDATA_MP, r1)) * 400 / (cdata(CDATA_MAX_MP, r1) + 1),"
         )
       ]
     ),
@@ -14689,7 +14689,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "男性と女性に能力の違いはない。"
+          match: "What's your gender?"
         )
       ]
     ),
@@ -14733,7 +14733,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "君の特筆すべき才能を1つ、教えてほしいな。印がついているのは種族・職業と被っているものだね。"
+          match: "君の特筆すべき才能を1つ、教えてほしいな。"
         )
       ]
     ),
@@ -16736,7 +16736,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "<title1>◆精神状態<def>"
+          match: "特に何も考えていない"
         )
       ]
     ),
@@ -17238,8 +17238,8 @@ AnalysisConfig(
     "*com_item_mark_adjust": (
       rules: [
         (
-          kind: Assignment,
-          match: "bkitemz = cdata(CDATA_MARK_ITEM_ADJUST_Z, tc)"
+          kind: StringLiteral,
+          match: "上下キーで縦サイズ調整"
         )
       ]
     ),
@@ -18776,8 +18776,8 @@ AnalysisConfig(
     "*chat_unique_leold_awaken": (
       rules: [
         (
-          kind: Function,
-          match: "速度20上昇(消費AP"
+          kind: StringLiteral,
+          match: "スキルボーナス100獲得(消費AP1500)"
         )
       ]
     ),
@@ -18911,12 +18911,7 @@ AnalysisConfig(
       ]
     ),
     "*chat_draw2": (
-      rules: [
-        (
-          kind: If,
-          match: "if ( cdata(CDATA_PORTRAIT, tc) >= 0 | scenemode & cdata(CDATA_FACE, tc) == 0 ) {"
-        )
-      ]
+      after: "*chat_draw"
     ),
     "*shop_init": (
       rules: [
@@ -19357,8 +19352,8 @@ AnalysisConfig(
     "*quest_fail": (
       rules: [
         (
-          kind: Assignment,
-          match: "adata(ADATA_ARENA_WIN, gdata(GDATA_RETURN_AREA)) = 0"
+          kind: StringLiteral,
+          match: "あなたは敗北した。"
         )
       ]
     ),
