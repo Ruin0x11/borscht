@@ -9,7 +9,7 @@ extern crate erystia;
 
 use std::fs::{self, File};
 use std::io::Write;
-use std::path::{Path};
+use std::path::{Path, PathBuf};
 use std::time::Instant;
 use anyhow::Result;
 use clap::{Arg, App, SubCommand, ArgMatches, crate_version, crate_authors};
@@ -138,8 +138,8 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
 fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     let input_file = Path::new(sub_matches.value_of("FILE").unwrap());
     let output_dir = match sub_matches.value_of("output-dir") {
-        Some(dir) => Path::new(dir),
-        None => input_file.parent().unwrap()
+        Some(dir) => PathBuf::from(dir),
+        None => input_file.parent().unwrap().join(input_file.file_stem().unwrap())
     };
 
     let opts = DecodeOptions {};
@@ -175,7 +175,6 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     let split = sub_matches.is_present("split");
 
     if split {
-        let output_dir = output_dir.join(input_file.file_stem().unwrap());
         fs::create_dir_all(&output_dir)?;
         let now = Instant::now();
         let file_count = result.files.len();
