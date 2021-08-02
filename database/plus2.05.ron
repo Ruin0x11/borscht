@@ -744,6 +744,14 @@ AnalysisConfig(
         ( name: "ANIMATION_BURN_SCROLLS", value: 57 ),
       ]
     ),
+    "color": (
+      variables: [
+        ( name: "COLOR_LIGHT_BLUE2", value: 30, primary: true ),
+
+        ( name: "MAX_COLOR", value: 31, code_value: "COLOR_LIGHT_BLUE2 + 1", primary: true ),
+      ]
+    ),
+    "god": (
   },
 
   arrays: {},
