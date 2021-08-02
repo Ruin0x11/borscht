@@ -13,13 +13,6 @@ AnalysisConfig(
   variable_groups: {
     "chara_id": (
       variables: [
-        ( name: "CDATA_PRECIOUS_ALLY", value: 63, primary: true ), // moved from index 99
-        ( name: "CDATA_MARK_ITEM_ADJUST_L", value: 99 ),
-        ( name: "CDATA_MARK_ITEM_ADJUST_W", value: 46 ),
-      ]
-    ),
-    "chara_id": (
-      variables: [
         ( name: "CREATURE_ID_MANSON_THE_CAREFUL_ADVENTURER", value: 990 ),
         ( name: "CREATURE_ID_CRAY_THE_CURIOUS_ADVENTURER", value: 991 ),
         ( name: "CREATURE_ID_MARY_THE_FLOWER_PICKER", value: 992 ),
@@ -166,6 +159,13 @@ AnalysisConfig(
         ( name: "EFFECT_REMIDO_FRAGMENT", value: 123, ),
         ( name: "EFFECT_CHAOS_FRAGMENT", value: 124, ),
         ( name: "EFFECT_MEMORY_CONVERTER", value: 125, ), // effmemory2
+      ]
+    ),
+    "rf_id": (
+      variables: [
+        ( name: "RF_STAR", value: 9027, code_value: "EXT_RF + 27", primary: true ),
+
+        ( name: "MAX_RF", value: 9028, code_value: "RF_STAR + 1" ),
       ]
     ),
     "gdata": (
@@ -962,6 +962,46 @@ AnalysisConfig(
         (
           kind: StringLiteral,
           match: "は執筆を始めた。",
+        ),
+      ]
+    ),
+    "*chat_unique_leold_bonus_limit": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "スキルボーナスは100以上あると新たに獲得できない。腐らせていては成長の遅れに繋がるぞ。",
+        ),
+      ]
+    ),
+    "*chat_unique_mikraanesis": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "ミクラネシス様、いったい何があったのですか。",
+        ),
+      ]
+    ),
+    "*chat_unique_jaldabaoth": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "部屋の空気が突然緊張し、高熱を放つ火球が現れた。",
+        ),
+      ]
+    ),
+    "*chat_unique_yayauhqui": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "口ほどにもない！神の間を破壊するのに時間を取られ、混沌の超児から神力を吸収できなかったようだな！",
+        ),
+      ]
+    ),
+    "*chat_unique_orphe": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "遅かったな。ちょうど神の間をシステムごと破壊し尽したところだ。少々骨が折れたが。",
         ),
       ]
     )

@@ -1243,15 +1243,17 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
         match &mut var.ident.kind {
             PrimitiveTokenKind::GlobalVariable(ref mut name) => {
                 if let Some(pos) = name.find("@") {
-                    if !self.seen_names.contains_key(name) {
-                        if let Some((_func_conf, default_name)) = &self.visiting_function {
-                            let stripped = &name[..pos];
-                            let new_name = format!("locvar_{}_{}", default_name, stripped);
-                            self.seen_names.insert(name.clone(), new_name);
+                    if pos != name.len() - 1 { // Ignore globally namespaced vars ("soulstage@")
+                        if !self.seen_names.contains_key(name) {
+                            if let Some((_func_conf, default_name)) = &self.visiting_function {
+                                let stripped = &name[..pos];
+                                let new_name = format!("locvar_{}_{}", default_name, stripped);
+                                self.seen_names.insert(name.clone(), new_name);
+                            }
                         }
-                    }
-                    if let Some(new_name) = self.seen_names.get(name) {
-                        *name = new_name.to_string();
+                        if let Some(new_name) = self.seen_names.get(name) {
+                            *name = new_name.to_string();
+                        }
                     }
                 }
                 var
