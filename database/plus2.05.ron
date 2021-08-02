@@ -73,6 +73,8 @@ AnalysisConfig(
     ),
     "chara_bit": (
       variables: [
+        ( name: "CHARA_BIT_AWAKE_TACTICAL_THROW", value: 1014, primary: true ), // Replaces Struck Out
+
         ( name: "CHARA_BIT_LITERAL_BIRTH_YEAR", value: 1026 ),
         ( name: "CHARA_BIT_HAS_BEEN_CONFESSED_TO", value: 1027 ),
       ]
@@ -328,7 +330,7 @@ AnalysisConfig(
           code_value: "STARTING_GDATA_FLAG + 417"
         ),
         (
-          name: "GDATA_FLAG_WORLD_MAP_VEHICLE_COLORED",
+          name: "GDATA_FLAG_WORLD_MAP_VEHICLE_PIC",
           value: 668,
           code_value: "STARTING_GDATA_FLAG + 418"
         ),
