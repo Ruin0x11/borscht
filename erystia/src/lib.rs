@@ -2091,7 +2091,7 @@ pub fn print_vars<'a>(db_name: &str) -> Result<()> {
 
         for var in group.variables.iter() {
             if let Some(code_value) = &var.code_value {
-                println!("#define global {}", code_value);
+                println!("#define global\t{}\t{}", var.name, code_value);
             } else {
                 println!("#define global\t{}\t{}", var.name, ron::ser::to_string(&var.value).unwrap());
             }
