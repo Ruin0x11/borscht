@@ -884,6 +884,22 @@ AnalysisConfig(
         )
       ]
     ),
+    "*com_tag_team": (
+      rules: [
+        (
+          kind: Function,
+          match: "左右キーで選択、Enterキーで決定、キャンセルキーでキャンセル。"
+        )
+      ]
+    ),
+    "*com_tag_team_WHILE1": (
+      after: "*com_tag_team",
+      loop_kind: While
+    ),
+    "*com_tag_team_WEND": (
+      after: "*com_tag_team_WHILE1",
+      loop_kind: WhileEnd
+    ),
     "*eatEffect": (
       rules: [
         (
