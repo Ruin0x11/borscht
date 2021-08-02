@@ -926,6 +926,14 @@ AnalysisConfig(
         )
       ]
     ),
+    "*start_writing": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "は執筆を始めた。",
+        ),
+      ]
+    )
   },
 
   files: {}
