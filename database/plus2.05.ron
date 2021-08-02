@@ -272,11 +272,6 @@ AnalysisConfig(
           code_value: "STARTING_GDATA_FLAG + 412"
         ),
         (
-          name: "GDATA_FLAG_STOP_TIME_2",
-          value: 663,
-          code_value: "STARTING_GDATA_FLAG + 413"
-        ),
-        (
           name: "GDATA_FLAG_STOP_TIME_OTHER",
           value: 663,
           code_value: "STARTING_GDATA_FLAG + 413"
@@ -854,6 +849,80 @@ AnalysisConfig(
         (
           kind: Function,
           match: "skillexp SKILL_ATTR_STR, cc, 6000"
+        )
+      ]
+    ),
+    "*screen_fadeIn2": (
+      rules: [
+        (
+          kind: Function,
+          match: "gfini windoww, windowh - 88"
+        ),
+        (
+          kind: Function,
+          match: "gfdec2 5, 105, 105"
+        ),
+        (
+          kind: Function,
+          match: "color 250, 0, 0"
+        ),
+        (
+          kind: Function,
+          match: "gmode 4, 0, 0, 10 + cnt * 5"
+        )
+      ]
+    ),
+    "*screen_fadeIn3": (
+      rules: [
+        (
+          kind: Function,
+          match: "gfini windoww, windowh - 88"
+        ),
+        (
+          kind: Function,
+          match: "gfinc 5, 5, 5"
+        ),
+        (
+          kind: Function,
+          match: "color 5, 5, 5"
+        ),
+        (
+          kind: Function,
+          match: "gmode 4, 0, 0, 256 - cnt * 5"
+        )
+      ]
+    ),
+    "*screen_fade": (
+      rules: [
+        (
+          kind: Function,
+          match: "gfini windoww, windowh - 88"
+        ),
+        (
+          kind: Function,
+          match: "gfdec2 5, 5, 5"
+        ),
+        (
+          kind: Function,
+          match: "color 500, 500, 500"
+        ),
+        (
+          kind: Function,
+          match: "gmode 4, 0, 0, 10 + cnt * 5"
+        )
+      ]
+    ),
+    "*screen_fadeIn": (
+      rules: [
+        (
+          kind: Function,
+          match: "gfini windoww, windowh",
+          exact: true
+        ),
+        (
+          kind: Function,
+          match: "gfdec2 5, 5, 5",
+          exact: true
         )
       ]
     ),
