@@ -1904,6 +1904,24 @@ fn validate_config(config: &AnalysisConfig) -> Result<()> {
     Ok(())
 }
 
+fn load_root_config(db_name: &str) -> Result<AnalysisConfig> {
+    let mut config: AnalysisConfig = load_config(&db_name)?;
+    validate_config(&config)?;
+
+    let mut resolved_vars = HashMap::new();
+    for (name, group) in config.variable_groups.iter() {
+        let vars = resolve_variables(&config, &group);
+        resolved_vars.insert(name.clone(), vars);
+    }
+
+    for (name, group) in config.variable_groups.iter_mut() {
+        let vars = resolved_vars.remove(name).unwrap();
+        group._resolved_variables = vars;
+    }
+
+    Ok(config)
+}
+
 pub fn detect_db_file(start_ax_bytes: &[u8]) -> Result<String> {
     let mut hasher = Sha256::new();
     hasher.update(start_ax_bytes);
@@ -1924,19 +1942,7 @@ pub fn detect_db_file(start_ax_bytes: &[u8]) -> Result<String> {
 }
 
 pub fn analyze<'a>(hsp3as: &'a mut Hsp3As, opts: &AnalysisOptions) -> Result<AnalysisResult> {
-    let mut config: AnalysisConfig = load_config(&opts.db_name)?;
-    validate_config(&config)?;
-
-    let mut resolved_vars = HashMap::new();
-    for (name, group) in config.variable_groups.iter() {
-        let vars = resolve_variables(&config, &group);
-        resolved_vars.insert(name.clone(), vars);
-    }
-
-    for (name, group) in config.variable_groups.iter_mut() {
-        let vars = resolved_vars.remove(name).unwrap();
-        group._resolved_variables = vars;
-    }
+    let mut config: AnalysisConfig = load_root_config(&opts.db_name)?;
 
     let mut diagnostics = Diagnostics::new();
     let mut labels = config.labels.clone();
@@ -2058,4 +2064,27 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As, opts: &AnalysisOptions) -> Result<Ana
     } else {
         Err(anyhow!("{} errors occured.", errors))
     }
+}
+
+pub fn print_vars<'a>(db_name: &str) -> Result<()> {
+    let mut config: AnalysisConfig = load_root_config(&db_name)?;
+
+    let mut names = config.variable_groups.keys().collect::<Vec<_>>();
+    names.sort();
+
+    for group_name in names.into_iter() {
+        println!("// Group: {}", group_name);
+        let group = config.variable_groups.get(group_name).unwrap();
+
+        for var in group.variables.iter() {
+            if let Some(code_value) = &var.code_value {
+                println!("#define global {}", code_value);
+            } else {
+                println!("#define global\t{}\t{}", var.name, ron::ser::to_string(&var.value).unwrap());
+            }
+        }
+        println!();
+    }
+
+    Ok(())
 }

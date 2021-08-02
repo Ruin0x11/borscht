@@ -69,6 +69,13 @@ fn get_app<'a, 'b>() -> App<'a, 'b> {
                          .help(".ax file")
                          .index(1))
         )
+        .subcommand(SubCommand::with_name("print-vars")
+                    .about("Print the variables defined in a database file")
+                    .arg(Arg::with_name("FILE")
+                         .required(true)
+                         .help("DB file to use (*.ron)")
+                         .index(1))
+        )
 }
 
 fn cmd_unpack(sub_matches: &ArgMatches) -> Result<()> {
@@ -192,6 +199,12 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     Ok(())
 }
 
+fn cmd_print_vars(sub_matches: &ArgMatches) -> Result<()> {
+    let db_name = sub_matches.value_of("FILE").unwrap();
+
+    erystia::print_vars(&db_name)
+}
+
 fn main() -> Result<()> {
     env_logger::init();
 
@@ -201,6 +214,7 @@ fn main() -> Result<()> {
         ("unpack", Some(sub_matches)) => cmd_unpack(&sub_matches)?,
         ("decode", Some(sub_matches)) => cmd_decode(&sub_matches)?,
         ("analyze", Some(sub_matches)) => cmd_analyze(&sub_matches)?,
+        ("print-vars", Some(sub_matches)) => cmd_print_vars(&sub_matches)?,
         _ => get_app().print_long_help()?
     }
 
