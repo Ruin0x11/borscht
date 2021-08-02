@@ -9092,6 +9092,10 @@ AnalysisConfig(
             substitute: ( rhs: { 0: Group("mef_type") } )
           )),
         MatchAll((
+            rules: ( lhs: Array({ 0: Variant("mef", ["MEF_SOURCE"]) }) ),
+            substitute: ( rhs: { 0: Group("chara") } )
+          )),
+        MatchAll((
             rules: ( lhs: Array({ 0: Variant("mef", ["MEF_ITEM_ID"]) }) ),
             substitute: ( rhs: { 0: Group("item_id") } )
           )),
