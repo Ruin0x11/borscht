@@ -137,6 +137,30 @@ AnalysisConfig(
         ( name: "MAX_ITEM_DBID", value: 1499, ),
       ],
     ),
+    "item_effect": (
+      variables: [
+        ( name: "EFFECT_CROP_MANAGEMENT_TOOLS", value: 106, ),
+        ( name: "EFFECT_MOKU_JIN", value: 107, ),
+        ( name: "EFFECT_YACA_POINT_CARD", value: 108, ),
+        ( name: "EFFECT_CLOTHWORLD", value: 109, ),
+        ( name: "EFFECT_MEMORY_FRAGMENT", value: 110, ),
+        ( name: "EFFECT_CRIMSON_DARK_ORB", value: 111, ),
+        ( name: "EFFECT_AZURE_DARK_ORB", value: 112, ),
+        ( name: "EFFECT_JADE_DARK_ORB", value: 113, ),
+        ( name: "EFFECT_BIG_TABLE", value: 114, ),
+        ( name: "EFFECT_CF_POTIOMAN", value: 115, ),
+        ( name: "EFFECT_INJECT_BUNKER", value: 116, ),
+        ( name: "EFFECT_G_FINGER", value: 117, ),
+        ( name: "EFFECT_PHOTON_FAIRY", value: 118, ),
+        ( name: "EFFECT_CONTRADICTION", value: 119, ),
+        ( name: "EFFECT_BIGAMY_PERMIT", value: 120, ),
+        ( name: "EFFECT_FILTRATION_BOTTLE", value: 121, ),
+        ( name: "EFFECT_LESIMAS_FRAGMENT", value: 122, ),
+        ( name: "EFFECT_REMIDO_FRAGMENT", value: 123, ),
+        ( name: "EFFECT_CHAOS_FRAGMENT", value: 124, ),
+        ( name: "EFFECT_MEMORY_CONVERTER", value: 125, ), // effmemory2
+      ]
+    ),
     "gdata": (
       variables: [
         (

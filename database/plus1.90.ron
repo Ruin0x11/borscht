@@ -8893,6 +8893,10 @@ AnalysisConfig(
             rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_MATERIAL"]) })),
             substitute: (rhs: { 0: Group("item_material") })
           )),
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_EFFECT"]) })),
+            substitute: (rhs: { 0: Group("item_effect") })
+          )),
         // (
         //   rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_FILE"]) })),
         //   substitute: (rhs: { 0: Group("item_file") })
