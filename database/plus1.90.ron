@@ -1654,10 +1654,10 @@ AnalysisConfig(
     ),
     "map_exit": (
       variables: [
-        ( name: "MAP_EXIT_KIND_TELEPORT", value: 2 ),
-        ( name: "MAP_EXIT_KIND_DEAD", value: 3 ),
-        ( name: "MAP_EXIT_KIND_NORMAL", value: 4 ),
-        ( name: "MAP_EXIT_KIND_NONE", value: 5 ),
+        ( name: "MAP_EXIT_TELEPORT", value: 2 ),
+        ( name: "MAP_EXIT_DEAD", value: 3 ),
+        ( name: "MAP_EXIT_NORMAL", value: 4 ),
+        ( name: "MAP_EXIT_NONE", value: 5 ),
       ]
     ),
     "feat": (
