@@ -459,12 +459,12 @@ AnalysisConfig(
     "skill_spact": (
       variables: [
         // Replaced/removed
-        ( name: "SKILL_SPACT_HARMONIC_ASSAULT", value: 721, ),
-        ( name: "SKILL_SPACT_RESONANT_VOICE", value: 722, ),
-        ( name: "SKILL_SPACT_KIJIN_SHIBARI", value: 723, ),
-        ( name: "SKILL_SPACT_BURN_SCROLLS", value: 724, ),
-        ( name: "SKILL_SPACT_JYUSOU_GOUSHIN", value: 725, ),
-        ( name: "SKILL_SPACT_DOWNPOUR_SPORE", value: 727, ),
+        ( name: "SKILL_SPACT_HARMONIC_ASSAULT", value: 721, primary: true ),
+        ( name: "SKILL_SPACT_RESONANT_VOICE", value: 722, primary: true ),
+        ( name: "SKILL_SPACT_KIJIN_SHIBARI", value: 723, primary: true ),
+        ( name: "SKILL_SPACT_BURN_SCROLLS", value: 724, primary: true ),
+        ( name: "SKILL_SPACT_JYUSOU_GOUSHIN", value: 725, primary: true ),
+        ( name: "SKILL_SPACT_DOWNPOUR_SPORE", value: 727, primary: true ),
 
         ( name: "SKILL_SPACT_OVERLIMIT_THROW", value: 822, ),
         ( name: "SKILL_SPACT_DESTINY_DICE", value: 823, ),
@@ -672,7 +672,7 @@ AnalysisConfig(
     "buff_id": (
       variables: [
         // Replaced/removed
-        ( name: "BUFF_POWER_ITEM", value: 38 ),
+        ( name: "BUFF_POWER_ITEM", value: 38, primary: true ),
 
         ( name: "BUFF_OVERLIMIT_THROW", value: 62 ),
         ( name: "BUFF_DATA_SCAN", value: 63 ),

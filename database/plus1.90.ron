@@ -148,13 +148,13 @@ AnalysisConfig(
         ( name: "MEFSUBREF_TYPE", value: 2 ),
       ]
     ),
-    "mef_type": (
+    "map_effect_type": (
       variables: [
         ( name: "MAP_EFFECT_TYPE_NONE", value: 0 ),
         ( name: "MAP_EFFECT_TYPE_FOOT", value: 1 ),
       ]
     ),
-    "mef": (
+    "map_effect": (
       variables: [
         ( name: "MAP_EFFECT_NONE", value: 0 ),
         ( name: "MAP_EFFECT_RIPPLE", value: 1 ),
@@ -164,6 +164,33 @@ AnalysisConfig(
         ( name: "MAP_EFFECT_SPLASH2", value: 5 ),
 
         ( name: "MAX_MAP_EFFECT", value: "MAP_EFFECT_SPLASH2 + 1" ),
+      ]
+    ),
+    "mef": (
+      variables: [
+        ( name: "MEF_TYPE", value: 0 ),
+        ( name: "MEF_CHIP", value: 1 ),
+        ( name: "MEF_X", value: 2 ),
+        ( name: "MEF_Y", value: 3 ),
+        ( name: "MEF_TURNS_REMAINING", value: 4 ),
+        ( name: "MEF_POWER", value: 5 ),
+        ( name: "MEF_SOURCE", value: 6 ),
+        ( name: "MEF_ITEM_ID", value: 7 ),
+        ( name: "MEF_ITEM_STATUS", value: 8 ),
+      ]
+    ),
+    "mef_type": (
+      variables: [
+        ( name: "MEF_TYPE_NONE", value: 0 ),
+        ( name: "MEF_TYPE_WEB", value: 1 ),
+        ( name: "MEF_TYPE_MIST", value: 2 ),
+        ( name: "MEF_TYPE_ACID", value: 3 ),
+        ( name: "MEF_TYPE_ETHER", value: 4 ),
+        ( name: "MEF_TYPE_FIRE", value: 5 ),
+        ( name: "MEF_TYPE_POTION", value: 6 ),
+        ( name: "MEF_TYPE_NUKE", value: 7 ),
+        ( name: "MEF_TYPE_MIST_OF_DAZZLING", value: 8 ),
+        ( name: "MEF_TYPE_KEMURIDAMA", value: 9 ),
       ]
     ),
     "cell_feature": (
@@ -1722,7 +1749,7 @@ AnalysisConfig(
         ( name: "MAP_ITEM_CHIPS_MEMORY", value: 5 ),
         ( name: "MAP_FEATS_ON_TILE", value: 6 ),
         ( name: "MAP_BLOOD_AND_DEBRIS", value: 7 ),
-        ( name: "MAP_MEF_ID_PLUS_ONE", value: 8 ),
+        ( name: "MAP_MEF_INDEX_PLUS_ONE", value: 8 ),
         ( name: "MAP_LIGHT_TYPE", value: 9 ),
       ]
     ),
@@ -8451,7 +8478,14 @@ AnalysisConfig(
     "mefsubref": (
       indices: [
         (
-          substitute: { 0: Group("mefsubref"), 1: Group("mef") }
+          substitute: { 0: Group("mefsubref"), 1: Group("map_effect") }
+        )
+      ]
+    ),
+    "mef": (
+      indices: [
+        (
+          substitute: { 0: Group("mef") }
         )
       ]
     ),
@@ -9047,7 +9081,19 @@ AnalysisConfig(
       indices: [
         MatchAll((
             rules: ( lhs: Array({ 0: Variant("mefsubref", ["MEFSUBREF_X"]) }) ),
-            substitute: ( rhs: { 2: Group("mef_type") } )
+            substitute: ( rhs: { 2: Group("map_effect_type") } )
+          )),
+      ]
+    ),
+    "mef": (
+      indices: [
+        MatchAll((
+            rules: ( lhs: Array({ 0: Variant("mef", ["MEF_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("mef_type") } )
+          )),
+        MatchAll((
+            rules: ( lhs: Array({ 0: Variant("mef", ["MEF_ITEM_ID"]) }) ),
+            substitute: ( rhs: { 0: Group("item_id") } )
           )),
       ]
     ),
@@ -11387,16 +11433,16 @@ AnalysisConfig(
     ),
     "addmef": (
       args: {
-        0: (name: "arg1", type: Int),
-        1: (name: "arg2", type: Int),
-        2: (name: "arg3", type: Int),
-        3: (name: "arg4", type: Int),
-        4: (name: "arg5", type: Int),
-        5: (name: "arg6", type: Int),
-        6: (name: "arg7", type: Int),
-        7: (name: "arg8", type: Int),
-        8: (name: "arg9", type: Int),
-        9: (name: "arg10", type: Int),
+        0: (name: "x", type: Int),
+        1: (name: "y", type: Int),
+        2: (name: "mefid", type: Int, indices: [ ( substitute: Group("mef_type")) ]),
+        3: (name: "chip", type: Int, indices: [ ( substitute: XY2Pic ) ]),
+        4: (name: "duration", type: Int),
+        5: (name: "power", type: Int),
+        6: (name: "source", type: Int, indices: [ ( substitute: Group("chara")) ]),
+        7: (name: "itemid", type: Int),
+        8: (name: "cursestate", type: Int),
+        9: (name: "color", type: Int),
       }
     ),
     "cell_featset": (
@@ -13609,11 +13655,11 @@ AnalysisConfig(
         ),
         (
           kind: If,
-          match: "if ( map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_ID_PLUS_ONE) != 0 ) {"
+          match: "if ( map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_INDEX_PLUS_ONE) != 0 ) {"
         ),
         (
           kind: If,
-          match: "if ( mef(0, map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_ID_PLUS_ONE) - 1) == 9 ) {"
+          match: "if ( mef(MEF_TYPE, map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_INDEX_PLUS_ONE) - 1) == MEF_TYPE_KEMURIDAMA ) {"
         )
       ],
       loop_kind: While
