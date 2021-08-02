@@ -1778,16 +1778,29 @@ fn merge_configs(config: &mut AnalysisConfig, parent: AnalysisConfig) -> Result<
     for (group_name, group) in parent.variable_groups.into_iter() {
         if config.variable_groups.contains_key(&group_name) {
             let mut this_group = config.variable_groups.get_mut(&group_name).unwrap();
+            let mut vars = Vec::new();
+            let mut seen = HashSet::new();
             for parent_variable in group.variables.into_iter() {
                 let this_idx = this_group.variables.iter().position(|v| v.name == parent_variable.name);
                 match this_idx {
-                    Some(_) => (),
-                    None => this_group.variables.push(parent_variable.clone())
+                    Some(i) => {
+                        seen.insert(i);
+                        vars.push(this_group.variables[i].clone());
+                    },
+                    None => vars.push(parent_variable.clone())
                 }
             }
+            for (i, var) in this_group.variables.iter().enumerate() {
+                if !seen.contains(&i) {
+                    vars.push(var.clone());
+                }
+            }
+            this_group.variables = vars;
+
             for parent_include in group.includes.into_iter() {
                 this_group.includes.insert(parent_include);
             }
+
             this_group.ignore = group.ignore;
         } else {
             config.variable_groups.insert(group_name, group);
