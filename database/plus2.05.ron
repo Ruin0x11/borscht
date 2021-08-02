@@ -13,6 +13,13 @@ AnalysisConfig(
   variable_groups: {
     "chara_id": (
       variables: [
+        ( name: "CDATA_PRECIOUS_ALLY", value: 63, primary: true ), // moved from index 99
+        ( name: "CDATA_MARK_ITEM_ADJUST_L", value: 99 ),
+        ( name: "CDATA_MARK_ITEM_ADJUST_W", value: 46 ),
+      ]
+    ),
+    "chara_id": (
+      variables: [
         ( name: "CREATURE_ID_MANSON_THE_CAREFUL_ADVENTURER", value: 990 ),
         ( name: "CREATURE_ID_CRAY_THE_CURIOUS_ADVENTURER", value: 991 ),
         ( name: "CREATURE_ID_MARY_THE_FLOWER_PICKER", value: 992 ),

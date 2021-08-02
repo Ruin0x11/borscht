@@ -2358,7 +2358,7 @@ AnalysisConfig(
         ( name: "CDATA_DRAIN_HP", value: 60 ),
         ( name: "CDATA_GOD", value: 61 ),
         ( name: "CDATA_PIETY", value: 62 ),
-        ( name: "CDATA_PRAY", value: 63 ),
+        ( name: "CDATA_PRAY", value: 63 ), // Unused
         ( name: "CDATA_EQUIP_WEIGHT", value: 64 ),
         ( name: "CDATA_CAST_STYLE", value: 65 ),
         ( name: "CDATA_PIERCING_CHANCE", value: 66 ),
