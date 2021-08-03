@@ -11,6 +11,11 @@ AnalysisConfig(
     "database/plus1.90.ron"
   ],
   variable_groups: {
+    "cdata": (
+      variables: [
+        ( name: "CDATA_MARK_ITEM_ADJUST_W", value: 46, primary: true ),
+      ]
+    ),
     "chara_id": (
       variables: [
         ( name: "CREATURE_ID_MANSON_THE_CAREFUL_ADVENTURER", value: 990 ),
