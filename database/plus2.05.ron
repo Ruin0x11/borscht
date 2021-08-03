@@ -785,6 +785,15 @@ AnalysisConfig(
           )),
       ]
     ),
+
+    "isetplantartifacth":  (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantartifactn":  (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantartifacta":  (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantartifactf":  (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantherbh":      (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantherbn":      (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantherba":      (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
+    "isetplantherbf":      (indices: [MatchAny((rule: Group("item_id"), substitute: Group("item_id")))]),
   },
 
   functions: {
