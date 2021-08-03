@@ -7292,18 +7292,18 @@ AnalysisConfig(
     "ai_action": (
       variables: [
         // Basic actions
-        ( name: "AI_ACTION_MELEE", value: -1, ),
-        ( name: "AI_ACTION_RANGE", value: -2, ),
-        ( name: "AI_ACTION_WAIT_MELEE", value: -3, ),
-        ( name: "AI_ACTION_RANDOM_MOVE", value: -4, ),
+        ( name: "ACTION_MELEE", value: -1, ),
+        ( name: "ACTION_RANGE", value: -2, ),
+        ( name: "ACTION_WAIT_MELEE", value: -3, ),
+        ( name: "ACTION_RANDOM_MOVE", value: -4, ),
 
         // Throwing ai_actions
-        ( name: "AI_ACTION_THROW", value: -10000, ),
-        ( name: "AI_ACTION_THROW_POTION_MINOR", value: -9999, ),
-        ( name: "AI_ACTION_THROW_POTION_MAJOR", value: -9998, ),
-        ( name: "AI_ACTION_THROW_POTION_GREATER", value: -9997, ),
-        ( name: "AI_ACTION_THROW_POTION_SALT", value: -9996, ),
-        ( name: "MAX_AI_ACTION_THROW", value: -9995 ),
+        ( name: "ACTION_THROW", value: -10000, ),
+        ( name: "ACTION_THROW_POTION_MINOR", value: -9999, ),
+        ( name: "ACTION_THROW_POTION_MAJOR", value: -9998, ),
+        ( name: "ACTION_THROW_POTION_GREATER", value: -9997, ),
+        ( name: "ACTION_THROW_POTION_SALT", value: -9996, ),
+        ( name: "MAX_ACTION_THROW", value: -9995 ),
       ],
     ),
     "ai_action_or_skill": (
