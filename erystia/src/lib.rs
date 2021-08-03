@@ -497,6 +497,7 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
                 p
             } else {
                 diagnostics.push(DiagnosticKind::Warning, format!("Ambiguous constant {} in group '{}'. Please correct manually.", i, group_name));
+                found.sort();
                 generate_ambiguous_constant(&found, i)
             }
         } else {
