@@ -9074,10 +9074,10 @@ AnalysisConfig(
     "cardrefpic": (
       indices: [
         MatchAll((
-            substitute: ( rhs: { 0: GroupRecursive("color", Rhs("+")) } )
+            substitute: ( rhs: { 0: XY2PicRecursive(Lhs("+")) } )
           )),
         MatchAll((
-            substitute: ( rhs: { 0: VariantRecursive("color", ["COLOR_TINT_MULT"], Rhs("*")) } )
+            substitute: ( rhs: { 0: GroupRecursive("color", Any) } )
           )),
       ]
     ),

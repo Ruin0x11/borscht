@@ -280,6 +280,10 @@ enum Substitute {
     #[allow(non_snake_case)]
     XY2Pic,
 
+    #[allow(non_snake_case)]
+    /// Replaces an integer constant with a call to `xy2pic(x, y)` recursively.
+    XY2PicRecursive(RecursiveCondition),
+
     /// Runs each of the replacements in the specified order.
     Multi(Vec<Substitute>),
 
@@ -510,6 +514,12 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
     exp
 }
 
+fn substitute_xy2pic(token_offset: u32, tab_count: u32, i: i32) -> ast::AstNode {
+    let code = format!("xy2pic({}, {})", i % 33, i / 33);
+    let kind = ast::AstNodeKind::Literal(ast::LiteralNode::Symbol(code));
+    ast::AstNode::new(token_offset, kind, tab_count)
+}
+
 fn expression_has_variant(exp: &ast::AstNode, group: &VariableGroup, variants: &HashSet<String>) -> bool {
     let mut any = false;
 
@@ -638,7 +648,7 @@ struct GroupRecursiveVisitor<'a>  {
     condition: RecursiveCondition,
     stack: Vec<RecursiveCondition>,
     diagnostics: &'a mut Diagnostics
-}
+}
 
 impl<'a> VisitorMut for GroupRecursiveVisitor<'a> {
     fn visit_node(&mut self, mut node: ast::AstNode) -> ast::AstNode {
@@ -652,6 +662,70 @@ impl<'a> VisitorMut for GroupRecursiveVisitor<'a> {
                     };
                     if proceed {
                         substitute_integer_constant(&self.group, &self.group_name, n, *i, self.variants.as_ref(), self.diagnostics)
+                    } else {
+                        node
+                    }
+                },
+                _ => {
+                    self.stack.push(RecursiveCondition::Any);
+                    let node = visitor::visit_node_mut(self, node);
+                    self.stack.pop().unwrap();
+                    node
+                }
+            },
+            ast::AstNodeKind::Expression(ref mut exp) => {
+                let lhs_cond = if let Some(op) = &exp.op {
+                    RecursiveCondition::Lhs(op.to_string())
+                } else {
+                    RecursiveCondition::Any
+                };
+                {
+                    self.stack.push(lhs_cond);
+                    exp.lhs = Box::new(self.visit_node(*exp.lhs.clone()));
+                    self.stack.pop().unwrap();
+                }
+
+                if let Some(ref mut rhs) = &mut exp.rhs {
+                    let rhs_cond = if let Some(op) = &exp.op {
+                        RecursiveCondition::Rhs(op.to_string())
+                    } else {
+                        RecursiveCondition::Any
+                    };
+                    {
+                        self.stack.push(rhs_cond);
+                        *rhs = Box::new(self.visit_node(*rhs.clone()));
+                        self.stack.pop().unwrap();
+                    }
+                }
+                node
+            }
+            _ => {
+                self.stack.push(RecursiveCondition::Any);
+                let node = visitor::visit_node_mut(self, node);
+                self.stack.pop().unwrap();
+                node
+            }
+        }
+    }
+}
+
+struct XY2PicRecursiveVisitor<'a>  {
+    condition: RecursiveCondition,
+    stack: Vec<RecursiveCondition>,
+    diagnostics: &'a mut Diagnostics
+}
+
+impl<'a> VisitorMut for XY2PicRecursiveVisitor<'a> {
+    fn visit_node(&mut self, mut node: ast::AstNode) -> ast::AstNode {
+        match &mut node.kind {
+            ast::AstNodeKind::Literal(lit) => match lit {
+                ast::LiteralNode::Integer(i) => {
+                    let proceed = match &self.condition {
+                        RecursiveCondition::Any => true,
+                        x => self.stack.last().map_or(false, |c| x == c)
+                    };
+                    if proceed {
+                        substitute_xy2pic(node.token_offset, node.tab_count, *i)
                     } else {
                         node
                     }
@@ -843,12 +917,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         true
     }
 
-    fn substitute_xy2pic(&self, exp: &mut ast::AstNode, i: i32) {
-        let code = format!("xy2pic({}, {})", i % 33, i / 33);
-        let kind = ast::AstNodeKind::Literal(ast::LiteralNode::Symbol(code));
-        *exp = ast::AstNode::new(exp.token_offset, kind, exp.tab_count);
-    }
-
     fn substitute_array_index(&mut self, exp: &mut ast::AstNode, subst: &Substitute) {
         match subst {
             Substitute::Group(group_name) => {
@@ -912,11 +980,19 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
             Substitute::XY2Pic => {
                 match &exp.kind {
                     ast::AstNodeKind::Literal(lit) => match &lit {
-                        ast::LiteralNode::Integer(i) => self.substitute_xy2pic(exp, *i),
+                        ast::LiteralNode::Integer(i) => *exp = substitute_xy2pic(exp.token_offset, exp.tab_count, *i),
                         _ => ()
                     },
                     _ => ()
                 }
+            },
+            Substitute::XY2PicRecursive(condition) => {
+                let mut visitor = XY2PicRecursiveVisitor {
+                    condition: condition.clone(),
+                    stack: Vec::new(),
+                    diagnostics: &mut self.diagnostics
+                };
+                *exp = visitor.visit_node(exp.clone());
             },
             Substitute::Flag(group_name) => {
                 match self.config.variable_groups.get(group_name) {
