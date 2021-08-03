@@ -467,7 +467,7 @@ AnalysisConfig(
         ( name: "VEHICLE_NONE", value: 0 ),
         ( name: "VEHICLE_CARRIAGE", value: 1 ),
         ( name: "VEHICLE_TRUCK", value: 2 ),
-        ( name: "VEHICLE_LOCOMOTIVE", value: 3 ),
+        ( name: "VEHICLE_MAGIC_LOCOMOTIVE", value: 3 ),
         ( name: "VEHICLE_LAND_BATTLESHIP", value: 4 ),
       ],
     ),
@@ -532,8 +532,8 @@ AnalysisConfig(
     "event": (
       variables: [
         ( name: "EVENT_ARTIFACT_LOTTERY", value: 82 ),
-        ( name: "EVENT_CHAOS_CRADLE_NUKE_1", value: 83 ),
-        ( name: "EVENT_CHAOS_CRADLE_NUKE_2", value: 84 ),
+        ( name: "EVENT_CHAOS_CRADLE_CHAT_ORPHE", value: 83 ),
+        ( name: "EVENT_CHAOS_CRADLE_CHAT_YAYAUHQUI", value: 84 ),
         ( name: "EVENT_CHAOS_CRADLE_SPAWN_YAYAUHQUI", value: 85 ),
         ( name: "EVENT_CHAOS_CRADLE_CHAT_JALDABAOTH", value: 86 ),
         ( name: "EVENT_CHAOS_CRADLE_SPAWN_JALDABAOTH", value: 87 ),

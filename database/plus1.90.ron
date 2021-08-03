@@ -8631,6 +8631,24 @@ AnalysisConfig(
           }
         )
       ]
+    ),
+    "npcmemory": (
+      indices: [
+        (
+          substitute: {
+            1: Group("chara_id"),
+          }
+        )
+      ]
+    ),
+    "itemmemory": (
+      indices: [
+        (
+          substitute: {
+            1: Group("item_id"),
+          }
+        )
+      ]
     )
   },
 
