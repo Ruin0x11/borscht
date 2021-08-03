@@ -9127,7 +9127,7 @@ AnalysisConfig(
       indices: [
         MatchAll((
             rules: ( lhs: Array({ 0: Variant("encref", ["ENCREF_GENERATE_CHANCE"]) }) ),
-            substitute: ( rhs: { 4: Group("filter") } )
+            substitute: ( rhs: { 3: Group("filter"), 4: Group("filter") } )
           )),
       ]
     ),
