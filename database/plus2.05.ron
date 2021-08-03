@@ -546,10 +546,10 @@ AnalysisConfig(
     ),
     "random_event": (
       variables: [
-        ( name: "RANDOM_EVENT_DREAM", value: 32 ),
+        ( name: "RANDOM_EVENT_DREAM_DREAM", value: 32 ),
         ( name: "RANDOM_EVENT_DREAM_CONNECT", value: 33 ),
-        ( name: "RANDOM_EVENT_SHEEP_NIGHTMARE", value: 34 ),
-        ( name: "RANDOM_EVENT_STRANGE_STAIRS_DREAM", value: 35 ),
+        ( name: "RANDOM_EVENT_DREAM_SHEEP_NIGHTMARE", value: 34 ),
+        ( name: "RANDOM_EVENT_DREAM_STRANGE_STAIRS", value: 35 ),
       ]
     ),
     "music_id": (
