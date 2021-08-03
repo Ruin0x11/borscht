@@ -544,6 +544,14 @@ AnalysisConfig(
         ( name: "EVENT_AMURDEAD_SUB_FIREWORKS", value: 92 ),
       ]
     ),
+    "random_event": (
+      variables: [
+        ( name: "RANDOM_EVENT_DREAM", value: 32 ),
+        ( name: "RANDOM_EVENT_DREAM_CONNECT", value: 33 ),
+        ( name: "RANDOM_EVENT_SHEEP_NIGHTMARE", value: 34 ),
+        ( name: "RANDOM_EVENT_STRANGE_STAIRS_DREAM", value: 35 ),
+      ]
+    ),
     "music_id": (
       variables: [
         ( name: "MUSICLIST_MCZANGYOU", value: 133 ),
