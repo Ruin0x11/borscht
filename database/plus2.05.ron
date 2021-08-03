@@ -158,7 +158,7 @@ AnalysisConfig(
         ( name: "EFFECT_JADE_DARK_ORB", value: 113, ),
         ( name: "EFFECT_BIG_TABLE", value: 114, ),
         ( name: "EFFECT_CF_POTIOMAN", value: 115, ),
-        ( name: "EFFECT_INJECT_BUNKER", value: 116, ),
+        ( name: "EFFECT_NYOI_MIMIKAKI", value: 116, ),
         ( name: "EFFECT_G_FINGER", value: 117, ),
         ( name: "EFFECT_PHOTON_FAIRY", value: 118, ),
         ( name: "EFFECT_CONTRADICTION", value: 119, ),
