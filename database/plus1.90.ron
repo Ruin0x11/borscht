@@ -9208,7 +9208,7 @@ AnalysisConfig(
       indices: [
         MatchAll((
             rules: ( lhs: Array({ 0: Variant("fishdata", ["FISHDATA_PIC"]) }) ),
-            substitute: ( rhs: { 0: XY2Pic, 8: Group("item_id") } )
+            substitute: ( rhs: { 0: XY2Pic, 7: Group("item_id") } )
           )),
       ]
     ),
