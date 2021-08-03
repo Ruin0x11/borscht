@@ -92,6 +92,8 @@ AnalysisConfig(
     ),
     "item_id": (
       variables: [
+        ( name: "ITEM_ID_NYOI_MIMIKAKI", value: 1113, primary: true ), // Replaces Inject Bunker
+
         ( name: "ITEM_ID_KANI_KAMA", value: 1169 ),
         ( name: "ITEM_ID_ANNINDOFU_LIKE_A_LIGHTSABRE", value: 1170 ),
         ( name: "ITEM_ID_FRIGHT_PRAWN", value: 1171 ),
