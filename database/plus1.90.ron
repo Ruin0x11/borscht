@@ -8107,7 +8107,7 @@ AnalysisConfig(
         ),
         (
           rules: { 0: Expr },
-          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT", "STARTING_CDATA_BUFF", "STARTING_CDATA_ATTR"], Lhs("+")) }
+          substitute: { 0: VariantRecursive("cdata", ["STARTING_CDATA_CHARA_BIT", "STARTING_CDATA_BUFF", "STARTING_CDATA_ATTR", "STARTING_CDATA_FOOD_EXP"], Lhs("+")) }
         ),
         (
           rules: { 0: Expr },
