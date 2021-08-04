@@ -20152,7 +20152,7 @@ AnalysisConfig(
       begin: Label("*scene")
     ),
     "ai.hsp": (
-      begin: Function("*ai_check")
+      begin: Function("ai_check")
     ),
     "help.hsp": (
       begin: Label("*com_quick")
