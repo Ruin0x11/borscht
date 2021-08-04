@@ -473,6 +473,12 @@ AnalysisConfig(
         ( name: "ITEM_STATUS_BLESSED", value: 1 ),
       ]
     ),
+    "equip_weight_class": (
+      variables: [
+        ( name: "EQUIP_WEIGHT_CLASS_MEDIUM", value: 15000 ),
+        ( name: "EQUIP_WEIGHT_CLASS_HEAVY", value: 35000 ),
+      ]
+    ),
     "fix_quality": (
       variables: [
         ( name: "FIX_QUALITY_NONE", value: 0 ),
@@ -8821,6 +8827,10 @@ AnalysisConfig(
         MatchAll((
             rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_GOD"]) })),
             substitute: (rhs: { 0: Group("god") })
+          )),
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_EQUIP_WEIGHT"]) })),
+            substitute: (rhs: { 0: Group("equip_weight_class") })
           )),
         MatchAll((
             rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_RACE_ID"]) })),
