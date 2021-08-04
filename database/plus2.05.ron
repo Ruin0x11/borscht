@@ -907,6 +907,9 @@ AnalysisConfig(
         )
       ]
     ),
+    "*FindRangeWeapon": (
+      after: "*com_fire",
+    ),
     "*com_jukebox": (
       rules: [
         (
