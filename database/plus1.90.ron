@@ -8712,6 +8712,13 @@ AnalysisConfig(
           ))
       ]
     ),
+    "encounter": (
+      indices: [
+        MatchAll((
+            substitute: ( rhs: { 0: Group("encounter") } )
+          ))
+      ]
+    ),
     "creaturepack": (
       indices: [
         MatchAll((

@@ -473,7 +473,8 @@ AnalysisConfig(
     ),
     "area_id": (
       variables: [
-        ( name: "AREA_SOUTH_RASKILIS", value: 95 ),
+        ( name: "AREA_SOUTH_RASKILIS", value: 95, primary: true ), // rename of AREA_RASKILIS
+
         ( name: "AREA_WEST_RASKILIS", value: 96 ),
       ],
       ignore: [ 800, 900 ]
