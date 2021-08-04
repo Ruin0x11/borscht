@@ -561,6 +561,12 @@ AnalysisConfig(
     ),
     "music_id": (
       variables: [
+        ( name: "MUSICLIST_MCEVENT1", value: 127, primary: true ),
+        ( name: "MUSICLIST_MCDUNGEON12", value: 128, primary: true ),
+        ( name: "MUSICLIST_MCDUNGEON13", value: 129, primary: true ),
+        ( name: "MUSICLIST_MCDUNGEON14", value: 130, primary: true ),
+        ( name: "MUSICLIST_MCDUNGEON15", value: 131, primary: true ),
+
         ( name: "MUSICLIST_MCZANGYOU", value: 133 ),
         ( name: "MUSICLIST_MCMELAN", value: 134 ),
         ( name: "MUSICLIST_SCENE_MUSIC", value: 135 ),
