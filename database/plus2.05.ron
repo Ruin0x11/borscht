@@ -479,6 +479,12 @@ AnalysisConfig(
       ],
       ignore: [ 800, 900 ]
     ),
+    "shop_type": (
+      variables: [
+        ( name: "SHOP_TYPE_DECORATIVE_ARTS", value: 5 ),
+        ( name: "SHOP_TYPE_JUNK", value: 6 ),
+      ]
+    ),
     "enchant_id": (
       variables: [
         ( name: "ENCHANT_KALPA_HAND", value: 77 ),

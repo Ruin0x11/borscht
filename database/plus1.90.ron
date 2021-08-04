@@ -8992,6 +8992,10 @@ AnalysisConfig(
             substitute: ( rhs: { 0: XY2Pic } )
           )),
         MatchAll((
+            rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_SHOP_TYPE"]) }) ),
+            substitute: ( rhs: { 0: Group("shop_type") } )
+          )),
+        MatchAll((
             rules: ( lhs: Array({ 0: Variant("adata", ["ADATA_TYPE"]) }) ),
             substitute: ( rhs: { 0: Group("map_type") } )
           ))
