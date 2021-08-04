@@ -6527,7 +6527,7 @@ AnalysisConfig(
     ),
     "skill_weapon": (
       variables: [
-        ( name: "STARTING_SKILL_WEAPON", value: 100, exclude: true ),
+        ( name: "STARTING_SKILL_WEAPON", value: 100 ),
 
         ( name: "SKILL_WEAPON_LONGSWORD", value: 100, ),
         ( name: "SKILL_WEAPON_SHORTSWORD", value: 101, ),
