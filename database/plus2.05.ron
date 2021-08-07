@@ -721,8 +721,8 @@ AnalysisConfig(
     ),
     "condition": (
       variables: [
-        ( name: "CONDITION_ASH_BODY", value: 22 ),
-        ( name: "CONDITION_OVERGODS", value: 23 ),
+        ( name: "CONDITION_WINCE", value: 22 ),
+        ( name: "CONDITION_CHILLS", value: 23 ),
       ]
     ),
     "buff_id": (
