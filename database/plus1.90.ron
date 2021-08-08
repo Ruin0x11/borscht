@@ -9798,11 +9798,11 @@ AnalysisConfig(
     "refitem": (
       indices: [
         MatchAll((
-            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_ITEM_TYPE", "DBSPEC_ITEM_TYPE_MINOR"]) }) ),
+            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_TYPE", "DBSPEC_TYPE_MINOR"]) }) ),
             substitute: ( rhs: { 0: Group("filter") } )
           )),
         MatchAll((
-            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_ITEM_CAN_READ", "DBSPEC_ITEM_CAN_ZAP", "DBSPEC_ITEM_CAN_DRINK", "DBSPEC_ITEM_CAN_USE"]) }) ),
+            rules: ( lhs: Array({ 1: Variant("dbspec_item", ["DBSPEC_CAN_READ", "DBSPEC_CAN_ZAP", "DBSPEC_CAN_DRINK", "DBSPEC_CAN_USE"]) }) ),
             substitute: ( rhs: { 0: Group("boolean") } )
           ))
       ]
