@@ -1492,6 +1492,7 @@ AnalysisConfig(
         ( name: "ENCOUNTER_MERCHANT", value: 2 ),
         ( name: "ENCOUNTER_ASSASSIN", value: 3 ),
         ( name: "ENCOUNTER_ROGUE", value: 4 ),
+        ( name: "ENCOUNTER_CHESTNUT_GIANT", value: 5 ),
       ]
     ),
     "random_event": (
