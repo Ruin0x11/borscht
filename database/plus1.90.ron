@@ -446,13 +446,13 @@ AnalysisConfig(
     ),
     "item_property": (
       variables: [
-        ( name: "PROPERTY_INHERITED", value: -2 ),
-        ( name: "PROPERTY_NONE", value: 0 ),
-        ( name: "PROPERTY_NPC", value: 1 ),
-        ( name: "PROPERTY_SHOP", value: 2 ),
-        ( name: "PROPERTY_CONSTRUCT", value: 3 ),
-        ( name: "PROPERTY_QUEST", value: 4 ),
-        ( name: "PROPERTY_SPECIAL", value: 5 ),
+        ( name: "PROP_INHERITED", value: -2 ),
+        ( name: "PROP_NONE", value: 0 ),
+        ( name: "PROP_NPC", value: 1 ),
+        ( name: "PROP_SHOP", value: 2 ),
+        ( name: "PROP_CONSTRUCT", value: 3 ),
+        ( name: "PROP_QUEST", value: 4 ),
+        ( name: "PROP_SPECIAL", value: 5 ),
       ]
     ),
     "item_known": (
@@ -8819,6 +8819,10 @@ AnalysisConfig(
             substitute: (rhs: { 0: XY2Pic })
           )),
         MatchAll((
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_AREA"]) })),
+            substitute: (rhs: { 0: Group("area_id") })
+          )),
+        MatchAll((
             rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ATTACK_STYLE"]) })),
             substitute: (rhs: { 0: Group("wield_style") })
           )),
@@ -14949,7 +14953,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "inv(INV_ITEM_PROPERTY, ti) = PROPERTY_INHERITED"
+          match: "inv(INV_ITEM_PROPERTY, ti) = PROP_INHERITED"
         )
       ]
     ),
