@@ -164,7 +164,12 @@ struct VariableDefinition {
     /// There can only be at most one variable with `primary` set to true among
     /// variables with the same value.
     #[serde(default)]
-    primary: bool
+    primary: bool,
+
+    /// If true, and there is more than one variable with the same value caused by importing
+    /// another database file, this variable will replace the one from the imported file.
+    #[serde(default, rename="override")]
+    override_: bool
 }
 
 type ArrayRules = HashMap<usize, Rule>;
@@ -1884,6 +1889,17 @@ fn merge_configs(config: &mut AnalysisConfig, parent: AnalysisConfig) -> Result<
         } else {
             config.variable_groups.insert(group_name, group);
         }
+    }
+
+    for (_, group) in config.variable_groups.iter_mut() {
+        let mut overrides = HashSet::new();
+        for var in group.variables.iter() {
+            if var.override_ {
+                assert!(!overrides.contains(&var.value), "More than one variable override found");
+                overrides.insert(var.value.clone());
+            }
+        }
+        group.variables = group.variables.iter().filter(|v| !(overrides.contains(&v.value) && !v.override_)).cloned().collect::<_>();
     }
 
     // Arrays

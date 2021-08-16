@@ -13,7 +13,7 @@ AnalysisConfig(
   variable_groups: {
     "cdata": (
       variables: [
-        ( name: "CDATA_MARK_ITEM_ADJUST_W", value: 46, primary: true ),
+        ( name: "CDATA_MARK_ITEM_ADJUST_W", value: 46, override: true ),
       ]
     ),
     "chara_id": (
@@ -78,7 +78,7 @@ AnalysisConfig(
     ),
     "chara_bit": (
       variables: [
-        ( name: "CHARA_BIT_AWAKE_TACTICAL_THROW", value: 1014, primary: true ), // Replaces Struck Out
+        ( name: "CHARA_BIT_AWAKE_TACTICAL_THROW", value: 1014, override: true ), // Replaces Struck Out
 
         ( name: "CHARA_BIT_LITERAL_BIRTH_YEAR", value: 1026 ),
         ( name: "CHARA_BIT_HAS_BEEN_CONFESSED_TO", value: 1027 ),
@@ -92,7 +92,7 @@ AnalysisConfig(
     ),
     "item_id": (
       variables: [
-        ( name: "ITEM_ID_NYOI_MIMIKAKI", value: 1113, primary: true ), // Replaces Inject Bunker
+        ( name: "ITEM_ID_NYOI_MIMIKAKI", value: 1113, override: true ), // Replaces Inject Bunker
 
         ( name: "ITEM_ID_KANI_KAMA", value: 1169 ),
         ( name: "ITEM_ID_ANNINDOFU_LIKE_A_LIGHTSABRE", value: 1170 ),
@@ -172,7 +172,7 @@ AnalysisConfig(
     ),
     "rf_id": (
       variables: [
-        ( name: "RF_STAR", value: 9027, code_value: "EXT_RF + 27", primary: true ),
+        ( name: "RF_STAR", value: 9027, code_value: "EXT_RF + 27", override: true ),
 
         ( name: "MAX_RF", value: 9028, code_value: "RF_STAR + 1" ),
       ]
@@ -473,7 +473,7 @@ AnalysisConfig(
     ),
     "area_id": (
       variables: [
-        ( name: "AREA_SOUTH_RASKILIS", value: 95, primary: true ), // rename of AREA_RASKILIS
+        ( name: "AREA_SOUTH_RASKILIS", value: 95, override: true ), // rename of AREA_RASKILIS
 
         ( name: "AREA_WEST_RASKILIS", value: 96 ),
       ],
@@ -501,12 +501,12 @@ AnalysisConfig(
     "skill_spact": (
       variables: [
         // Replaced/removed
-        ( name: "SKILL_SPACT_HARMONIC_ASSAULT", value: 721, primary: true ),
-        ( name: "SKILL_SPACT_RESONANT_VOICE", value: 722, primary: true ),
-        ( name: "SKILL_SPACT_KIJIN_SHIBARI", value: 723, primary: true ),
-        ( name: "SKILL_SPACT_BURN_SCROLLS", value: 724, primary: true ),
-        ( name: "SKILL_SPACT_JYUSOU_GOUSHIN", value: 725, primary: true ),
-        ( name: "SKILL_SPACT_DOWNPOUR_SPORE", value: 727, primary: true ),
+        ( name: "SKILL_SPACT_HARMONIC_ASSAULT", value: 721, override: true ),
+        ( name: "SKILL_SPACT_RESONANT_VOICE", value: 722, override: true ),
+        ( name: "SKILL_SPACT_KIJIN_SHIBARI", value: 723, override: true ),
+        ( name: "SKILL_SPACT_BURN_SCROLLS", value: 724, override: true ),
+        ( name: "SKILL_SPACT_JYUSOU_GOUSHIN", value: 725, override: true ),
+        ( name: "SKILL_SPACT_DOWNPOUR_SPORE", value: 727, override: true ),
 
         ( name: "SKILL_SPACT_OVERLIMIT_THROW", value: 822, ),
         ( name: "SKILL_SPACT_DESTINY_DICE", value: 823, ),
@@ -561,11 +561,11 @@ AnalysisConfig(
     ),
     "music_id": (
       variables: [
-        ( name: "MUSICLIST_MCEVENT1", value: 127, primary: true ),
-        ( name: "MUSICLIST_MCDUNGEON12", value: 128, primary: true ),
-        ( name: "MUSICLIST_MCDUNGEON13", value: 129, primary: true ),
-        ( name: "MUSICLIST_MCDUNGEON14", value: 130, primary: true ),
-        ( name: "MUSICLIST_MCDUNGEON15", value: 131, primary: true ),
+        ( name: "MUSICLIST_MCEVENT1", value: 127, override: true ),
+        ( name: "MUSICLIST_MCDUNGEON12", value: 128, override: true ),
+        ( name: "MUSICLIST_MCDUNGEON13", value: 129, override: true ),
+        ( name: "MUSICLIST_MCDUNGEON14", value: 130, override: true ),
+        ( name: "MUSICLIST_MCDUNGEON15", value: 131, override: true ),
 
         ( name: "MUSICLIST_MCZANGYOU", value: 133 ),
         ( name: "MUSICLIST_MCMELAN", value: 134 ),
@@ -728,7 +728,7 @@ AnalysisConfig(
     "buff_id": (
       variables: [
         // Replaced/removed
-        ( name: "BUFF_POWER_ITEM", value: 38, primary: true ),
+        ( name: "BUFF_POWER_ITEM", value: 38, override: true ),
 
         ( name: "BUFF_OVERLIMIT_THROW", value: 62 ),
         ( name: "BUFF_DATA_SCAN", value: 63 ),
@@ -776,9 +776,9 @@ AnalysisConfig(
     ),
     "color": (
       variables: [
-        ( name: "COLOR_LIGHT_BLUE3", value: 30, primary: true ),
+        ( name: "COLOR_LIGHT_BLUE3", value: 30, override: true ),
 
-        ( name: "MAX_COLOR", value: 31, code_value: "COLOR_LIGHT_BLUE3 + 1", primary: true ),
+        ( name: "MAX_COLOR", value: 31, code_value: "COLOR_LIGHT_BLUE3 + 1", override: true ),
       ]
     ),
   },
