@@ -2,11 +2,11 @@
 
 set -e
 
-cargo run --release -- analyze -s -o ../custom-gx/1.90-borscht ../elonaplus1.90/start.ax
-cargo run --release -- analyze -s -o ../custom-gx/2.05-borscht ../elonaplus2.05/elonaplus.ax
+# cargo run --release -- analyze -s -o ../custom-gx/1.90-borscht ../elonaplus1.90/start.ax
+# cargo run --release -- analyze -s -o ../custom-gx/2.05-borscht ../elonaplus2.05/elonaplus.ax
 cargo run --release -- analyze -s -o ../custom-gx/2.06-borscht ../elonaplus2.06/start.ax
-cargo run --release -- print-vars database/plus1.90.ron > ../custom-gx/1.90.hsp
-cargo run --release -- print-vars database/plus2.05.ron > ../custom-gx/2.05.hsp
+# cargo run --release -- print-vars database/plus1.90.ron > ../custom-gx/1.90.hsp
+# cargo run --release -- print-vars database/plus2.05.ron > ../custom-gx/2.05.hsp
 cargo run --release -- print-vars database/plus2.06.ron > ../custom-gx/2.06.hsp
 
 set +e

@@ -11,13 +11,81 @@ AnalysisConfig(
     "database/plus2.05.ron"
   ],
   variable_groups: {
+    "chara_id": (
+      variables: [
+        ( name: "CREATURE_ID_WALL_HACK_CHEATAH", value: 1038 ),
+        ( name: "CREATURE_ID_AUTO_AIM_CHEATAH", value: 1039 ),
+        ( name: "CREATURE_ID_SPEED_HACK_CHEATAH", value: 1040 ),
+        ( name: "CREATURE_ID_ANOTHER_WORLD_CHEATAH", value: 1041 ),
+        ( name: "CREATURE_ID_TELHUREZA_THE_HOUSE_GUARD", value: 1042 ),
+        ( name: "CREATURE_ID_IMARITUKA_THE_ZASIKI_WARAI", value: 1043 ),
+        ( name: "CREATURE_ID_OXODE_THE_QUEEN_BEE", value: 1044 ),
+        ( name: "CREATURE_ID_SCARD_THE_HAPPY_SWALLOW", value: 1045 ),
+        ( name: "CREATURE_ID_YONORNE_THE_ROOKIE_GUIDE", value: 1046 ),
+        ( name: "CREATURE_ID_MAGIC_BEE", value: 1047 ),
+        ( name: "CREATURE_ID_YOUNG_SWALLOW", value: 1048 ),
+
+        ( name: "MAX_CREATURE_ID", value: 1051, code_value: "CREATURE_ID_YOUNG_SWALLOW + 3" ),
+      ]
+    ),
+    "item_id": (
+      variables: [
+        ( name: "ITEM_ID_GOLDEN_MEAD", value: 1215 ),
+        ( name: "ITEM_ID_M12_LAPIS_LAZULI", value: 1216 ),
+        ( name: "ITEM_ID_M11_TOPAZ", value: 1217 ),
+        ( name: "ITEM_ID_M10_OPAL", value: 1218 ),
+        ( name: "ITEM_ID_M09_SAPPHIRE", value: 1219 ),
+        ( name: "ITEM_ID_M08_SARDONYX", value: 1220 ),
+        ( name: "ITEM_ID_M07_RUBY", value: 1221 ),
+        ( name: "ITEM_ID_M06_ALEXANDRITE", value: 1222 ),
+        ( name: "ITEM_ID_M05_EMERALD", value: 1223 ),
+        ( name: "ITEM_ID_M04_DIAMOND", value: 1224 ),
+        ( name: "ITEM_ID_M03_AQUAMARINE", value: 1225 ),
+        ( name: "ITEM_ID_M02_AMETHYST", value: 1226 ),
+        ( name: "ITEM_ID_M01_GARNET", value: 1227 ),
+        ( name: "ITEM_ID_DYING_CICADA", value: 1228 ),
+
+        ( name: "MAX_ITEM_ID", value: 1231, code_value: "ITEM_ID_DYING_CICADA + 3", exclude: true ),
+      ],
+    ),
+    "skill_effect": (
+      variables: [
+        (
+          name: "SKILL_EFFECT_GOLDEN_MEAD",
+          value: 1174,
+          code_value: "SKILL_EFFECT_MIN + 74"
+        )
+      ]
+    ),
+    "role": (
+      variables: [
+        ( name: "ROLE_GUEST_HOUSEMATE", value: 2007 ),
+      ]
+    ),
+    "sound_id": (
+      variables: [
+        ( name: "SOUNDLIST_SEMI1", value: 294, ),
+        ( name: "SOUNDLIST_SEMI2", value: 295, ),
+        ( name: "SOUNDLIST_SEMI3", value: 296, ),
+        ( name: "SOUNDLIST_SEMI4", value: 297, ),
+        ( name: "SOUNDLIST_SEMI5", value: 298, ),
+
+        ( name: "SOUNDLIST_MAX", value: 299, code_value: "SOUNDLIST_SEMI5 + 1", exclude: true ),
+      ],
+    ),
   },
 
   arrays: {},
 
   expressions: {},
 
-  functions: {},
+  functions: {
+    "findcharahome": (
+      args: {
+        0: (name: "charaid", type: Int, indices: [ ( substitute: Group("chara_id") ) ])
+      }
+    ),
+  },
 
   labels: {},
 

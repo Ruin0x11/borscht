@@ -477,7 +477,8 @@ AnalysisConfig(
       variables: [
         ( name: "EQUIP_WEIGHT_CLASS_MEDIUM", value: 15000 ),
         ( name: "EQUIP_WEIGHT_CLASS_HEAVY", value: 35000 ),
-      ]
+      ],
+      ignore: [ 0 ]
     ),
     "fix_quality": (
       variables: [
@@ -19604,7 +19605,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "act = AI_ACTION_THROW_POTION_GREATER"
+          match: "pcattacker = cc"
         )
       ]
     ),

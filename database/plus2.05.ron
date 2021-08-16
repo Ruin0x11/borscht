@@ -916,6 +916,21 @@ AnalysisConfig(
     "*FindRangeWeapon": (
       after: "*com_fire",
     ),
+    "*com_spellbook": (
+      after: "*com_book_loop_pgchg"
+    ),
+    "*com_spellbook_loop_pgchk": (
+      after: "*com_spellbook"
+    ),
+    "*com_spellbook_loop": (
+      after: "*com_spellbook_loop_pgchk"
+    ),
+    "*com_spellcast": (
+      after: "*com_spellbook_loop"
+    ),
+    "*com_spell": (
+      after: "*com_spellcast"
+    ),
     "*com_jukebox": (
       rules: [
         (
