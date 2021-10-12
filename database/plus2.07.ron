@@ -42,7 +42,17 @@ AnalysisConfig(
 
   functions: {},
 
-  labels: {},
+  labels: {
+    "*guide_talk_2": (
+      after: "*convert_talk"
+    ),
+    "*guide_talk": (
+      after: "*guide_talk_2"
+    ),
+    "*spec_talk": (
+      after: "*guide_talk"
+    ),
+  },
 
   files: {}
 )
