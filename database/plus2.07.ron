@@ -43,6 +43,12 @@ AnalysisConfig(
   functions: {},
 
   labels: {
+    "*convert_guide": (
+      after: "*convert_word"
+    ),
+    "*convert_talk": (
+      after: "*convert_guide"
+    ),
     "*guide_talk_2": (
       after: "*convert_talk"
     ),
@@ -51,6 +57,9 @@ AnalysisConfig(
     ),
     "*spec_talk": (
       after: "*guide_talk"
+    ),
+    "*random_talk": (
+      after: "*spec_talk"
     ),
   },
 

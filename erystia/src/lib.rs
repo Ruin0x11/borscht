@@ -1584,7 +1584,7 @@ impl<'a> LabelRenameVisitor<'a> {
                     if let Some(after) = &defn.after {
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
                             if self.hsp3as.label_names.get(prev).unwrap() == after {
-                                assert!(found_after.is_none(), "More than one label with same 'after' field found: {}", after);
+                                assert!(found_after.is_none(), "More than one label with same 'after' field found: {} ({})", after, label_name);
                                 found_after = Some(label_name.clone());
                             }
                         }
