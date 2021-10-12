@@ -1,0 +1,24 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "Elona+",
+    version: "2.06fix",
+    ax_sha256: "4f7eede9c1e76012211859166c9dca857572fb3508c5c70c5c911307e4973003"
+  ),
+
+  includes: [
+    "database/plus2.06.ron"
+  ],
+  variable_groups: {},
+
+  arrays: {},
+
+  expressions: {},
+
+  functions: {},
+
+  labels: {},
+
+  files: {}
+)
