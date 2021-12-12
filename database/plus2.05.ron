@@ -185,7 +185,7 @@ AnalysisConfig(
           code_value: "STARTING_GDATA_FLAG + 60"
         ),
         (
-          name: "GDATA_FLAG_SKILL_BONUS_OBTAINED",
+          name: "GDATA_FLAG_SPELL_BONUS_OBTAINED",
           value: 311,
           code_value: "STARTING_GDATA_FLAG + 61"
         ),
