@@ -579,7 +579,7 @@ AnalysisConfig(
         ( name: "SOUNDLIST_WATERM", value: 178, ),
         ( name: "SOUNDLIST_DRAG01", value: 179 ),
         ( name: "SOUNDLIST_INANAKI", value: 180 ),
-        ( name: "SOUNDLIST_CAR-HORN1", value: 181 ),
+        ( name: "SOUNDLIST_CAR_HORN1", value: 181 ),
         ( name: "SOUNDLIST_LOCOMO", value: 182 ),
         ( name: "SOUNDLIST_SIREN", value: 183 ),
         ( name: "SOUNDLIST_POWER07", value: 184 ),
