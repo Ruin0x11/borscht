@@ -297,7 +297,7 @@ AnalysisConfig(
           code_value: "STARTING_GDATA_FLAG + 409"
         ),
         (
-          name: "GDATA_FLAG_SCROLL_OF_WITCHCRAFT_TOTAL_SKILL_BONUS",
+          name: "GDATA_FLAG_SCROLL_OF_WITCHCRAFT_TOTAL_SPELL_BONUS",
           value: 660,
           code_value: "STARTING_GDATA_FLAG + 410"
         ),
