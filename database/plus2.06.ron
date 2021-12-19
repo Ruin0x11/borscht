@@ -10,6 +10,7 @@ AnalysisConfig(
   includes: [
     "database/plus2.05.ron"
   ],
+
   variable_groups: {
     "chara_id": (
       variables: [

@@ -516,7 +516,7 @@ fn substitute_integer_constant(group: &VariableGroup, group_name: &str, exp: ast
         return exp;
     }
 
-    diagnostics.push(DiagnosticKind::Error, format!("Could not find constant {} in group {}.", i, group_name));
+    diagnostics.push(DiagnosticKind::Error, format!("Could not find constant: {}:{}.", group_name, i));
     exp
 }
 

@@ -10,6 +10,7 @@ AnalysisConfig(
   includes: [
     "database/plus2.06fix.ron"
   ],
+
   variable_groups: {
     "skill_spact": (
       variables: [

@@ -10,6 +10,7 @@ AnalysisConfig(
   includes: [
     "database/plus2.06.ron"
   ],
+
   variable_groups: {},
 
   arrays: {},
