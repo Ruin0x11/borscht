@@ -1,0 +1,89 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "Elona+",
+    version: "2.08",
+    ax_sha256: "80a3ed8bdb024b2e66de76368968783092e491951ef4c69bc8b10d61aaf75ccd"
+  ),
+
+  includes: [
+    "database/plus2.07.ron"
+  ],
+
+  variable_groups: {
+    "item_id": (
+      variables: [
+        ( name: "ITEM_ID_SPELLBOOK_OF_HYDRO_FANG", value: 1229 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_SOUND_CANNONBALL", value: 1230 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_POISON_MUCUS", value: 1231 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_MIND_THORN", value: 1232 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_LIGHTNING_SPEAR", value: 1233 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_COLD_BLADE", value: 1234 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_FIRE_CLAW", value: 1235 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_NERVE_BOLT", value: 1236 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_CHAOS_BOLT", value: 1237 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_SOUND_BOLT", value: 1238 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_POISON_BOLT", value: 1239 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_NETHER_BOLT", value: 1240 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_ANGUISH_JAIL", value: 1241 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_ILLUSION_ROAR", value: 1242 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_BUBBLE_STORM", value: 1243 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_POISON_STORM", value: 1244 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_NETHER_ROAR", value: 1245 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_ECLIPSE_JAIL", value: 1246 ),
+        ( name: "ITEM_ID_SPELLBOOK_OF_THUNDER_VORTEX", value: 1247 ),
+
+        ( name: "MAX_ITEM_ID", value: 1250, code_value: "ITEM_ID_THUNDER_VORTEX + 3", exclude: true ),
+      ],
+    ),
+    "skill_spell": (
+      variables: [
+        ( name: "SKILL_SPELL_ILLUSION_ROAR", value: 478 ),
+        ( name: "SKILL_SPELL_ANGUISH_JAIL", value: 479 ),
+        ( name: "SKILL_SPELL_NETHER_BOLT", value: 480 ),
+        ( name: "SKILL_SPELL_POISON_BOLT", value: 481 ),
+        ( name: "SKILL_SPELL_SOUND_BOLT", value: 482 ),
+        ( name: "SKILL_SPELL_CHAOS_BOLT", value: 483 ),
+        ( name: "SKILL_SPELL_NERVE_BOLT", value: 484 ),
+        ( name: "SKILL_SPELL_FIRE_CLAW", value: 485 ),
+        ( name: "SKILL_SPELL_COLD_BLADE", value: 486 ),
+        ( name: "SKILL_SPELL_LIGHTNING_SPEAR", value: 487 ),
+        ( name: "SKILL_SPELL_MIND_THORN", value: 488 ),
+        ( name: "SKILL_SPELL_POISON_MUCUS", value: 489 ),
+        ( name: "SKILL_SPELL_SOUND_CANNONBALL", value: 490 ),
+        ( name: "SKILL_SPELL_HYDRO_FANG", value: 491 ),
+
+        ( name: "MAX_SPELL", value: 492, code_value: "SKILL_SPELL_HYDRO_FANG + 1" ),
+      ]
+    ),
+    "enchant_id": (
+      variables: [
+        ( name: "ENCHANT_DARKNESS_AND_NETHER", value: 84 ),
+
+        ( name: "MAX_ENCHANTMENT", value: 85, code_value: "ENCHANT_DARKNESS_AND_NETHER + 1" ),
+      ]
+    ),
+    "chara_bit": (
+      variables: [
+        ( name: "CHARA_BIT_UPLIFTED_WHILE_CASTING", value: 1031 ),
+      ]
+    ),
+  },
+
+  arrays: {},
+
+  expressions: {},
+
+  functions: {
+    "txtselectuse": (
+      args: {
+        0: (name: "arg1", type: Int),
+      }
+    ),
+  },
+
+  labels: {},
+
+  files: {}
+)
