@@ -59,9 +59,10 @@ AnalysisConfig(
     ),
     "enchant_id": (
       variables: [
-        ( name: "ENCHANT_DARKNESS_AND_NETHER", value: 84 ),
+        ( name: "ENCHANT_BANE_METAL", value: 84 ),
+        ( name: "ENCHANT_DARKNESS_AND_NETHER", value: 85 ),
 
-        ( name: "MAX_ENCHANTMENT", value: 85, code_value: "ENCHANT_DARKNESS_AND_NETHER + 1" ),
+        ( name: "MAX_ENCHANTMENT", value: 86, code_value: "ENCHANT_DARKNESS_AND_NETHER + 1" ),
       ]
     ),
     "chara_bit": (
