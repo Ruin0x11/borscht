@@ -1,0 +1,85 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "Elona+",
+    version: "2.09",
+    ax_sha256: "ad54a6bb42d0a499e029c9799b120dc25ed404283ae355f65c33cdd5f568a6b1"
+  ),
+
+  includes: [
+    "database/plus2.08fix.ron"
+  ],
+
+  variable_groups: {
+    "chara_id": (
+      variables: [
+        ( name: "CREATURE_ID_MAG_COUNT", value: 1049 ),
+        ( name: "CREATURE_ID_E_MAG_DUKE", value: 1050 ),
+        ( name: "CREATURE_ID_CRYSTALIAN", value: 1051 ),
+        ( name: "CREATURE_ID_EIGHTY_SHAKU", value: 1052 ),
+        ( name: "CREATURE_ID_GIGANTES", value: 1053 ),
+        ( name: "CREATURE_ID_SURTR", value: 1054 ),
+        ( name: "CREATURE_ID_DARK_ARTIFICIAL_GIANT", value: 1055 ),
+
+        ( name: "MAX_CREATURE_ID", value: 1058, code_value: "CREATURE_ID_DARK_ARTIFICIAL_GIANT + 3" ),
+      ]
+    ),
+    "item_id": (
+      variables: [
+        ( name: "ITEM_ID_SOCKS2", value: 1248 ),
+
+        ( name: "MAX_ITEM_ID", value: 1251, code_value: "ITEM_ID_SOCKS2 + 3", exclude: true ),
+      ],
+    ),
+    "skill_spact": (
+      variables: [
+        ( name: "SKILL_SPACT_SAND_CANNON", value: 837, ),
+        ( name: "SKILL_SPACT_ROCRUSHER", value: 838, ),
+        ( name: "SKILL_SPACT_MOGRANIC_AURA", value: 839, ),
+
+        ( name: "MAX_SKILL", value: 840, code_value: "SKILL_SPACT_MOGRANIC_AURA + 1" ),
+      ]
+    ),
+    "animation_id": (
+      variables: [
+        ( name: "ANIMATION_SAND_CANNON", value: 59 ),
+        ( name: "ANIMATION_OVER_LONG_THROW", value: 60 ),
+      ]
+    ),
+    "sound_id": (
+      variables: [
+        ( name: "SOUNDLIST_CRASH14", value: 299, ),
+
+        ( name: "SOUNDLIST_MAX", value: 300, code_value: "SOUNDLIST_CRASH14 + 1", exclude: true ),
+      ],
+    ),
+  },
+
+  arrays: {},
+
+  expressions: {},
+
+  functions: {},
+
+  labels: {
+    "*fish_init": (
+      rules: [
+        (
+          kind: Function,
+          match: "dim fishdata, 10, 120"
+        )
+      ]
+    ),
+    "*chat_default": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_INTEREST, tc) -= rnd(20)"
+        )
+      ]
+    ),
+  },
+
+  files: {}
+)
