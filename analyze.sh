@@ -40,7 +40,8 @@ pushd ../elonaplus_sources/diff
 # diff -U5 --recursive ../2.06fix-borscht/ ../2.07-borscht/ | unix2dos > 2.06fix-to-2.07.diff
 # diff -U5 --recursive -x db_item.hsp ../2.07-borscht/ ../2.08-borscht/ | unix2dos > 2.07-to-2.08.diff
 # diff -U5 --recursive ../2.08-borscht/ ../2.08fix-borscht/ | unix2dos > 2.08-to-2.08fix.diff
-diff -U5 --recursive ../2.08fix-borscht/ ../2.09-borscht/ | unix2dos > 2.08fix-to-2.09.diff
+diff -U5 --recursive -x 'db_item*' '-I\*label_' ../2.08fix-borscht/ ../2.09-borscht/ | unix2dos > 2.08fix-to-2.09.diff
+diff -U5 --recursive '-I\*label_' ../2.08fix-borscht/db_item.hsp ../2.09-borscht/db_item.hsp | unix2dos > 2.08fix-to-2.09.db_item.diff
 git status
 # git add ../1.90-borscht ../2.05-borscht ../2.06-borscht ../2.06fix-borscht
 # git add ../2.07-borscht

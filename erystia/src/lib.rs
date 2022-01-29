@@ -1,5 +1,3 @@
-#![feature(entry_insert)]
-
 extern crate serde;
 extern crate serde_derive;
 extern crate ron;
@@ -1303,7 +1301,7 @@ impl<'a> VisitorMut for FunctionRenameVisitor<'a> {
                         for (i, param) in funcdef.params.iter().enumerate() {
                             match func_conf.args.get(&i) {
                                 Some(arg) => {
-                                    self.hsp3as.param_names.entry(param.clone()).insert(format!("{}_{}", funcdef.default_name, arg.name));
+                                    self.hsp3as.param_names.entry(param.clone()).insert_entry(format!("{}_{}", funcdef.default_name, arg.name));
                                 },
                                 None => self.diagnostics.push(DiagnosticKind::Error, format!("Missing argument {} for function '{}'", i, funcdef.default_name)),
                             }
@@ -1730,9 +1728,9 @@ impl<'a> VisitorMut for LabelMergeVisitor<'a> {
                                 };
 
                                 let name = self.hsp3as.label_names.get(&resolved).unwrap().to_string();
-                                self.hsp3as.label_names.entry(to_remove.clone()).insert(name);
+                                self.hsp3as.label_names.entry(to_remove.clone()).insert_entry(name);
 
-                                self.hsp3as.label_usage.entry(to_remove.clone()).insert(0);
+                                self.hsp3as.label_usage.entry(to_remove.clone()).insert_entry(0);
                                 *self.hsp3as.label_usage.entry(resolved.clone()).or_insert(0) += 1;
 
                                 merging = Some(resolved);
