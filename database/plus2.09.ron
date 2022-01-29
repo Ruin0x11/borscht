@@ -34,6 +34,9 @@ AnalysisConfig(
     ),
     "skill_spact": (
       variables: [
+        // Renamed/replaced
+        ( name: "SKILL_SPACT_SHINING_THROW", value: 755, override: true ),
+
         ( name: "SKILL_SPACT_SAND_CANNON", value: 837, ),
         ( name: "SKILL_SPACT_ROCRUSHER", value: 838, ),
         ( name: "SKILL_SPACT_MOGRANIC_AURA", value: 839, ),
@@ -52,7 +55,7 @@ AnalysisConfig(
     "animation_id": (
       variables: [
         ( name: "ANIMATION_SAND_CANNON", value: 59 ),
-        ( name: "ANIMATION_OVER_LONG_THROW", value: 60 ),
+        ( name: "ANIMATION_SHINING_THROW", value: 60 ),
       ]
     ),
     "sound_id": (
@@ -84,6 +87,22 @@ AnalysisConfig(
         (
           kind: Assignment,
           match: "cdata(CDATA_INTEREST, tc) -= rnd(20)"
+        )
+      ]
+    ),
+    "*map_fieldValleyHorizontal": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "v = 6 + gdata(GDATA_FLAG_COLLECTED_WISHES) * 2"
+        )
+      ]
+    ),
+    "*map_fieldValleyVertical": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "w = 6 + gdata(GDATA_FLAG_COLLECTED_WISHES) * 2"
         )
       ]
     ),
