@@ -90,7 +90,7 @@ AnalysisConfig(
         )
       ]
     ),
-    "*map_fieldValleyHorizontal": (
+    "*map_riverHorizontal": (
       rules: [
         (
           kind: Assignment,
@@ -98,7 +98,7 @@ AnalysisConfig(
         )
       ]
     ),
-    "*map_fieldValleyVertical": (
+    "*map_riverVertical": (
       rules: [
         (
           kind: Assignment,
