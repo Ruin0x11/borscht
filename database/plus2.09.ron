@@ -41,6 +41,14 @@ AnalysisConfig(
         ( name: "MAX_SKILL", value: 840, code_value: "SKILL_SPACT_MOGRANIC_AURA + 1" ),
       ]
     ),
+    "buff_id": (
+      variables: [
+        ( name: "BUFF_MOGRANIC_AURA", value: 66, override: true ),
+        ( name: "BUFF_LIFE_TASTING", value: 67 ),
+
+        ( name: "MAX_BUFF", value: 68, code_value: "BUFF_LIFE_TASTING + 1" ),
+      ]
+    ),
     "animation_id": (
       variables: [
         ( name: "ANIMATION_SAND_CANNON", value: 59 ),
