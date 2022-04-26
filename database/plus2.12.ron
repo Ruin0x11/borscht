@@ -1,0 +1,89 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "Elona+",
+    version: "2.12",
+    ax_sha256: "6ffcbd596c08cc5fe71a87eb67cd05b27c7cc2f67d4bee79908bb6a8a5472b8a"
+  ),
+
+  includes: [
+    "database/plus2.11.ron"
+  ],
+
+  variable_groups: {
+    "chara_id": (
+      variables: [
+        ( name: "CREATURE_ID_HINOCCHIO", value: 1060 ),
+        ( name: "CREATURE_ID_KUSOSUGI", value: 1061 ),
+        ( name: "CREATURE_ID_ALRAUNE", value: 1062 ),
+        ( name: "CREATURE_ID_HOGWEEDER", value: 1063 ),
+        ( name: "CREATURE_ID_KING_HOGWEEDER", value: 1064 ),
+        ( name: "CREATURE_ID_HELRAUNE", value: 1065 ),
+        ( name: "CREATURE_ID_SIST_THE_OLDER_SISTER", value: 1066 ),
+
+        ( name: "MAX_CREATURE_ID", value: 1069, code_value: "CREATURE_ID_SIST_THE_OLDER_SISTER + 3" ),
+      ]
+    ),
+    "filter_race": (
+      variables: [
+        ( name: "FILTER_RACE_INVADER", value: 47 ),
+        ( name: "FILTER_RACE_KUSOSUGI", value: 50 ),
+      ]
+    ),
+    "item_id": (
+      variables: [
+        ( name: "ITEM_ID_ANERING", value: 1251 ),
+
+        ( name: "MAX_ITEM_ID", value: 1254, code_value: "ITEM_ID_ANERING + 3", exclude: true ),
+      ],
+    ),
+    "item_effect": (
+      variables: [
+        ( name: "EFFECT_ANERING", value: 127 ),
+        ( name: "EFFECT_DRUG", value: 128 ), // unused
+      ]
+    ),
+    "skill_spact": (
+      variables: [
+        ( name: "SKILL_SPACT_POLLEN_CANNON", value: 841, ),
+        ( name: "SKILL_SPACT_EYE_OF_ANE", value: 842, ),
+
+        ( name: "MAX_SKILL", value: 843, code_value: "SKILL_SPACT_EYE_OF_ANE + 1" ),
+      ]
+    ),
+    "animation_id": (
+      variables: [
+        ( name: "ANIMATION_POLLEN_CANNON", value: 61 ),
+      ]
+    ),
+    "music_id": (
+      variables: [
+        ( name: "MUSICLIST_MCCHURCH", value: 135, override: true ),
+        ( name: "MUSICLIST_SCENE_MUSIC", value: 136, override: true ),
+
+        ( name: "MUSICLIST_MAX", value: 137, code_value: "MUSICLIST_SCENE_MUSIC + 1" ),
+      ]
+    ),
+  },
+
+  arrays: {},
+
+  expressions: {},
+
+  functions: {
+  },
+
+  labels: {
+    "*com_jukebox": (
+      rules: [
+        (
+          kind: Function,
+          match: "repeat 137 - 50 - 1, 50"
+        )
+      ]
+    ),
+  },
+
+  files: {}
+)

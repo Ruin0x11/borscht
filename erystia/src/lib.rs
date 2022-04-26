@@ -1,3 +1,5 @@
+#![feature(entry_insert)]
+
 extern crate serde;
 extern crate serde_derive;
 extern crate ron;
