@@ -18664,7 +18664,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "突然誰かが蓋を閉めた。"
+          match: "act_use"
         )
       ]
     ),
