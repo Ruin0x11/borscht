@@ -51,6 +51,13 @@ AnalysisConfig(
         ( name: "ANIMATION_LASER_BAZOOKA", value: 62 ),
       ]
     ),
+    "rf_id": (
+      variables: [
+        ( name: "RF_BLANKET", value: 9028, code_value: "EXT_RF + 28", override: true ),
+
+        ( name: "MAX_RF", value: 9029, code_value: "RF_BLANKET + 1" ),
+      ]
+    ),
   },
 
   arrays: {},

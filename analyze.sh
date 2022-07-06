@@ -31,7 +31,7 @@ cargo run --release -- print-vars database/plus2.09.ron > ../elonaplus_sources/d
 cargo run --release -- print-vars database/plus2.10.ron > ../elonaplus_sources/defines/2.10.hsp
 cargo run --release -- print-vars database/plus2.11.ron > ../elonaplus_sources/defines/2.11.hsp
 cargo run --release -- print-vars database/plus2.12.ron > ../elonaplus_sources/defines/2.12.hsp
-cargo run --release -- print-vars database/plus2.12.ron > ../elonaplus_sources/defines/2.13.hsp
+cargo run --release -- print-vars database/plus2.13.ron > ../elonaplus_sources/defines/2.13.hsp
 
 set +e
 
