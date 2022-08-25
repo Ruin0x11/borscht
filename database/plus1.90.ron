@@ -3767,11 +3767,21 @@ AnalysisConfig(
           type: Int,
           indices: [
             (
-              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_PARAM2_GT_3", "ITEM_FIND_MODE_CHARGE_EQ_6666"]) },
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_TYPE", "ITEM_FIND_MODE_TYPE_MINOR"]) },
+              substitute: Group("filter")
+            ),
+            (
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_DBID", "ITEM_FIND_MODE_PARAM2_GT_3", "ITEM_FIND_MODE_CHARGE_EQ_6666"]) },
               substitute: Group("item_id")
+            ),
+            (
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_SKILL_REF"]) },
+              substitute: Group("skill_id")
             )
           ]
         ),
+        1: (name: "mode", type: Int, indices: [ ( substitute: Group("item_find_mode" ) ) ]),
+        2: (name: "inv", type: Int, indices: [ ( substitute: Group("item_find_location" )) ]),
       }
     ),
     "item_separatefish": (
