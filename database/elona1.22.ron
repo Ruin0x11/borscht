@@ -4,7 +4,7 @@ AnalysisConfig(
   meta: (
     variant_name: "Elona",
     version: "1.22",
-    ax_sha256: ""
+    ax_sha256: "7273270714a8a877512761880207d0014b0d22d69fb4d22b3e5c06396d6f23cc"
   ),
 
   variable_groups: {
@@ -4522,11 +4522,11 @@ AnalysisConfig(
     ),
     "skill_dataref": (
       variables: [
-        ( name: "SKILL_DATAREF_USE", value: 0, ),
-        ( name: "SKILL_DATAREF_TYPE", value: 1, ),
-        ( name: "SKILL_DATAREF_COST", value: 2, ),
-        ( name: "SKILL_DATAREF_TG", value: 3, ),
-        ( name: "SKILL_DATAREF_DIFF", value: 4, ),
+        ( name: "SKILL_DATAREF_USE", value: 0, macro: "skillUse" ),
+        ( name: "SKILL_DATAREF_TYPE", value: 1, macro: "skillType" ),
+        ( name: "SKILL_DATAREF_COST", value: 2, macro: "skillCost" ),
+        ( name: "SKILL_DATAREF_TG", value: 3, macro: "skillTg" ),
+        ( name: "SKILL_DATAREF_DIFF", value: 4, macro: "skillDiff" ),
       ]
     ),
     "skill_type_fov": (
@@ -5481,6 +5481,12 @@ AnalysisConfig(
     "sdataref": (
       indices: [
         (
+          macro: (
+            index: 0,
+            group: "skill_dataref",
+          )
+        ),
+        (
           substitute: {
             0: Group("skill_dataref"),
             1: Group("skill_id"),
@@ -5872,10 +5878,6 @@ AnalysisConfig(
         MatchAll((
             rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_SKILL_REF"]) })),
             substitute: (rhs: { 0: Group("skill_id") })
-          )),
-        MatchAll((
-            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_CHARA_PIC"]) })),
-            substitute: (rhs: { 0: XY2Pic })
           )),
         MatchAll((
             rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_MATERIAL"]) })),

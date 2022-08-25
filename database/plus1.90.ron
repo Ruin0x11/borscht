@@ -3412,6 +3412,14 @@ AnalysisConfig(
           )),
       ]
     ),
+    "inv": (
+      indices: [
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_CHARA_PIC"]) })),
+            substitute: (rhs: { 0: XY2Pic })
+          )),
+      ]
+    ),
     "gdata": (
       indices: [
         MatchAll((

@@ -1,0 +1,25 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "oomSESTepNC",
+    version: "20220824",
+    ax_sha256: "893e06136c2b7d349b4a417342f40ac717887b10cf7cd3184f465cfc70ee5e0f"
+  ),
+
+  includes: [
+    "database/elona1.22.ron"
+  ],
+
+  variable_groups: {},
+
+  arrays: {},
+
+  expressions: {},
+
+  functions: {},
+
+  labels: {},
+
+  files: {}
+)
