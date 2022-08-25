@@ -419,7 +419,10 @@ fn get_function_name(node: &ast::FunctionNode, hsp3as: &Hsp3As) -> String {
         PrimitiveTokenKind::UserFunction(func) |
         PrimitiveTokenKind::DllFunction(func) |
         PrimitiveTokenKind::ComFunction(func) => {
-            hsp3as.function_names.get(&func).unwrap().to_string()
+            match hsp3as.function_names.get(&func) {
+                Some(name) => name.to_string(),
+                None => node.ident.dict_value.name.clone()
+            }
         },
         _ => node.ident.dict_value.name.clone()
     }
@@ -1410,14 +1413,31 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
         for mut exp in block.nodes.into_iter() {
             let (exp, new_state) = match state {
                 TxtUnrollState::FoundTxtc1(to, tc) => {
-                    let assign = exp.kind.as_assignment().unwrap();
-                    assert!(get_variable_name(&assign.var, &self.hsp3as).unwrap() == "txtc");
-                    (None, TxtUnrollState::FoundTxtc2(to, tc))
+                    match exp.kind.as_assignment() {
+                        Some(assign) => {
+                            match get_variable_name(&assign.var, &self.hsp3as) {
+                                Some(name) =>  {
+                                    if name == "txtc" {
+                                        (None, TxtUnrollState::FoundTxtc2(to, tc))
+                                    }
+                                    else {
+                                        (Some(exp), TxtUnrollState::None)
+                                    }
+                                }
+                                _ => (Some(exp), TxtUnrollState::None)
+                            }
+                        },
+                        None => (Some(exp), TxtUnrollState::None)
+                    }
                 },
                 TxtUnrollState::FoundTxtc2(to, tc) => {
-                    let func = exp.kind.into_function().unwrap();
-                    assert!(get_function_name(&func, self.hsp3as) == "txt_select");
-                    (None, TxtUnrollState::FoundTxtSelect(to, tc, func.arg.unwrap()))
+                    match exp.kind.as_function() {
+                        Some(func) => {
+                            assert!(get_function_name(&func, self.hsp3as) == "txt_select");
+                            (None, TxtUnrollState::FoundTxtSelect(to, tc, func.clone().arg.unwrap()))
+                        },
+                        None => (Some(exp), TxtUnrollState::None)
+                    }
                 },
                 TxtUnrollState::FoundTxtSelect(to, tc, args) => {
                     let assign = exp.kind.into_assignment().unwrap();
@@ -1812,7 +1832,7 @@ impl<'a> Visitor for FileSplitVisitor<'a> {
                     braces: false,
                     nodes: Vec::new(),
                 });
-                let node = ast::AstNode::new(0, kind, std::cmp::min(node.tab_count - 1, 0));
+                let node = ast::AstNode::new(0, kind, std::cmp::min(node.tab_count.saturating_sub(1), 0));
                 self.resolved_files.insert(self.visiting_file.clone(), node);
             }
 

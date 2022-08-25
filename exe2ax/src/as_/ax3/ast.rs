@@ -4,7 +4,7 @@ use std::io::{Write, self};
 use encoding_rs::SHIFT_JIS;
 use enum_as_inner::EnumAsInner;
 use super::lexical::{PrimitiveToken, PrimitiveTokenKind};
-use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType, Ax3Label, ResolvedLabel, ResolvedParameter};
+use super::{Ax3File, Ax3Function, Ax3FunctionFlags, Ax3FunctionType, Ax3Parameter, Hsp3As, Ax3Dll, Ax3DllType, Ax3Label, ResolvedLabel, ResolvedParameter, Ax3Plugin, Ax3Cmd};
 
 pub type AstNodeRef = Box<AstNode>;
 
@@ -377,8 +377,10 @@ impl<'a> AstPrintable<'a> for FunctionNode {
             PrimitiveTokenKind::UserFunction(func) |
             PrimitiveTokenKind::DllFunction(func) |
             PrimitiveTokenKind::ComFunction(func) => {
-                let name = ctxt.function_names.get(&func).unwrap();
-                write!(f, "{}", name)?
+                match ctxt.function_names.get(&func) {
+                    Some(name) => write!(f, "{}", name)?,
+                    None => write!(f, "NULL")?
+                }
             },
             _ => write!(f, "{}", self.ident)?
         };
@@ -496,8 +498,10 @@ fn write_func_param<'a, W: Write>(f: &mut W, func: &'a Ax3Function, param: &Reso
             write!(f, " ")?;
         }
 
-        let param_name = ctxt.param_names.get(param).unwrap();
-        write!(f, "{}", param_name)?;
+        let param_name = ctxt.param_names.get(param);
+        if (param_name.is_some()) {
+            write!(f, "{}", param_name.unwrap())?;
+        }
     }
 
     Ok(())
@@ -550,7 +554,7 @@ impl<'a> AstPrintable<'a> for FunctionDeclarationNode {
                 write!(f, "#comfunc {} {}", name, self.func.label_index)?;
             },
             Ax3FunctionType::Module => write!(f, "TODO module")?,
-            _ => unreachable!()
+            Ax3FunctionType::None => write!(f, "#none")?
         }
 
         if self.params.len() > param_start {
@@ -593,6 +597,30 @@ impl<'a> AstPrintable<'a> for UsedllDeclarationNode {
             },
             _ => unreachable!()
         }
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct ReglibDeclarationNode {
+    pub plugin: Ax3Plugin,
+    pub dll_name: String,
+    pub export_name: String,
+}
+
+impl<'a> AstPrintable<'a> for ReglibDeclarationNode {
+    fn print_code<W: Write>(&self, f: &mut W, _tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
+        write!(f, "#regcmd \"{}\" \"{}\"", &self.dll_name, &self.export_name)
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct CmdDeclarationNode {
+    pub cmd: Ax3Cmd,
+}
+
+impl<'a> AstPrintable<'a> for CmdDeclarationNode {
+    fn print_code<W: Write>(&self, f: &mut W, _tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
+        write!(f, "#cmd cmd_{}_{}", self.cmd.plugin_index, self.cmd.method_index)
     }
 }
 

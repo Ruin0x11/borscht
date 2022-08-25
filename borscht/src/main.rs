@@ -114,6 +114,7 @@ fn cmd_decode(sub_matches: &ArgMatches) -> Result<()> {
         Some(dir) => Path::new(dir),
         None => input_file.parent().unwrap()
     };
+    fs::create_dir_all(&output_dir)?;
 
     let output_file = output_dir.join(input_file.with_extension("hsp").file_name().unwrap());
     let opts = DecodeOptions {};
@@ -141,6 +142,7 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
         Some(dir) => PathBuf::from(dir),
         None => input_file.parent().unwrap().join(input_file.file_stem().unwrap())
     };
+    fs::create_dir_all(&output_dir)?;
 
     let opts = DecodeOptions {};
 
@@ -175,7 +177,6 @@ fn cmd_analyze(sub_matches: &ArgMatches) -> Result<()> {
     let split = sub_matches.is_present("split");
 
     if split {
-        fs::create_dir_all(&output_dir)?;
         let now = Instant::now();
         let file_count = result.files.len();
 

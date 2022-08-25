@@ -170,9 +170,9 @@ impl Hsp3Dictionary {
                             // PlugInFunction
                             Some(HspDictionaryValue {
                                 name: "pluginFunction".to_string(),
-                                code_type: HspCodeType::try_from(key.type_ as u8 - 0x12).unwrap(),
+                                code_type: HspCodeType::PlugInFunction,
                                 extra: HspCodeExtraFlags::None,
-                                priority: 0
+                                priority: key.type_ as u32 - 0x12
                             })
                         } else {
                             None

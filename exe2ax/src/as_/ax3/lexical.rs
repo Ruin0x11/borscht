@@ -103,6 +103,11 @@ impl PrimitiveToken {
 }
 
 fn make_primitive<'a>(file: &'a Ax3File, v: HspDictionaryValue, token_offset: u32, type_: u8, flag: PrimitiveTokenFlags, value: i32, extra_value: Option<u16>) -> PrimitiveToken{
+    if (v.code_type == HspCodeType::None)
+{
+    println!("{:?}!!", v);
+}
+
     let kind = match v.code_type {
         HspCodeType::None => PrimitiveTokenKind::Unknown,
         HspCodeType::Operator => PrimitiveTokenKind::Operator,

@@ -196,7 +196,7 @@ impl Ax3Function {
                     Ax3FunctionType::ComFunc
                 } else {
                     match self.label_index {
-                        2 | 3 => Ax3FunctionType::Func,
+                        2 | 3 | 6 => Ax3FunctionType::Func,
                         4 => Ax3FunctionType::CFunc,
                         _ => Ax3FunctionType::None,
                     }
@@ -236,12 +236,22 @@ impl Ax3Function {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Ax3Plugin {
     pub _unknown1: u32,
     pub dll_name_offset: u32,
     pub export_name_offset: u32,
     pub _unknown2: u32,
+}
+
+impl Ax3Plugin {
+    fn get_dll_name<'a>(&self, file: &'a Ax3File) -> Cow<'a, str> {
+        file.read_str_literal(self.dll_name_offset as usize)
+    }
+
+    fn get_export_name<'a>(&self, file: &'a Ax3File) -> Cow<'a, str> {
+        file.read_str_literal(self.export_name_offset as usize)
+    }
 }
 
 #[repr(C)]
@@ -256,7 +266,7 @@ pub struct Ax3File<'a> {
     pub parameters: &'a [Ax3Parameter],
     pub functions: &'a [Ax3Function],
     pub plugins: &'a [Ax3Plugin],
-    pub variable_names: Vec<Cow<'a, str>>
+    pub variable_names: Vec<Cow<'a, str>>,
 }
 
 #[repr(C)]
@@ -371,8 +381,10 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
     }
 
     for (i, func) in file.functions.iter().enumerate() {
+        println!("f {} {:?}", i, func.get_type());
         match func.get_type() {
             Ax3FunctionType::CFunc | Ax3FunctionType::Func => {
+                println!("FUNC {} {:?}", i, func.get_type());
                 dll_funcs.push((func, i))
             },
             Ax3FunctionType::ComFunc => {
@@ -751,7 +763,8 @@ pub struct Parser<'a, R: Read + Seek> {
     labels: Vec<(usize, &'a Ax3Label, LabelKind)>,
     file: &'a Ax3File<'a>,
     label_usage: HashMap<ResolvedLabel, u32>,
-    tab_count: u32
+    tab_count: u32,
+    cmds: Vec<Ax3Cmd>
 }
 
 impl<'a, R: Read + Seek> Parser<'a, R> {
@@ -789,7 +802,8 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             labels: labels,
             file: file,
             label_usage: HashMap::new(),
-            tab_count: 1
+            tab_count: 1,
+            cmds: Vec::new()
         }
     }
 
@@ -1217,8 +1231,11 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             PrimitiveTokenKind::HspFunction |
             PrimitiveTokenKind::UserFunction(_) |
             PrimitiveTokenKind::DllFunction(_) |
-            PrimitiveTokenKind::PlugInFunction(_) |
             PrimitiveTokenKind::ComFunction(_) => self.read_function(false),
+            PrimitiveTokenKind::PlugInFunction(cmd) => {
+                self.cmds.push(cmd.clone());
+                self.read_function(false)
+            }
             PrimitiveTokenKind::IfStatement(_) => {
                 self.read_if_statement()
             },
@@ -1227,6 +1244,13 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
             },
             PrimitiveTokenKind::McallFunction => {
                 self.read_mcall()
+            },
+            PrimitiveTokenKind::Unknown => {
+                // Probably a plugin command. Skip it and note for later.
+                let next = self.tokens.next().unwrap();
+                self.tokens.next().unwrap();
+                let kind = AstNodeKind::Literal(LiteralNode::Symbol("TODO".to_string()));
+                AstNode::new(next.token_offset, kind, self.tab_count)
             },
             // PrimitiveTokenKind::OnFunction |
             // PrimitiveTokenKind::McallFunction |
@@ -1308,6 +1332,7 @@ pub struct Hsp3As {
     pub param_names: HashMap<ResolvedParameter, String>,
     pub label_names: HashMap<ResolvedLabel, String>,
     pub label_usage: HashMap<ResolvedLabel, u32>,
+    pub cmds: Vec<Ax3Cmd>
 }
 
 impl Hsp3As {
@@ -1400,6 +1425,7 @@ pub fn decode<'a, R: 'a + AsRef<[u8]>>(bytes: R, _opts: &DecodeOptions) -> Resul
         param_names: param_names,
         label_names: label_names,
         label_usage: parser.label_usage,
+        cmds: parser.cmds
     };
 
     Ok(hsp3as)
