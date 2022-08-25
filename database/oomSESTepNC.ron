@@ -11,9 +11,866 @@ AnalysisConfig(
   ],
 
   variable_groups: {
+    "skill_dataref": (
+      variables: [
+        ( name: "SKILL_DATAREF_USE", value: 0, macro: "skillUse" ),
+        ( name: "SKILL_DATAREF_TYPE", value: 1, macro: "skillType" ),
+        ( name: "SKILL_DATAREF_COST", value: 2, macro: "skillCost" ),
+        ( name: "SKILL_DATAREF_TG", value: 3, macro: "skillTg" ),
+        ( name: "SKILL_DATAREF_DIFF", value: 4, macro: "skillDiff" ),
+      ]
+    ),
+    "skill_id": (
+      variables: [
+        ( name: "SKILL_NONE", value: 0 ),
+
+        // Absolute skill limits
+        ( name: "MAX_SPACT_COUNT", value: 500 ),
+        ( name: "MAX_SPELL_COUNT", value: 200, code_value: "STARTING_SKILL_SPACT - STARTING_SKILL_SPELL", exclude: true ),
+
+        ( name: "MAX_SKILL_RANGE", value: 600, ),
+        ( name: "MAX_SKILL_DATA", value: 1200, code_value: "MAX_SKILL_RANGE * 2", ),
+      ],
+      includes: [
+        "skill_attribute",
+        "skill_resist",
+        "skill_damage_resist",
+        "skill_normal",
+        "skill_active",
+        "skill_weapon",
+        "skill_spell",
+        "skill_spact",
+        "skill_effect"
+      ],
+    ),
+    "skill_attribute": (
+      variables: [
+        ( name: "SKILL_ATTR_LIFE", value: 2, ),
+        ( name: "SKILL_ATTR_MANA", value: 3, ),
+
+        ( name: "SKILL_ATTR_STR", value: 10, ),
+        ( name: "SKILL_ATTR_CON", value: 11, ),
+        ( name: "SKILL_ATTR_DEX", value: 12, ),
+        ( name: "SKILL_ATTR_PER", value: 13, ),
+        ( name: "SKILL_ATTR_LER", value: 14, ),
+        ( name: "SKILL_ATTR_WIL", value: 15, ),
+        ( name: "SKILL_ATTR_MAG", value: 16, ),
+        ( name: "SKILL_ATTR_CHA", value: 17, ),
+        ( name: "SKILL_ATTR_SPD", value: 18, ),
+        ( name: "SKILL_ATTR_LUC", value: 19, ),
+
+        ( name: "STARTING_SKILL_ATTR", value: 10, code_value: "SKILL_ATTR_STR", exclude: true ),
+        ( name: "MAX_SKILL_ATTR_BASIC", value: 8, exclude: true ),
+        ( name: "MAX_SKILL_ATTR", value: 20, code_value: "STARTING_SKILL_ATTR + MAX_SKILL_ATTR_BASIC + 2", exclude: true ),
+      ]
+    ),
+    "skill_resist": (
+      variables: [
+        ( name: "STARTING_SKILL_RESIST", value: 50, exclude: true ),
+
+        ( name: "SKILL_RES_FIRE", value: 50, ),
+        ( name: "SKILL_RES_COLD", value: 51, ),
+        ( name: "SKILL_RES_LIGHTNING", value: 52, ),
+        ( name: "SKILL_RES_DARKNESS", value: 53, ),
+        ( name: "SKILL_RES_MIND", value: 54, ),
+        ( name: "SKILL_RES_POISON", value: 55, ),
+        ( name: "SKILL_RES_NETHER", value: 56, ),
+        ( name: "SKILL_RES_SOUND", value: 57, ),
+        ( name: "SKILL_RES_NERVE", value: 58, ),
+        ( name: "SKILL_RES_CHAOS", value: 59, ),
+        ( name: "SKILL_RES_MAGIC", value: 60, ),
+
+        ( name: "MAX_SKILL_RESIST", value: 71, code_value: "SKILL_RES_MAGIC + 1" ),
+      ]
+    ),
+    "skill_damage_resist": (
+      variables: [
+        ( name: "SKILL_RESDMG_CUT", value: 61, ),
+        ( name: "SKILL_RESDMG_ETHER", value: 62, ),
+        ( name: "SKILL_RESDMG_ACID", value: 63, ),
+        ( name: "SKILL_RESDMG_CRUSH", value: 64 , ),
+        ( name: "SKILL_RESDMG_CHESTNUT", value: 65, ),
+        ( name: "SKILL_RESDMG_BRAIN", value: 66, ),
+        ( name: "SKILL_RESDMG_TOFU", value: 67, ),
+
+        ( name: "MAX_SKILL_RESDMG", value: 68, code_value: "SKILL_RESDMG_TOFU + 1" ),
+      ]
+    ),
+    "skill_all_resist": (
+      includes: [
+        "skill_resist",
+        "skill_damage_resist",
+      ],
+      variables: [
+        ( name: "SKILL_NONE", value: 0 ),
+      ],
+      ignore: [ 11, 200, 250, 300 ]
+    ),
+    "skill_weapon": (
+      variables: [
+        ( name: "STARTING_SKILL_WEAPON", value: 100, exclude: true ),
+
+        ( name: "SKILL_WEAPON_LONGSWORD", value: 100, ),
+        ( name: "SKILL_WEAPON_SHORTSWORD", value: 101, ),
+        ( name: "SKILL_WEAPON_AXE", value: 102, ),
+        ( name: "SKILL_WEAPON_BLUNT", value: 103, ),
+        ( name: "SKILL_WEAPON_POLEARM", value: 104, ),
+        ( name: "SKILL_WEAPON_STAVE", value: 105, ),
+        ( name: "SKILL_WEAPON_MARTIAL_ARTS", value: 106, ),
+        ( name: "SKILL_WEAPON_SCYTHE", value: 107, ),
+        ( name: "SKILL_WEAPON_BOW", value: 108, ),
+        ( name: "SKILL_WEAPON_CROSSBOW", value: 109, ),
+        ( name: "SKILL_WEAPON_FIREARM", value: 110, ),
+        ( name: "SKILL_WEAPON_THROWING", value: 111, ),
+
+        ( name: "MAX_SKILL_WEAPON", value: 112, code_value: "SKILL_WEAPON_THROWING + 1" ),
+      ]
+    ),
+    "skill_normal": (
+      variables: [
+        ( name: "STARTING_SKILL_NORMAL", value: 150, exclude: true ),
+
+        ( name: "SKILL_NORMAL_LITERACY", value: 150, ),
+        ( name: "SKILL_NORMAL_GENE_ENGINEER", value: 151, ),
+        ( name: "SKILL_NORMAL_TACTICS", value: 152, ),
+        ( name: "SKILL_NORMAL_WEIGHT_LIFTING", value: 153, ),
+        ( name: "SKILL_NORMAL_HEALING", value: 154, ),
+        ( name: "SKILL_NORMAL_MEDITATION", value: 155, ),
+        ( name: "SKILL_NORMAL_NEGOTIATION", value: 156, ),
+        ( name: "SKILL_NORMAL_STEALTH", value: 157, ),
+        ( name: "SKILL_NORMAL_LOCK_PICKING", value: 158, ),
+        ( name: "SKILL_NORMAL_DETECTION", value: 159, ),
+        ( name: "SKILL_NORMAL_INVESTING", value: 160, ),
+        ( name: "SKILL_NORMAL_ANATOMY", value: 161, ),
+        ( name: "SKILL_NORMAL_SENSE_QUALITY", value: 162, ),
+        ( name: "SKILL_NORMAL_MINING", value: 163, ),
+        ( name: "SKILL_NORMAL_MAGIC_CAPACITY", value: 164, ),
+        ( name: "SKILL_NORMAL_MEMORIZATION", value: 165, ),
+        ( name: "SKILL_NORMAL_DUAL_WIELD", value: 166, ),
+        ( name: "SKILL_NORMAL_TWO_HAND", value: 167, ),
+        ( name: "SKILL_NORMAL_SHIELD", value: 168, ),
+        ( name: "SKILL_NORMAL_HEAVY_ARMOR", value: 169, ),
+        ( name: "SKILL_NORMAL_MEDIUM_ARMOR", value: 170, ),
+        ( name: "SKILL_NORMAL_LIGHT_ARMOR", value: 171, ),
+        ( name: "SKILL_NORMAL_CASTING", value: 172, ),
+        ( name: "SKILL_NORMAL_EVASION", value: 173, ),
+        ( name: "SKILL_NORMAL_MAGIC_DEVICE", value: 174, ),
+        ( name: "SKILL_NORMAL_DISARM_TRAP", value: 175, ),
+        ( name: "SKILL_NORMAL_CARPENTRY", value: 176, ),
+        ( name: "SKILL_NORMAL_TAILORING", value: 177, ),
+        ( name: "SKILL_NORMAL_ALCHEMY", value: 178, ),
+        ( name: "SKILL_NORMAL_JEWELER", value: 179, ),
+        ( name: "SKILL_NORMAL_GARDENING", value: 180, ),
+        ( name: "SKILL_NORMAL_FAITH", value: 181, ),
+        ( name: "SKILL_NORMAL_TRAVELING", value: 182, ),
+        ( name: "SKILL_NORMAL_PERFORMER", value: 183, ),
+        ( name: "SKILL_NORMAL_COOKING", value: 184, ),
+        ( name: "SKILL_NORMAL_FISHING", value: 185, ),
+        ( name: "SKILL_NORMAL_EYE_OF_MIND", value: 186, ),
+        ( name: "SKILL_NORMAL_GREATER_EVASION", value: 187, ),
+        ( name: "SKILL_NORMAL_CONTROL_MAGIC", value: 188, ),
+        ( name: "SKILL_NORMAL_MARKSMAN", value: 189, ),
+        ( name: "SKILL_NORMAL_SWIMMING", value: 190, ),
+
+        ( name: "MAX_SKILL_NORMAL", value: 191, code_value: "SKILL_NORMAL_SWIMMING + 1" ),
+      ]
+    ),
+    "skill_active": (
+      variables: [
+        ( name: "STARTING_SKILL_ACTIVE", value: 300, exclude: true ),
+
+        ( name: "SKILL_ACTIVE_PICKPOCKET", value: 300, ),
+        ( name: "SKILL_ACTIVE_RIDING", value: 301, ),
+
+        ( name: "MAX_SKILL_ACTIVE", value: 302, code_value: "SKILL_ACTIVE_RIDING + 1" ),
+      ]
+    ),
+    "skill_spell": (
+      variables: [
+        ( name: "STARTING_SKILL_SPELL", value: 400, exclude: true ),
+
+        ( name: "SKILL_SPELL_HEAL_LIGHT", value: 400, ),
+        ( name: "SKILL_SPELL_HEAL_CRITICAL", value: 401, ),
+        ( name: "SKILL_SPELL_CURE_OF_ERIS", value: 402, ),
+        ( name: "SKILL_SPELL_CURE_OF_JURE", value: 403, ),
+        ( name: "SKILL_SPELL_HEALING_RAIN", value: 404, ),
+        ( name: "SKILL_SPELL_HEALING_TOUCH", value: 405, ),
+        ( name: "SKILL_SPELL_HOLY_LIGHT", value: 406, ),
+        ( name: "SKILL_SPELL_VANQUISH_HEX", value: 407, ),
+        ( name: "SKILL_SPELL_TELEPORT", value: 408, ),
+        ( name: "SKILL_SPELL_TELEPORT_OTHER", value: 409, ),
+        ( name: "SKILL_SPELL_SHORT_TELEPORT", value: 410, ),
+        ( name: "SKILL_SPELL_IDENTIFY", value: 411, ),
+        ( name: "SKILL_SPELL_UNCURSE", value: 412, ),
+        ( name: "SKILL_SPELL_ORACLE", value: 413, ),
+        ( name: "SKILL_SPELL_MAGIC_DART", value: 414, ),
+        ( name: "SKILL_SPELL_NETHER_ARROW", value: 415, ),
+        ( name: "SKILL_SPELL_NERVE_ARROW", value: 416, ),
+        ( name: "SKILL_SPELL_CHAOS_EYE", value: 417, ),
+        ( name: "SKILL_SPELL_DARK_EYE", value: 418, ),
+        ( name: "SKILL_SPELL_ICE_BOLT", value: 419, ),
+        ( name: "SKILL_SPELL_FIRE_BOLT", value: 420, ),
+        ( name: "SKILL_SPELL_LIGHTNING_BOLT", value: 421, ),
+        ( name: "SKILL_SPELL_DARKNESS_BOLT", value: 422, ),
+        ( name: "SKILL_SPELL_MIND_BOLT", value: 423, ),
+        ( name: "SKILL_SPELL_SUMMON_MONSTERS", value: 424, ),
+        ( name: "SKILL_SPELL_SUMMON_WILD", value: 425, ),
+        ( name: "SKILL_SPELL_RETURN", value: 428, ),
+        ( name: "SKILL_SPELL_MAGIC_MAP", value: 429, ),
+        ( name: "SKILL_SPELL_SENSE_OBJECT", value: 430, ),
+        ( name: "SKILL_SPELL_ICE_BALL", value: 431, ),
+        ( name: "SKILL_SPELL_FIRE_BALL", value: 432, ),
+        ( name: "SKILL_SPELL_CHAOS_BALL", value: 433, ),
+        ( name: "SKILL_SPELL_RAGING_ROAR", value: 434, ),
+        ( name: "SKILL_SPELL_DOMINATE", value: 435, ),
+        ( name: "SKILL_SPELL_WEB", value: 436, ),
+        ( name: "SKILL_SPELL_MIST_OF_DARKNESS", value: 437, ),
+        ( name: "SKILL_SPELL_WALL_CREATION", value: 438, ),
+        ( name: "SKILL_SPELL_RESTORE_BODY", value: 439, ),
+        ( name: "SKILL_SPELL_RESTORE_SPIRIT", value: 440, ),
+        ( name: "SKILL_SPELL_WISH", value: 441, ),
+        ( name: "SKILL_SPELL_HOLY_SHIELD", value: 442, ),
+        ( name: "SKILL_SPELL_MIST_OF_SILENCE", value: 443, ),
+        ( name: "SKILL_SPELL_REGENERATION", value: 444, ),
+        ( name: "SKILL_SPELL_ATTRIBUTE_SHIELD", value: 445, ),
+        ( name: "SKILL_SPELL_SPEED", value: 446, ),
+        ( name: "SKILL_SPELL_SLOW", value: 447, ),
+        ( name: "SKILL_SPELL_HERO", value: 448, ),
+        ( name: "SKILL_SPELL_MIST_OF_FRAILNESS", value: 449, ),
+        ( name: "SKILL_SPELL_ELEMENT_SCAR", value: 450, ),
+        ( name: "SKILL_SPELL_HOLY_VEIL", value: 451, ),
+        ( name: "SKILL_SPELL_NIGHTMARE", value: 452, ),
+        ( name: "SKILL_SPELL_DIVINE_WISDOM", value: 453, ),
+        ( name: "SKILL_SPELL_MUTATION", value: 454, ),
+        ( name: "SKILL_SPELL_ACID_GROUND", value: 455, ),
+        ( name: "SKILL_SPELL_FIRE_WALL", value: 456, ),
+        ( name: "SKILL_SPELL_DOOR_CREATION", value: 457, ),
+        ( name: "SKILL_SPELL_INCOGNITO", value: 458, ),
+        ( name: "SKILL_SPELL_CRYSTAL_SPEAR", value: 459, ),
+        ( name: "SKILL_SPELL_MAGIC_STORM", value: 460, ),
+        ( name: "SKILL_SPELL_RESURRECTION", value: 461, ),
+        ( name: "SKILL_SPELL_CONTINGENCY", value: 462, ),
+        ( name: "SKILL_SPELL_4DIM_POCKET", value: 463, ),
+        ( name: "SKILL_SPELL_WIZARDS_HARVEST", value: 464, ),
+        ( name: "SKILL_SPELL_METEOR", value: 465, ),
+        ( name: "SKILL_SPELL_GRAVITY", value: 466, ),
+        ( name: "SKILL_SPELL_SUMMON_SPIRIT", value: 467, ),
+        ( name: "SKILL_SPELL_FEATHER", value: 468, ),
+        ( name: "SKILL_SPELL_ECLIPSE", value: 469, ),
+        ( name: "SKILL_SPELL_THUNDER_VORTEX", value: 470, ),
+        ( name: "SKILL_SPELL_NETHER_WAVE", value: 471, ),
+        ( name: "SKILL_SPELL_MIST_OF_DAZZLING", value: 472, ),
+        ( name: "SKILL_SPELL_POISON_STORM", value: 473, ),
+        ( name: "SKILL_SPELL_CONCENTRATION", value: 474, ),
+        ( name: "SKILL_SPELL_WATER_BOLT", value: 475, ),
+        ( name: "SKILL_SPELL_BUBBLE_STORM", value: 476, ),
+        ( name: "SKILL_SPELL_GEM_POWER", value: 477, ),
+
+        ( name: "MAX_SPELL", value: 478, code_value: "SKILL_SPELL_GEM_POWER + 1" ),
+      ]
+    ),
+    "skill_spact": (
+      variables: [
+        ( name: "STARTING_SKILL_SPACT", value: 600 ),
+
+        ( name: "SKILL_SPACT_DRAIN_BLOOD", value: 601, ),
+        ( name: "SKILL_SPACT_FIRE_BREATH", value: 602, ),
+        ( name: "SKILL_SPACT_COLD_BREATH", value: 603, ),
+        ( name: "SKILL_SPACT_LIGHTNING_BREATH", value: 604, ),
+        ( name: "SKILL_SPACT_DARKNESS_BREATH", value: 605, ),
+        ( name: "SKILL_SPACT_CHAOS_BREATH", value: 606, ),
+        ( name: "SKILL_SPACT_SOUND_BREATH", value: 607, ),
+        ( name: "SKILL_SPACT_NETHER_BREATH", value: 608, ),
+        ( name: "SKILL_SPACT_NERVE_BREATH", value: 609, ),
+        ( name: "SKILL_SPACT_POISON_BREATH", value: 610, ),
+        ( name: "SKILL_SPACT_MIND_BREATH", value: 611, ),
+        ( name: "SKILL_SPACT_POWER_BREATH", value: 612, ),
+        ( name: "SKILL_SPACT_TOUCH_OF_WEAKNESS", value: 613, ),
+        ( name: "SKILL_SPACT_TOUCH_OF_HUNGER", value: 614, ),
+        ( name: "SKILL_SPACT_TOUCH_OF_POISON", value: 615, ),
+        ( name: "SKILL_SPACT_TOUCH_OF_NERVE", value: 616, ),
+        ( name: "SKILL_SPACT_TOUCH_OF_FEAR", value: 617, ),
+        ( name: "SKILL_SPACT_TOUCH_OF_SLEEP", value: 618, ),
+        ( name: "SKILL_SPACT_SHADOW_STEP", value: 619, ),
+        ( name: "SKILL_SPACT_DRAW_SHADOW", value: 620, ),
+        ( name: "SKILL_SPACT_HARVEST_MANA", value: 621, ),
+        ( name: "SKILL_SPACT_PUNISHMENT", value: 622, ),
+        ( name: "SKILL_SPACT_PRAYER_OF_JURE", value: 623, ),
+        ( name: "SKILL_SPACT_ABSORB_MAGIC", value: 624, ),
+        ( name: "SKILL_SPACT_LULWYS_TRICK", value: 625, ),
+        ( name: "SKILL_SPACT_PSYCHOANALYSIS", value: 626, ),
+        ( name: "SKILL_SPACT_DIMENSIONAL_MOVE", value: 627, ),
+        ( name: "SKILL_SPACT_CHANGE", value: 628, ),
+        ( name: "SKILL_SPACT_DRAW_CHARGE", value: 629, ),
+        ( name: "SKILL_SPACT_FILL_CHARGE", value: 630, ),
+        ( name: "SKILL_SPACT_SWARM", value: 631, ),
+        ( name: "SKILL_SPACT_EYE_OF_MUTATION", value: 632, ),
+        ( name: "SKILL_SPACT_EYE_OF_ETHER", value: 633, ),
+        ( name: "SKILL_SPACT_ETHER_GROUND", value: 634, ),
+        ( name: "SKILL_SPACT_SUSPICIOUS_HAND", value: 635, ),
+        ( name: "SKILL_SPACT_EYE_OF_INSANITY", value: 636, ),
+        ( name: "SKILL_SPACT_RAIN_OF_SANITY", value: 637, ),
+        ( name: "SKILL_SPACT_EYE_OF_DIMNESS", value: 638, ),
+        ( name: "SKILL_SPACT_SUMMON_CATS", value: 639, ),
+        ( name: "SKILL_SPACT_SUMMON_YEEK", value: 640, ),
+        ( name: "SKILL_SPACT_SUMMON_PAWN", value: 641, ),
+        ( name: "SKILL_SPACT_SUMMON_FIRE", value: 642, ),
+        ( name: "SKILL_SPACT_SUMMON_SISTER", value: 643, ),
+        ( name: "SKILL_SPACT_SUICIDE_ATTACK", value: 644, ),
+        ( name: "SKILL_SPACT_CURSE", value: 645, ),
+        ( name: "SKILL_SPACT_DEATH_WORD", value: 646, ),
+        ( name: "SKILL_SPACT_BOOST", value: 647, ),
+        ( name: "SKILL_SPACT_INSULT", value: 648, ),
+        ( name: "SKILL_SPACT_SHINING_WAVE", value: 649, ),
+        ( name: "SKILL_SPACT_DISTANT_ATTACK7", value: 650, ),
+        ( name: "SKILL_SPACT_SCAVENGE", value: 651, ),
+        ( name: "SKILL_SPACT_EYE_OF_MANA", value: 652, ),
+        ( name: "SKILL_SPACT_VANISH", value: 653, ),
+        ( name: "SKILL_SPACT_PREGNANT", value: 654, ),
+        ( name: "SKILL_SPACT_GRENADE", value: 655, ),
+        ( name: "SKILL_SPACT_CHEER", value: 656, ),
+        ( name: "SKILL_SPACT_MEWMEWMEW", value: 657, ),
+        ( name: "SKILL_SPACT_DECAPITATION", value: 658, ),
+        ( name: "SKILL_SPACT_DROP_MINE", value: 659, ),
+        ( name: "SKILL_SPACT_MANIS_DISASSEMBLY", value: 660, ),
+        ( name: "SKILL_SPACT_INSANE_WAVE", value: 661, ),
+        ( name: "SKILL_SPACT_SUPER_VIBRATING_FIST", value: 662, ),
+        ( name: "SKILL_SPACT_TEMPEST_ARROW", value: 663, ),
+        ( name: "SKILL_SPACT_EXCESSIVE_HEAL", value: 664, ),
+        ( name: "SKILL_SPACT_SHINE_SNAIL", value: 665, ),
+        ( name: "SKILL_SPACT_HOUZANHA", value: 666, ),
+        ( name: "SKILL_SPACT_MANA_BURST", value: 667, ),
+        ( name: "SKILL_SPACT_ELEMENTIA", value: 668, ),
+        ( name: "SKILL_SPACT_RAMPAGE", value: 669, ),
+        ( name: "SKILL_SPACT_GOLD_RUSH", value: 670, ),
+        ( name: "SKILL_SPACT_SYNCHRO_HEARTS", value: 671, ),
+        ( name: "SKILL_SPACT_MAGIC_KISS", value: 672, ),
+        ( name: "SKILL_SPACT_CLEAR_MIND", value: 673, ),
+        ( name: "SKILL_SPACT_PRESSURE", value: 674, ),
+        ( name: "SKILL_SPACT_SUMMON_CHAOS", value: 675, ),
+        ( name: "SKILL_SPACT_ENSEMBLE", value: 676, ),
+        ( name: "SKILL_SPACT_SUPER_REGEN", value: 677, ),
+        ( name: "SKILL_SPACT_DIRECTIVE", value: 678, ),
+        ( name: "SKILL_SPACT_PLATINUM_SONG", value: 679, ),
+        ( name: "SKILL_SPACT_PROVOKE", value: 680, ),
+        ( name: "SKILL_SPACT_BIND", value: 681, ),
+        ( name: "SKILL_SPACT_BROWBEAT", value: 682, ),
+        ( name: "SKILL_SPACT_EYE_OF_BRAINWASHING", value: 683, ),
+        ( name: "SKILL_SPACT_CALL_FAMILIAR", value: 684, ),
+        ( name: "SKILL_SPACT_EXPLOSIVE_FIST", value: 685, ),
+        ( name: "SKILL_SPACT_CHARGE", value: 686, ),
+        ( name: "SKILL_SPACT_EMERGENCY_EVASION", value: 687, ),
+        ( name: "SKILL_SPACT_MAGIC_EQUIP", value: 688, ),
+        ( name: "SKILL_SPACT_SUPER_ARMOR", value: 689, ),
+        ( name: "SKILL_SPACT_DO_NOTHING", value: 690, ),
+        ( name: "SKILL_SPACT_GRAVITY_SPHERE", value: 691, ),
+        ( name: "SKILL_SPACT_ATTRIBUTE", value: 692, ),
+        ( name: "SKILL_SPACT_FIRE_A_VOLLEY", value: 693, ),
+        ( name: "SKILL_SPACT_ABSOLUTE_PROTECT", value: 694, ),
+        ( name: "SKILL_SPACT_MEGID_FLAME", value: 695, ),
+        ( name: "SKILL_SPACT_FORCED_DRAFT", value: 696, ),
+        ( name: "SKILL_SPACT_CONTINUOUS_ATTACKS", value: 697, ),
+        ( name: "SKILL_SPACT_VARIABLE_BREATH", value: 698, ),
+        ( name: "SKILL_SPACT_DIVINE_STREAM", value: 699, ),
+        ( name: "SKILL_SPACT_ZERO_SHOOT", value: 700, ),
+        ( name: "SKILL_SPACT_RUBBING", value: 701, ),
+        ( name: "SKILL_SPACT_FLASH_OF_SWIFTNESS", value: 702, ),
+        ( name: "SKILL_SPACT_UNDERHAND_DROP", value: 703, ),
+        ( name: "SKILL_SPACT_BISECTION", value: 704, ),
+        ( name: "SKILL_SPACT_PULVERIZATION", value: 705, ),
+        ( name: "SKILL_SPACT_PENETRATION", value: 706, ),
+        ( name: "SKILL_SPACT_DANCE_OF_BLOW", value: 707, ),
+        ( name: "SKILL_SPACT_EXPLOSION", value: 708, ),
+        ( name: "SKILL_SPACT_QUICK_USE", value: 709, ),
+        ( name: "SKILL_SPACT_SQUEEZE", value: 710, ),
+        ( name: "SKILL_SPACT_DISTURBANCE", value: 711, ),
+        ( name: "SKILL_SPACT_CUT_TREE", value: 712, ),
+        ( name: "SKILL_SPACT_PREACHING", value: 713, ),
+        ( name: "SKILL_SPACT_UNCONTROL", value: 714, ),
+        ( name: "SKILL_SPACT_CONVERGE_BREATH", value: 715, ),
+        ( name: "SKILL_SPACT_TIME_STOP", value: 716, ),
+        ( name: "SKILL_SPACT_PIERCING_ZERO_SHOOT", value: 717, ),
+        ( name: "SKILL_SPACT_DIFFUSION_WAVE", value: 718, ),
+        ( name: "SKILL_SPACT_ASSIMILATE", value: 719, ),
+        ( name: "SKILL_SPACT_OVER_BOOST", value: 720, ),
+        ( name: "SKILL_SPACT_WILD_RELEASE", value: 721, ),
+        ( name: "SKILL_SPACT_GUTS_OF_SNAIL", value: 722, ),
+        ( name: "SKILL_SPACT_DANCE_OF_THE_DEAD", value: 723, ),
+        ( name: "SKILL_SPACT_EXPLOSION_DUST", value: 724, ),
+        ( name: "SKILL_SPACT_HALF_SOUL", value: 725, ),
+        ( name: "SKILL_SPACT_DEATH_BIND", value: 726, ),
+        ( name: "SKILL_SPACT_TORRENTIAL_TRIBUTE", value: 727, ),
+        ( name: "SKILL_SPACT_MIND_BREAK", value: 728, ),
+        ( name: "SKILL_SPACT_HAND_OF_SPLENDOR", value: 729, ),
+        ( name: "SKILL_SPACT_GRAVITON_BUSTER", value: 730, ),
+        ( name: "SKILL_SPACT_MANA_SLASH", value: 731, ),
+        ( name: "SKILL_SPACT_INTENSIVE_POWER", value: 732, ),
+        ( name: "SKILL_SPACT_SPACE_RETENTION", value: 733, ),
+        ( name: "SKILL_SPACT_DISTANT_ATTACK", value: 734, ),
+        ( name: "SKILL_SPACT_SPINNING_THROW", value: 735, ),
+        ( name: "SKILL_SPACT_METAL_GUARD", value: 736, ),
+        ( name: "SKILL_SPACT_THUNDERCLAP_KICK", value: 737, ),
+        ( name: "SKILL_SPACT_STRUCK_OUT", value: 738, ),
+        ( name: "SKILL_SPACT_BEWITCH", value: 739, ),
+        ( name: "SKILL_SPACT_SHADOW_RUSH", value: 740, ),
+        ( name: "SKILL_SPACT_TAG_FORCE", value: 741, ),
+        ( name: "SKILL_SPACT_BODY_BLOW", value: 742, ),
+        ( name: "SKILL_SPACT_NECRO_FORCE", value: 743, ),
+        ( name: "SKILL_SPACT_CLOSE_SUICIDE", value: 744, ),
+        ( name: "SKILL_SPACT_KNOCKOUT", value: 745, ),
+        ( name: "SKILL_SPACT_OVERRAY", value: 746, ),
+        ( name: "SKILL_SPACT_SMASH_GROUND", value: 747, ),
+        ( name: "SKILL_SPACT_VORACITY_FANG", value: 748, ),
+        ( name: "SKILL_SPACT_SHIELD_STRIKE", value: 749, ),
+        ( name: "SKILL_SPACT_GAUGE_RELEASE", value: 750, ),
+        ( name: "SKILL_SPACT_ALCHEMICAL_RAIN", value: 751, ),
+        ( name: "SKILL_SPACT_MULTIPLE_GATHER", value: 752, ),
+        ( name: "SKILL_SPACT_PSYCHIC_WAVE", value: 753, ),
+        ( name: "SKILL_SPACT_READING_PARTY", value: 754, ),
+        ( name: "SKILL_SPACT_OVER_LONG_THROW", value: 755, ),
+        ( name: "SKILL_SPACT_DUPLICANE", value: 756, ),
+        ( name: "SKILL_SPACT_LOCK_BREAK", value: 757, ),
+        ( name: "SKILL_SPACT_MEMORY_POISON", value: 758, ),
+        ( name: "SKILL_SPACT_BLADE_TURBULENCE", value: 759, ),
+        ( name: "SKILL_SPACT_CLASH_RUSH", value: 760, ),
+        ( name: "SKILL_SPACT_DEATH_SONG", value: 761, ),
+        ( name: "SKILL_SPACT_HOMING_LASER", value: 762, ),
+        ( name: "SKILL_SPACT_MP_BREATH", value: 763, ),
+        ( name: "SKILL_SPACT_BOUND_IN_BLOOD", value: 764, ),
+        ( name: "SKILL_SPACT_SILENT_OCEAN", value: 765, ),
+        ( name: "SKILL_SPACT_DIMENSION_FISHING", value: 766, ),
+        ( name: "SKILL_SPACT_FASCINATION_DANCE", value: 767, ),
+        ( name: "SKILL_SPACT_VINDALIAN_JIUJITSU", value: 768, ),
+        ( name: "SKILL_SPACT_BLADE_STRINGS", value: 769, ),
+        ( name: "SKILL_SPACT_DANCING_WIRE", value: 770, ),
+        ( name: "SKILL_SPACT_EYE_OF_STIFFEN", value: 771, ),
+        ( name: "SKILL_SPACT_EYE_OF_ILLUSION", value: 772, ),
+        ( name: "SKILL_SPACT_EXTERMINATION_BREATH", value: 773, ),
+        ( name: "SKILL_SPACT_RESOLUTION_HAND", value: 774, ),
+        ( name: "SKILL_SPACT_MATERIALIZE", value: 775, ),
+        ( name: "SKILL_SPACT_COWERING_SMILE", value: 776, ),
+        ( name: "SKILL_SPACT_SMILE_FIELD", value: 777, ),
+        ( name: "SKILL_SPACT_ABYSS_IN_THE_EYE", value: 778, ),
+        ( name: "SKILL_SPACT_SHIELD_PARRY", value: 779, ),
+        ( name: "SKILL_SPACT_ROCKET_FIRE", value: 780, ),
+        ( name: "SKILL_SPACT_NUCLEAR_FIRE", value: 781, ),
+        ( name: "SKILL_SPACT_GOLDEN_STORM", value: 782, ),
+        ( name: "SKILL_SPACT_GRAVITY_ACCEL", value: 783, ),
+        ( name: "SKILL_SPACT_GIGA_GRAVITATION", value: 784, ),
+        ( name: "SKILL_SPACT_HYPER_DASH", value: 785, ),
+        ( name: "SKILL_SPACT_VIOLENT_GARDEN", value: 786, ),
+        ( name: "SKILL_SPACT_MISTELTEIN", value: 787, ),
+        ( name: "SKILL_SPACT_AROMAGEDDON", value: 788, ),
+        ( name: "SKILL_SPACT_CURTAIN_OF_SMOKE", value: 789, ),
+        ( name: "SKILL_SPACT_SMOKE_MIRROR", value: 790, ),
+        ( name: "SKILL_SPACT_MIRROR", value: 791, ),
+        ( name: "SKILL_SPACT_MELT_CLINCH", value: 792, ),
+        ( name: "SKILL_SPACT_FORMLESS_FETTER", value: 793, ),
+        ( name: "SKILL_SPACT_BLOOD_STREAM", value: 794, ),
+        ( name: "SKILL_SPACT_FLAME_OF_RAGE", value: 795, ),
+        ( name: "SKILL_SPACT_IMPACT_GUNFIRE", value: 796, ),
+        ( name: "SKILL_SPACT_ONE_POINT_SHOOT", value: 797, ),
+        ( name: "SKILL_SPACT_CRITICAL_PARTICLE_CANNON", value: 798, ),
+        ( name: "SKILL_SPACT_HELM_SMASHER", value: 799, ),
+        ( name: "SKILL_SPACT_ARROW_RAIN", value: 800, ),
+        ( name: "SKILL_SPACT_BLAME_PAIN", value: 801, ),
+        ( name: "SKILL_SPACT_WIN", value: 802, ),
+        ( name: "SKILL_SPACT_PURGE", value: 803, ),
+        ( name: "SKILL_SPACT_UNISON_IMPACT", value: 804, ),
+        ( name: "SKILL_SPACT_GROUP_HYPNOSIS", value: 805, ),
+        ( name: "SKILL_SPACT_THREAD_OF_INNERVATION", value: 806, ),
+        ( name: "SKILL_SPACT_MARKING", value: 807, ),
+        ( name: "SKILL_SPACT_GRAND_FINALE", value: 808, ),
+        ( name: "SKILL_SPACT_DATA_DELETE", value: 809, ),
+        ( name: "SKILL_SPACT_DISPATCH_FLYING_BEAST", value: 810, ),
+        ( name: "SKILL_SPACT_KILLING_DANCE", value: 811, ),
+        ( name: "SKILL_SPACT_DECAPITATION2", value: 812, ),
+        ( name: "SKILL_SPACT_ANAPHYLAXIS", value: 813, ),
+        ( name: "SKILL_SPACT_HAZARD_RECIPE", value: 814, ),
+        ( name: "SKILL_SPACT_VENOTRATE", value: 815, ),
+        ( name: "SKILL_SPACT_PERSUASION", value: 816, ),
+        ( name: "SKILL_SPACT_PECULIAR_JOKE", value: 817, ),
+        ( name: "SKILL_SPACT_BLENDED_LIE", value: 818, ),
+        ( name: "SKILL_SPACT_INTIMIDATION", value: 819, ),
+        ( name: "SKILL_SPACT_MYSTERIOUS_SONG", value: 820, ),
+        ( name: "SKILL_SPACT_TUIN_DER_LUSTEN", value: 821, ),
+
+        ( name: "MAX_SKILL", value: 822, code_value: "SKILL_SPACT_TUIN_DER_LUSTEN + 1" ),
+      ]
+    ),
+    "skill_effect": (
+      variables: [
+        (
+          name: "SKILL_EFFECT_MIN",
+          value: 1100,
+          code_value: "STARTING_SKILL_SPACT + MAX_SPACT_COUNT"
+        ),
+
+        (
+          name: "SKILL_EFFECT_POTION_MILK",
+          value: 1101,
+          code_value: "SKILL_EFFECT_MIN + 1"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_ALE",
+          value: 1102,
+          code_value: "SKILL_EFFECT_MIN + 2"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_WATER",
+          value: 1103,
+          code_value: "SKILL_EFFECT_MIN + 3"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SPELL",
+          value: 1104,
+          code_value: "SKILL_EFFECT_MIN + 4"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SKILL",
+          value: 1105,
+          code_value: "SKILL_EFFECT_MIN + 5"
+        ),
+        (
+          name: "SKILL_EFFECT_DECREASE_STAT",
+          value: 1106,
+          code_value: "SKILL_EFFECT_MIN + 6"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_FAITH",
+          value: 1107,
+          code_value: "SKILL_EFFECT_MIN + 7"
+        ),
+        (
+          name: "SKILL_EFFECT_POISON",
+          value: 1108,
+          code_value: "SKILL_EFFECT_MIN + 8"
+        ),
+        (
+          name: "SKILL_EFFECT_CONFUSE",
+          value: 1109,
+          code_value: "SKILL_EFFECT_MIN + 9"
+        ),
+        (
+          name: "SKILL_EFFECT_PARALYZE",
+          value: 1110,
+          code_value: "SKILL_EFFECT_MIN + 10"
+        ),
+        (
+          name: "SKILL_EFFECT_BLIND",
+          value: 1111,
+          code_value: "SKILL_EFFECT_MIN + 11"
+        ),
+        (
+          name: "SKILL_EFFECT_SLEEP",
+          value: 1112,
+          code_value: "SKILL_EFFECT_MIN + 12"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_POTENTIAL",
+          value: 1113,
+          code_value: "SKILL_EFFECT_MIN + 13"
+        ),
+        (
+          name: "SKILL_EFFECT_CURSE",
+          value: 1114,
+          code_value: "SKILL_EFFECT_MIN + 14"
+        ),
+        (
+          name: "SKILL_EFFECT_CREATE_BUILDING",
+          value: 1115,
+          code_value: "SKILL_EFFECT_MIN + 15"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SULFURIC",
+          value: 1116,
+          code_value: "SKILL_EFFECT_MIN + 16"
+        ),
+        (
+          name: "SKILL_EFFECT_CREATE_MATERIAL",
+          value: 1117,
+          code_value: "SKILL_EFFECT_MIN + 17"
+        ),
+        (
+          name: "SKILL_EFFECT_DECREASE_RESIST",
+          value: 1118,
+          code_value: "SKILL_EFFECT_MIN + 18"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_GROWTH",
+          value: 1119,
+          code_value: "SKILL_EFFECT_MIN + 19"
+        ),
+        (
+          name: "SKILL_EFFECT_ELIXER",
+          value: 1120,
+          code_value: "SKILL_EFFECT_MIN + 20"
+        ),
+        (
+          name: "SKILL_EFFECT_LOSE_MUTATION",
+          value: 1121,
+          code_value: "SKILL_EFFECT_MIN + 21"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_ALLY",
+          value: 1122,
+          code_value: "SKILL_EFFECT_MIN + 22"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SISTER",
+          value: 1123,
+          code_value: "SKILL_EFFECT_MIN + 23"
+        ),
+        (
+          name: "SKILL_EFFECT_ENCHANT_WEAPON",
+          value: 1124,
+          code_value: "SKILL_EFFECT_MIN + 24"
+        ),
+        (
+          name: "SKILL_EFFECT_ENCHANT_ARMOR",
+          value: 1125,
+          code_value: "SKILL_EFFECT_MIN + 25"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_SPEED_2",
+          value: 1126,
+          code_value: "SKILL_EFFECT_MIN + 26"
+        ),
+        (
+          name: "SKILL_EFFECT_CHANGE_MATERIAL",
+          value: 1127,
+          code_value: "SKILL_EFFECT_MIN + 27"
+        ),
+        (
+          name: "SKILL_EFFECT_HEIR_DEED",
+          value: 1128,
+          code_value: "SKILL_EFFECT_MIN + 28"
+        ),
+        (
+          name: "SKILL_EFFECT_RECHARGE",
+          value: 1129,
+          code_value: "SKILL_EFFECT_MIN + 29"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_DIRTY_WATER",
+          value: 1130,
+          code_value: "SKILL_EFFECT_MIN + 30"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_CURE_CORRUPTION",
+          value: 1131,
+          code_value: "SKILL_EFFECT_MIN + 31"
+        ),
+        (
+          name: "SKILL_EFFECT_CHANGE_ITEM",
+          value: 1132,
+          code_value: "SKILL_EFFECT_MIN + 32"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_MOLOTOV",
+          value: 1133,
+          code_value: "SKILL_EFFECT_MIN + 33"
+        ),
+
+        (
+          name: "SKILL_EFFECT_POTION_LOVE",
+          value: 1135,
+          code_value: "SKILL_EFFECT_MIN + 35"
+        ),
+        (
+          name: "SKILL_EFFECT_TREASURE_MAP",
+          value: 1136,
+          code_value: "SKILL_EFFECT_MIN + 36"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_GIRL",
+          value: 1137,
+          code_value: "SKILL_EFFECT_MIN + 37"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_CAT_SISTER",
+          value: 1138,
+          code_value: "SKILL_EFFECT_MIN + 38"
+        ),
+
+        (
+          name: "SKILL_EFFECT_GAIN_SPEED", // Plus Custom-G
+          value: 1139,
+          code_value: "SKILL_EFFECT_MIN + 39"
+        ),
+
+        (
+          name: "SKILL_EFFECT_DECREASE_WEIGHT",
+          value: 1140,
+          code_value: "SKILL_EFFECT_MIN + 40"
+        ),
+        (
+          name: "SKILL_EFFECT_ESCAPE",
+          value: 1141,
+          code_value: "SKILL_EFFECT_MIN + 41"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SALT",
+          value: 1142,
+          code_value: "SKILL_EFFECT_MIN + 42"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_DESCENT",
+          value: 1143,
+          code_value: "SKILL_EFFECT_MIN + 43"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_EVOLUTION",
+          value: 1144,
+          code_value: "SKILL_EFFECT_MIN + 44"
+        ),
+        (
+          name: "SKILL_EFFECT_RENAME_ITEM",
+          value: 1145,
+          code_value: "SKILL_EFFECT_MIN + 45"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SODA",
+          value: 1146,
+          code_value: "SKILL_EFFECT_MIN + 46"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_CAPSULE",
+          value: 1147,
+          code_value: "SKILL_EFFECT_MIN + 47"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_OLDER_SISTER",
+          value: 1148,
+          code_value: "SKILL_EFFECT_MIN + 48"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_DOG_SISTER",
+          value: 1149,
+          code_value: "SKILL_EFFECT_MIN + 49"
+        ),
+        (
+          name: "SKILL_EFFECT_VERNIS_ORIGINAL",
+          value: 1150,
+          code_value: "SKILL_EFFECT_MIN + 50"
+        ),
+
+        (
+          name: "SKILL_EFFECT_MUTATE",
+          value: 1152,
+          code_value: "SKILL_EFFECT_MIN + 52"
+        ),
+        (
+          name: "SKILL_EFFECT_GAIN_WRANGWRANG",
+          value: 1153,
+          code_value: "SKILL_EFFECT_MIN + 53"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_AQUA_SANCTIO",
+          value: 1154,
+          code_value: "SKILL_EFFECT_MIN + 54"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_DISASTER",
+          value: 1155,
+          code_value: "SKILL_EFFECT_MIN + 55"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_NEKTAR",
+          value: 1156,
+          code_value: "SKILL_EFFECT_MIN + 56"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_SOMA",
+          value: 1157,
+          code_value: "SKILL_EFFECT_MIN + 57"
+        ),
+        (
+          name: "SKILL_EFFECT_MYSTERIOUS_DIARY",
+          value: 1158,
+          code_value: "SKILL_EFFECT_MIN + 58"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_COFFEE",
+          value: 1159,
+          code_value: "SKILL_EFFECT_MIN + 59"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_JUICE",
+          value: 1160,
+          code_value: "SKILL_EFFECT_MIN + 60"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_KNEADED_SWEETS",
+          value: 1161,
+          code_value: "SKILL_EFFECT_MIN + 61"
+        ),
+        (
+          name: "SKILL_EFFECT_CONTINENT_MAP",
+          value: 1162,
+          code_value: "SKILL_EFFECT_MIN + 62"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_ESSENTIAL_OIL",
+          value: 1163,
+          code_value: "SKILL_EFFECT_MIN + 63"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_GASOLINE",
+          value: 1164,
+          code_value: "SKILL_EFFECT_MIN + 64"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_GREEN_TEA",
+          value: 1165,
+          code_value: "SKILL_EFFECT_MIN + 65"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_BLACK_TEA",
+          value: 1166,
+          code_value: "SKILL_EFFECT_MIN + 66"
+        ),
+        (
+          name: "SKILL_EFFECT_POTION_WISDOM",
+          value: 1167,
+          code_value: "SKILL_EFFECT_MIN + 67"
+        ),
+        (
+          name: "SKILL_EFFECT_BUTLERS_DIARY",
+          value: 1168,
+          code_value: "SKILL_EFFECT_MIN + 68"
+        ),
+        (
+          name: "SKILL_EFFECT_BARLEY_TEA",
+          value: 1169,
+          code_value: "SKILL_EFFECT_MIN + 69"
+        ),
+        (
+          name: "SKILL_EFFECT_COLA",
+          value: 1170,
+          code_value: "SKILL_EFFECT_MIN + 70"
+        ),
+        (
+          name: "SKILL_EFFECT_DISINFECTANT",
+          value: 1171,
+          code_value: "SKILL_EFFECT_MIN + 71"
+        ),
+      ]
+    ),
   },
 
-  arrays: {},
+  arrays: {
+    "sdataref": (
+      indices: [
+        (
+          macro: (
+            index: 0,
+            group: "skill_dataref",
+          )
+        )
+      ]
+    ),
+  },
 
   expressions: {},
 

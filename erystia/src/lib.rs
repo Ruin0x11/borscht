@@ -136,6 +136,10 @@ struct VariableDefinition {
     /// integer. (`27`)
     value: ron::Value,
 
+    /// Macro name. If present, converts the parent expression to use macro syntax.
+    #[serde(default)]
+    r#macro: Option<String>,
+
     /// Source code to output when writing the definition of the variable to a
     /// file.
     ///
@@ -308,7 +312,16 @@ struct ArrayDefinition {
 struct ArrayIndex {
     #[serde(default)]
     rules: ArrayRules,
-    substitute: ArraySubstitutes
+    #[serde(default)]
+    substitute: ArraySubstitutes,
+    #[serde(default)]
+    r#macro: Option<ArrayMacro>
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ArrayMacro {
+    index: usize,
+    group: String
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -938,7 +951,6 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                         _ => ()
                     },
                     None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", group_name))
-
                 }
             },
             Substitute::GroupRecursive(group_name, condition) => {
@@ -1033,6 +1045,62 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                     self.substitute_array_index(exp, subst);
                 }
             }
+        }
+    }
+
+    fn apply_array_macro(&mut self, node: &mut ast::VariableNode, mac: &ArrayMacro) {
+        match self.config.variable_groups.get(&mac.group) {
+            Some(group) => {
+                if let Some(ref mut arg) = &mut node.arg {
+                    if let ast::AstNodeKind::Argument(ref mut arg) = arg.kind {
+                        let exp = &arg.exps[mac.index];
+
+                        match &exp.kind {
+                            ast::AstNodeKind::Literal(lit) => match &lit {
+                                ast::LiteralNode::Integer(i) => {
+                                    let mut found: Option<&VariableDefinition> = None;
+                                    for var in group.iter_resolved_variables() {
+                                        if let ron::Value::Number(ron::value::Number::Integer(j)) = var.value {
+                                            if *i == j as i32 {
+                                                found = Some(var);
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if let Some(var) = found {
+                                        if let Some(name) = var.r#macro.as_ref() {
+                                            node.ident.kind = PrimitiveTokenKind::GlobalVariable(name.clone());
+                                            arg.exps.remove(mac.index);
+                                        }
+                                    }
+                                }
+                                _ => ()
+                            },
+                            _ => ()
+                        }
+                        // let variable_name = match node.ident.kind {
+                        //     PrimitiveTokenKind::GlobalVariable(ref name) => name.clone(),
+                        //     PrimitiveTokenKind::Parameter(ref param) => self.hsp3as.param_names.get(&param).asunwrap().to_string(),
+                        //     _ => unreachable!()
+                        // };
+                        // if let Some(array_def) = &self.config.arrays.get(&variable_name) {
+                        //     for index in array_def.indices.iter() {
+                        //         if self.array_index_matches(arg, &index.rules) {
+                        //             match &index.r#macro {
+                        //                 Some(m) => {
+                        //                     mac = Some(m.clone());
+                        //                     break;
+                        //                 },
+                        //                 None => self.substitute_array_indices(arg, &index.substitute)
+                        //             }
+                        //         }
+                        //     }
+                        // }
+                    }
+                }
+            },
+            None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", &mac.group))
         }
     }
 
@@ -1168,6 +1236,8 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
 
 impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
     fn visit_variable(&mut self, mut node: ast::VariableNode) -> ast::VariableNode {
+        let mut mac: Option<ArrayMacro> = None;
+
         if let Some(ref mut arg) = &mut node.arg {
             if let ast::AstNodeKind::Argument(ref mut arg) = arg.kind {
                 let variable_name = match node.ident.kind {
@@ -1178,11 +1248,21 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                 if let Some(array_def) = &self.config.arrays.get(&variable_name) {
                     for index in array_def.indices.iter() {
                         if self.array_index_matches(arg, &index.rules) {
-                            self.substitute_array_indices(arg, &index.substitute);
+                            match &index.r#macro {
+                                Some(m) => {
+                                    mac = Some(m.clone());
+                                    break;
+                                },
+                                None => self.substitute_array_indices(arg, &index.substitute)
+                            }
                         }
                     }
                 }
             }
+        }
+
+        if let Some(m) = mac {
+            self.apply_array_macro(&mut node, &m);
         }
 
         node
