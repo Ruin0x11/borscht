@@ -381,10 +381,8 @@ fn rename_functions<'a>(file: &Ax3File<'a>) -> (HashMap<Ax3Function, String>, Ha
     }
 
     for (i, func) in file.functions.iter().enumerate() {
-        println!("f {} {:?}", i, func.get_type());
         match func.get_type() {
             Ax3FunctionType::CFunc | Ax3FunctionType::Func => {
-                println!("FUNC {} {:?}", i, func.get_type());
                 dll_funcs.push((func, i))
             },
             Ax3FunctionType::ComFunc => {

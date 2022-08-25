@@ -103,41 +103,6 @@ AnalysisConfig(
         ( name: "BUFF_GROW_MAGIC", value: 26 ),
         ( name: "BUFF_GROW_CHARISMA", value: 27 ),
         ( name: "BUFF_GROW_SPEED", value: 28 ),
-        // ( name: "BUFF_CLEAR_MIND", value: 29 ),
-        // ( name: "BUFF_SUPER_REGEN", value: 30 ),
-        // ( name: "BUFF_FEATHER", value: 31 ),
-        // ( name: "BUFF_CHARGE", value: 32 ),
-        // ( name: "BUFF_EMERGENCY_EVASION", value: 33 ),
-        // ( name: "BUFF_MAGIC_EQUIP", value: 34 ),
-        // ( name: "BUFF_SUPER_ARMOR", value: 35 ),
-        // ( name: "BUFF_ATTRIBUTE", value: 36 ),
-        // ( name: "BUFF_AUTO_GUARD", value: 37 ),
-        // ( name: "BUFF_QUICK_USE", value: 38 ),
-        // ( name: "BUFF_UNLUCKY", value: 39 ),
-        // ( name: "BUFF_RUN_WILDLY", value: 40 ),
-        // ( name: "BUFF_RETENTION", value: 41 ),
-        // ( name: "BUFF_TAG_FORCE", value: 42 ),
-        // ( name: "BUFF_CONCENTRATION", value: 43 ),
-        // ( name: "BUFF_FORM_SHIFT_ALPHA", value: 44 ),
-        // ( name: "BUFF_FORM_SHIFT_BETA", value: 45 ),
-        // ( name: "BUFF_FORM_SHIFT_GAMMA", value: 46 ),
-        // ( name: "BUFF_FORM_SHIFT_DELTA", value: 47 ),
-        // ( name: "BUFF_FORM_SHIFT_OMEGA", value: 48 ),
-        // ( name: "BUFF_RESOLUTION_HAND", value: 49 ),
-        // ( name: "BUFF_ABYSS_IN_THE_EYE", value: 50 ),
-        // ( name: "BUFF_SHIELD_PARRY", value: 51 ),
-        // ( name: "BUFF_GRAVITY_ACCEL", value: 52 ),
-        // ( name: "BUFF_HYPER_DASH", value: 53 ),
-        // ( name: "BUFF_BLACK_MIRROR", value: 54 ),
-        // ( name: "BUFF_GEM_POWER", value: 55 ),
-        // ( name: "BUFF_DISTRACTED", value: 56 ),
-        // ( name: "BUFF_MELANCHOLY", value: 57 ),
-        // ( name: "BUFF_KILLING_DANCE", value: 58 ),
-        // ( name: "BUFF_SHOOTING_MODE", value: 59 ),
-        // ( name: "BUFF_DISINFECTION", value: 60 ),
-        // ( name: "BUFF_CURSE_OF_HUNGER", value: 61 ),
-
-        // ( name: "MAX_BUFF", value: 62, code_value: "BUFF_CURSE_OF_HUNGER + 1" ),
         ( name: "MAX_BUFF", value: 28, code_value: "BUFF_GROW_SPEED + 1" ),
       ]
     ),
@@ -189,8 +154,6 @@ AnalysisConfig(
         ( name: "MEF_TYPE_FIRE", value: 5 ),
         ( name: "MEF_TYPE_POTION", value: 6 ),
         ( name: "MEF_TYPE_NUKE", value: 7 ),
-        ( name: "MEF_TYPE_MIST_OF_DAZZLING", value: 8 ),
-        ( name: "MEF_TYPE_KEMURIDAMA", value: 9 ),
       ]
     ),
     "cell_feature": (
@@ -276,9 +239,8 @@ AnalysisConfig(
         ( name: "LIGHT_TYPE_WINDOW", value: 17 ),
         ( name: "LIGHT_TYPE_GATE", value: 18 ),
         ( name: "LIGHT_TYPE_WINDOW_RED", value: 19 ),
-        ( name: "LIGHT_TYPE_SAKURA", value: 20 ),
 
-        ( name: "MAX_LIGHT_TYPE", value: 21, code_value: "LIGHT_TYPE_SAKURA + 1" ),
+        ( name: "MAX_LIGHT_TYPE", value: 20, code_value: "LIGHT_TYPE_WINDOW_RED + 1" ),
       ]
     ),
     "inv": (
@@ -325,10 +287,6 @@ AnalysisConfig(
         ( name: "INV_ITEM_FISHING_BAIT", value: 28 ),
         ( name: "INV_ITEM_IDENTIFY_LEVEL", value: 29 ),
         ( name: "INV_ITEM_TURN", value: 30 ),
-        ( name: "INV_ITEM_AMUR_CAGE", value: 31 ),
-        ( name: "INV_ITEM_SHOP_SAMPLE", value: 32 ),
-        ( name: "INV_ITEM_NEED_SLEEP", value: 33 ),
-        ( name: "INV_ITEM_CHARA_PIC", value: 34 ),
         ( name: "STARTING_INV_ITEM_BIT", value: 35 ),
         ( name: "RANGE_INV_ITEM_BIT", value: 5, exclude: true ),
 
@@ -734,45 +692,7 @@ AnalysisConfig(
         ( name: "DBMODE_FLAVOR_DEATH", value: 102 ),
         ( name: "DBMODE_FLAVOR_KILL", value: 103 ),
         ( name: "DBMODE_FLAVOR_WELCOME", value: 104 ),
-
         ( name: "DBMODE_FLAVOR_DIALOG", value: 106 ),
-        // ( name: "DBMODE_FLAVOR_NIGHT", value: 107 ),
-        // ( name: "DBMODE_FLAVOR_INSULT", value: 108 ),
-        // ( name: "DBMODE_FLAVOR_KISS", value: 109 ),
-        // ( name: "DBMODE_FLAVOR_CHOCO", value: 110 ),
-        // ( name: "DBMODE_FLAVOR_DISCIPLINE", value: 111 ),
-        // ( name: "DBMODE_FLAVOR_DISCIPLINE_OFF", value: 112 ),
-        // ( name: "DBMODE_FLAVOR_DISCIPLINE_EAT", value: 113 ),
-        // ( name: "DBMODE_FLAVOR_CHARGE", value: 114 ),
-        // ( name: "DBMODE_FLAVOR_KIZUNA", value: 115 ),
-        // ( name: "DBMODE_FLAVOR_CHARGE_S", value: 116 ),
-        // ( name: "DBMODE_FLAVOR_CHARGE_A", value: 117 ),
-        // ( name: "DBMODE_FLAVOR_NADE", value: 118 ),
-        // ( name: "DBMODE_FLAVOR_SPECIAL", value: 119 ),
-        // ( name: "DBMODE_FLAVOR_HUG", value: 120 ),
-        // ( name: "DBMODE_FLAVOR_MIDNIGHT", value: 121 ),
-        // ( name: "DBMODE_FLAVOR_DISCIPLINE2", value: 122 ),
-        // ( name: "DBMODE_FLAVOR_INSULT2", value: 123 ),
-        // ( name: "DBMODE_FLAVOR_RIDE_OFF", value: 124 ),
-        // ( name: "DBMODE_FLAVOR_RIDE_OFF_PC", value: 125 ),
-        // ( name: "DBMODE_FLAVOR_RIDE_ON", value: 126 ),
-        // ( name: "DBMODE_FLAVOR_RIDE_ON_PC", value: 127 ),
-        // ( name: "DBMODE_FLAVOR_FAWN_ON", value: 128 ),
-        // ( name: "DBMODE_FLAVOR_LIMIT", value: 129 ),
-        // ( name: "DBMODE_FLAVOR_BREAKFAST", value: 130 ),
-        // ( name: "DBMODE_FLAVOR_MATERIAL", value: 131 ),
-        // ( name: "DBMODE_FLAVOR_MULTIPLE", value: 132 ),
-        // ( name: "DBMODE_FLAVOR_DRAIN", value: 133 ),
-        // ( name: "DBMODE_FLAVOR_CREATE", value: 134 ),
-        // ( name: "DBMODE_FLAVOR_EX_ACT", value: 135 ),
-        // ( name: "DBMODE_FLAVOR_EX_REACT", value: 136 ),
-        // ( name: "DBMODE_FLAVOR_DIALOG_B", value: 137 ),
-        // ( name: "DBMODE_FLAVOR_DIALOG_E", value: 138 ),
-        // ( name: "DBMODE_FLAVOR_DIALOG_F", value: 139 ),
-        // ( name: "DBMODE_FLAVOR_DIALOG_H", value: 140 ),
-        // ( name: "DBMODE_FLAVOR_MEAL", value: 141 ),
-        // ( name: "DBMODE_FLAVOR_SHIFT", value: 142 ),
-        // ( name: "DBMODE_FLAVOR_BTALK", value: 143 ),
       ]
     ),
     "dbspec": (
@@ -884,21 +804,6 @@ AnalysisConfig(
         ( name: "ENCHANT_SHOW_RELIGION", value: 59 ),
         ( name: "ENCHANT_DRUNK_LISTENER", value: 60 ),
         ( name: "ENCHANT_GOD_BANE", value: 61 ),
-        // ( name: "ENCHANT_REFLECT_MAGIC", value: 62 ),
-        // ( name: "ENCHANT_REMOTE_BLOW", value: 63 ),
-        // ( name: "ENCHANT_DEC_ENEMY_CRIT_CHANCE", value: 64 ),
-        // ( name: "ENCHANT_SHOOTING_MECHANISM", value: 65 ),
-        // ( name: "ENCHANT_PROXIMITY_ASSIST", value: 66 ),
-        // ( name: "ENCHANT_MANA_TO_ATTACK", value: 67 ),
-        // ( name: "ENCHANT_ENHANCE_BREATH", value: 68 ),
-        // ( name: "ENCHANT_ROCK_THROWING", value: 69 ),
-        // ( name: "ENCHANT_QUICK_SHOOTING", value: 70 ),
-        // ( name: "ENCHANT_CHARGING", value: 71 ),
-        // ( name: "ENCHANT_SUCK_MP", value: 72 ),
-        // ( name: "ENCHANT_FIRE_AND_COLD", value: 73 ),
-        // ( name: "ENCHANT_MIND_AND_SOUND", value: 74 ),
-        // ( name: "ENCHANT_POISON_AND_NERVE", value: 75 ),
-        // ( name: "ENCHANT_BANE_FLYING", value: 76 ),
 
         ( name: "MAX_ENCHANTMENT", value: 62, code_value: "ENCHANT_GOD_BANE + 1" ),
       ]
@@ -1090,28 +995,6 @@ AnalysisConfig(
     "recipe_blend": (
       variables: [
         ( name: "STARTING_RECIPE_BLEND_ACTION", value: 10000 ),
-
-        // ( name: "RECIPE_BLEND_ACTION_HERBED_FOOD", value: 10000, code_value: "STARTING_RECIPE_BLEND_ACTION" ),
-        // ( name: "RECIPE_BLEND_ACTION_ANOTHER_HEART", value: 10001 ),
-        // ( name: "RECIPE_BLEND_ACTION_COFFIN", value: 10002 ),
-        // ( name: "RECIPE_BLEND_ACTION_FIRE_FROOF", value: 10003 ),
-        // ( name: "RECIPE_BLEND_ACTION_ACID_PROOF", value: 10004 ),
-        // ( name: "RECIPE_BLEND_ACTION_BAIT", value: 10005 ),
-        // ( name: "RECIPE_BLEND_ACTION_BLESS", value: 10006 ),
-        // ( name: "RECIPE_BLEND_ACTION_WELL", value: 10007 ),
-        // ( name: "RECIPE_BLEND_ACTION_WELL_DRAW", value: 10008 ),
-        // ( name: "RECIPE_BLEND_ACTION_UNUSED", value: 10009 ),
-        // ( name: "RECIPE_BLEND_ACTION_INSTANT_ALE", value: 10010 ),
-        // ( name: "RECIPE_BLEND_ACTION_WOODCRAFT", value: 10011 ),
-        // ( name: "RECIPE_BLEND_ACTION_STONECRAFT", value: 10012 ),
-        // ( name: "RECIPE_BLEND_ACTION_NECRO_REMODEL", value: 10013 ),
-        // ( name: "RECIPE_BLEND_ACTION_SOFT_EQUIP_UPDATE", value: 10014 ),
-        // ( name: "RECIPE_BLEND_ACTION_HARD_EQUIP_UPDATE", value: 10015 ),
-        // ( name: "RECIPE_BLEND_ACTION_SHARP_EQUIP_UPDATE", value: 10016 ),
-        // ( name: "RECIPE_BLEND_ACTION_MEAT_FILLING", value: 10020 ),
-        // ( name: "RECIPE_BLEND_ACTION_BARREL_BOMB", value: 10021 ),
-        // ( name: "RECIPE_BLEND_ACTION_POTTERY", value: 10022 ),
-        // ( name: "RECIPE_BLEND_ACTION_BIOLOGICAL_RESTORATION", value: 10023 ),
       ]
     ),
     "item_or_recipe_blend_id": (
@@ -1443,31 +1326,6 @@ AnalysisConfig(
         ( name: "ANIMATION_GENE", value: 20 ),
         ( name: "ANIMATION_RAGNA", value: 21 ),
         ( name: "ANIMATION_METEOR", value: 22 ),
-        // ( name: "ANIMATION_THUNDERCLAP", value: 23 ),
-        // ( name: "ANIMATION_MP_BREATH", value: 24 ),
-        // ( name: "ANIMATION_NUCLEAR", value: 25 ),
-        // ( name: "ANIMATION_GIGA", value: 26 ),
-        // ( name: "ANIMATION_STARS", value: 28 ),
-        // ( name: "ANIMATION_FIREWORK", value: 29 ),
-        // ( name: "ANIMATION_GOLDENSTORM", value: 30 ),
-        // ( name: "ANIMATION_GARDEN", value: 31 ),
-        // ( name: "ANIMATION_AROMAGEDDON", value: 32 ),
-        // ( name: "ANIMATION_ARROW_RAIN", value: 33 ),
-        // ( name: "ANIMATION_PARTICLE_CANNON", value: 34 ),
-        // ( name: "ANIMATION_GAMEWIN3", value: 35 ),
-        // ( name: "ANIMATION_CHAOS_CHILD", value: 36 ),
-        // ( name: "ANIMATION_INNERVATION", value: 37 ),
-        // ( name: "ANIMATION_DISTANT_ATK", value: 38 ),
-        // ( name: "ANIMATION_UNISON_IMPACT1", value: 39 ),
-        // ( name: "ANIMATION_UNISON_IMPACT2", value: 40 ),
-        // ( name: "ANIMATION_UNISON_IMPACT3", value: 41 ),
-        // ( name: "ANIMATION_UNISON_IMPACT4", value: 42 ),
-        // ( name: "ANIMATION_SOLIDIFIED_VENOM", value: 43 ),
-
-        // ( name: "ANIMATION_UNUSED1", value: 108 ),
-        // ( name: "ANIMATION_UNUSED2", value: 109 ),
-        // ( name: "ANIMATION_UNUSED3", value: 110 ),
-        // ( name: "ANIMATION_UNUSED4", value: 111 ),
       ]
     ),
     "mode": (
@@ -1523,13 +1381,6 @@ AnalysisConfig(
         ( name: "RANDOM_EVENT_DREAM_MUTATION", value: 22 ),
         ( name: "RANDOM_EVENT_DREAM_MATERIAL", value: 23 ),
         ( name: "RANDOM_EVENT_DREAM_POTENTIAL", value: 24 ),
-        // ( name: "RANDOM_EVENT_SLEEP_SHARING", value: 25 ),
-        // ( name: "RANDOM_EVENT_FORCED_SLEEP_SHARING", value: 26 ),
-        // ( name: "RANDOM_EVENT_BREAKFAST", value: 27 ),
-        // ( name: "RANDOM_EVENT_WEREWOLF", value: 28 ),
-        // ( name: "RANDOM_EVENT_HANDMADE_GIFT", value: 29 ),
-        // ( name: "RANDOM_EVENT_HANDKNITTED_GIFT", value: 30 ),
-        // ( name: "RANDOM_EVENT_WEREWOLF_EXECUTION", value: 31 ),
       ]
     ),
     "event": (
@@ -1562,60 +1413,6 @@ AnalysisConfig(
         ( name: "EVENT_VISITOR", value: 25 ),
         ( name: "EVENT_SLEEP_AMBUSH", value: 26 ),
         ( name: "EVENT_LITTLE_SISTER", value: 27 ),
-        // ( name: "EVENT_GOD_INSIDE_LULWY", value: 28 ),
-        // ( name: "EVENT_GOD_INSIDE_EHEKATL", value: 29 ),
-        // ( name: "EVENT_GOD_INSIDE_OPATOS", value: 30 ),
-        // ( name: "EVENT_GOD_INSIDE_KUMIROMI", value: 31 ),
-        // ( name: "EVENT_GOD_INSIDE_MANI", value: 32 ),
-        // ( name: "EVENT_GOD_INSIDE_JURE", value: 33 ),
-        // ( name: "EVENT_VOID", value: 34 ),
-        // ( name: "EVENT_NORTH_BORDER", value: 35 ),
-        // ( name: "EVENT_WIN_REMIDO", value: 36 ),
-        // ( name: "EVENT_H_SISTER", value: 37 ),
-        // ( name: "EVENT_SECRET_CHAR", value: 38 ),
-        // ( name: "EVENT_ORPHE", value: 39 ),
-        // ( name: "EVENT_MESHERA_ALPHA", value: 40 ),
-        // ( name: "EVENT_GOD_INSIDE_ITZPALT", value: 41 ),
-        // ( name: "EVENT_GOD_INSIDE_YACATECT", value: 42 ),
-        // ( name: "EVENT_KUNOICHI", value: 43 ),
-        // ( name: "EVENT_SPAWN_EVENT_NPCS", value: 44 ),
-        // ( name: "EVENT_JOIN_ISCA", value: 45 ),
-        // ( name: "EVENT_JOIN_LITYOU", value: 46 ),
-        // ( name: "EVENT_JOIN_MUDER_KNIGHT", value: 47 ),
-        // ( name: "EVENT_JOIN_WING_SNAIL", value: 48 ),
-        // ( name: "EVENT_JOIN_PASCAL", value: 49 ),
-        // ( name: "EVENT_FESTIVAL_MUSIC", value: 50 ),
-        // ( name: "EVENT_MOBILE_COMM_EQUIP", value: 51 ),
-        // ( name: "EVENT_JOIN_GODA", value: 52 ),
-        // ( name: "EVENT_JOIN_MAD_SCIENTIST", value: 53 ),
-        // ( name: "EVENT_JOIN_DUNGEON_CLEANER", value: 54 ),
-        // ( name: "EVENT_MESHERA_PLANT", value: 55 ),
-        // ( name: "EVENT_BOSS_MUSIC", value: 56 ),
-        // ( name: "EVENT_NORNE", value: 57 ),
-        // ( name: "EVENT_MELUGAST", value: 58 ),
-        // ( name: "EVENT_COFFIN", value: 59 ),
-        // ( name: "EVENT_CHESTNUT_GIANT", value: 60 ),
-        // ( name: "EVENT_NEFIA_EFFECT", value: 61 ),
-        // ( name: "EVENT_MARKA", value: 62 ),
-        // ( name: "EVENT_SOUTH_TYRIS", value: 63 ),
-        // ( name: "EVENT_ERYSTIA", value: 64 ),
-        // ( name: "EVENT_SPECIAL_SPAWN_COND", value: 65 ),
-        // ( name: "EVENT_LANKATA", value: 66 ),
-        // ( name: "EVENT_AIKAGE", value: 67 ),
-        // ( name: "EVENT_SQUEEZE", value: 68 ),
-        // ( name: "EVENT_BIRTHDAY", value: 69 ),
-        // ( name: "EVENT_SEMINAR", value: 70 ),
-        // ( name: "EVENT_TEZCATLIPOCA", value: 71 ),
-        // ( name: "EVENT_TEZCATLIPOCA_ADDS", value: 72 ),
-        // ( name: "EVENT_TEZCATLIPOCA2", value: 73 ),
-        // ( name: "EVENT_ENTHUMESIS", value: 74 ),
-        // ( name: "EVENT_ENTHUMESIS2", value: 75 ),
-        // ( name: "EVENT_TEZCATLIPOCA_ADDS2", value: 76 ),
-        // ( name: "EVENT_LESIMAS", value: 77 ),
-        // ( name: "EVENT_NAGAREW", value: 78 ),
-        // ( name: "EVENT_JOIN_SUNRISE", value: 79 ),
-        // ( name: "EVENT_KARAVIKA_MUSIC", value: 80 ),
-        // ( name: "EVENT_KARAVIKA_SETUP_MAP", value: 81 ),
       ]
     ),
     "map_type": (
@@ -1629,18 +1426,14 @@ AnalysisConfig(
         ( name: "MAP_TYPE_QUEST", value: 7 ),
 
         ( name: "MAP_TYPE_DUNGEON_MIN", value: 20 ),
-        ( name: "MAP_TYPE_DUNGEON_RANGE", value: 8 ),
+        ( name: "MAP_TYPE_DUNGEON_RANGE", value: 4 ),
 
         ( name: "MAP_TYPE_DUNGEON", value: 20 ),
         ( name: "MAP_TYPE_TOWER", value: 21 ),
         ( name: "MAP_TYPE_FOREST", value: 22 ),
         ( name: "MAP_TYPE_FORT", value: 23 ),
-        ( name: "MAP_TYPE_NEST", value: 24 ),
-        ( name: "MAP_TYPE_CEMETERY", value: 25 ),
-        ( name: "MAP_TYPE_MINE", value: 26 ),
-        ( name: "MAP_TYPE_LAKE", value: 27 ),
 
-        ( name: "MAP_TYPE_DUNGEON_MAX", value: 27 ),
+        ( name: "MAP_TYPE_DUNGEON_MAX", value: 23, code_value: "MAP_TYPE_DUNGEON_MIN + MAP_TYPE_DUNGEON_RANGE" ),
       ]
     ),
     "map_field": (
@@ -1726,18 +1519,6 @@ AnalysisConfig(
         ( name: "MDATA_VERSION", value: 19 ),
         ( name: "MDATA_FIRE_SOUND", value: 20 ),
         ( name: "MDATA_VERSION_FIX1", value: 21 ),
-        // ( name: "MDATA_CITY_PROPERTY_VALUE", value: 22 ),
-        // ( name: "MDATA_CITY_DEAD_PEOPLE", value: 23 ),
-        // ( name: "MDATA_CITY_WATER_POLLUTION", value: 24 ),
-        // ( name: "MDATA_CITY_TOURISM_REVENUE", value: 25 ),
-        // ( name: "MDATA_CITY_AUTHORITY", value: 26 ),
-        // ( name: "MDATA_CITY_APPROVAL_RATE", value: 27 ),
-        // ( name: "MDATA_CITY_ETHER_CORRUPTION", value: 28 ),
-        // ( name: "MDATA_CITY_COMPLAINTS", value: 29 ),
-        // ( name: "MDATA_CITY_MAINTENANCE_COST", value: 30 ),
-        // ( name: "MDATA_CITY_TAXES", value: 31 ),
-        // ( name: "MDATA_CITY_BUDGET", value: 32 ),
-        // ( name: "MDATA_WEREWOLF_STAGE", value: 33 ),
       ]
     ),
     "mdatan": (
@@ -1785,16 +1566,6 @@ AnalysisConfig(
         ( name: "MAP_TILESET_NEFIA_TOWER2", value: 101 ),
         ( name: "MAP_TILESET_NEFIA_FORT", value: 200 ),
         ( name: "MAP_TILESET_NEFIA_FOREST", value: 300 ),
-
-        // Plus Custom-G 1.90
-        // ( name: "MAP_TILESET_NOYEL_MINEFIELD", value: 13 ),
-        // ( name: "MAP_TILESET_UNKNOWN", value: 14 ),
-        // ( name: "MAP_TILESET_NEST", value: 15 ),
-        // ( name: "MAP_TILESET_CEMETERY", value: 16 ),
-        // ( name: "MAP_TILESET_MINE", value: 17 ),
-        // ( name: "MAP_TILESET_LAKE", value: 18 ),
-        // ( name: "MAP_TILESET_MINEFIELD_TOWN", value: 19 ),
-        // ( name: "MAP_TILESET_MINEFIELD_MINE", value: 20 ),
       ]
     ),
     "area_id": (
@@ -1856,55 +1627,6 @@ AnalysisConfig(
         ( name: "AREA_SMOKE_AND_PIPE", value: 46 ),
         ( name: "AREA_TEST_WORLD", value: 47 ),
         ( name: "AREA_TW_NORTH_BORDER", value: 48 ),
-        // ( name: "AREA_REMIDO", value: 49 ),
-        // ( name: "AREA_EIREL", value: 50 ),
-        // ( name: "AREA_RUOZA", value: 51 ),
-        // ( name: "AREA_MELKAWN", value: 52 ),
-        // ( name: "AREA_KURUALM", value: 53 ),
-        // ( name: "AREA_VALM", value: 54 ),
-        // ( name: "AREA_MELUGAS", value: 55 ),
-        // ( name: "AREA_ARCBELC", value: 56 ),
-        // ( name: "AREA_LUDUS", value: 57 ),
-        // ( name: "AREA_CHAOS_SHRINE", value: 58 ),
-        // ( name: "AREA_VALLEY_HADES", value: 59 ),
-        // ( name: "AREA_MACHINERY_FORT", value: 60 ),
-        // ( name: "AREA_MAID_MANSION", value: 61 ),
-        // ( name: "AREA_DESTRUCTION_FORT", value: 62 ),
-        // ( name: "AREA_WEAPONS_FORT", value: 63 ),
-        // ( name: "AREA_HELL_FORT", value: 64 ),
-        // ( name: "AREA_ANCIENT_GARDEN", value: 65 ),
-        // ( name: "AREA_JAIL2", value: 66 ),
-        // ( name: "AREA_DOJO", value: 67 ),
-        // ( name: "AREA_MOUNTAIN_PASS_WINDY", value: 68 ),
-        // ( name: "AREA_DOGGOD_FOREST", value: 69 ),
-        // ( name: "AREA_LOST_YLVA", value: 70 ),
-        // ( name: "AREA_ULM_LESON", value: 71 ),
-        // ( name: "AREA_YLVA_LIBRARY", value: 72 ),
-        // ( name: "AREA_BLIMP", value: 73 ),
-        // ( name: "AREA_AMUR_CAGE", value: 74 ),
-        // ( name: "AREA_MIRAGE_TOWER", value: 75 ),
-        // ( name: "AREA_CHAOS_CRADLE", value: 76 ),
-        // ( name: "AREA_RUST_PLAZA", value: 77 ),
-        // ( name: "AREA_DRAGON_VOLCANO", value: 78 ),
-        // ( name: "AREA_GUARDIAN_SHRINE", value: 79 ),
-        // ( name: "AREA_DOCK", value: 80 ),
-        // ( name: "AREA_OL_DRAN", value: 81 ),
-        // ( name: "AREA_IRMA_THALIA_WORKSHOP", value: 82 ),
-        // ( name: "AREA_HARVEST_SHIP", value: 83 ),
-        // ( name: "AREA_ABODE_OF_WITCH", value: 84 ),
-        // ( name: "AREA_OBLIVION_PALACE", value: 85 ),
-        // ( name: "AREA_WAR_GROUND", value: 86 ),
-        // ( name: "AREA_SEMINAR", value: 87 ),
-        // ( name: "AREA_MELKA_FOREST", value: 88 ),
-        // ( name: "AREA_GRAVITY_VALLEY", value: 89 ),
-        // ( name: "AREA_MOUNTAIN_RUIN", value: 90 ),
-        // ( name: "AREA_AIMWELL", value: 91 ),
-        // ( name: "AREA_ZAILE", value: 92 ),
-        // ( name: "AREA_DEVIL_CAPE", value: 93 ),
-        // ( name: "AREA_SEBI", value: 94 ),
-        // ( name: "AREA_RASKILIS", value: 95 ),
-
-        // ( name: "AREA_DISCARDED_RANCH", value: 100 ),
         ( name: "AREA_MUSEUM", value: 101 ),
         ( name: "AREA_SHOP", value: 102 ),
         ( name: "AREA_CROP", value: 103 ),
@@ -1943,30 +1665,8 @@ AnalysisConfig(
         ( name: "ADATA_ECONOMY", value: 28 ),
         ( name: "ADATA_FESTIVAL", value: 29 ),
         ( name: "ADATA_PARENT", value: 30 ),
-        // ( name: "ADATA_WAKEUP_NEFIA", value: 32 ),
-        // ( name: "ADATA_ICON_ORG", value: 33 ),
-        // ( name: "ADATA_QUEST_RENEW", value: 34 ),
-        // ( name: "ADATA_NEFIA_GEM_CHANCE", value: 35 ),
-        // ( name: "ADATA_REVIVED_CITIZENS", value: 36 ),
-
-        // ( name: "ADATA_SHOP_SALE_RESTRICTION", value: 37 ),
-        // ( name: "ADATA_RANCH_BREED_RESTRICTION", value: 37 ),
-
-        // ( name: "ADATA_EXTRA_MEDAL", value: 38 ),
-
-        // ( name: "ADATA_SHOP_TYPE_CHANGE_COOLDOWN", value: 39 ),
-        // ( name: "ADATA_RANCH_PRODUCE_RESTRICTION", value: 39 ),
       ]
     ),
-    // "awakened_nefia_type": (
-    //   variables: [
-    //     ( name: "WAKEUP_NEFIA_NONE", value: 0 ),
-    //     ( name: "WAKEUP_NEFIA_NORMAL", value: 100 ),
-    //     ( name: "WAKEUP_NEFIA_TIME", value: 103 ),
-    //     ( name: "WAKEUP_NEFIA_POISON", value: 105 ),
-    //     ( name: "WAKEUP_NEFIA_GRAVITY", value: 108 ),
-    //   ]
-    // ),
     "shop_type": (
       variables: [
         ( name: "SHOP_TYPE_GOODS", value: 0 ),
@@ -2159,7 +1859,6 @@ AnalysisConfig(
         ( name: "ROLE_RETURNER", value: 21 ),
         ( name: "ROLE_HORSE_MASTER", value: 22 ),
         ( name: "ROLE_CARAVAN_MASTER", value: 23 ),
-        // ( name: "ROLE_BOUNTY_HUNTER", value: 24 ),
 
         ( name: "ROLE_SHOP_MIN", value: 1000 ),
         ( name: "ROLE_SHOP_WEAPON", value: 1000 ),
@@ -2251,26 +1950,6 @@ AnalysisConfig(
         ( name: "RELATION_ALLY", value: 10 ),
       ]
     ),
-    "environment_effect": (
-      variables: [
-        ( name: "ENVIRONMENT_EFFECT_NONE", value: 0 ),
-        ( name: "ENVIRONMENT_EFFECT_ACID", value: -100 ),
-        ( name: "ENVIRONMENT_EFFECT_FIRE", value: -200 ),
-        ( name: "ENVIRONMENT_EFFECT_WATER", value: -400 ),
-        ( name: "ENVIRONMENT_EFFECT_ACID2", value: 100 ),
-        ( name: "ENVIRONMENT_EFFECT_FIRE2", value: 200 ),
-        ( name: "ENVIRONMENT_EFFECT_WATER2", value: 400 ),
-      ]
-    // ),
-    // "directive_mode": (
-    //   variables: [
-    //     ( name: "DIRECTIVE_MODE_TEMPORARY", value: -1 ),
-    //     ( name: "DIRECTIVE_MODE_OFFENSIVE", value: 0 ),
-    //     ( name: "DIRECTIVE_MODE_DEFENSIVE", value: 1 ),
-    //     ( name: "DIRECTIVE_MODE_INTERCEPT", value: 2 ),
-    //     ( name: "DIRECTIVE_MODE_TALKING", value: 3 ),
-    //   ]
-    // ),
     "characreate_loc": (
       includes: [
         "chara"
@@ -2350,21 +2029,17 @@ AnalysisConfig(
         ( name: "CDATA_INV_WEIGHT", value: 43 ),
         ( name: "CDATA_CARRY_LIMIT", value: 44 ),
         ( name: "CDATA_BURDEN", value: 45 ),
-        // ( name: "CDATA_MARK_ITEM_ADJUST_Z", value: 46 ),
-        // ( name: "CDATA_MARK_ITEM_ADJUST_R", value: 47 ),
+
         ( name: "CDATA_LEVEL_ORG", value: 48 ),
         ( name: "CDATA_KARMA", value: 49 ),
         ( name: "CDATA_HP", value: 50 ),
         ( name: "CDATA_MAX_HP", value: 51 ),
         ( name: "CDATA_SP", value: 52 ),
         ( name: "CDATA_MAX_SP", value: 53 ),
-        // ( name: "CDATA_MARK_ITEM_COL", value: 54 ),
+
         ( name: "CDATA_MP", value: 55 ),
         ( name: "CDATA_MAX_MP", value: 56 ),
-        // ( name: "CDATA_REMOTE_BLOW", value: 57 ),
-        // ( name: "CDATA_ALLIED", value: 58 ),
-        // ( name: "CDATA_SPRITE_SIZE_MILK", value: 59 ),
-        // ( name: "CDATA_DRAIN_HP", value: 60 ),
+
         ( name: "CDATA_GOD", value: 61 ),
         ( name: "CDATA_PIETY", value: 62 ),
         ( name: "CDATA_PRAY", value: 63 ), // Unused
@@ -2398,12 +2073,6 @@ AnalysisConfig(
         ( name: "CDATA_IMMUNE_DAMAGE", value: 91 ),
         ( name: "CDATA_REFLECT_DAMAGE", value: 92 ),
         ( name: "CDATA_VOMIT", value: 93 ),
-        // ( name: "CDATA_REFLECT_MAGIC", value: 94 ),
-        // ( name: "CDATA_PIC_ORG", value: 95 ),
-        // ( name: "CDATA_SHIELD_STYLE_TYPE", value: 96 ),
-        // ( name: "CDATA_WEAPON_STYLE_TYPE", value: 97 ),
-        // ( name: "CDATA_ENHANCE_SPELL", value: 98 ),
-        // ( name: "CDATA_PRECIOUS_ALLY", value: 99 ),
 
         ( name: "CDATA_STARTING_EQUIP_SLOTS", value: 100 ),
 
@@ -2444,9 +2113,9 @@ AnalysisConfig(
         ( name: "CDATA_ROW_ACT_WARNING", value: 143 ),
         ( name: "CDATA_PERFORM_SCORE", value: 144 ),
         ( name: "CDATA_PERFORM_GOLD", value: 145 ),
-        // ( name: "CDATA_NECRO_FORCE", value: 146 ),
-        // ( name: "CDATA_SHOP_INVEST", value: 147 ),
-        // ( name: "CDATA_EVASION_PENALTY", value: 148 ),
+
+        ( name: "CDATA_SHOP_INVEST", value: 147 ),
+
         ( name: "CDATA_ROLE", value: 150 ),
         ( name: "CDATA_ROLE_SHOP_LEVEL", value: 151 ),
         ( name: "CDATA_ROW_ACT_TC", value: 152 ),
@@ -2456,47 +2125,10 @@ AnalysisConfig(
         ( name: "CDATA_AI_INT", value: 156 ),
         ( name: "CDATA_USERNPC_ID", value: 157 ),
         ( name: "CDATA_RACE_ID", value: 158 ),
-        // ( name: "CDATA_AP_TOTAL", value: 159 ),
-        // ( name: "CDATA_INIT_LIFEMANA", value: 160 ),
-        // ( name: "CDATA_BACKGROUND_PART_A1", value: 161 ),
-        // ( name: "CDATA_BACKGROUND_PART_A2", value: 162 ),
-        // ( name: "CDATA_BACKGROUND_PART_B1", value: 163 ),
-        // ( name: "CDATA_BACKGROUND_PART_B2", value: 164 ),
-        // ( name: "CDATA_BACKGROUND_PART_B3", value: 165 ),
-        // ( name: "CDATA_CAN_REVIVE", value: 166 ),
-        // ( name: "CDATA_TAGTEAM_PARTNER", value: 167 ),
-        // ( name: "CDATA_IN_TAGTEAM", value: 168 ),
-        // ( name: "CDATA_MASTER_SERVANT", value: 169 ),
-        // ( name: "CDATA_ENVIRONMENT_EFFECT", value: 170 ),
+
         ( name: "CDATA_X_ORG", value: 171 ),
         ( name: "CDATA_Y_ORG", value: 172 ),
-        // ( name: "CDATA_AP_CURRENT", value: 173 ),
-        // ( name: "CDATA_ATTRIBUTE_ELE", value: 174 ),
-        // ( name: "CDATA_CONDITION_WINCE", value: 175 ),
-        // ( name: "CDATA_CONDITION_CHILLS", value: 176 ),
-        // ( name: "CDATA_BRUSH_LEVEL", value: 177 ),
-        // ( name: "CDATA_GAUGE_COOLDOWN", value: 178 ),
-        // ( name: "CDATA_PROT_PENALTY", value: 179 ),
-        // ( name: "CDATA_SEALED_MAGIC", value: 180 ),
-        // ( name: "CDATA_SEALED_ABILITY", value: 181 ),
-        // ( name: "CDATA_POWER_GAUGE", value: 182 ),
-        // ( name: "CDATA_GAUGE_COOLDOWN2", value: 183 ),
-        // ( name: "CDATA_DAMAGE_FIX", value: 184 ),
-        // ( name: "CDATA_DIRECTIVE_MODE_ORG", value: 185 ),
-        // ( name: "CDATA_MASTER_SERVANT2", value: 186 ),
-        // ( name: "CDATA_TAMER_WHIP_PICKUP", value: 187 ),
-        // ( name: "CDATA_TONE_SEX", value: 188 ),
-        // ( name: "CDATA_SPINDLE_COMBINATION_A", value: 189 ),
-        // ( name: "CDATA_SPINDLE_COMBINATION_B", value: 190 ),
-        // ( name: "CDATA_MATERIAL1_COUNTER", value: 191 ),
-        // ( name: "CDATA_MATERIAL2_COUNTER", value: 192 ),
-        // ( name: "CDATA_MATERIAL3_COUNTER", value: 193 ),
-        // ( name: "CDATA_MATERIAL4_COUNTER", value: 194 ),
-        // ( name: "CDATA_MATERIAL5_COUNTER", value: 195 ),
-        // ( name: "CDATA_RIDING", value: 196 ),
-        // ( name: "CDATA_CHARACTER_TIER", value: 197 ),
-        // ( name: "CDATA_INIT_ATTR", value: 198 ),
-        // ( name: "CDATA_INIT_SPEED", value: 199 ),
+
         ( name: "CDATA_AI", value: 200 ),
         ( name: "CDATA_AI_AGGRO", value: 201 ),
         ( name: "CDATA_AI_CALM", value: 202 ),
@@ -2510,8 +2142,6 @@ AnalysisConfig(
         ( name: "CDATA_ACT_RANGE", value: 210 ),
         ( name: "CDATA_ACT_HEAL", value: 211 ),
         ( name: "CDATA_ACT_INDEX", value: 212 ),
-        // ( name: "CDATA_TAMER_WHIP_EAT", value: 213 ),
-        // ( name: "CDATA_EVOLUTION_STAGE", value: 214 ),
 
         ( name: "STARTING_CDATA_ACT_MAIN", value: 215 ),
         ( name: "RANGE_CDATA_ACT_MAIN", value: 5, exclude: true ),
@@ -2537,11 +2167,6 @@ AnalysisConfig(
         ( name: "CDATA_CONDITION_GRAVITY", value: 262 ),
         ( name: "CDATA_CONDITION_SUFFOCATION", value: 263 ),
         ( name: "CDATA_CONDITION_ANGRY", value: 264 ),
-        // ( name: "CDATA_CONDITION_METAL", value: 265 ),
-        // ( name: "CDATA_DIRECTIVE_MODE", value: 266 ),
-        // ( name: "CDATA_CONDITION_ATROPHY", value: 267 ),
-        // ( name: "CDATA_CONDITION_BIND", value: 268 ),
-        // ( name: "CDATA_CONDITION_BRAINWASH", value: 269 ),
 
         ( name: "STARTING_CDATA_FOOD_EXP", value: 270 ),
         ( name: "RANGE_CDATA_FOOD_EXP", value: 10, exclude: true ),
@@ -2550,56 +2175,6 @@ AnalysisConfig(
         ( name: "ARRAY_CDATA_BUFF", value: 3, exclude: true ),
         ( name: "MAX_BLESSINGS", value: 8, exclude: true ),
         ( name: "MAX_HEXES", value: 8, exclude: true ),
-
-        // ( name: "CDATA_JOIN_DATE_MONTH", value: 400 ),
-        // ( name: "CDATA_JOIN_DATE_DAY", value: 401 ),
-        // ( name: "CDATA_JOIN_DATE_YEAR", value: 402 ),
-        // ( name: "CDATA_DEC_ENEMY_CRIT_CHANCE", value: 403 ),
-        // ( name: "CDATA_ALCOHOL_CONSUMED", value: 404 ),
-        // ( name: "CDATA_EXTRA_ATTACKS_TYPE", value: 405 ),
-        // ( name: "CDATA_EXTRA_ATTACKS", value: 406 ),
-        // ( name: "CDATA_LIVESTOCK_QUALITY", value: 407 ),
-        // ( name: "CDATA_LIVESTOCK_PRODUCE_QUALITY", value: 408 ),
-        // ( name: "CDATA_SHIFT_FORM", value: 409 ),
-        // ( name: "CDATA_FORM_SHIFT_PIC", value: 410 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_HAIR", value: 411 ),
-        // ( name: "CDATA_CONDITION_OIL", value: 412 ),
-        // ( name: "CDATA_VOTES_RECEIVED", value: 413 ),
-        // ( name: "CDATA_ELEMENTS_EYES_ELE", value: 414 ),
-        // ( name: "CDATA_CONDITION_JIU_JITSU", value: 415 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_PANTS", value: 417 ),
-        // ( name: "CDATA_ENHANCE_BREATH", value: 418 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_CLOTH", value: 419 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_SUB_HAIR", value: 420 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_ETC1", value: 421 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_ETC2", value: 422 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_ETC3", value: 423 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_EYE", value: 424 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_BODY", value: 425 ),
-        // ( name: "CDATA_FORM_SHIFT_PCC_RIDE", value: 426 ),
-        // ( name: "CDATA_FORM_SHIFT_PORTRAIT", value: 427 ),
-        // ( name: "CDATA_CUSTOM_TALK_LINE", value: 428 ),
-        // ( name: "CDATA_ROCK_THROWING", value: 429 ),
-        // ( name: "CDATA_INFANT", value: 430 ),
-        // ( name: "CDATA_FACE", value: 431 ),
-        // ( name: "CDATA_FORM_SHIFT_FACE", value: 432 ),
-        // ( name: "CDATA_EVOCHAT_POINTS", value: 433 ),
-        // ( name: "CDATA_CONDITION_INVERT", value: 434 ),
-        // ( name: "CDATA_CHARA_PIC", value: 435 ),
-        // ( name: "CDATA_SHIELD_PARRY", value: 436 ),
-        // ( name: "CDATA_CHARA_PIC_ORG", value: 437 ),
-        // ( name: "CDATA_HOME", value: 438 ),
-        // ( name: "CDATA_SALES_EXP", value: 439 ),
-        // ( name: "CDATA_SALES_FEATS", value: 440 ),
-        // ( name: "CDATA_CONDITION_SEPPUKU", value: 441 ),
-        // ( name: "CDATA_TOBACCO_DEPENDENCE", value: 442 ),
-        // ( name: "CDATA_DRUG_DEPENDENCE", value: 443 ),
-        // ( name: "CDATA_CHAIN_ATTACK_COUNT", value: 444 ),
-        // ( name: "CDATA_CONDITION_MPOISON", value: 445 ),
-        // ( name: "CDATA_THIRST", value: 446 ),
-        // ( name: "CDATA_MARK_ITEM_PIC", value: 447 ),
-        // ( name: "CDATA_MARK_ITEM_X", value: 448 ),
-        // ( name: "CDATA_MARK_ITEM_Y", value: 449 ),
 
         ( name: "STARTING_CDATA_CHARA_BIT", value: 450 ),
       ]
@@ -2612,10 +2187,6 @@ AnalysisConfig(
         ( name: "CDATAN_CLASS", value: 3 ),
         ( name: "CDATAN_MSG", value: 4 ),
         ( name: "CDATAN_USER_NPC_TAG", value: 5 ),
-        // ( name: "CDATAN_FAKE_CLASS", value: 6 ),
-        // ( name: "CDATAN_CUSTOM_RACE", value: 7 ),
-        // ( name: "CDATAN_NEWSEX", value: 8 ),
-        // ( name: "CDATAN_FORM_SHIFT_NAME", value: 9 ),
       ]
     ),
     "chara_bit": (
@@ -2652,8 +2223,6 @@ AnalysisConfig(
         ( name: "CHARA_BIT_BREAK_WALLS", value: 30 ),
         ( name: "CHARA_BIT_IMMUNE_MINE", value: 31 ),
         ( name: "CHARA_BIT_TEMPER", value: 32 ),
-        // ( name: "CHARA_BIT_ARMOUR", value: 33 ),
-        // ( name: "CHARA_BIT_QUICK_SHOOTING", value: 34 ),
 
         ( name: "CHARA_BIT_LIVESTOCK", value: 960 ), // RANGE_TEMP_CHARA_BIT * 32 ),
         ( name: "CHARA_BIT_MARRIED", value: 961 ),
@@ -2687,51 +2256,8 @@ AnalysisConfig(
         ( name: "CHARA_BIT_MSG_FILE", value: 989 ),
         ( name: "CHARA_BIT_NO_GOD", value: 990 ),
         ( name: "CHARA_BIT_FESTIVAL", value: 991 ),
-        // ( name: "CHARA_BIT_NECRO", value: 992 ),
-        // ( name: "CHARA_BIT_AWAKE_INSULT", value: 993 ),
-        // ( name: "CHARA_BIT_AWAKE_CRYSTAL_SPEAR", value: 994 ),
-        // ( name: "CHARA_BIT_AWAKE_TACTICAL_HEAL", value: 995 ),
-        // ( name: "CHARA_BIT_AWAKE_DIMENSIONAL_MOVE", value: 996 ),
-        // ( name: "CHARA_BIT_AWAKE_TACTICAL_ATTACK", value: 997 ),
-        // ( name: "CHARA_BIT_AWAKE_TACTICAL_MARTIAL_ARTS", value: 998 ),
-        // ( name: "CHARA_BIT_AWAKE_CHARGE_ATTACK", value: 999 ),
-        // ( name: "CHARA_BIT_AWAKE_PROXIMITY_ATTACK", value: 1000 ),
-        // ( name: "CHARA_BIT_AWAKE_RANGED_ATTACK", value: 1001 ),
-        // ( name: "CHARA_BIT_AWAKE_DIM_ATTACKER", value: 1002 ),
-        // ( name: "CHARA_BIT_AWAKE_NEAR_DEATH_EVASION", value: 1003 ),
-        // ( name: "CHARA_BIT_AWAKE_NEAR_DEATH_DAMAGE", value: 1004 ),
-        // ( name: "CHARA_BIT_AWAKE_MP_BARRIER", value: 1005 ),
-        // ( name: "CHARA_BIT_AWAKE_PROVOKE", value: 1006 ),
-        // ( name: "CHARA_BIT_AWAKE_TACTICAL_CURSE", value: 1007 ),
-        // ( name: "CHARA_BIT_AWAKE_VARIABLE_BREATH", value: 1008 ),
-        // ( name: "CHARA_BIT_AWAKE_VARIABLE_STORM", value: 1009 ),
-        // ( name: "CHARA_BIT_UNKNOWN_1010", value: 1010 ), //seems to be unused, probably some removed awakened ability
-        // ( name: "CHARA_BIT_ALTERED_LIMBS", value: 1011 ),
-        // ( name: "CHARA_BIT_BRUSHED", value: 1012 ),
-        // ( name: "CHARA_BIT_AWAKE_ZERO_SHOOT", value: 1013 ),
-        // ( name: "CHARA_BIT_AWAKE_STRUCK_OUT", value: 1014 ),
-        // ( name: "CHARA_BIT_CRADLE_15TH", value: 1015 ),
-        // ( name: "CHARA_BIT_AWAKE_MAGIC_ATTACK", value: 1016 ),
-        // ( name: "CHARA_BIT_BLUE_SPIRIT", value: 1017 ),
-        // ( name: "CHARA_BIT_SQUEEZED", value: 1018 ),
-        // ( name: "CHARA_BIT_GUEST", value: 1019 ),
-        // ( name: "CHARA_BIT_SHOP_ELEGANCE", value: 1020 ),
-        // ( name: "CHARA_BIT_SHOP_AESTHETIC_SENSE", value: 1021 ),
-        // ( name: "CHARA_BIT_SHOP_SALES_ROUTE", value: 1022 ),
-        // ( name: "CHARA_BIT_SHOP_STRONG_ALLY", value: 1023 ),
-        // ( name: "CHARA_BIT_SHOP_BUSINESS_SMILE", value: 1024 ),
-        // ( name: "CHARA_BIT_MARK_ITEM", value: 1025 ),
       ]
     ),
-    // "chara_tier": (
-    //   variables: [
-    //     ( name: "CHARACTER_TIER_NONE", value: 0 ),
-    //     ( name: "CHARACTER_TIER_SUMMONED_NORMAL", value: 10 ),
-    //     ( name: "CHARACTER_TIER_GOD", value: 20 ),
-    //     ( name: "CHARACTER_TIER_SUMMONED_GOD_TRUCE", value: 30 ),
-    //     ( name: "CHARACTER_TIER_SUMMONED_GOD_HOME", value: 40 ),
-    //   ]
-    // ),
     "condition": (
       variables: [
         ( name: "CONDITION_POISON", value: 1 ),
@@ -2746,13 +2272,8 @@ AnalysisConfig(
         ( name: "CONDITION_WET", value: 10 ),
         ( name: "CONDITION_INSANE", value: 11 ),
         ( name: "CONDITION_SICK", value: 12 ),
-
-        // ( name: "CONDITION_OIL", value: 18 ),
-
-        // ( name: "CONDITION_INVERT", value: 20 ),
-        // ( name: "CONDITION_MPOISON", value: 21 ),
       ]
-      ),
+    ),
     "shield_style": (
       variables: [
         ( name: "SHIELD_STYLE_NORMAL", value: 1 ),
@@ -2773,21 +2294,8 @@ AnalysisConfig(
         ( name: "WEAPON_STYLE_AXE", value: 103 ),
         ( name: "WEAPON_STYLE_STAVE", value: 105 ),
 
-        // ( name: "WEAPON_STYLE_SWORDCANE", value: 1001 ),
-
       ]
     ),
-    // "shift_form": (
-    //   variables: [
-    //     ( name: "SHIFT_FORM_NONE", value: 0 ),
-    //     ( name: "SHIFT_FORM_ALPHA", value: 1 ),
-    //     ( name: "SHIFT_FORM_BETA", value: 2 ),
-    //     ( name: "SHIFT_FORM_GAMMA", value: 3 ),
-    //     ( name: "SHIFT_FORM_DELTA", value: 4 ),
-    //     ( name: "SHIFT_FORM_OMEGA", value: 5 ),
-    //   ]
-    // ),
-
     "gdata": (
       variables: [
         ( name: "GDATA_DEATH", value: 0 ),
@@ -2907,18 +2415,6 @@ AnalysisConfig(
         ( name: "GDATA_GOD_TALK", value: 185 ),
         ( name: "GDATA_VOID_BOSS", value: 186 ),
         ( name: "GDATA_GOD_DETECT", value: 187 ),
-        // ( name: "GDATA_DOJO_TURNS", value: 188 ),
-        // ( name: "GDATA_DEEPEST_LEVEL", value: 189 ),
-        // ( name: "GDATA_GATHERING_ATTEMPS", value: 190 ),
-        // ( name: "GDATA_CUSTOM_TALK", value: 191 ),
-        // ( name: "GDATA_RAPID_FIRE", value: 192 ),
-        // ( name: "GDATA_TEMPORARY_FLAGS2", value: 193 ),
-        // ( name: "GDATA_TEMPORARY_FLAGS3", value: 194 ),
-        // ( name: "GDATA_CUSTOM_TEXT_DIALOG", value: 195 ),
-        // ( name: "GDATA_GAMEMODE_PENALTY", value: 196 ),
-        // ( name: "GDATA_QUICK_USE", value: 197 ),
-        // ( name: "GDATA_SPINDLE_COMBINATION", value: 198 ),
-        // ( name: "GDATA_SPEEDSUM_RESET", value: 199 ),
 
         ( name: "STARTING_GDATA_HELP", value: 200 ),
 
@@ -3018,206 +2514,6 @@ AnalysisConfig(
           value: 269,
           code_value: "STARTING_GDATA_FLAG + 19"
         ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_ANKH",
-        //   value: 270,
-        //   code_value: "STARTING_GDATA_FLAG + 20"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_DATA_CHIP",
-        //   value: 271,
-        //   code_value: "STARTING_GDATA_FLAG + 21"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_CHAOS_WINGS",
-        //   value: 272,
-        //   code_value: "STARTING_GDATA_FLAG + 22"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GAME_MODE",
-        //   value: 273,
-        //   code_value: "STARTING_GDATA_FLAG + 23"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NEFIA_CONQUERED",
-        //   value: 274,
-        //   code_value: "STARTING_GDATA_FLAG + 24"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_JOBS_COMPLETED",
-        //   value: 275,
-        //   code_value: "STARTING_GDATA_FLAG + 25"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MILES_TRAVELED",
-        //   value: 276,
-        //   code_value: "STARTING_GDATA_FLAG + 26"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HIGHEST_NORMAL_DAMAGE",
-        //   value: 277,
-        //   code_value: "STARTING_GDATA_FLAG + 27"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_PROSTITUTION_COUNTER",
-        //   value: 278,
-        //   code_value: "STARTING_GDATA_FLAG + 28"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NUCLEAR_EXPLOSIONS",
-        //   value: 279,
-        //   code_value: "STARTING_GDATA_FLAG + 29"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HUMANS_EATEN",
-        //   value: 280,
-        //   code_value: "STARTING_GDATA_FLAG + 30"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TIMES_MARRIED",
-        //   value: 281,
-        //   code_value: "STARTING_GDATA_FLAG + 31"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TIMES_CONVERTED",
-        //   value: 282,
-        //   code_value: "STARTING_GDATA_FLAG + 32"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TREASURE_FOUND",
-        //   value: 283,
-        //   code_value: "STARTING_GDATA_FLAG + 33"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CAT_DOG_KILLED",
-        //   value: 284,
-        //   code_value: "STARTING_GDATA_FLAG + 34"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_RAGNAROK_STARTED",
-        //   value: 285,
-        //   code_value: "STARTING_GDATA_FLAG + 35"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_WISHES_MADE",
-        //   value: 286,
-        //   code_value: "STARTING_GDATA_FLAG + 36"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_YOUNGER_SISTERS",
-        //   value: 287,
-        //   code_value: "STARTING_GDATA_FLAG + 37"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_JOBS_FAILED",
-        //   value: 288,
-        //   code_value: "STARTING_GDATA_FLAG + 38"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HOURS_SLEPT",
-        //   value: 289,
-        //   code_value: "STARTING_GDATA_FLAG + 39"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_BANDITS_KILLED",
-        //   value: 290,
-        //   code_value: "STARTING_GDATA_FLAG + 40"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TOTAL_PLATINUM",
-        //   value: 291,
-        //   code_value: "STARTING_GDATA_FLAG + 41"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_BREAD_EATEN",
-        //   value: 292,
-        //   code_value: "STARTING_GDATA_FLAG + 42"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_PANTIES_EATEN",
-        //   value: 293,
-        //   code_value: "STARTING_GDATA_FLAG + 43"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TIMES_EATEN_IN_SECRET",
-        //   value: 294,
-        //   code_value: "STARTING_GDATA_FLAG + 44"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_STOLEN_GOODS",
-        //   value: 295,
-        //   code_value: "STARTING_GDATA_FLAG + 45"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_WALLS_MINED",
-        //   value: 296,
-        //   code_value: "STARTING_GDATA_FLAG + 46"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CREATED_BY_ALCHEMY",
-        //   value: 297,
-        //   code_value: "STARTING_GDATA_FLAG + 47"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CREATED_BY_CARPENTRY",
-        //   value: 298,
-        //   code_value: "STARTING_GDATA_FLAG + 48"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CREATED_BY_JEWELRY",
-        //   value: 299,
-        //   code_value: "STARTING_GDATA_FLAG + 49"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CREATED_BY_TAILORING",
-        //   value: 300,
-        //   code_value: "STARTING_GDATA_FLAG + 50"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HOUSE_VISITORS",
-        //   value: 301,
-        //   code_value: "STARTING_GDATA_FLAG + 51"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GWEN_KILLED",
-        //   value: 302,
-        //   code_value: "STARTING_GDATA_FLAG + 52"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_LOMIAS_KILLED",
-        //   value: 303,
-        //   code_value: "STARTING_GDATA_FLAG + 53"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TREES_FELLED",
-        //   value: 304,
-        //   code_value: "STARTING_GDATA_FLAG + 54"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_PEOPLE_CONVERTED",
-        //   value: 305,
-        //   code_value: "STARTING_GDATA_FLAG + 55"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_INSIDE_DEEP_SEA_CASTLE",
-        //   value: 306,
-        //   code_value: "STARTING_GDATA_FLAG + 56"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HIGHEST_ARENA_STREAK",
-        //   value: 307,
-        //   code_value: "STARTING_GDATA_FLAG + 57"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HIGHEST_PET_ARENA_STREAK",
-        //   value: 308,
-        //   code_value: "STARTING_GDATA_FLAG + 58"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TIMES_DUELED",
-        //   value: 309,
-        //   code_value: "STARTING_GDATA_FLAG + 59"
-        // ),
 
         (
           name: "GDATA_FLAG_SUB_SLIME",
@@ -3344,823 +2640,6 @@ AnalysisConfig(
           value: 474,
           code_value: "STARTING_GDATA_FLAG + 224"
         ),
-        // (
-        //   name: "GDATA_FLAG_SUB_LOST_KITTY",
-        //   value: 475,
-        //   code_value: "STARTING_GDATA_FLAG + 225"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_DIVERSIONARY_TACTICS",
-        //   value: 476,
-        //   code_value: "STARTING_GDATA_FLAG + 226"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_JUERES_IMPERTINENCE",
-        //   value: 477,
-        //   code_value: "STARTING_GDATA_FLAG + 227"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_PIRATE_HUNTING",
-        //   value: 478,
-        //   code_value: "STARTING_GDATA_FLAG + 228"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_FALLEN_PRINCESS",
-        //   value: 479,
-        //   code_value: "STARTING_GDATA_FLAG + 229"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_UNPAID_COMPENSATION",
-        //   value: 480,
-        //   code_value: "STARTING_GDATA_FLAG + 230"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_MANSION_FOR_SALE",
-        //   value: 481,
-        //   code_value: "STARTING_GDATA_FLAG + 231"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_THE_RESULT_OF_REVENGE",
-        //   value: 482,
-        //   code_value: "STARTING_GDATA_FLAG + 232"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_STRUGGLE_AGAINST_INSANITY",
-        //   value: 483,
-        //   code_value: "STARTING_GDATA_FLAG + 233"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_H_SISTER",
-        //   value: 484,
-        //   code_value: "STARTING_GDATA_FLAG + 234"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_LULWY",
-        //   value: 485,
-        //   code_value: "STARTING_GDATA_FLAG + 235"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_EHEKATL",
-        //   value: 486,
-        //   code_value: "STARTING_GDATA_FLAG + 236"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_OPATOS",
-        //   value: 487,
-        //   code_value: "STARTING_GDATA_FLAG + 237"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_KUMIROMI",
-        //   value: 488,
-        //   code_value: "STARTING_GDATA_FLAG + 238"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_MANI",
-        //   value: 489,
-        //   code_value: "STARTING_GDATA_FLAG + 239"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_JURE",
-        //   value: 490,
-        //   code_value: "STARTING_GDATA_FLAG + 240"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_YACATECT",
-        //   value: 491,
-        //   code_value: "STARTING_GDATA_FLAG + 241"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUMMONED_ITZPALT",
-        //   value: 492,
-        //   code_value: "STARTING_GDATA_FLAG + 242"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_PRINCESS_COMPANION",
-        //   value: 493,
-        //   code_value: "STARTING_GDATA_FLAG + 243"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_LAW_OF_NINJAS",
-        //   value: 494,
-        //   code_value: "STARTING_GDATA_FLAG + 244"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_MONOCHROME_DELIVERY_SERVICE",
-        //   value: 495,
-        //   code_value: "STARTING_GDATA_FLAG + 245"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_MONOCHROME_DELIVERY_SERVICE_LETTER",
-        //   value: 496,
-        //   code_value: "STARTING_GDATA_FLAG + 246"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_GUILD_WARS1",
-        //   value: 497,
-        //   code_value: "STARTING_GDATA_FLAG + 247"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_GUILD_WARS2",
-        //   value: 498,
-        //   code_value: "STARTING_GDATA_FLAG + 248"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_GUILD_WARS3",
-        //   value: 499,
-        //   code_value: "STARTING_GDATA_FLAG + 249"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GWEN_STAGE",
-        //   value: 500,
-        //   code_value: "STARTING_GDATA_FLAG + 250"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_DOGS_TAIL",
-        //   value: 501,
-        //   code_value: "STARTING_GDATA_FLAG + 251"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_LARNA",
-        //   value: 502,
-        //   code_value: "STARTING_GDATA_FLAG + 252"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_DIALOG_NAZUNA",
-        //   value: 503,
-        //   code_value: "STARTING_GDATA_FLAG + 253"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_LEOLD_LOCATION_STATE",
-        //   value: 504,
-        //   code_value: "STARTING_GDATA_FLAG + 254"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CAN_RECEIVE_CHOCOLATE",
-        //   value: 505,
-        //   code_value: "STARTING_GDATA_FLAG + 255"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_ARCBELC",
-        //   value: 506,
-        //   code_value: "STARTING_GDATA_FLAG + 256"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_MELKAWN",
-        //   value: 507,
-        //   code_value: "STARTING_GDATA_FLAG + 257"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_VALM",
-        //   value: 508,
-        //   code_value: "STARTING_GDATA_FLAG + 258"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HOME_MOVED",
-        //   value: 509,
-        //   code_value: "STARTING_GDATA_FLAG + 259"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_ULM_LESON",
-        //   value: 510,
-        //   code_value: "STARTING_GDATA_FLAG + 260"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_ANCIENT_GARDEN",
-        //   value: 511,
-        //   code_value: "STARTING_GDATA_FLAG + 261"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_THROWN_CHESTNUTS",
-        //   value: 512,
-        //   code_value: "STARTING_GDATA_FLAG + 262"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_CHAOS_CRADLE_4",
-        //   value: 513,
-        //   code_value: "STARTING_GDATA_FLAG + 263"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CHOCOLATE_KIT_LIMIT",
-        //   value: 514,
-        //   code_value: "STARTING_GDATA_FLAG + 264"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CHOCOLATE_KIT_YOURSELF",
-        //   value: 515,
-        //   code_value: "STARTING_GDATA_FLAG + 265"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_THE_TRUE_APPEARANCE",
-        //   value: 516,
-        //   code_value: "STARTING_GDATA_FLAG + 266"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_THE_ABYSS_OF_MAGIC",
-        //   value: 517,
-        //   code_value: "STARTING_GDATA_FLAG + 267"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_DIALOG_LEOLD",
-        //   value: 518,
-        //   code_value: "STARTING_GDATA_FLAG + 268"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_THE_DISTANT_SEA_OF_STARS",
-        //   value: 519,
-        //   code_value: "STARTING_GDATA_FLAG + 269"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_BEYOND_THE_GENERATIONS",
-        //   value: 520,
-        //   code_value: "STARTING_GDATA_FLAG + 270"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_WHEN_THE_FLAME_BURNS_OUT",
-        //   value: 521,
-        //   code_value: "STARTING_GDATA_FLAG + 271"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_MELUGAS",
-        //   value: 522,
-        //   code_value: "STARTING_GDATA_FLAG + 272"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_NORNE_THE_GUIDE",
-        //   value: 523,
-        //   code_value: "STARTING_GDATA_FLAG + 273"
-        // ),
-
-        // (
-        //   name: "GDATA_FLAG_SUB_NINE_HEAD_DRAGON", // Has no journal name.
-        //   value: 525,
-        //   code_value: "STARTING_GDATA_FLAG + 275"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_LULWY",
-        //   value: 526,
-        //   code_value: "STARTING_GDATA_FLAG + 276"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_EHEKATL",
-        //   value: 527,
-        //   code_value: "STARTING_GDATA_FLAG + 277"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_OPATOS",
-        //   value: 528,
-        //   code_value: "STARTING_GDATA_FLAG + 278"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_KUMIROMI",
-        //   value: 529,
-        //   code_value: "STARTING_GDATA_FLAG + 279"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_MANI",
-        //   value: 530,
-        //   code_value: "STARTING_GDATA_FLAG + 280"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_JURE",
-        //   value: 531,
-        //   code_value: "STARTING_GDATA_FLAG + 281"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_YACATECT",
-        //   value: 532,
-        //   code_value: "STARTING_GDATA_FLAG + 282"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_GOD_REWARD_ITZPALT",
-        //   value: 533,
-        //   code_value: "STARTING_GDATA_FLAG + 283"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_AP_FEAT_CONTINUOUS_ATTACK",
-        //   value: 534,
-        //   code_value: "STARTING_GDATA_FLAG + 284"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_AP_FEAT_PROVOKE",
-        //   value: 535,
-        //   code_value: "STARTING_GDATA_FLAG + 285"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_AP_FEAT_METAL_GUARD",
-        //   value: 536,
-        //   code_value: "STARTING_GDATA_FLAG + 286"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_AP_FEAT_SYNCHRO_HEARTS",
-        //   value: 537,
-        //   code_value: "STARTING_GDATA_FLAG + 287"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_AP_FEAT_CHARGE",
-        //   value: 538,
-        //   code_value: "STARTING_GDATA_FLAG + 288"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_URCAGUARY_THE_TENACIOUS_GEM",
-        //   value: 539,
-        //   code_value: "STARTING_GDATA_FLAG + 289"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_IRMA_DAGGER",
-        //   value: 540,
-        //   code_value: "STARTING_GDATA_FLAG + 290"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_REGULUS_ZANAN",
-        //   value: 541,
-        //   code_value: "STARTING_GDATA_FLAG + 291"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_REGULUS_EULDERNA",
-        //   value: 542,
-        //   code_value: "STARTING_GDATA_FLAG + 292"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_REGULUS_KIKKASU",
-        //   value: 543,
-        //   code_value: "STARTING_GDATA_FLAG + 293"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_REGULUS_MAYROON",
-        //   value: 544,
-        //   code_value: "STARTING_GDATA_FLAG + 294"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NEGATE_SPAWN_FRON",
-        //   value: 545,
-        //   code_value: "STARTING_GDATA_FLAG + 295"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_SOCKS_THIEF",
-        //   value: 546,
-        //   code_value: "STARTING_GDATA_FLAG + 296"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_VISITED_OL_DRAN",
-        //   value: 547,
-        //   code_value: "STARTING_GDATA_FLAG + 297"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_BOSS_MUSIC",
-        //   value: 548,
-        //   code_value: "STARTING_GDATA_FLAG + 298"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRUCE_GROUND_SUMMONING",
-        //   value: 549,
-        //   code_value: "STARTING_GDATA_FLAG + 299"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_INVITED_GOD",
-        //   value: 550,
-        //   code_value: "STARTING_GDATA_FLAG + 300"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_END_TAGTEAM",
-        //   value: 551,
-        //   code_value: "STARTING_GDATA_FLAG + 301"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CAN_USE_WONDER_BODY_FORMER",
-        //   value: 552,
-        //   code_value: "STARTING_GDATA_FLAG + 302"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_PICNIC_MULTIPLIER",
-        //   value: 553,
-        //   code_value: "STARTING_GDATA_FLAG + 303"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_PICNIC_BASKET_MAID_MANSION",
-        //   value: 554,
-        //   code_value: "STARTING_GDATA_FLAG + 304"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_THE_LIFE_IN_THIS_WORLD",
-        //   value: 555,
-        //   code_value: "STARTING_GDATA_FLAG + 305"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_DUEL_TARGET",
-        //   value: 556,
-        //   code_value: "STARTING_GDATA_FLAG + 306"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MELGET_SCORE",
-        //   value: 557,
-        //   code_value: "STARTING_GDATA_FLAG + 307"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MELGET_HISCORE",
-        //   value: 558,
-        //   code_value: "STARTING_GDATA_FLAG + 308"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_BELPHAT_THE_COSMIC_SWORD",
-        //   value: 559,
-        //   code_value: "STARTING_GDATA_FLAG + 309"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_DUPLICANE",
-        //   value: 560,
-        //   code_value: "STARTING_GDATA_FLAG + 310"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_STATUE_OPATOS",
-        //   value: 561,
-        //   code_value: "STARTING_GDATA_FLAG + 311"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_SOPHIA_THE_WISE",
-        //   value: 562,
-        //   code_value: "STARTING_GDATA_FLAG + 312"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_SOPHIA_THE_WISE_YEAR",
-        //   value: 563,
-        //   code_value: "STARTING_GDATA_FLAG + 313"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_SOPHIA_THE_WISE_DAY",
-        //   value: 564,
-        //   code_value: "STARTING_GDATA_FLAG + 314"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_SOPHIA_THE_WISE_MONTH",
-        //   value: 565,
-        //   code_value: "STARTING_GDATA_FLAG + 315"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_MANYTIA_THE_ADVENTURE_MERCHANT",
-        //   value: 566,
-        //   code_value: "STARTING_GDATA_FLAG + 316"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_VICE_STAFF_RECEIVED",
-        //   value: 567,
-        //   code_value: "STARTING_GDATA_FLAG + 317"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_CHAOS_CRADLE_25",
-        //   value: 568,
-        //   code_value: "STARTING_GDATA_FLAG + 318"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ENCOUNTER_LARNNEIRE_IN_ULM_LESON",
-        //   value: 569,
-        //   code_value: "STARTING_GDATA_FLAG + 319"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ENCOUNTER_HALION_IN_RUOZA",
-        //   value: 570,
-        //   code_value: "STARTING_GDATA_FLAG + 320"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TALK_RYUTYE",
-        //   value: 571,
-        //   code_value: "STARTING_GDATA_FLAG + 321"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_INFORMER_BIRTHDAY_MONTH",
-        //   value: 572,
-        //   code_value: "STARTING_GDATA_FLAG + 322"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_INFORMER_BIRTHDAY_DAY",
-        //   value: 573,
-        //   code_value: "STARTING_GDATA_FLAG + 323"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_CHAOS_CRADLE_30",
-        //   value: 574,
-        //   code_value: "STARTING_GDATA_FLAG + 324"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_CHAOS_CRADLE_34",
-        //   value: 575,
-        //   code_value: "STARTING_GDATA_FLAG + 325"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ZISILION_SIDEQUEST",
-        //   value: 576,
-        //   code_value: "STARTING_GDATA_FLAG + 326"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_BIRTHDAY_CURRENT_YEAR",
-        //   value: 577,
-        //   code_value: "STARTING_GDATA_FLAG + 327"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_ID",
-        //   value: 578,
-        //   code_value: "STARTING_GDATA_FLAG + 328"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_LEVEL",
-        //   value: 579,
-        //   code_value: "STARTING_GDATA_FLAG + 329"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_STATE",
-        //   value: 580,
-        //   code_value: "STARTING_GDATA_FLAG + 330"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_1",
-        //   value: 581,
-        //   code_value: "STARTING_GDATA_FLAG + 331"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_2",
-        //   value: 582,
-        //   code_value: "STARTING_GDATA_FLAG + 332"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_3",
-        //   value: 583,
-        //   code_value: "STARTING_GDATA_FLAG + 333"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_DAILY_LIFE_4",
-        //   value: 584,
-        //   code_value: "STARTING_GDATA_FLAG + 334"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_ITEM_1",
-        //   value: 585,
-        //   code_value: "STARTING_GDATA_FLAG + 335"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_ITEM_2",
-        //   value: 586,
-        //   code_value: "STARTING_GDATA_FLAG + 336"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_ITEM_3",
-        //   value: 587,
-        //   code_value: "STARTING_GDATA_FLAG + 337"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_ITEM_4",
-        //   value: 588,
-        //   code_value: "STARTING_GDATA_FLAG + 338"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_1",
-        //   value: 589,
-        //   code_value: "STARTING_GDATA_FLAG + 339"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_2",
-        //   value: 590,
-        //   code_value: "STARTING_GDATA_FLAG + 340"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_3",
-        //   value: 591,
-        //   code_value: "STARTING_GDATA_FLAG + 341"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_TRAINING_4",
-        //   value: 592,
-        //   code_value: "STARTING_GDATA_FLAG + 342"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_1",
-        //   value: 593,
-        //   code_value: "STARTING_GDATA_FLAG + 343"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_2",
-        //   value: 594,
-        //   code_value: "STARTING_GDATA_FLAG + 344"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_3",
-        //   value: 595,
-        //   code_value: "STARTING_GDATA_FLAG + 345"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TRAINING_COURSE_COMBAT_4",
-        //   value: 596,
-        //   code_value: "STARTING_GDATA_FLAG + 346"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_RARE_DROP",
-        //   value: 597,
-        //   code_value: "STARTING_GDATA_FLAG + 347"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ACTION_TALON_SOLDIER",
-        //   value: 598,
-        //   code_value: "STARTING_GDATA_FLAG + 348"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_REALTIME_MINUTES",
-        //   value: 599,
-        //   code_value: "STARTING_GDATA_FLAG + 349"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_REALTIME_HOURS",
-        //   value: 600,
-        //   code_value: "STARTING_GDATA_FLAG + 350"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_REALTIME_DAYS",
-        //   value: 601,
-        //   code_value: "STARTING_GDATA_FLAG + 351"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MAIN_SOPHIA_THE_WISE",
-        //   value: 602,
-        //   code_value: "STARTING_GDATA_FLAG + 352"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NEFIA_FEVER_ACTIVE",
-        //   value: 603,
-        //   code_value: "STARTING_GDATA_FLAG + 353"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NEFIA_FEVER_MONTH",
-        //   value: 604,
-        //   code_value: "STARTING_GDATA_FLAG + 354"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NEFIA_FEVER_HOURS_REMAINING",
-        //   value: 605,
-        //   code_value: "STARTING_GDATA_FLAG + 355"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_NEFIA_DIARIES_READ_FOR_FOX_BROTHER",
-        //   value: 606,
-        //   code_value: "STARTING_GDATA_FLAG + 356"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_ARASIEL_OF_THE_SANDSTORM",
-        //   value: 607,
-        //   code_value: "STARTING_GDATA_FLAG + 357"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_ARASIEL_OF_THE_SANDSTORM_CREATURE",
-        //   value: 608,
-        //   code_value: "STARTING_GDATA_FLAG + 358"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TAX_PREPAID_BALANCE",
-        //   value: 609,
-        //   code_value: "STARTING_GDATA_FLAG + 359"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ENTHUMESIS_SPAWNED",
-        //   value: 610,
-        //   code_value: "STARTING_GDATA_FLAG + 360"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ASSASSIN_EVENTS_FOR_ALSAPIA_GILPHEM",
-        //   value: 611,
-        //   code_value: "STARTING_GDATA_FLAG + 361"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SKILL_TICKET_LEVEL_UPS",
-        //   value: 612,
-        //   code_value: "STARTING_GDATA_FLAG + 362"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SKILL_TICKET_PREVIOUS_AMOUNT",
-        //   value: 613,
-        //   code_value: "STARTING_GDATA_FLAG + 363"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SMOKING_FREQUENCY",
-        //   value: 614,
-        //   code_value: "STARTING_GDATA_FLAG + 364"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_MUSEUM_UNIQUE_LEVEL",
-        //   value: 615,
-        //   code_value: "STARTING_GDATA_FLAG + 365"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CHAOS_CHILD_FORGET",
-        //   value: 616,
-        //   code_value: "STARTING_GDATA_FLAG + 366"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_BETHEL_THE_WHITE_HAWK_SPAWNED",
-        //   value: 617,
-        //   code_value: "STARTING_GDATA_FLAG + 367"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_HAMBURGERS_CREATED_FOR_ANGRY_BURGER",
-        //   value: 618,
-        //   code_value: "STARTING_GDATA_FLAG + 368"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_DOROTHIA_STANDING_IN_THE_WETLAND",
-        //   value: 619,
-        //   code_value: "STARTING_GDATA_FLAG + 369"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_GRAVEED_THE_GRAVITY_VALLEY",
-        //   value: 620,
-        //   code_value: "STARTING_GDATA_FLAG + 370"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_BEILGENA_THE_ARTIFICIAL_DRAGON",
-        //   value: 621,
-        //   code_value: "STARTING_GDATA_FLAG + 371"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_FLESH_DOLL_LOOT_SPAWN",
-        //   value: 622,
-        //   code_value: "STARTING_GDATA_FLAG + 372"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_CURTAIN_CALL",
-        //   value: 623,
-        //   code_value: "STARTING_GDATA_FLAG + 373"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_RESEARCH_DESTRUCTION_CRISIS",
-        //   value: 624,
-        //   code_value: "STARTING_GDATA_FLAG + 374"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_ENCOUNTER_CANCELLER_DISTANCE_REMAINING",
-        //   value: 625,
-        //   code_value: "STARTING_GDATA_FLAG + 375"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_DATE_OF_LAST_BREAKFAST",
-        //   value: 626,
-        //   code_value: "STARTING_GDATA_FLAG + 376"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SUB_KARAVIKA_OF_SONG_AND_DANCE",
-        //   value: 627,
-        //   code_value: "STARTING_GDATA_FLAG + 377"
-        // ),
-
-        // (
-        //   name: "GDATA_FLAG_MINEFIELD_QUEST_LEVEL",
-        //   value: 629,
-        //   code_value: "STARTING_GDATA_FLAG + 379"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_PET_ANNIVERSARY_ACTIVE",
-        //   value: 630,
-        //   code_value: "STARTING_GDATA_FLAG + 380"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_BOMB_BARRELS_EXPLODED",
-        //   value: 631,
-        //   code_value: "STARTING_GDATA_FLAG + 381"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_LEOLD_JOB_TIER",
-        //   value: 632,
-        //   code_value: "STARTING_GDATA_FLAG + 382"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_LEOLD_JOB_STAGE",
-        //   value: 633,
-        //   code_value: "STARTING_GDATA_FLAG + 383"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SLEEP_PREVENTION",
-        //   value: 634,
-        //   code_value: "STARTING_GDATA_FLAG + 384"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_SPELL_POTENTIAL_RECOVERY_POSTPONE",
-        //   value: 635,
-        //   code_value: "STARTING_GDATA_FLAG + 385"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_TALKING_USED",
-        //   value: 636,
-        //   code_value: "STARTING_GDATA_FLAG + 386"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_INVULNERABLE_TURNS",
-        //   value: 637,
-        //   code_value: "STARTING_GDATA_FLAG + 387"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_REMAINING_LIVES",
-        //   value: 638,
-        //   code_value: "STARTING_GDATA_FLAG + 388"
-        // ),
-        // (
-        //   name: "GDATA_FLAG_OVERDOSE_MODE_EXP_MULT",
-        //   value: 639,
-        //   code_value: "STARTING_GDATA_FLAG + 389"
-        // ),
 
         ( name: "STARTING_GDATA_CORRUPTION", value: 700, exclude: true ),
 
@@ -4182,14 +2661,9 @@ AnalysisConfig(
         ( name: "GDATA_DECK", value: 813 ),
         ( name: "GDATA_GUEST", value: 814 ),
         ( name: "GDATA_CAPITAL", value: 815 ),
-        // ( name: "GDATA_YACTECT_GEMSTONE_MSG", value: 816 ),
-        // ( name: "GDATA_GWEN_PITILESS_LVL", value: 817 ),
-        // ( name: "GDATA_THALIA_LIMIT", value: 818 ),
+
         ( name: "GDATA_BASIC_TAX", value: 820 ),
-        // ( name: "GDATA_PETS_IN_DOJO", value: 821 ),
-        // ( name: "GDATA_ACTIVE_GOD_PETS", value: 822 ),
-        // ( name: "GDATA_YEARS_AFTER_VICTORY", value: 823 ),
-        // ( name: "GDATA_USING_SUPER_LURE", value: 824 ),
+
         ( name: "GDATA_GUILD_TRAINER", value: 825 ),
         ( name: "GDATA_ITEM_TURN", value: 826 ),
         ( name: "GDATA_NEW_FEAT", value: 827 ),
@@ -4207,16 +2681,6 @@ AnalysisConfig(
         ( name: "GDATAN_TEAM2", value: 1 ),
       ]
     ),
-    // "gamemode": (
-    //   variables: [
-    //     ( name: "GAMEMODE_ESSENTIAL", value: 0 ),
-    //     ( name: "GAMEMODE_ABNORMAL", value: 1 ),
-    //     ( name: "GAMEMODE_OVERDOSE", value: 2 ),
-    //     ( name: "GAMEMODE_LOSS", value: 3 ),
-    //     ( name: "GAMEMODE_NATURAL", value: 4 ),
-    //     ( name: "GAMEMODE_PURGE", value: 5 ),
-    //   ]
-    // ),
     "rank": (
       variables: [
         ( name: "RANK_ARENA", value: 0 ),
@@ -4240,16 +2704,6 @@ AnalysisConfig(
         ( name: "WEATHER_HARD_RAIN", value: 4 ),
       ]
     ),
-    // "evitem": (
-    //   variables: [
-    //     ( name: "EVITEM_HEART_KING", value: 11 ),
-    //     ( name: "EVITEM_HEART_MACHINE", value: 12 ),
-    //     ( name: "EVITEM_HEART_GOD", value: 13 ),
-    //     ( name: "EVITEM_HEART_ANOTHER", value: 14 ),
-    //     ( name: "EVITEM_HEART_EVOLUTION", value: 15 ),
-    //     ( name: "EVITEM_HEART_MAGIC", value: 16 ),
-    //   ]
-    // ),
     "item_id": (
       variables: [
         ( name: "ITEM_ID_DUMMY", value: 0 ),
@@ -5045,382 +3499,6 @@ AnalysisConfig(
         ( name: "ITEM_ID_POT_OF_ALCHEMIST", value: 790 ),
         ( name: "ITEM_ID_DRAGON_SLAYER", value: 791 ),
         ( name: "ITEM_ID_PUTITORO", value: 792 ),
-        // ( name: "ITEM_ID_PILE_DRIVER", value: 793 ),
-        // ( name: "ITEM_ID_NEGATIVE_EDGE", value: 794 ),
-        // ( name: "ITEM_ID_GAU_17_CUSTOM", value: 795 ),
-        // ( name: "ITEM_ID_KANEITUUHOU", value: 796 ),
-        // ( name: "ITEM_ID_GEMSTONE_YACATECT", value: 797 ),
-        // ( name: "ITEM_ID_DYNAMIC_SABER", value: 798 ),
-        // ( name: "ITEM_ID_VERNIS_ORIGINAL", value: 799 ),
-        // ( name: "ITEM_ID_AWESOME_SWIMWEAR", value: 800 ),
-        // ( name: "ITEM_ID_OTI_TUBAKI", value: 801 ),
-        // ( name: "ITEM_ID_GEMINI", value: 802 ),
-        // ( name: "ITEM_ID_HEROS_CLOAK", value: 803 ),
-        // ( name: "ITEM_ID_BEAST_SICKLE", value: 804 ),
-        // ( name: "ITEM_ID_GOD_BREAKER", value: 805 ),
-        // ( name: "ITEM_ID_G3_EXA", value: 806 ),
-        // ( name: "ITEM_ID_DREADNOUGHT", value: 807 ),
-        // ( name: "ITEM_ID_KINDNESS_BLADE", value: 808 ),
-        // ( name: "ITEM_ID_OLDER_SISTERS_DIARY", value: 809 ),
-        // ( name: "ITEM_ID_STORM_BRINGER", value: 810 ),
-        // ( name: "ITEM_ID_DOG_SISTERS_DIARY", value: 811 ),
-        // ( name: "ITEM_ID_RICE_BALL", value: 812 ),
-        // ( name: "ITEM_ID_SOLAR_CANE", value: 813 ),
-        // ( name: "ITEM_ID_METAL_WING_OF_VESDA", value: 814 ),
-        // ( name: "ITEM_ID_SAND_CASTLE", value: 815 ),
-        // ( name: "ITEM_ID_VALKOINEN_KUOLEMA", value: 816 ),
-        // ( name: "ITEM_ID_SNIPER_RIFLE", value: 817 ),
-        // ( name: "ITEM_ID_GEMSTONE_MANI", value: 818 ),
-        // ( name: "ITEM_ID_TEMPEST_CHOKER", value: 819 ),
-        // ( name: "ITEM_ID_WHEEL_OF_FORTUNE", value: 820 ),
-        // ( name: "ITEM_ID_FETTER_OF_EARTH", value: 821 ),
-        // ( name: "ITEM_ID_GREEN_GOD_THORN", value: 822 ),
-        // ( name: "ITEM_ID_MECHANICAL_BINDER", value: 823 ),
-        // ( name: "ITEM_ID_SASUMATA", value: 824 ),
-        // ( name: "ITEM_ID_CARAMEL_OF_TERMINATION", value: 825 ),
-        // ( name: "ITEM_ID_BLACK_MONKSHOOD", value: 826 ),
-        // ( name: "ITEM_ID_BLUE_SPIRIT", value: 827 ),
-        // ( name: "ITEM_ID_AUREATE_CONSTRICTER", value: 828 ),
-        // ( name: "ITEM_ID_MAGIC_CANCELER", value: 829 ),
-        // ( name: "ITEM_ID_STONE_COIN", value: 830 ),
-        // ( name: "ITEM_ID_BUSTER_BOOK", value: 831 ),
-        // ( name: "ITEM_ID_WASTE_ART", value: 832 ),
-        // ( name: "ITEM_ID_GLIA_CRYSTAL", value: 833 ),
-        // ( name: "ITEM_ID_ACCUMULATOR", value: 834 ),
-        // ( name: "ITEM_ID_HIBACHI", value: 835 ),
-        // ( name: "ITEM_ID_MURDER_CD", value: 836 ),
-        // ( name: "ITEM_ID_TROLL_CELL", value: 837 ),
-        // ( name: "ITEM_ID_IKAROS_WING", value: 838 ),
-        // ( name: "ITEM_ID_ETHER_MIRROR", value: 839 ),
-        // ( name: "ITEM_ID_CHAOS_JEWEL", value: 840 ),
-        // ( name: "ITEM_ID_LAMP_PLANT", value: 841 ),
-        // ( name: "ITEM_ID_BLACK_DRIP", value: 842 ),
-        // ( name: "ITEM_ID_MAGIC_ICE", value: 843 ),
-        // ( name: "ITEM_ID_SHAVED_ICE", value: 844 ),
-        // ( name: "ITEM_ID_WADAIKO", value: 845 ),
-        // ( name: "ITEM_ID_NIGHTMARE", value: 846 ),
-        // ( name: "ITEM_ID_BOTTLE_SPEED_UPPER", value: 847 ),
-        // ( name: "ITEM_ID_AGING_LUNCH", value: 848 ),
-        // ( name: "ITEM_ID_AGE_RETURN_LUNCH", value: 849 ),
-        // ( name: "ITEM_ID_SMASH_TONFA", value: 850 ),
-        // ( name: "ITEM_ID_GERBERA_CROSS", value: 851 ),
-        // ( name: "ITEM_ID_FORBIDDEN_MEAT", value: 852 ),
-        // ( name: "ITEM_ID_INSANE_BOOK", value: 853 ),
-        // ( name: "ITEM_ID_NAIL_STRADIVARIUS", value: 854 ),
-        // ( name: "ITEM_ID_CARGO_RATION", value: 855 ),
-        // ( name: "ITEM_ID_CARGO_MARIMO", value: 856 ),
-        // ( name: "ITEM_ID_EFFECT_SCANNER", value: 857 ),
-        // ( name: "ITEM_ID_STATUE_YACATECT", value: 858 ),
-        // ( name: "ITEM_ID_STATUE_ITZPALT", value: 859 ),
-        // ( name: "ITEM_ID_VITAL_FLAYER", value: 860 ),
-        // ( name: "ITEM_ID_SEALED_SHIELD", value: 861 ),
-        // ( name: "ITEM_ID_ZWIEBEL", value: 862 ),
-        // ( name: "ITEM_ID_FLAME_EDGE", value: 863 ),
-        // ( name: "ITEM_ID_WOODEN_HORSE", value: 864 ),
-        // ( name: "ITEM_ID_COMMAND_FLAG", value: 865 ),
-        // ( name: "ITEM_ID_NOVA_GRENADE", value: 866 ),
-        // ( name: "ITEM_ID_YITH_YAKI", value: 867 ),
-        // ( name: "ITEM_ID_UNICORN_DRILL", value: 868 ),
-        // ( name: "ITEM_ID_EVITEM", value: 869 ),
-        // ( name: "ITEM_ID_SPELLBOOK_FEATHER", value: 870 ),
-        // ( name: "ITEM_ID_SABER_TONFA", value: 871 ),
-        // ( name: "ITEM_ID_KOMA_INU", value: 872 ),
-        // ( name: "ITEM_ID_KOMA_INU2", value: 873 ),
-        // ( name: "ITEM_ID_FLASH_CROSSBOW", value: 874 ),
-        // ( name: "ITEM_ID_RAINBOW", value: 875 ),
-        // ( name: "ITEM_ID_DOG_WHISTLE", value: 876 ),
-        // ( name: "ITEM_ID_PHILOSOPHERS_STONE_MASK", value: 877 ),
-        // ( name: "ITEM_ID_BLANK_BUSINESS_CARD", value: 878 ),
-        // ( name: "ITEM_ID_MAG_ABYSS", value: 879 ),
-        // ( name: "ITEM_ID_SLASH_JOKER", value: 880 ),
-        // ( name: "ITEM_ID_AA_12_ADVANCE", value: 881 ),
-        // ( name: "ITEM_ID_POTION_AQUA_SANCTIO", value: 882 ),
-        // ( name: "ITEM_ID_POTION_DISASTER", value: 883 ),
-        // ( name: "ITEM_ID_POTION_NEKTAR", value: 884 ),
-        // ( name: "ITEM_ID_POTION_SOMA", value: 885 ),
-        // ( name: "ITEM_ID_CLEANING_DOLL", value: 886 ),
-        // ( name: "ITEM_ID_ROD_ECLIPSE", value: 887 ),
-        // ( name: "ITEM_ID_MOONLIGHT", value: 888 ),
-        // ( name: "ITEM_ID_HANDMADE_CHOCOLATE", value: 889 ),
-        // ( name: "ITEM_ID_SUPER_LURE", value: 890 ),
-        // ( name: "ITEM_ID_GRIFFON", value: 891 ),
-        // ( name: "ITEM_ID_SHIELD_TONFA", value: 892 ),
-        // ( name: "ITEM_ID_SONIC_TONFA", value: 893 ),
-        // ( name: "ITEM_ID_MANDRAKE_SALAD", value: 894 ),
-        // ( name: "ITEM_ID_SACRIFICE_TONFA", value: 895 ),
-        // ( name: "ITEM_ID_MYSTERIOUS_DIARY", value: 896 ),
-        // ( name: "ITEM_ID_DEED_HOME_RELOCATION", value: 897 ),
-        // ( name: "ITEM_ID_DRAKE_ROD", value: 898 ),
-        // ( name: "ITEM_ID_GRAVITY_AXE", value: 899 ),
-        // ( name: "ITEM_ID_ASTRAL_LIGHT_PEN", value: 900 ),
-        // ( name: "ITEM_ID_ROD_LIGHTNING_BALL", value: 901 ),
-        // ( name: "ITEM_ID_COCONUT_CRAB", value: 902 ),
-        // ( name: "ITEM_ID_COFFIN_OF_NECROMANCY", value: 903 ),
-        // ( name: "ITEM_ID_WAR_SUIT", value: 904 ),
-        // ( name: "ITEM_ID_DANGER_SWIMWEAR", value: 905 ),
-        // ( name: "ITEM_ID_CHESTNUT", value: 906 ),
-        // ( name: "ITEM_ID_HANDMADE_CHOCOLATE_KIT", value: 907 ),
-        // ( name: "ITEM_ID_VICE_STAFF", value: 908 ),
-        // ( name: "ITEM_ID_DEED_DISCARDED_RANCH", value: 909 ),
-        // ( name: "ITEM_ID_MINIATURE_BLIMP", value: 910 ),
-        // ( name: "ITEM_ID_BOTTLE_ANTISEPTIC", value: 911 ),
-        // ( name: "ITEM_ID_WATERMELON", value: 912 ),
-        // ( name: "ITEM_ID_MUSKMELON", value: 913 ),
-        // ( name: "ITEM_ID_BANANA", value: 914 ),
-        // ( name: "ITEM_ID_APPLE_PEAR", value: 915 ),
-        // ( name: "ITEM_ID_PINEAPPLE", value: 916 ),
-        // ( name: "ITEM_ID_POTATO", value: 917 ),
-        // ( name: "ITEM_ID_CORN", value: 918 ),
-        // ( name: "ITEM_ID_EGGPLANT", value: 919 ),
-        // ( name: "ITEM_ID_ORGANIC_FERTILIZER", value: 920 ),
-        // ( name: "ITEM_ID_BIG_BRUSH", value: 921 ),
-        // ( name: "ITEM_ID_ASTRAL_SICKLE", value: 922 ),
-        // ( name: "ITEM_ID_GUR_BAGH_NAKH", value: 923 ),
-        // ( name: "ITEM_ID_BRILLIANT_DIAMOND", value: 924 ),
-        // ( name: "ITEM_ID_TABLET_EMERALD", value: 925 ),
-        // ( name: "ITEM_ID_BRILLIANT_RUBYNUS", value: 926 ),
-        // ( name: "ITEM_ID_SERPENT", value: 927 ),
-        // ( name: "ITEM_ID_RECORDER", value: 928 ),
-        // ( name: "ITEM_ID_OCARINA", value: 929 ),
-        // ( name: "ITEM_ID_SOUL_SPINDLE", value: 930 ),
-        // ( name: "ITEM_ID_WAKE_UP_OF_NEFIA", value: 931 ),
-        // ( name: "ITEM_ID_CRIMBERRY", value: 932 ),
-        // ( name: "ITEM_ID_DRUG_KISERU", value: 933 ),
-        // ( name: "ITEM_ID_COFFEE", value: 934 ),
-        // ( name: "ITEM_ID_TREE_SAKURA", value: 935 ),
-        // ( name: "ITEM_ID_WOOD_MATERIAL", value: 936 ),
-        // ( name: "ITEM_ID_REPEATING_BOW", value: 937 ),
-        // ( name: "ITEM_ID_CLAW", value: 938 ),
-        // ( name: "ITEM_ID_ROCK", value: 939 ),
-        // ( name: "ITEM_ID_ASTEROID_BELT", value: 940 ),
-        // ( name: "ITEM_ID_MAGATAMA", value: 941 ),
-        // ( name: "ITEM_ID_ACORN", value: 942 ),
-        // ( name: "ITEM_ID_GOLD_ACORN", value: 943 ),
-        // ( name: "ITEM_ID_KAKI", value: 944 ),
-        // ( name: "ITEM_ID_ROMIAS", value: 945 ),
-        // ( name: "ITEM_ID_FOUR_LEAF_CLOVER", value: 946 ),
-        // ( name: "ITEM_ID_JUKE_BOX", value: 947 ),
-        // ( name: "ITEM_ID_OTOGIRI", value: 948 ),
-        // ( name: "ITEM_ID_HOUSENKA", value: 949 ),
-        // ( name: "ITEM_ID_TRISHULA", value: 950 ),
-        // ( name: "ITEM_ID_N97_CANNON", value: 951 ),
-        // ( name: "ITEM_ID_ABYSS_LUNCH", value: 952 ),
-        // ( name: "ITEM_ID_BALLISTA", value: 953 ),
-        // ( name: "ITEM_ID_CHAINSICKLE", value: 954 ),
-        // ( name: "ITEM_ID_SOCKS", value: 955 ),
-        // ( name: "ITEM_ID_WHIP", value: 956 ),
-        // ( name: "ITEM_ID_SUNBARARIA_HELM", value: 957 ),
-        // ( name: "ITEM_ID_GRANDEL", value: 958 ),
-        // ( name: "ITEM_ID_MELODYUS", value: 959 ),
-        // ( name: "ITEM_ID_STONE_MATERIAL", value: 960 ),
-        // ( name: "ITEM_ID_PETHOUSE", value: 961 ),
-        // ( name: "ITEM_ID_SMALL_WOODEN_GOLEM", value: 962 ),
-        // ( name: "ITEM_ID_STATUE_BUTUZOU", value: 963 ),
-        // ( name: "ITEM_ID_ZIZOU", value: 964 ),
-        // ( name: "ITEM_ID_SMALL_STONE_GOLEM", value: 965 ),
-        // ( name: "ITEM_ID_ANGEL_STATUE", value: 966 ),
-        // ( name: "ITEM_ID_E_G_G", value: 967 ),
-        // ( name: "ITEM_ID_MIND_DISC", value: 968 ),
-        // ( name: "ITEM_ID_CORE_OF_NEFIA", value: 969 ),
-        // ( name: "ITEM_ID_TEAR_OF_GOD", value: 970 ),
-        // ( name: "ITEM_ID_NINE_GOD_SIGN", value: 971 ),
-        // ( name: "ITEM_ID_MAGAQUA", value: 972 ),
-        // ( name: "ITEM_ID_MAGNUM", value: 973 ),
-        // ( name: "ITEM_ID_IVY_SPINE", value: 974 ),
-        // ( name: "ITEM_ID_ARGENT_SNOW", value: 975 ),
-        // ( name: "ITEM_ID_POTION_CONCENTRATION", value: 976 ),
-        // ( name: "ITEM_ID_POTION_FEATHER", value: 977 ),
-        // ( name: "ITEM_ID_SPELLBOOK_CONCENTRATION", value: 978 ),
-        // ( name: "ITEM_ID_JACK_LANTERN", value: 979 ),
-        // ( name: "ITEM_ID_INSIGHT_LENS", value: 980 ),
-        // ( name: "ITEM_ID_USAMIMI", value: 981 ),
-        // ( name: "ITEM_ID_SLEEP_SHEEP", value: 982 ),
-        // ( name: "ITEM_ID_BLOODY_TEARS", value: 983 ),
-        // ( name: "ITEM_ID_DUEL_GLOVE", value: 984 ),
-        // ( name: "ITEM_ID_LUCKY_ALMONDS", value: 985 ),
-        // ( name: "ITEM_ID_HL_KRSW", value: 986 ),
-        // ( name: "ITEM_ID_SKULL_SWORD", value: 987 ),
-        // ( name: "ITEM_ID_MAGISTUS", value: 988 ),
-        // ( name: "ITEM_ID_TRISMAGISTUS", value: 989 ),
-        // ( name: "ITEM_ID_WONDER_BODY_FORMER", value: 990 ),
-        // ( name: "ITEM_ID_DD_CEMETERY_KEY", value: 991 ),
-        // ( name: "ITEM_ID_LARGE_PICNIC_BASKET", value: 992 ),
-        // ( name: "ITEM_ID_LARGE_EMPTY_BASKET", value: 993 ),
-        // ( name: "ITEM_ID_4D_MIRROR", value: 994 ),
-        // ( name: "ITEM_ID_SPADILLE", value: 995 ),
-        // ( name: "ITEM_ID_ION_CAKRAM", value: 996 ),
-        // ( name: "ITEM_ID_PANTS_OF_OGRE", value: 997 ),
-        // ( name: "ITEM_ID_SONIC_BROOM", value: 998 ),
-        // ( name: "ITEM_ID_OMEGA_SHIFT_CORE", value: 999 ),
-        // ( name: "ITEM_ID_DELTA_SHIFT_CORE", value: 1000 ),
-        // ( name: "ITEM_ID_GAMMA_SHIFT_CORE", value: 1001 ),
-        // ( name: "ITEM_ID_BETA_SHIFT_CORE", value: 1002 ),
-        // ( name: "ITEM_ID_ALPHA_SHIFT_CORE", value: 1003 ),
-        // ( name: "ITEM_ID_JUICE_MIXER", value: 1004 ),
-        // ( name: "ITEM_ID_JUICE", value: 1005 ),
-        // ( name: "ITEM_ID_THE_WHITE_HAWK", value: 1006 ),
-        // ( name: "ITEM_ID_MIGHTY_ARMS", value: 1007 ),
-        // ( name: "ITEM_ID_VIOLENT_SKULL_SWORD", value: 1008 ),
-        // ( name: "ITEM_ID_NUCLEAR_DEAD_LION", value: 1009 ),
-        // ( name: "ITEM_ID_BLOOD_ROD", value: 1010 ),
-        // ( name: "ITEM_ID_KNEADED_SWEETS_OF_WITCH", value: 1011 ),
-        // ( name: "ITEM_ID_SCISSORS_OF_KUMIROMI", value: 1012 ),
-        // ( name: "ITEM_ID_MUG_OF_EHEKATL", value: 1013 ),
-        // ( name: "ITEM_ID_BOOKMARK_OF_ITZPALT", value: 1014 ),
-        // ( name: "ITEM_ID_GLASSES_OF_YACATECT", value: 1015 ),
-        // ( name: "ITEM_ID_VERY_PISTOL_OF_MANI", value: 1016 ),
-        // ( name: "ITEM_ID_CANDLE_OF_LULWY", value: 1017 ),
-        // ( name: "ITEM_ID_AMULET_OF_JURE", value: 1018 ),
-        // ( name: "ITEM_ID_DUMBBELL_OF_OPATOS", value: 1019 ),
-        // ( name: "ITEM_ID_CESTUS_OF_METEORS", value: 1020 ),
-        // ( name: "ITEM_ID_TAKTSTOCK", value: 1021 ),
-        // ( name: "ITEM_ID_SPECIAL_AMMO_BOX", value: 1022 ),
-        // ( name: "ITEM_ID_FIRST_AID_KIT", value: 1023 ),
-        // ( name: "ITEM_ID_RESEARCHERS_DIARY", value: 1024 ),
-        // ( name: "ITEM_ID_AMULET_OF_YEKUB", value: 1025 ),
-        // ( name: "ITEM_ID_ROD_POISON_BALL", value: 1026 ),
-        // ( name: "ITEM_ID_ROD_MAGIC_LASER", value: 1027 ),
-        // ( name: "ITEM_ID_PLEASANT_SLEEP_BLANKET", value: 1028 ),
-        // ( name: "ITEM_ID_PANZERFAUST_X", value: 1029 ),
-        // ( name: "ITEM_ID_M202_SPECIAL", value: 1030 ),
-        // ( name: "ITEM_ID_ATOMIC_LAUNCHER", value: 1031 ),
-        // ( name: "ITEM_ID_ROD_BUBBLE_BALL", value: 1032 ),
-        // ( name: "ITEM_ID_SPELLBOOK_WATER_BEAM", value: 1033 ),
-        // ( name: "ITEM_ID_SASANQUA_SICKLE", value: 1034 ),
-        // ( name: "ITEM_ID_ESSENTIAL_OIL", value: 1035 ),
-        // ( name: "ITEM_ID_GASOLINE", value: 1036 ),
-        // ( name: "ITEM_ID_ELEMENTS_EYES", value: 1037 ),
-        // ( name: "ITEM_ID_HELTIARRE", value: 1038 ),
-        // ( name: "ITEM_ID_DOKURO_MIKADUKI", value: 1039 ),
-        // ( name: "ITEM_ID_SOUP_OF_WONDERLAND", value: 1040 ),
-        // ( name: "ITEM_ID_BRONZE_COIN", value: 1041 ),
-        // ( name: "ITEM_ID_ZUGAIKURAI", value: 1042 ),
-        // ( name: "ITEM_ID_TOBACCO", value: 1043 ),
-        // ( name: "ITEM_ID_CIGARETTE", value: 1044 ),
-        // ( name: "ITEM_ID_HAMAKI", value: 1045 ),
-        // ( name: "ITEM_ID_TOBACCO_PIPE", value: 1046 ),
-        // ( name: "ITEM_ID_KISERU", value: 1047 ),
-        // ( name: "ITEM_ID_SUIGARA", value: 1048 ),
-        // ( name: "ITEM_ID_NECROMANTIS", value: 1049 ),
-        // ( name: "ITEM_ID_B_JERKY", value: 1050 ),
-        // ( name: "ITEM_ID_HANABI", value: 1051 ),
-        // ( name: "ITEM_ID_BOTTLE_PEPPER", value: 1052 ),
-        // ( name: "ITEM_ID_BOTTLE_SOY_SAUCE", value: 1053 ),
-        // ( name: "ITEM_ID_BANNOU_MUGI", value: 1054 ),
-        // ( name: "ITEM_ID_RICE", value: 1055 ),
-        // ( name: "ITEM_ID_COFFEE_BEANS", value: 1056 ),
-        // ( name: "ITEM_ID_TEA_LEAF", value: 1057 ),
-        // ( name: "ITEM_ID_GULIWELZEN", value: 1058 ),
-        // ( name: "ITEM_ID_PRESENT", value: 1059 ),
-        // ( name: "ITEM_ID_CRAFT_REPAIR_KIT", value: 1060 ),
-        // ( name: "ITEM_ID_WILD_FLOWER", value: 1061 ),
-        // ( name: "ITEM_ID_BIO_PRINTER", value: 1062 ),
-        // ( name: "ITEM_ID_YOHUALLI_TEZCATL", value: 1063 ),
-        // ( name: "ITEM_ID_OHUDA", value: 1064 ),
-        // ( name: "ITEM_ID_LOVELY_BOUQUET", value: 1065 ),
-        // ( name: "ITEM_ID_STARDUST", value: 1066 ),
-        // ( name: "ITEM_ID_CROWN_POINT", value: 1067 ),
-        // ( name: "ITEM_ID_HEART_OF_TWILIGHT", value: 1068 ),
-        // ( name: "ITEM_ID_BLACK_TEA", value: 1069 ),
-        // ( name: "ITEM_ID_GREEN_TEA", value: 1070 ),
-        // ( name: "ITEM_ID_LIVESTOCK_FEED", value: 1071 ),
-        // ( name: "ITEM_ID_YOGURT", value: 1072 ),
-        // ( name: "ITEM_ID_BUTTER", value: 1073 ),
-        // ( name: "ITEM_ID_CHEESE", value: 1074 ),
-        // ( name: "ITEM_ID_ASSAULT_GOLD", value: 1075 ),
-        // ( name: "ITEM_ID_SPELLBOOK_GEM", value: 1076 ),
-        // ( name: "ITEM_ID_POTION_GEM", value: 1077 ),
-        // ( name: "ITEM_ID_POTION_WISDOM", value: 1078 ),
-        // ( name: "ITEM_ID_SOYBEAN", value: 1079 ),
-        // ( name: "ITEM_ID_TOFU", value: 1080 ),
-        // ( name: "ITEM_ID_NATTO", value: 1081 ),
-        // ( name: "ITEM_ID_FRIED_TOFU", value: 1082 ),
-        // ( name: "ITEM_ID_HARAKIRI", value: 1083 ),
-        // ( name: "ITEM_ID_1_2_MILLION_TAX_CERTIFICATE", value: 1084 ),
-        // ( name: "ITEM_ID_12_MILLION_TAX_CERTIFICATE", value: 1085 ),
-        // ( name: "ITEM_ID_SOFT_MATERIUM", value: 1086 ),
-        // ( name: "ITEM_ID_SOFT_HIGH_MATERIUM", value: 1087 ),
-        // ( name: "ITEM_ID_HARD_MATERIUM", value: 1088 ),
-        // ( name: "ITEM_ID_HARD_HIGH_MATERIUM", value: 1089 ),
-        // ( name: "ITEM_ID_SHARP_MATERIUM", value: 1090 ),
-        // ( name: "ITEM_ID_SHARP_HIGH_MATERIUM", value: 1091 ),
-        // ( name: "ITEM_ID_GOD_BINDER", value: 1092 ),
-        // ( name: "ITEM_ID_SKILL_TICKET", value: 1093 ),
-        // ( name: "ITEM_ID_MANIS_ALARM_CLOCK", value: 1094 ),
-        // ( name: "ITEM_ID_PAINTING_OF_EHEKATL_AND_SWORDFISH", value: 1095 ),
-        // ( name: "ITEM_ID_ITZPALTS_SCULPTURE", value: 1096 ),
-        // ( name: "ITEM_ID_YACATECTS_BANK", value: 1097 ),
-        // ( name: "ITEM_ID_LULWYS_PHOTO_COLLECTION", value: 1098 ),
-        // ( name: "ITEM_ID_KUMIROMI_GURUMI", value: 1099 ),
-        // ( name: "ITEM_ID_DOWSING_OPATOS", value: 1100 ),
-        // ( name: "ITEM_ID_BEETLE_CYBORG", value: 1101 ),
-        // ( name: "ITEM_ID_DRIED_FRUIT", value: 1102 ),
-        // ( name: "ITEM_ID_DRIED_VEGETABLE", value: 1103 ),
-        // ( name: "ITEM_ID_DRIED_FISH", value: 1104 ),
-        // ( name: "ITEM_ID_MYSTERIOUS_ENVELOPE", value: 1105 ),
-        // ( name: "ITEM_ID_CHRISTMAS_CAKE_SET", value: 1106 ),
-        // ( name: "ITEM_ID_OZOUNI", value: 1107 ),
-        // ( name: "ITEM_ID_OSIRUKO", value: 1108 ),
-        // ( name: "ITEM_ID_HAMBURGER", value: 1109 ),
-        // ( name: "ITEM_ID_GRAVITAIL", value: 1110 ),
-        // ( name: "ITEM_ID_RASEN", value: 1111 ),
-        // ( name: "ITEM_ID_MAGIC_RESTRAINT", value: 1112 ),
-        // ( name: "ITEM_ID_INJECT_BUNKER", value: 1113 ),
-        // ( name: "ITEM_ID_BIO_BATTERY", value: 1114 ),
-        // ( name: "ITEM_ID_URINE", value: 1115 ),
-        // ( name: "ITEM_ID_GROUND_BAIT", value: 1116 ),
-        // ( name: "ITEM_ID_RABBIT_FOOT", value: 1117 ),
-        // ( name: "ITEM_ID_PAINTING_ERUPTION", value: 1118 ),
-        // ( name: "ITEM_ID_OBSERVATION_REPORT", value: 1119 ),
-        // ( name: "ITEM_ID_ENCOUNTER_CANCELLER", value: 1120 ),
-        // ( name: "ITEM_ID_BUTLERS_DIARY", value: 1121 ),
-        // ( name: "ITEM_ID_SULFUR", value: 1122 ),
-        // ( name: "ITEM_ID_CLAY", value: 1123 ),
-        // ( name: "ITEM_ID_MYSTERIOUS_FOSSIL", value: 1124 ),
-        // ( name: "ITEM_ID_ANCIENT_POTTERY", value: 1125 ),
-        // ( name: "ITEM_ID_DECORATIVE_POTTERY", value: 1126 ),
-        // ( name: "ITEM_ID_BISQUE_DOLL", value: 1127 ),
-        // ( name: "ITEM_ID_CHEWING_GUM", value: 1128 ),
-        // ( name: "ITEM_ID_CHEWED_UP_GUM", value: 1129 ),
-        // ( name: "ITEM_ID_DEVIL_FRAGMENT", value: 1130 ),
-        // ( name: "ITEM_ID_BARLEY_TEA", value: 1131 ),
-        // ( name: "ITEM_ID_COLA", value: 1132 ),
-        // ( name: "ITEM_ID_BOMB_BARREL", value: 1133 ),
-        // ( name: "ITEM_ID_DEED_PROPERTY_TRANSFER", value: 1134 ),
-        // ( name: "ITEM_ID_FIXITY_ANCHOR", value: 1135 ),
-        // ( name: "ITEM_ID_CURE_CRYSTAL", value: 1136 ),
-        // ( name: "ITEM_ID_CHICORY", value: 1137 ),
-        // ( name: "ITEM_ID_FANE", value: 1138 ),
-        // ( name: "ITEM_ID_TWIG", value: 1139 ),
-        // ( name: "ITEM_ID_GUN_PAIR", value: 1140 ),
-        // ( name: "ITEM_ID_CROSSFIRE", value: 1141 ),
-        // ( name: "ITEM_ID_BLADE_BOW", value: 1142 ),
-        // ( name: "ITEM_ID_NUNCHAKU", value: 1143 ),
-        // ( name: "ITEM_ID_SHAKUJO", value: 1144 ),
-        // ( name: "ITEM_ID_STAR_HAMMER", value: 1145 ),
-        // ( name: "ITEM_ID_WAR_HAMMER", value: 1146 ),
-        // ( name: "ITEM_ID_BONE_SCYTHE", value: 1147 ),
-        // ( name: "ITEM_ID_SCISSORS", value: 1148 ),
-        // ( name: "ITEM_ID_CHAINSAW", value: 1149 ),
-        // ( name: "ITEM_ID_TOMAHAWK", value: 1150 ),
-        // ( name: "ITEM_ID_LANCE", value: 1151 ),
-        // ( name: "ITEM_ID_DRILL", value: 1152 ),
-        // ( name: "ITEM_ID_FLEURE", value: 1153 ),
-        // ( name: "ITEM_ID_KUNAI", value: 1154 ),
-        // ( name: "ITEM_ID_DISINFECTANT", value: 1155 ),
-        // ( name: "ITEM_ID_LINGS_BOW", value: 1156 ),
-        // ( name: "ITEM_ID_RINKHALS", value: 1157 ),
-        // ( name: "ITEM_ID_YOMI_TO", value: 1158 ),
-        // ( name: "ITEM_ID_SCORPIERCE", value: 1159 ),
-        // ( name: "ITEM_ID_NAZUNAS_SOX", value: 1160 ),
-        // ( name: "ITEM_ID_CROSS_RAIL", value: 1161 ),
-        // ( name: "ITEM_ID_POWER_TRIANGLE", value: 1162 ),
-        // ( name: "ITEM_ID_ENGOKU", value: 1163 ),
-        // ( name: "ITEM_ID_NUMENIUS", value: 1164 ),
-        // ( name: "ITEM_ID_DGT_101", value: 1165 ),
-        // ( name: "ITEM_ID_GOUTEN", value: 1166 ),
-        // ( name: "ITEM_ID_EPECLAIR", value: 1167 ),
-        // ( name: "ITEM_ID_GO_RENGE", value: 1168 ),
 
         ( name: "MAX_ITEM_ID", value: 795, code_value: "ITEM_ID_PUTITORO + 3", exclude: true ),
 
@@ -5784,642 +3862,6 @@ AnalysisConfig(
         ( name: "CREATURE_ID_THE_LEOPARD_WARRIOR", value: 351 ),
         ( name: "CREATURE_ID_SILVIA_THE_PRINCESS", value: 352 ),
         ( name: "CREATURE_ID_CARAVAN_MASTER", value: 353 ),
-        // ( name: "CREATURE_ID_GOOSE", value: 354 ),
-        // ( name: "CREATURE_ID_INSANE_KUMIROMI", value: 355 ),
-        // ( name: "CREATURE_ID_DEVASTATE_LULWY", value: 356 ),
-        // ( name: "CREATURE_ID_BUILDUP_OPATOS", value: 357 ),
-        // ( name: "CREATURE_ID_DEUS_EX_MANINA", value: 358 ),
-        // ( name: "CREATURE_ID_JURE", value: 359 ),
-        // ( name: "CREATURE_ID_BLESSED_JURE", value: 360 ),
-        // ( name: "CREATURE_ID_OLDER_SISTER", value: 361 ),
-        // ( name: "CREATURE_ID_RUDRAS", value: 362 ),
-        // ( name: "CREATURE_ID_OLDER_DOG_SISTER", value: 363 ),
-        // ( name: "CREATURE_ID_OLDER_SISTER2", value: 364 ),
-        // ( name: "CREATURE_ID_H_SISTER", value: 365 ),
-        // ( name: "CREATURE_ID_HEINRICH_THE_ARMORED_GENERAL", value: 366 ),
-        // ( name: "CREATURE_ID_ZERNARD_THE_CAPABLE_MERCENARY", value: 367 ),
-        // ( name: "CREATURE_ID_EBARTH_THE_PIRATE_BOSS", value: 368 ),
-        // ( name: "CREATURE_ID_DOG_COP", value: 369 ),
-        // ( name: "CREATURE_ID_MILIS_CAPTAIN_OF_THE_SPECIAL_FORCES", value: 370 ),
-        // ( name: "CREATURE_ID_SECURITY_OFFICER_ORVILLE", value: 371 ),
-        // ( name: "CREATURE_ID_MILITARY_PUTIT", value: 372 ),
-        // ( name: "CREATURE_ID_NAIVE_KYLE", value: 373 ),
-        // ( name: "CREATURE_ID_MEFAN_THE_BARD", value: 374 ),
-        // ( name: "CREATURE_ID_JUERE_BERSERKER", value: 375 ),
-        // ( name: "CREATURE_ID_EULDERNA_SUMMONKNIGHT", value: 376 ),
-        // ( name: "CREATURE_ID_ULZASSIL_THE_DEAD_EMPEROR", value: 377 ),
-        // ( name: "CREATURE_ID_YERLESWOOD_THE_SAVAGE_MACHINE", value: 378 ),
-        // ( name: "CREATURE_ID_SIVA_THE_DESTRUCTION", value: 379 ),
-        // ( name: "CREATURE_ID_ORPHE_THE_CHAOS_FOLLOWER", value: 380 ),
-        // ( name: "CREATURE_ID_CAIM_THE_MAD_RICH", value: 381 ),
-        // ( name: "CREATURE_ID_SNAIL_THE_ANDROID_RIDER", value: 382 ),
-        // ( name: "CREATURE_ID_RECONCILED_CLEANER", value: 383 ),
-        // ( name: "CREATURE_ID_LITYOU", value: 384 ),
-        // ( name: "CREATURE_ID_MURDER_KNIGHT", value: 385 ),
-        // ( name: "CREATURE_ID_GIRAFFE", value: 386 ),
-        // ( name: "CREATURE_ID_KIRIN", value: 387 ),
-        // ( name: "CREATURE_ID_BAMBOO_SPROUT", value: 388 ),
-        // ( name: "CREATURE_ID_THE_KING_IN_YELLOW", value: 389 ),
-        // ( name: "CREATURE_ID_NYARLATHOTEP", value: 390 ),
-        // ( name: "CREATURE_ID_TSATHOGGUA", value: 391 ),
-        // ( name: "CREATURE_ID_BOUNTY_HUNTER", value: 392 ),
-        // ( name: "CREATURE_ID_GRAND_DRAGON", value: 393 ),
-        // ( name: "CREATURE_ID_ATLACH_NACHA", value: 394 ),
-        // ( name: "CREATURE_ID_TYRANNOBREAKER", value: 395 ),
-        // ( name: "CREATURE_ID_VORPAL_BUNNY", value: 396 ),
-        // ( name: "CREATURE_ID_VOL_PHANTOM", value: 397 ),
-        // ( name: "CREATURE_ID_CUPID_OF_DEATH", value: 398 ),
-        // ( name: "CREATURE_ID_BLACK_BAPTIST", value: 399 ),
-        // ( name: "CREATURE_ID_CAMOUFLAGED_IMP", value: 400 ),
-        // ( name: "CREATURE_ID_VIASHIVAN", value: 401 ),
-        // ( name: "CREATURE_ID_OUROBOROS", value: 402 ),
-        // ( name: "CREATURE_ID_GRAND_ENT", value: 403 ),
-        // ( name: "CREATURE_ID_KABUTO", value: 404 ),
-        // ( name: "CREATURE_ID_MOLOCH", value: 405 ),
-        // ( name: "CREATURE_ID_ATLAS", value: 406 ),
-        // ( name: "CREATURE_ID_MAIDSANN", value: 407 ),
-        // ( name: "CREATURE_ID_LUNE_THE_MAID_CHIEF", value: 408 ),
-        // ( name: "CREATURE_ID_ELECTRIC_SHEEP", value: 409 ),
-        // ( name: "CREATURE_ID_METAMORPHOSE", value: 410 ),
-        // ( name: "CREATURE_ID_SECURITY_SYSTEM", value: 411 ),
-        // ( name: "CREATURE_ID_CARNAGE_RAT", value: 412 ),
-        // ( name: "CREATURE_ID_BANKRUPT_GUO", value: 413 ),
-        // ( name: "CREATURE_ID_LEND_THE_TAKER", value: 414 ),
-        // ( name: "CREATURE_ID_QUANTUM_CREATURE", value: 415 ),
-        // ( name: "CREATURE_ID_DRAGON_ZOMBIE", value: 416 ),
-        // ( name: "CREATURE_ID_ANUBIS_THE_MASTER_OF_DEATH", value: 417 ),
-        // ( name: "CREATURE_ID_METAL_VESDA_THE_FIRE_MACHINE", value: 418 ),
-        // ( name: "CREATURE_ID_EXOSSIL_THE_CHAOS_WING", value: 419 ),
-        // ( name: "CREATURE_ID_YERLES_COMBAT_PLANE", value: 420 ),
-        // ( name: "CREATURE_ID_WING_SNAIL", value: 421 ),
-        // ( name: "CREATURE_ID_HEQET", value: 422 ),
-        // ( name: "CREATURE_ID_DARK_KOBOLD", value: 423 ),
-        // ( name: "CREATURE_ID_TITANIA", value: 424 ),
-        // ( name: "CREATURE_ID_DRAGONEWT", value: 425 ),
-        // ( name: "CREATURE_ID_MAN_EATER_CRAB", value: 426 ),
-        // ( name: "CREATURE_ID_OLOG", value: 427 ),
-        // ( name: "CREATURE_ID_GIGA_BOMB_ROCK", value: 428 ),
-        // ( name: "CREATURE_ID_DRAGONS_PET_HARPY", value: 429 ),
-        // ( name: "CREATURE_ID_GOLD_SHEEP", value: 430 ),
-        // ( name: "CREATURE_ID_COCKATRICE", value: 431 ),
-        // ( name: "CREATURE_ID_SUZAKU", value: 432 ),
-        // ( name: "CREATURE_ID_LEUCOCHLORIDIUM", value: 433 ),
-        // ( name: "CREATURE_ID_FIVE_HEAD_GOD", value: 434 ),
-        // ( name: "CREATURE_ID_MESHERA_PLANT", value: 435 ),
-        // ( name: "CREATURE_ID_H_SISTER2", value: 436 ),
-        // ( name: "CREATURE_ID_MILOS_OF_THE_FORGOTTEN_WORLD", value: 437 ),
-        // ( name: "CREATURE_ID_CARLA_OF_THE_FORGOTTEN_WORLD", value: 438 ),
-        // ( name: "CREATURE_ID_GOKIBURI", value: 439 ),
-        // ( name: "CREATURE_ID_CITIZEN4", value: 440 ),
-        // ( name: "CREATURE_ID_CITIZEN3", value: 441 ),
-        // ( name: "CREATURE_ID_PIRATE", value: 442 ),
-        // ( name: "CREATURE_ID_FISHERMAN", value: 443 ),
-        // ( name: "CREATURE_ID_MIMIC", value: 444 ),
-        // ( name: "CREATURE_ID_RICH_PERSON_STOKE", value: 445 ),
-        // ( name: "CREATURE_ID_BIG_SISTER", value: 446 ),
-        // ( name: "CREATURE_ID_CAT_ZOMBIE", value: 447 ),
-        // ( name: "CREATURE_ID_CURSED_COFFIN", value: 448 ),
-        // ( name: "CREATURE_ID_ARMA_THE_TOUR_GUIDE", value: 449 ),
-        // ( name: "CREATURE_ID_FIRE_DRAGON_CHILD", value: 450 ),
-        // ( name: "CREATURE_ID_RED_MUSHROOM", value: 451 ),
-        // ( name: "CREATURE_ID_MESHERA_BETA", value: 452 ),
-        // ( name: "CREATURE_ID_MESHERA_GAMMA", value: 453 ),
-        // ( name: "CREATURE_ID_MESHERA_DELTA", value: 454 ),
-        // ( name: "CREATURE_ID_VAMPIRE", value: 455 ),
-        // ( name: "CREATURE_ID_CARMILLA", value: 456 ),
-        // ( name: "CREATURE_ID_CHUPACABURA", value: 457 ),
-        // ( name: "CREATURE_ID_MESHERA_ALPHA_THE_DEFORMED_ANGEL", value: 458 ),
-        // ( name: "CREATURE_ID_LEAD_DEVELOPER_DR_GAVELA", value: 459 ),
-        // ( name: "CREATURE_ID_BELL_OF_TERMINATION", value: 460 ),
-        // ( name: "CREATURE_ID_WAR_SPIRIT", value: 461 ),
-        // ( name: "CREATURE_ID_MAGIC_SPIRIT", value: 462 ),
-        // ( name: "CREATURE_ID_PUDDING_SPIRIT", value: 463 ),
-        // ( name: "CREATURE_ID_CANDLE_WISP", value: 464 ),
-        // ( name: "CREATURE_ID_INFECTED_YERLES_SOLDIER", value: 465 ),
-        // ( name: "CREATURE_ID_GAMBLER", value: 466 ),
-        // ( name: "CREATURE_ID_YERLES_LATEST_OUTFIT_SOLDIER", value: 467 ),
-        // ( name: "CREATURE_ID_SWIMMER", value: 468 ),
-        // ( name: "CREATURE_ID_BLADE_KING", value: 469 ),
-        // ( name: "CREATURE_ID_NINJA", value: 470 ),
-        // ( name: "CREATURE_ID_STAFF", value: 471 ),
-        // ( name: "CREATURE_ID_REFUGEE", value: 472 ),
-        // ( name: "CREATURE_ID_TRAVELER", value: 473 ),
-        // ( name: "CREATURE_ID_SIRAHA_THE_WHITE_CLOTH", value: 474 ),
-        // ( name: "CREATURE_ID_KURON_THE_BLACK_CLOTH", value: 475 ),
-        // ( name: "CREATURE_ID_ALCHEMIST_NAPLUS", value: 476 ),
-        // ( name: "CREATURE_ID_GETUEI_THE_NINJA_MASTER", value: 477 ),
-        // ( name: "CREATURE_ID_EILA_THE_FUGITIVE_KUNOICHI", value: 478 ),
-        // ( name: "CREATURE_ID_RED_NINJA", value: 479 ),
-        // ( name: "CREATURE_ID_SHOEBILL", value: 480 ),
-        // ( name: "CREATURE_ID_HYPER_YACATECT", value: 481 ),
-        // ( name: "CREATURE_ID_YACATECT", value: 482 ),
-        // ( name: "CREATURE_ID_THE_ELEMENT", value: 483 ),
-        // ( name: "CREATURE_ID_ITZPALT", value: 484 ),
-        // ( name: "CREATURE_ID_WHITE_YOUNG_LADY", value: 485 ),
-        // ( name: "CREATURE_ID_ABYSS_DWELLER", value: 486 ),
-        // ( name: "CREATURE_ID_GUN_SPIRIT", value: 487 ),
-        // ( name: "CREATURE_ID_SKELETON_HERO", value: 488 ),
-        // ( name: "CREATURE_ID_ABYSS_ANIMAL", value: 489 ),
-        // ( name: "CREATURE_ID_MIZUKI_THE_ABYSS_PRINCESS", value: 490 ),
-        // ( name: "CREATURE_ID_LEIKI", value: 491 ),
-        // ( name: "CREATURE_ID_PASCAL", value: 492 ),
-        // ( name: "CREATURE_ID_LAZY_OLDER_SISTER", value: 493 ),
-        // ( name: "CREATURE_ID_M_GIRL", value: 494 ),
-        // ( name: "CREATURE_ID_NEW_CITIZEN", value: 495 ),
-        // ( name: "CREATURE_ID_FLYING_LEECH", value: 496 ),
-        // ( name: "CREATURE_ID_SILENT_LEECH", value: 497 ),
-        // ( name: "CREATURE_ID_GRIEF_SHIELD", value: 498 ),
-        // ( name: "CREATURE_ID_GWEN_THE_PITILESS", value: 499 ),
-        // ( name: "CREATURE_ID_WRANG_WRANG", value: 500 ),
-        // ( name: "CREATURE_ID_XEREN_ELECTRIC_TANK", value: 501 ),
-        // ( name: "CREATURE_ID_XEREN_SATELLITE_UNIT", value: 502 ),
-        // ( name: "CREATURE_ID_CHAOS_SPIRIT", value: 503 ),
-        // ( name: "CREATURE_ID_CHAOS_UNICORN_KING_OF_CHAOS", value: 504 ),
-        // ( name: "CREATURE_ID_VALIANT_WYVERN", value: 505 ),
-        // ( name: "CREATURE_ID_ORION_KILLER", value: 506 ),
-        // ( name: "CREATURE_ID_BLACK_HORNET", value: 507 ),
-        // ( name: "CREATURE_ID_MOBILE_COMMUNICATION_EQUIPMENT", value: 508 ),
-        // ( name: "CREATURE_ID_DEMON", value: 509 ),
-        // ( name: "CREATURE_ID_DEMONS_LORD", value: 510 ),
-        // ( name: "CREATURE_ID_DEMONS_RULER", value: 511 ),
-        // ( name: "CREATURE_ID_ELEMENT_DRAGON", value: 512 ),
-        // ( name: "CREATURE_ID_OLD_HUMANKIND", value: 513 ),
-        // ( name: "CREATURE_ID_OLD_HUMANKIND2", value: 514 ),
-        // ( name: "CREATURE_ID_OLD_HUMANKIND3", value: 515 ),
-        // ( name: "CREATURE_ID_ETHER_GENERATOR", value: 516 ),
-        // ( name: "CREATURE_ID_ESTORK_THE_DOGGOD", value: 517 ),
-        // ( name: "CREATURE_ID_PART_TIME_WORKER2", value: 518 ),
-        // ( name: "CREATURE_ID_NAZUNA_THE_INSTRUCTOR", value: 519 ),
-        // ( name: "CREATURE_ID_GIANT_EATER_FLOWER", value: 520 ),
-        // ( name: "CREATURE_ID_SEI_RYU", value: 521 ),
-        // ( name: "CREATURE_ID_CHILD_WEL", value: 522 ),
-        // ( name: "CREATURE_ID_MURDER_COCKROACH", value: 523 ),
-        // ( name: "CREATURE_ID_KING_COCKROACH", value: 524 ),
-        // ( name: "CREATURE_ID_PRO_JET", value: 525 ),
-        // ( name: "CREATURE_ID_BLACK_GAUNTLET_LEOLD", value: 526 ),
-        // ( name: "CREATURE_ID_STRIKE_EAGLE", value: 527 ),
-        // ( name: "CREATURE_ID_POWER_EAGLE", value: 528 ),
-        // ( name: "CREATURE_ID_SHADOW", value: 529 ),
-        // ( name: "CREATURE_ID_GRANDMASTER", value: 530 ),
-        // ( name: "CREATURE_ID_DRAGON_CENTIPEDE", value: 531 ),
-        // ( name: "CREATURE_ID_STAG_GOD", value: 532 ),
-        // ( name: "CREATURE_ID_YERLES_CYBORG_SOLDIER", value: 533 ),
-        // ( name: "CREATURE_ID_AILE_THE_ATTENDANT", value: 534 ),
-        // ( name: "CREATURE_ID_GRYFFON_CHILD", value: 535 ),
-        // ( name: "CREATURE_ID_BLACK_GRYFFON", value: 536 ),
-        // ( name: "CREATURE_ID_MIRAGE_GRYPHON", value: 537 ),
-        // ( name: "CREATURE_ID_FOX_BROTHER", value: 538 ),
-        // ( name: "CREATURE_ID_CLUSTER_BOMB_ROCK", value: 539 ),
-        // ( name: "CREATURE_ID_VISHNU", value: 540 ),
-        // ( name: "CREATURE_ID_OMEGA_HERAKLES", value: 541 ),
-        // ( name: "CREATURE_ID_ARKTOUROS", value: 542 ),
-        // ( name: "CREATURE_ID_JAGUAR_WARRIOR", value: 543 ),
-        // ( name: "CREATURE_ID_BEHEMOTH", value: 544 ),
-        // ( name: "CREATURE_ID_HOLDGAZER", value: 545 ),
-        // ( name: "CREATURE_ID_BLOOD_GOLEM", value: 546 ),
-        // ( name: "CREATURE_ID_BIRD_ARCHER", value: 547 ),
-        // ( name: "CREATURE_ID_GARUDA", value: 548 ),
-        // ( name: "CREATURE_ID_ANCIENT_LICH", value: 549 ),
-        // ( name: "CREATURE_ID_DIABOLIC_CLOWN", value: 550 ),
-        // ( name: "CREATURE_ID_ULFHEOINN", value: 551 ),
-        // ( name: "CREATURE_ID_ULTIMATE_GOLEM", value: 552 ),
-        // ( name: "CREATURE_ID_GRAVITY_CANNON", value: 553 ),
-        // ( name: "CREATURE_ID_HIGH_MAGICIAN", value: 554 ),
-        // ( name: "CREATURE_ID_NEMAIN", value: 555 ),
-        // ( name: "CREATURE_ID_HEL", value: 556 ),
-        // ( name: "CREATURE_ID_OSIRIS", value: 557 ),
-        // ( name: "CREATURE_ID_CAMAZOTZ", value: 558 ),
-        // ( name: "CREATURE_ID_QUICK_REDCAP", value: 559 ),
-        // ( name: "CREATURE_ID_SUGAAR", value: 560 ),
-        // ( name: "CREATURE_ID_EYE_OF_BALOR", value: 561 ),
-        // ( name: "CREATURE_ID_KALI", value: 562 ),
-        // ( name: "CREATURE_ID_UNGOLIANT", value: 563 ),
-        // ( name: "CREATURE_ID_SUPER_GRANDMASTER", value: 564 ),
-        // ( name: "CREATURE_ID_MUCENCAB", value: 565 ),
-        // ( name: "CREATURE_ID_SUPER_DRAGONEWT", value: 566 ),
-        // ( name: "CREATURE_ID_SHOGGOTH", value: 567 ),
-        // ( name: "CREATURE_ID_CHAOS_MIMIC", value: 568 ),
-        // ( name: "CREATURE_ID_GALACTICA_PHANTOM", value: 569 ),
-        // ( name: "CREATURE_ID_SHEEPDOG", value: 570 ),
-        // ( name: "CREATURE_ID_PADANGU", value: 571 ),
-        // ( name: "CREATURE_ID_ARKHAI", value: 572 ),
-        // ( name: "CREATURE_ID_DOMINION", value: 573 ),
-        // ( name: "CREATURE_ID_SERAPH", value: 574 ),
-        // ( name: "CREATURE_ID_RATIN_THE_FIGHTER_REPORTER", value: 575 ),
-        // ( name: "CREATURE_ID_NAGA_THE_THIEF_REPORTER", value: 576 ),
-        // ( name: "CREATURE_ID_LENAS_THE_MAGE_REPORTER", value: 577 ),
-        // ( name: "CREATURE_ID_NECRO_DOLL", value: 578 ),
-        // ( name: "CREATURE_ID_DEAD_EYES_BLOOD_DRAGON", value: 579 ),
-        // ( name: "CREATURE_ID_CURSE_DRAKE", value: 580 ),
-        // ( name: "CREATURE_ID_MOAI", value: 581 ),
-        // ( name: "CREATURE_ID_BLUE_MOAI", value: 582 ),
-        // ( name: "CREATURE_ID_HYPOMYCES", value: 583 ),
-        // ( name: "CREATURE_ID_DEMONS_SOUL", value: 584 ),
-        // ( name: "CREATURE_ID_AMBYSTOMA", value: 585 ),
-        // ( name: "CREATURE_ID_EK_CHUAH", value: 586 ),
-        // ( name: "CREATURE_ID_MISHAGUZI", value: 587 ),
-        // ( name: "CREATURE_ID_SAGE_OF_ELEA", value: 588 ),
-        // ( name: "CREATURE_ID_KNIGHT_OF_ELEA", value: 589 ),
-        // ( name: "CREATURE_ID_MEGA_MOLE", value: 590 ),
-        // ( name: "CREATURE_ID_TALPIDAE", value: 591 ),
-        // ( name: "CREATURE_ID_RAGNAROCK", value: 592 ),
-        // ( name: "CREATURE_ID_BELL_OF_EMERGENCY", value: 593 ),
-        // ( name: "CREATURE_ID_BADGER", value: 594 ),
-        // ( name: "CREATURE_ID_CAPYBARA", value: 595 ),
-        // ( name: "CREATURE_ID_INDIGO_LOBSTER", value: 596 ),
-        // ( name: "CREATURE_ID_THOUSAND_HEDGEHOG", value: 597 ),
-        // ( name: "CREATURE_ID_HELL_NEEDLE_HEDGEHOG", value: 598 ),
-        // ( name: "CREATURE_ID_BERSERK_DRAGON", value: 599 ),
-        // ( name: "CREATURE_ID_MIST_DRAGON", value: 600 ),
-        // ( name: "CREATURE_ID_YERLESWOOD_TYPE_M", value: 601 ),
-        // ( name: "CREATURE_ID_BOMB_THROWER", value: 602 ),
-        // ( name: "CREATURE_ID_YERLES_MORTAR", value: 603 ),
-        // ( name: "CREATURE_ID_MRA", value: 604 ),
-        // ( name: "CREATURE_ID_NORNE_THE_GUIDE", value: 605 ),
-        // ( name: "CREATURE_ID_MELUGAST_TYPE0_THE_DIMENSION_DRIVER", value: 606 ),
-        // ( name: "CREATURE_ID_FLASH_WYVERN", value: 607 ),
-        // ( name: "CREATURE_ID_SPAGHETTI_MONSTER", value: 608 ),
-        // ( name: "CREATURE_ID_TREE_SPARROW", value: 609 ),
-        // ( name: "CREATURE_ID_DELPHYNE", value: 610 ),
-        // ( name: "CREATURE_ID_TELCHINES", value: 611 ),
-        // ( name: "CREATURE_ID_SPIPHA_THE_DRAGON_HUNTER", value: 612 ),
-        // ( name: "CREATURE_ID_HELL_CRAB", value: 613 ),
-        // ( name: "CREATURE_ID_JUERE_DEMON_SOLDIER", value: 614 ),
-        // ( name: "CREATURE_ID_GI_ANT", value: 615 ),
-        // ( name: "CREATURE_ID_SAMURAI_ANT", value: 616 ),
-        // ( name: "CREATURE_ID_QUEEN_GI_ANT", value: 617 ),
-        // ( name: "CREATURE_ID_KESALANPATHARAN", value: 618 ),
-        // ( name: "CREATURE_ID_BLACK_ANGEL_HAIR", value: 619 ),
-        // ( name: "CREATURE_ID_SHOPKEEPER_CROW", value: 620 ),
-        // ( name: "CREATURE_ID_ALICE_THE_BIG_ANT", value: 621 ),
-        // ( name: "CREATURE_ID_MARY_THE_INSECT_MASTER", value: 622 ),
-        // ( name: "CREATURE_ID_SCHOLAR", value: 623 ),
-        // ( name: "CREATURE_ID_SOPHIA_THE_WISE", value: 624 ),
-        // ( name: "CREATURE_ID_TRUFFE_CHOCOLATE_WISP", value: 625 ),
-        // ( name: "CREATURE_ID_TEACHER", value: 626 ),
-        // ( name: "CREATURE_ID_CHESTNUT_GIANT", value: 627 ),
-        // ( name: "CREATURE_ID_RAIZEL_THE_OLD_WIZARD", value: 628 ),
-        // ( name: "CREATURE_ID_NEIN_THE_FLYING_WITCH", value: 629 ),
-        // ( name: "CREATURE_ID_DARK_KOALA", value: 630 ),
-        // ( name: "CREATURE_ID_CHILD_BOAR", value: 631 ),
-        // ( name: "CREATURE_ID_BIG_BOAR", value: 632 ),
-        // ( name: "CREATURE_ID_DESTROY_BOAR", value: 633 ),
-        // ( name: "CREATURE_ID_SAND_WORM", value: 634 ),
-        // ( name: "CREATURE_ID_ROCK_WORM", value: 635 ),
-        // ( name: "CREATURE_ID_HELL_FIRE_FLOWER", value: 636 ),
-        // ( name: "CREATURE_ID_AMURDAD", value: 637 ),
-        // ( name: "CREATURE_ID_LAVA_GOLEM", value: 638 ),
-        // ( name: "CREATURE_ID_ARASIEL", value: 639 ),
-        // ( name: "CREATURE_ID_SINAHA", value: 640 ),
-        // ( name: "CREATURE_ID_JIN_THE_MACHINE_REBEL", value: 641 ),
-        // ( name: "CREATURE_ID_HAMSTER", value: 642 ),
-        // ( name: "CREATURE_ID_SHOOTING_HAMSTER", value: 643 ),
-        // ( name: "CREATURE_ID_DEATH_HAMSTER", value: 644 ),
-        // ( name: "CREATURE_ID_KIWI", value: 645 ),
-        // ( name: "CREATURE_ID_GOLD_KIWI", value: 646 ),
-        // ( name: "CREATURE_ID_HILL_CITIZEN", value: 647 ),
-        // ( name: "CREATURE_ID_HILL_CHILD", value: 648 ),
-        // ( name: "CREATURE_ID_SHOPKEEPER2", value: 649 ),
-        // ( name: "CREATURE_ID_DAIN_THE_ELDER_OF_HILL", value: 650 ),
-        // ( name: "CREATURE_ID_THALIA_THE_STAR_VIEWER", value: 651 ),
-        // ( name: "CREATURE_ID_IRMA_THE_INDOMITABLE_SMITH", value: 652 ),
-        // ( name: "CREATURE_ID_WISE_HILL_CITIZEN", value: 653 ),
-        // ( name: "CREATURE_ID_MARKA_THE_SILVER_BEAR", value: 654 ),
-        // ( name: "CREATURE_ID_CHAOS_HUNTER", value: 655 ),
-        // ( name: "CREATURE_ID_CHAOS_PALADIN", value: 656 ),
-        // ( name: "CREATURE_ID_CHAOS_SHAMAN", value: 657 ),
-        // ( name: "CREATURE_ID_YELLOW_FIRE_DRAGON", value: 658 ),
-        // ( name: "CREATURE_ID_VANSESDA_THE_ANCIENT_FIRE", value: 659 ),
-        // ( name: "CREATURE_ID_ESCAPEGOAT", value: 660 ),
-        // ( name: "CREATURE_ID_HAND_OF_THE_GOD", value: 661 ),
-        // ( name: "CREATURE_ID_PHANTOM_OF_END", value: 662 ),
-        // ( name: "CREATURE_ID_AIKAGE_THE_SHINOBI_MASK", value: 663 ),
-        // ( name: "CREATURE_ID_YERLESWOOD_NEO", value: 664 ),
-        // ( name: "CREATURE_ID_ROVID", value: 665 ),
-        // ( name: "CREATURE_ID_WEREWOLF", value: 666 ),
-        // ( name: "CREATURE_ID_COMMAND_WOLF", value: 667 ),
-        // ( name: "CREATURE_ID_GARZIEM", value: 668 ),
-        // ( name: "CREATURE_ID_WORKER_02", value: 669 ),
-        // ( name: "CREATURE_ID_WORKER_01", value: 670 ),
-        // ( name: "CREATURE_ID_R_CLEANER", value: 671 ),
-        // ( name: "CREATURE_ID_NINE_HEAD_DRAGON_THE_ABYSS", value: 672 ),
-        // ( name: "CREATURE_ID_FOX_SPIRIT", value: 673 ),
-        // ( name: "CREATURE_ID_SUNBARARIAN", value: 674 ),
-        // ( name: "CREATURE_ID_KARAVIKA", value: 675 ),
-        // ( name: "CREATURE_ID_URCAGUARY", value: 676 ),
-        // ( name: "CREATURE_ID_G_CUBE", value: 677 ),
-        // ( name: "CREATURE_ID_BLACK_BOX", value: 678 ),
-        // ( name: "CREATURE_ID_BASATAN", value: 679 ),
-        // ( name: "CREATURE_ID_CTHUGHA", value: 680 ),
-        // ( name: "CREATURE_ID_YOMAGNTHO", value: 681 ),
-        // ( name: "CREATURE_ID_SMALL_STONE_GOLEM", value: 682 ),
-        // ( name: "CREATURE_ID_SMALL_WOODEN_GOLEM", value: 683 ),
-        // ( name: "CREATURE_ID_KUROYA_THE_LOOKING_UNIVERSE", value: 684 ),
-        // ( name: "CREATURE_ID_FRON_THE_TOUR_PLANNER", value: 685 ),
-        // ( name: "CREATURE_ID_REGULUS_THE_ALTERED", value: 686 ),
-        // ( name: "CREATURE_ID_NERES_THE_AMNESIAC", value: 687 ),
-        // ( name: "CREATURE_ID_RYUTYE_THE_AMNESIAC", value: 688 ),
-        // ( name: "CREATURE_ID_ZANAN_HEAVILY_ARMED", value: 689 ),
-        // ( name: "CREATURE_ID_BOYCIANA", value: 690 ),
-        // ( name: "CREATURE_ID_NECRO_LANCER", value: 691 ),
-        // ( name: "CREATURE_ID_NECRO_DANCER", value: 692 ),
-        // ( name: "CREATURE_ID_CRYING_WITCH", value: 693 ),
-        // ( name: "CREATURE_ID_SHINING_SILVER_WOLF", value: 694 ),
-        // ( name: "CREATURE_ID_BLAZE_LION", value: 695 ),
-        // ( name: "CREATURE_ID_DETECTIVE", value: 696 ),
-        // ( name: "CREATURE_ID_WEREWOLF_DETECTIVE", value: 697 ),
-        // ( name: "CREATURE_ID_BUTTERSPY", value: 698 ),
-        // ( name: "CREATURE_ID_MOONLIT_PAPILLON", value: 699 ),
-        // ( name: "CREATURE_ID_EFFECT_BUTTERFLY", value: 700 ),
-        // ( name: "CREATURE_ID_SLEEPING_GIANT", value: 701 ),
-        // ( name: "CREATURE_ID_TESTER", value: 702 ),
-        // ( name: "CREATURE_ID_WANGNIN", value: 703 ),
-        // ( name: "CREATURE_ID_NIGHTMARE_SHARK", value: 704 ),
-        // ( name: "CREATURE_ID_RAGING_SHARK", value: 705 ),
-        // ( name: "CREATURE_ID_CAPTAIN_SHARK", value: 706 ),
-        // ( name: "CREATURE_ID_JELLYFISH_KRAKEN", value: 707 ),
-        // ( name: "CREATURE_ID_STEEL_MINOTAUR", value: 708 ),
-        // ( name: "CREATURE_ID_SPACE_HORNED_OWL", value: 709 ),
-        // ( name: "CREATURE_ID_LAZASYE_THE_DESTROY", value: 710 ),
-        // ( name: "CREATURE_ID_MELGET_THE_INFORMER", value: 711 ),
-        // ( name: "CREATURE_ID_YO_SUZUME", value: 712 ),
-        // ( name: "CREATURE_ID_SPACE_ZILLA", value: 713 ),
-        // ( name: "CREATURE_ID_STEEL_ARMOR_SPIDER", value: 714 ),
-        // ( name: "CREATURE_ID_GOLD_ARMOR_ANT", value: 715 ),
-        // ( name: "CREATURE_ID_BATTLE_ALIEN", value: 716 ),
-        // ( name: "CREATURE_ID_SMASH_OGRE", value: 717 ),
-        // ( name: "CREATURE_ID_SLASH_OGRE", value: 718 ),
-        // ( name: "CREATURE_ID_SHINE_OGRE", value: 719 ),
-        // ( name: "CREATURE_ID_DHOLE", value: 720 ),
-        // ( name: "CREATURE_ID_CLOUD_BEAST", value: 721 ),
-        // ( name: "CREATURE_ID_METAL_ZILLA", value: 722 ),
-        // ( name: "CREATURE_ID_HALLOWEEN_CHILDREN", value: 723 ),
-        // ( name: "CREATURE_ID_HALLOWEEN_CHILDREN2", value: 724 ),
-        // ( name: "CREATURE_ID_MUSCLE_GOLEM", value: 725 ),
-        // ( name: "CREATURE_ID_MAD_MUD_GOLEM", value: 726 ),
-        // ( name: "CREATURE_ID_KIKKAS_PYTHONIDAE", value: 727 ),
-        // ( name: "CREATURE_ID_MEIDA", value: 728 ),
-        // ( name: "CREATURE_ID_OYAUKAMUI", value: 729 ),
-        // ( name: "CREATURE_ID_NOT_STRAY_SHEEP", value: 730 ),
-        // ( name: "CREATURE_ID_ASTRAY_SHEEP", value: 731 ),
-        // ( name: "CREATURE_ID_NIGHTMARE_SHEEP", value: 732 ),
-        // ( name: "CREATURE_ID_RUBY_CARBUNCLE", value: 733 ),
-        // ( name: "CREATURE_ID_MANTICORE", value: 734 ),
-        // ( name: "CREATURE_ID_GLARE_TIGER", value: 735 ),
-        // ( name: "CREATURE_ID_WENKAMUI", value: 736 ),
-        // ( name: "CREATURE_ID_CONDUCTOR_KOALA", value: 737 ),
-        // ( name: "CREATURE_ID_DOBIEL", value: 738 ),
-        // ( name: "CREATURE_ID_MAGIC_ARCHER", value: 739 ),
-        // ( name: "CREATURE_ID_PALACE_MAGICIAN", value: 740 ),
-        // ( name: "CREATURE_ID_WANDERING_PENGUIN", value: 741 ),
-        // ( name: "CREATURE_ID_LAST_RAVEN", value: 742 ),
-        // ( name: "CREATURE_ID_INQTUAL_THE_REVENGE", value: 743 ),
-        // ( name: "CREATURE_ID_LEGENDARY_WOLF", value: 744 ),
-        // ( name: "CREATURE_ID_ZOMBIE_QUEEN", value: 745 ),
-        // ( name: "CREATURE_ID_REQUIEM", value: 746 ),
-        // ( name: "CREATURE_ID_GOTHIC", value: 747 ),
-        // ( name: "CREATURE_ID_ZOMBIE_GIRL", value: 748 ),
-        // ( name: "CREATURE_ID_BIG_SEA_HARE", value: 749 ),
-        // ( name: "CREATURE_ID_MAGICARGOT", value: 750 ),
-        // ( name: "CREATURE_ID_ACID_SEA_HARE", value: 751 ),
-        // ( name: "CREATURE_ID_KAMIKAZE_MAIMAI", value: 752 ),
-        // ( name: "CREATURE_ID_FORTRESSNAIL", value: 753 ),
-        // ( name: "CREATURE_ID_DARKNESSLUG", value: 754 ),
-        // ( name: "CREATURE_ID_ROATONIS_THE_INFECTIONS", value: 755 ),
-        // ( name: "CREATURE_ID_SHURAIDA_THE_EXPERT_MERC", value: 756 ),
-        // ( name: "CREATURE_ID_MIKSCXIFONA", value: 757 ),
-        // ( name: "CREATURE_ID_PROFANITY_PRIEST", value: 758 ),
-        // ( name: "CREATURE_ID_GRIM_REAPER", value: 759 ),
-        // ( name: "CREATURE_ID_CLAYMOAI", value: 760 ),
-        // ( name: "CREATURE_ID_MANA_MONOLITH", value: 761 ),
-        // ( name: "CREATURE_ID_MOAI_CORE", value: 762 ),
-        // ( name: "CREATURE_ID_CLOUDRAGON", value: 763 ),
-        // ( name: "CREATURE_ID_ARAONIBI", value: 764 ),
-        // ( name: "CREATURE_ID_SPIRIT_OF_BREAD", value: 765 ),
-        // ( name: "CREATURE_ID_KENTAURS", value: 766 ),
-        // ( name: "CREATURE_ID_GUNNTAURS", value: 767 ),
-        // ( name: "CREATURE_ID_BALLISTALLION", value: 768 ),
-        // ( name: "CREATURE_ID_KENTAURS_KNIGHT", value: 769 ),
-        // ( name: "CREATURE_ID_DARK_HORSE", value: 770 ),
-        // ( name: "CREATURE_ID_MASTALLION", value: 771 ),
-        // ( name: "CREATURE_ID_CATTLE", value: 772 ),
-        // ( name: "CREATURE_ID_BLUE_BULL", value: 773 ),
-        // ( name: "CREATURE_ID_CHIHYU", value: 774 ),
-        // ( name: "CREATURE_ID_ASTERIOS", value: 775 ),
-        // ( name: "CREATURE_ID_HAM_TAIROU", value: 776 ),
-        // ( name: "CREATURE_ID_DISASTER", value: 777 ),
-        // ( name: "CREATURE_ID_KYUSO", value: 778 ),
-        // ( name: "CREATURE_ID_MOMOTUKA", value: 779 ),
-        // ( name: "CREATURE_ID_COM_BAT", value: 780 ),
-        // ( name: "CREATURE_ID_KAPAPU_KAMUI", value: 781 ),
-        // ( name: "CREATURE_ID_DARK_RAIDER", value: 782 ),
-        // ( name: "CREATURE_ID_TURTLE_RABBIT", value: 783 ),
-        // ( name: "CREATURE_ID_TERRORISM_SQUIRREL", value: 784 ),
-        // ( name: "CREATURE_ID_BUNNY_GHOUL", value: 785 ),
-        // ( name: "CREATURE_ID_HAKUTOSHIN", value: 786 ),
-        // ( name: "CREATURE_ID_IRIS", value: 787 ),
-        // ( name: "CREATURE_ID_DREAD_RABBIT", value: 788 ),
-        // ( name: "CREATURE_ID_EGELVEIL_THE_BIND", value: 789 ),
-        // ( name: "CREATURE_ID_BETHEL_THE_WHITE_HAWK", value: 790 ),
-        // ( name: "CREATURE_ID_MELUGAST_TYPEM", value: 791 ),
-        // ( name: "CREATURE_ID_SYLPH", value: 792 ),
-        // ( name: "CREATURE_ID_13TH_STEP_GHOST", value: 793 ),
-        // ( name: "CREATURE_ID_LEGION_MAGE", value: 794 ),
-        // ( name: "CREATURE_ID_ARCH_WRAITH", value: 795 ),
-        // ( name: "CREATURE_ID_ARIBEL_THE_WHITE_ARMS", value: 796 ),
-        // ( name: "CREATURE_ID_POISON_ARROW_FROG", value: 797 ),
-        // ( name: "CREATURE_ID_MUSICAL_NOTADPOLE", value: 798 ),
-        // ( name: "CREATURE_ID_NUOU", value: 799 ),
-        // ( name: "CREATURE_ID_SALAMANDER", value: 800 ),
-        // ( name: "CREATURE_ID_SEIASHIN", value: 801 ),
-        // ( name: "CREATURE_ID_APPRENTICE_ANGEL", value: 802 ),
-        // ( name: "CREATURE_ID_CUPID_INSPECTOR", value: 803 ),
-        // ( name: "CREATURE_ID_FALLEN_ANGEL", value: 804 ),
-        // ( name: "CREATURE_ID_RENAI_THE_OVER_MESHERA", value: 805 ),
-        // ( name: "CREATURE_ID_PIXIE", value: 806 ),
-        // ( name: "CREATURE_ID_GIGANTIC_FAIRY", value: 807 ),
-        // ( name: "CREATURE_ID_PERI", value: 808 ),
-        // ( name: "CREATURE_ID_YOUSEI_GORATH", value: 809 ),
-        // ( name: "CREATURE_ID_FAIRY_THE_SHINING", value: 810 ),
-        // ( name: "CREATURE_ID_LIZARD_MAGE", value: 811 ),
-        // ( name: "CREATURE_ID_BLACK_LIZARDMAN", value: 812 ),
-        // ( name: "CREATURE_ID_ASSASSIN_LIZARD", value: 813 ),
-        // ( name: "CREATURE_ID_CLAYMORE_DRAGONEWT", value: 814 ),
-        // ( name: "CREATURE_ID_BLIZZARD_LIZARD", value: 815 ),
-        // ( name: "CREATURE_ID_DRACO_EQUES", value: 816 ),
-        // ( name: "CREATURE_ID_BELPHAT_THE_COSMIC_SWORD", value: 817 ),
-        // ( name: "CREATURE_ID_MAYU_SIBAYU", value: 818 ),
-        // ( name: "CREATURE_ID_BLACK_WING", value: 819 ),
-        // ( name: "CREATURE_ID_ALKONOST", value: 820 ),
-        // ( name: "CREATURE_ID_DHWTY", value: 821 ),
-        // ( name: "CREATURE_ID_MAILE_THE_MARIONETTE_SHAMAN", value: 822 ),
-        // ( name: "CREATURE_ID_MAD_SCRATCHER", value: 823 ),
-        // ( name: "CREATURE_ID_DEVOTEE_OF_OBLIVION", value: 824 ),
-        // ( name: "CREATURE_ID_MEMORY_EMPTY_MAN", value: 825 ),
-        // ( name: "CREATURE_ID_ZAP_MANDRAKE", value: 826 ),
-        // ( name: "CREATURE_ID_CUCUMBER_HORSE", value: 827 ),
-        // ( name: "CREATURE_ID_CUCUMBER_WARRIOR", value: 828 ),
-        // ( name: "CREATURE_ID_NIN_NINZIN", value: 829 ),
-        // ( name: "CREATURE_ID_VAMPKIN", value: 830 ),
-        // ( name: "CREATURE_ID_DEMONS_COMMANDER", value: 831 ),
-        // ( name: "CREATURE_ID_PERFORMAID_BLOODRESS", value: 832 ),
-        // ( name: "CREATURE_ID_PERFORMAID_DESWEEPER", value: 833 ),
-        // ( name: "CREATURE_ID_PERFORMAID_COCRUEL", value: 834 ),
-        // ( name: "CREATURE_ID_PERFORMAID_PINCHIEF", value: 835 ),
-        // ( name: "CREATURE_ID_PERFORMAID_BITCHIACK", value: 836 ),
-        // ( name: "CREATURE_ID_TENTACLE_WORM", value: 837 ),
-        // ( name: "CREATURE_ID_GRAND_LEECH", value: 838 ),
-        // ( name: "CREATURE_ID_BIND_DEVIL_WORM", value: 839 ),
-        // ( name: "CREATURE_ID_SEPA", value: 840 ),
-        // ( name: "CREATURE_ID_SAIMEF_THE_DOGGOD", value: 841 ),
-        // ( name: "CREATURE_ID_FASHIONABLE_KUNOICHI", value: 842 ),
-        // ( name: "CREATURE_ID_GUNFISH", value: 843 ),
-        // ( name: "CREATURE_ID_FLIGHT_FISH", value: 844 ),
-        // ( name: "CREATURE_ID_ABYSSTAR", value: 845 ),
-        // ( name: "CREATURE_ID_FLOWER_CORAL", value: 846 ),
-        // ( name: "CREATURE_ID_MANTA_RAYARN", value: 847 ),
-        // ( name: "CREATURE_ID_ORCINUS_ORCA", value: 848 ),
-        // ( name: "CREATURE_ID_NINE_DART_GARFISH", value: 849 ),
-        // ( name: "CREATURE_ID_SEA_FALLEN_ANGEL", value: 850 ),
-        // ( name: "CREATURE_ID_SNIPE_HERMIT", value: 851 ),
-        // ( name: "CREATURE_ID_AROMA_LOCARIS", value: 852 ),
-        // ( name: "CREATURE_ID_KING_WOODLOUSE", value: 853 ),
-        // ( name: "CREATURE_ID_DEATH_MANEKI", value: 854 ),
-        // ( name: "CREATURE_ID_SHELL_KING_OF_VINDALE", value: 855 ),
-        // ( name: "CREATURE_ID_DARK_DOME", value: 856 ),
-        // ( name: "CREATURE_ID_MANYTIA_THE_ADVENTURE_MERCHANT", value: 857 ),
-        // ( name: "CREATURE_ID_DARK_ELEA", value: 858 ),
-        // ( name: "CREATURE_ID_LOTHRIAN_AGENT", value: 859 ),
-        // ( name: "CREATURE_ID_LANKATA_THE_LIGHTNING_OF_BLUE", value: 860 ),
-        // ( name: "CREATURE_ID_KILLER_NURSE", value: 861 ),
-        // ( name: "CREATURE_ID_ZANAN_OLD_SOLDIER", value: 862 ),
-        // ( name: "CREATURE_ID_ZANAN_ENHANCED_SOLDIER", value: 863 ),
-        // ( name: "CREATURE_ID_GRASS_DANCER", value: 864 ),
-        // ( name: "CREATURE_ID_GRASS_KILLER", value: 865 ),
-        // ( name: "CREATURE_ID_STORMBLING", value: 866 ),
-        // ( name: "CREATURE_ID_HELLSTLING", value: 867 ),
-        // ( name: "CREATURE_ID_RIANNA_THE_DAYDREAMER", value: 868 ),
-        // ( name: "CREATURE_ID_YEEK_HARD_WORKER", value: 869 ),
-        // ( name: "CREATURE_ID_ARCHAYEEK", value: 870 ),
-        // ( name: "CREATURE_ID_ARCHAYEEK_GUNNER", value: 871 ),
-        // ( name: "CREATURE_ID_MASTER_ARCHAYEEK", value: 872 ),
-        // ( name: "CREATURE_ID_LUNATYEEK", value: 873 ),
-        // ( name: "CREATURE_ID_HEROYEEK", value: 874 ),
-        // ( name: "CREATURE_ID_UNITDEAD_JOKER", value: 875 ),
-        // ( name: "CREATURE_ID_UNITDEAD_JACK", value: 876 ),
-        // ( name: "CREATURE_ID_UNITDEAD_QUEEN", value: 877 ),
-        // ( name: "CREATURE_ID_UNITDEAD_KING", value: 878 ),
-        // ( name: "CREATURE_ID_HALION_THE_EXTREMIST", value: 879 ),
-        // ( name: "CREATURE_ID_LARGE_BIKE", value: 880 ),
-        // ( name: "CREATURE_ID_XEREN_AUTO_TANK", value: 881 ),
-        // ( name: "CREATURE_ID_RIDE_CLERIC", value: 882 ),
-        // ( name: "CREATURE_ID_BUILDION", value: 883 ),
-        // ( name: "CREATURE_ID_ZOIBO", value: 884 ),
-        // ( name: "CREATURE_ID_KONIGS_KATZE", value: 885 ),
-        // ( name: "CREATURE_ID_ALFRED_THE_CANGNAN_WIND", value: 886 ),
-        // ( name: "CREATURE_ID_SKOGSRA", value: 887 ),
-        // ( name: "CREATURE_ID_BANYAN_MONSTER", value: 888 ),
-        // ( name: "CREATURE_ID_ERLKONIG", value: 889 ),
-        // ( name: "CREATURE_ID_TREE_INCARNATION", value: 890 ),
-        // ( name: "CREATURE_ID_DRAGON_TREE", value: 891 ),
-        // ( name: "CREATURE_ID_CURSE_WOOD_KING", value: 892 ),
-        // ( name: "CREATURE_ID_ZISILION_THE_MINE_KING", value: 893 ),
-        // ( name: "CREATURE_ID_CHAOS_SEED", value: 894 ),
-        // ( name: "CREATURE_ID_CHAOS_SERPENT", value: 895 ),
-        // ( name: "CREATURE_ID_AJETALIO_THE_SEMINAR_LECTURER", value: 896 ),
-        // ( name: "CREATURE_ID_CRESCE_THE_SEMINAR_LECTURER", value: 897 ),
-        // ( name: "CREATURE_ID_IDURU_THE_SEMINAR_LECTURER", value: 898 ),
-        // ( name: "CREATURE_ID_MITO_THE_SEMINAR_LECTURER", value: 899 ),
-        // ( name: "CREATURE_ID_PART_TIME_WORKER_THE_RED_SWORD", value: 900 ),
-        // ( name: "CREATURE_ID_NOVICE", value: 901 ),
-        // ( name: "CREATURE_ID_KARATA_THE_SEMINAR_MASCOT", value: 902 ),
-        // ( name: "CREATURE_ID_CATERPILLAR_SNIPER", value: 903 ),
-        // ( name: "CREATURE_ID_NURSING_MOTH", value: 904 ),
-        // ( name: "CREATURE_ID_MAGIC_HAWK_MOTH", value: 905 ),
-        // ( name: "CREATURE_ID_BATTLE_HOPPER", value: 906 ),
-        // ( name: "CREATURE_ID_ASSAULT_RED_DRAGONFLY", value: 907 ),
-        // ( name: "CREATURE_ID_BLACK_HOPPER_X", value: 908 ),
-        // ( name: "CREATURE_ID_TALON_SOLDIER", value: 909 ),
-        // ( name: "CREATURE_ID_FIN_CROCODILE", value: 910 ),
-        // ( name: "CREATURE_ID_TEZCATLIPOCA", value: 911 ),
-        // ( name: "CREATURE_ID_KILLING_ANTEATER", value: 912 ),
-        // ( name: "CREATURE_ID_ELECTRIC_HIPPOPOTAMUS", value: 913 ),
-        // ( name: "CREATURE_ID_KNIGHTCEROS", value: 914 ),
-        // ( name: "CREATURE_ID_GANESA", value: 915 ),
-        // ( name: "CREATURE_ID_SIN_GORILLA", value: 916 ),
-        // ( name: "CREATURE_ID_ROPER", value: 917 ),
-        // ( name: "CREATURE_ID_LIVING_BLOOD", value: 918 ),
-        // ( name: "CREATURE_ID_FORMLESS_SPAWN", value: 919 ),
-        // ( name: "CREATURE_ID_DRAGON_BUBBLE", value: 920 ),
-        // ( name: "CREATURE_ID_SILVER_FOX_BROTHER", value: 921 ),
-        // ( name: "CREATURE_ID_SICKFULL_OLDER_BROTHER", value: 922 ),
-        // ( name: "CREATURE_ID_ENTHUMESIS", value: 923 ),
-        // ( name: "CREATURE_ID_ZANAN_ASSASSIN", value: 924 ),
-        // ( name: "CREATURE_ID_ALSAPIA_THE_MURDERER_MASK", value: 925 ),
-        // ( name: "CREATURE_ID_GILPHEM_THE_MAGIC_STEEL", value: 926 ),
-        // ( name: "CREATURE_ID_OCHIMUSHA_ARMOR", value: 927 ),
-        // ( name: "CREATURE_ID_MUSHA_SOUL", value: 928 ),
-        // ( name: "CREATURE_ID_CRIMSON_ARMOR", value: 929 ),
-        // ( name: "CREATURE_ID_SKELETON_MAGICIAN", value: 930 ),
-        // ( name: "CREATURE_ID_MONEY_DECEASED", value: 931 ),
-        // ( name: "CREATURE_ID_SKULL_BEAST", value: 932 ),
-        // ( name: "CREATURE_ID_GASYADOKURO", value: 933 ),
-        // ( name: "CREATURE_ID_THE_CHAOS_CHILD", value: 934 ),
-        // ( name: "CREATURE_ID_NAGAREW_THE_OBLIVION_BEAST", value: 935 ),
-        // ( name: "CREATURE_ID_MELUGAST_AO_I_THE_DIMENSION_DRIVER", value: 936 ),
-        // ( name: "CREATURE_ID_ANGRY_BURGER", value: 937 ),
-        // ( name: "CREATURE_ID_SUNRISE_THE_ARCHIPELAGO_DRAGON", value: 938 ),
-        // ( name: "CREATURE_ID_DOROTHIA_STANDING_IN_THE_WETLAND", value: 939 ),
-        // ( name: "CREATURE_ID_GRAVEED_THE_GRAVITY_VALLEY", value: 940 ),
-        // ( name: "CREATURE_ID_BEILGENA_THE_ARTIFICIAL_DRAGON", value: 941 ),
-        // ( name: "CREATURE_ID_TRICERATOPS", value: 942 ),
-        // ( name: "CREATURE_ID_BRONTOSAURUS", value: 943 ),
-        // ( name: "CREATURE_ID_DRICERADOPS", value: 944 ),
-        // ( name: "CREATURE_ID_LAST_DANCER", value: 945 ),
-        // ( name: "CREATURE_ID_LOYTER_THE_CRIMSON_OF_DOLE", value: 946 ),
-        // ( name: "CREATURE_ID_BURT_THE_BURNING_ADVENTURER_SOUL", value: 947 ),
-        // ( name: "CREATURE_ID_ALLEN_THE_RESEARCHER", value: 948 ),
-        // ( name: "CREATURE_ID_BARTENDER2", value: 949 ),
-        // ( name: "CREATURE_ID_CLERK", value: 950 ),
-        // ( name: "CREATURE_ID_GUILD_BROKER", value: 951 ),
-        // ( name: "CREATURE_ID_FORMER_BANK_CLERK", value: 952 ),
-        // ( name: "CREATURE_ID_BYSYMLHA_THE_AMBER_EYES", value: 953 ),
-        // ( name: "CREATURE_ID_LION2", value: 954 ),
-        // ( name: "CREATURE_ID_WOLF", value: 955 ),
-        // ( name: "CREATURE_ID_BOAR", value: 956 ),
-        // ( name: "CREATURE_ID_RAT2", value: 957 ),
-        // ( name: "CREATURE_ID_FOX", value: 958 ),
-        // ( name: "CREATURE_ID_RABBIT", value: 959 ),
-        // ( name: "CREATURE_ID_VESTIGE", value: 960 ),
-        // ( name: "CREATURE_ID_OBLIVION_BEAST", value: 961 ),
-        // ( name: "CREATURE_ID_LITTLE_BOY", value: 962 ),
-        // ( name: "CREATURE_ID_S_BOY", value: 963 ),
-        // ( name: "CREATURE_ID_BUTLER", value: 964 ),
-        // ( name: "CREATURE_ID_OLD_BUTLER", value: 965 ),
-        // ( name: "CREATURE_ID_INCONEET", value: 966 ),
-        // ( name: "CREATURE_ID_ARROW_DUCK", value: 967 ),
-        // ( name: "CREATURE_ID_YOKOSHIMA_ENAGA", value: 968 ),
-        // ( name: "CREATURE_ID_FOREST_ASSASSIN", value: 969 ),
-        // ( name: "CREATURE_ID_FALLEN_BIRD", value: 970 ),
-        // ( name: "CREATURE_ID_PEACE_MAKER", value: 971 ),
-        // ( name: "CREATURE_ID_BISQUE_DOLL", value: 972 ),
-        // ( name: "CREATURE_ID_UNIVERSE_INVADER", value: 973 ),
-        // ( name: "CREATURE_ID_KOBOLINA", value: 974 ),
-        // ( name: "CREATURE_ID_KOBOLD_BLUE", value: 975 ),
-        // ( name: "CREATURE_ID_KOBOLD_SABER", value: 976 ),
-        // ( name: "CREATURE_ID_LIGHTNING_KOBOLD", value: 977 ),
-        // ( name: "CREATURE_ID_DUKE_KOBOLD", value: 978 ),
-        // ( name: "CREATURE_ID_KOBOLD_BLASTER", value: 979 ),
-        // ( name: "CREATURE_ID_CARTER_THE_SKILLED_FOOT", value: 980 ),
-        // ( name: "CREATURE_ID_NANCY_THE_WANDERLUST", value: 981 ),
-        // ( name: "CREATURE_ID_TONI_THE_ANGLER", value: 982 ),
-        // ( name: "CREATURE_ID_PORC", value: 983 ),
-        // ( name: "CREATURE_ID_BRAND_PORC", value: 984 ),
-        // ( name: "CREATURE_ID_BLACK_ORC", value: 985 ),
-        // ( name: "CREATURE_ID_URUK", value: 986 ),
-        // ( name: "CREATURE_ID_BLACK_PORC", value: 987 ),
-        // ( name: "CREATURE_ID_URUK_HAI", value: 988 ),
-        // ( name: "CREATURE_ID_URUK_HIGHNESS", value: 989 ),
 
         ( name: "MAX_CREATURE_ID", value: 358, code_value: "CREATURE_ID_CARAVAN_MASTER + 3" ),
       ]
@@ -6516,12 +3958,8 @@ AnalysisConfig(
         ( name: "SKILL_RESDMG_CUT", value: 61, ),
         ( name: "SKILL_RESDMG_ETHER", value: 62, ),
         ( name: "SKILL_RESDMG_ACID", value: 63, ),
-        // ( name: "SKILL_RESDMG_CRUSH", value: 64 , ),
-        // ( name: "SKILL_RESDMG_CHESTNUT", value: 65, ),
-        // ( name: "SKILL_RESDMG_BRAIN", value: 66, ),
-        // ( name: "SKILL_RESDMG_TOFU", value: 67, ),
 
-        ( name: "MAX_SKILL_RESDMG", value: 68, code_value: "SKILL_RESDMG_TOFU + 1" ),
+        ( name: "MAX_SKILL_RESDMG", value: 64, code_value: "SKILL_RESDMG_ACID + 1" ),
       ]
     ),
     "skill_all_resist": (
@@ -6682,17 +4120,6 @@ AnalysisConfig(
         ( name: "SKILL_SPELL_WIZARDS_HARVEST", value: 464, ),
         ( name: "SKILL_SPELL_METEOR", value: 465, ),
         ( name: "SKILL_SPELL_GRAVITY", value: 466, ),
-        // ( name: "SKILL_SPELL_SUMMON_SPIRIT", value: 467, ),
-        // ( name: "SKILL_SPELL_FEATHER", value: 468, ),
-        // ( name: "SKILL_SPELL_ECLIPSE", value: 469, ),
-        // ( name: "SKILL_SPELL_THUNDER_VORTEX", value: 470, ),
-        // ( name: "SKILL_SPELL_NETHER_WAVE", value: 471, ),
-        // ( name: "SKILL_SPELL_MIST_OF_DAZZLING", value: 472, ),
-        // ( name: "SKILL_SPELL_POISON_STORM", value: 473, ),
-        // ( name: "SKILL_SPELL_CONCENTRATION", value: 474, ),
-        // ( name: "SKILL_SPELL_WATER_BOLT", value: 475, ),
-        // ( name: "SKILL_SPELL_BUBBLE_STORM", value: 476, ),
-        // ( name: "SKILL_SPELL_GEM_POWER", value: 477, ),
 
         ( name: "MAX_SPELL", value: 467, code_value: "SKILL_SPELL_GRAVITY + 1" ),
       ]
@@ -6761,167 +4188,6 @@ AnalysisConfig(
         ( name: "SKILL_SPACT_DECAPITATION", value: 658, ),
         ( name: "SKILL_SPACT_DROP_MINE", value: 659, ),
         ( name: "SKILL_SPACT_MANIS_DISASSEMBLY", value: 660, ),
-        // ( name: "SKILL_SPACT_INSANE_WAVE", value: 661, ),
-        // ( name: "SKILL_SPACT_SUPER_VIBRATING_FIST", value: 662, ),
-        // ( name: "SKILL_SPACT_TEMPEST_ARROW", value: 663, ),
-        // ( name: "SKILL_SPACT_EXCESSIVE_HEAL", value: 664, ),
-        // ( name: "SKILL_SPACT_SHINE_SNAIL", value: 665, ),
-        // ( name: "SKILL_SPACT_HOUZANHA", value: 666, ),
-        // ( name: "SKILL_SPACT_MANA_BURST", value: 667, ),
-        // ( name: "SKILL_SPACT_ELEMENTIA", value: 668, ),
-        // ( name: "SKILL_SPACT_RAMPAGE", value: 669, ),
-        // ( name: "SKILL_SPACT_GOLD_RUSH", value: 670, ),
-        // ( name: "SKILL_SPACT_SYNCHRO_HEARTS", value: 671, ),
-        // ( name: "SKILL_SPACT_MAGIC_KISS", value: 672, ),
-        // ( name: "SKILL_SPACT_CLEAR_MIND", value: 673, ),
-        // ( name: "SKILL_SPACT_PRESSURE", value: 674, ),
-        // ( name: "SKILL_SPACT_SUMMON_CHAOS", value: 675, ),
-        // ( name: "SKILL_SPACT_ENSEMBLE", value: 676, ),
-        // ( name: "SKILL_SPACT_SUPER_REGEN", value: 677, ),
-        // ( name: "SKILL_SPACT_DIRECTIVE", value: 678, ),
-        // ( name: "SKILL_SPACT_PLATINUM_SONG", value: 679, ),
-        // ( name: "SKILL_SPACT_PROVOKE", value: 680, ),
-        // ( name: "SKILL_SPACT_BIND", value: 681, ),
-        // ( name: "SKILL_SPACT_BROWBEAT", value: 682, ),
-        // ( name: "SKILL_SPACT_EYE_OF_BRAINWASHING", value: 683, ),
-        // ( name: "SKILL_SPACT_CALL_FAMILIAR", value: 684, ),
-        // ( name: "SKILL_SPACT_EXPLOSIVE_FIST", value: 685, ),
-        // ( name: "SKILL_SPACT_CHARGE", value: 686, ),
-        // ( name: "SKILL_SPACT_EMERGENCY_EVASION", value: 687, ),
-        // ( name: "SKILL_SPACT_MAGIC_EQUIP", value: 688, ),
-        // ( name: "SKILL_SPACT_SUPER_ARMOR", value: 689, ),
-        // ( name: "SKILL_SPACT_DO_NOTHING", value: 690, ),
-        // ( name: "SKILL_SPACT_GRAVITY_SPHERE", value: 691, ),
-        // ( name: "SKILL_SPACT_ATTRIBUTE", value: 692, ),
-        // ( name: "SKILL_SPACT_FIRE_A_VOLLEY", value: 693, ),
-        // ( name: "SKILL_SPACT_ABSOLUTE_PROTECT", value: 694, ),
-        // ( name: "SKILL_SPACT_MEGID_FLAME", value: 695, ),
-        // ( name: "SKILL_SPACT_FORCED_DRAFT", value: 696, ),
-        // ( name: "SKILL_SPACT_CONTINUOUS_ATTACKS", value: 697, ),
-        // ( name: "SKILL_SPACT_VARIABLE_BREATH", value: 698, ),
-        // ( name: "SKILL_SPACT_DIVINE_STREAM", value: 699, ),
-        // ( name: "SKILL_SPACT_ZERO_SHOOT", value: 700, ),
-        // ( name: "SKILL_SPACT_RUBBING", value: 701, ),
-        // ( name: "SKILL_SPACT_FLASH_OF_SWIFTNESS", value: 702, ),
-        // ( name: "SKILL_SPACT_UNDERHAND_DROP", value: 703, ),
-        // ( name: "SKILL_SPACT_BISECTION", value: 704, ),
-        // ( name: "SKILL_SPACT_PULVERIZATION", value: 705, ),
-        // ( name: "SKILL_SPACT_PENETRATION", value: 706, ),
-        // ( name: "SKILL_SPACT_DANCE_OF_BLOW", value: 707, ),
-        // ( name: "SKILL_SPACT_EXPLOSION", value: 708, ),
-        // ( name: "SKILL_SPACT_QUICK_USE", value: 709, ),
-        // ( name: "SKILL_SPACT_SQUEEZE", value: 710, ),
-        // ( name: "SKILL_SPACT_DISTURBANCE", value: 711, ),
-        // ( name: "SKILL_SPACT_CUT_TREE", value: 712, ),
-        // ( name: "SKILL_SPACT_PREACHING", value: 713, ),
-        // ( name: "SKILL_SPACT_UNCONTROL", value: 714, ),
-        // ( name: "SKILL_SPACT_CONVERGE_BREATH", value: 715, ),
-        // ( name: "SKILL_SPACT_TIME_STOP", value: 716, ),
-        // ( name: "SKILL_SPACT_PIERCING_ZERO_SHOOT", value: 717, ),
-        // ( name: "SKILL_SPACT_DIFFUSION_WAVE", value: 718, ),
-        // ( name: "SKILL_SPACT_ASSIMILATE", value: 719, ),
-        // ( name: "SKILL_SPACT_OVER_BOOST", value: 720, ),
-        // ( name: "SKILL_SPACT_WILD_RELEASE", value: 721, ),
-        // ( name: "SKILL_SPACT_GUTS_OF_SNAIL", value: 722, ),
-        // ( name: "SKILL_SPACT_DANCE_OF_THE_DEAD", value: 723, ),
-        // ( name: "SKILL_SPACT_EXPLOSION_DUST", value: 724, ),
-        // ( name: "SKILL_SPACT_HALF_SOUL", value: 725, ),
-        // ( name: "SKILL_SPACT_DEATH_BIND", value: 726, ),
-        // ( name: "SKILL_SPACT_TORRENTIAL_TRIBUTE", value: 727, ),
-        // ( name: "SKILL_SPACT_MIND_BREAK", value: 728, ),
-        // ( name: "SKILL_SPACT_HAND_OF_SPLENDOR", value: 729, ),
-        // ( name: "SKILL_SPACT_GRAVITON_BUSTER", value: 730, ),
-        // ( name: "SKILL_SPACT_MANA_SLASH", value: 731, ),
-        // ( name: "SKILL_SPACT_INTENSIVE_POWER", value: 732, ),
-        // ( name: "SKILL_SPACT_SPACE_RETENTION", value: 733, ),
-        // ( name: "SKILL_SPACT_DISTANT_ATTACK", value: 734, ),
-        // ( name: "SKILL_SPACT_SPINNING_THROW", value: 735, ),
-        // ( name: "SKILL_SPACT_METAL_GUARD", value: 736, ),
-        // ( name: "SKILL_SPACT_THUNDERCLAP_KICK", value: 737, ),
-        // ( name: "SKILL_SPACT_STRUCK_OUT", value: 738, ),
-        // ( name: "SKILL_SPACT_BEWITCH", value: 739, ),
-        // ( name: "SKILL_SPACT_SHADOW_RUSH", value: 740, ),
-        // ( name: "SKILL_SPACT_TAG_FORCE", value: 741, ),
-        // ( name: "SKILL_SPACT_BODY_BLOW", value: 742, ),
-        // ( name: "SKILL_SPACT_NECRO_FORCE", value: 743, ),
-        // ( name: "SKILL_SPACT_CLOSE_SUICIDE", value: 744, ),
-        // ( name: "SKILL_SPACT_KNOCKOUT", value: 745, ),
-        // ( name: "SKILL_SPACT_OVERRAY", value: 746, ),
-        // ( name: "SKILL_SPACT_SMASH_GROUND", value: 747, ),
-        // ( name: "SKILL_SPACT_VORACITY_FANG", value: 748, ),
-        // ( name: "SKILL_SPACT_SHIELD_STRIKE", value: 749, ),
-        // ( name: "SKILL_SPACT_GAUGE_RELEASE", value: 750, ),
-        // ( name: "SKILL_SPACT_ALCHEMICAL_RAIN", value: 751, ),
-        // ( name: "SKILL_SPACT_MULTIPLE_GATHER", value: 752, ),
-        // ( name: "SKILL_SPACT_PSYCHIC_WAVE", value: 753, ),
-        // ( name: "SKILL_SPACT_READING_PARTY", value: 754, ),
-        // ( name: "SKILL_SPACT_OVER_LONG_THROW", value: 755, ),
-        // ( name: "SKILL_SPACT_DUPLICANE", value: 756, ),
-        // ( name: "SKILL_SPACT_LOCK_BREAK", value: 757, ),
-        // ( name: "SKILL_SPACT_MEMORY_POISON", value: 758, ),
-        // ( name: "SKILL_SPACT_BLADE_TURBULENCE", value: 759, ),
-        // ( name: "SKILL_SPACT_CLASH_RUSH", value: 760, ),
-        // ( name: "SKILL_SPACT_DEATH_SONG", value: 761, ),
-        // ( name: "SKILL_SPACT_HOMING_LASER", value: 762, ),
-        // ( name: "SKILL_SPACT_MP_BREATH", value: 763, ),
-        // ( name: "SKILL_SPACT_BOUND_IN_BLOOD", value: 764, ),
-        // ( name: "SKILL_SPACT_SILENT_OCEAN", value: 765, ),
-        // ( name: "SKILL_SPACT_DIMENSION_FISHING", value: 766, ),
-        // ( name: "SKILL_SPACT_FASCINATION_DANCE", value: 767, ),
-        // ( name: "SKILL_SPACT_VINDALIAN_JIUJITSU", value: 768, ),
-        // ( name: "SKILL_SPACT_BLADE_STRINGS", value: 769, ),
-        // ( name: "SKILL_SPACT_DANCING_WIRE", value: 770, ),
-        // ( name: "SKILL_SPACT_EYE_OF_STIFFEN", value: 771, ),
-        // ( name: "SKILL_SPACT_EYE_OF_ILLUSION", value: 772, ),
-        // ( name: "SKILL_SPACT_EXTERMINATION_BREATH", value: 773, ),
-        // ( name: "SKILL_SPACT_RESOLUTION_HAND", value: 774, ),
-        // ( name: "SKILL_SPACT_MATERIALIZE", value: 775, ),
-        // ( name: "SKILL_SPACT_COWERING_SMILE", value: 776, ),
-        // ( name: "SKILL_SPACT_SMILE_FIELD", value: 777, ),
-        // ( name: "SKILL_SPACT_ABYSS_IN_THE_EYE", value: 778, ),
-        // ( name: "SKILL_SPACT_SHIELD_PARRY", value: 779, ),
-        // ( name: "SKILL_SPACT_ROCKET_FIRE", value: 780, ),
-        // ( name: "SKILL_SPACT_NUCLEAR_FIRE", value: 781, ),
-        // ( name: "SKILL_SPACT_GOLDEN_STORM", value: 782, ),
-        // ( name: "SKILL_SPACT_GRAVITY_ACCEL", value: 783, ),
-        // ( name: "SKILL_SPACT_GIGA_GRAVITATION", value: 784, ),
-        // ( name: "SKILL_SPACT_HYPER_DASH", value: 785, ),
-        // ( name: "SKILL_SPACT_VIOLENT_GARDEN", value: 786, ),
-        // ( name: "SKILL_SPACT_MISTELTEIN", value: 787, ),
-        // ( name: "SKILL_SPACT_AROMAGEDDON", value: 788, ),
-        // ( name: "SKILL_SPACT_CURTAIN_OF_SMOKE", value: 789, ),
-        // ( name: "SKILL_SPACT_SMOKE_MIRROR", value: 790, ),
-        // ( name: "SKILL_SPACT_MIRROR", value: 791, ),
-        // ( name: "SKILL_SPACT_MELT_CLINCH", value: 792, ),
-        // ( name: "SKILL_SPACT_FORMLESS_FETTER", value: 793, ),
-        // ( name: "SKILL_SPACT_BLOOD_STREAM", value: 794, ),
-        // ( name: "SKILL_SPACT_FLAME_OF_RAGE", value: 795, ),
-        // ( name: "SKILL_SPACT_IMPACT_GUNFIRE", value: 796, ),
-        // ( name: "SKILL_SPACT_ONE_POINT_SHOOT", value: 797, ),
-        // ( name: "SKILL_SPACT_CRITICAL_PARTICLE_CANNON", value: 798, ),
-        // ( name: "SKILL_SPACT_HELM_SMASHER", value: 799, ),
-        // ( name: "SKILL_SPACT_ARROW_RAIN", value: 800, ),
-        // ( name: "SKILL_SPACT_BLAME_PAIN", value: 801, ),
-        // ( name: "SKILL_SPACT_WIN", value: 802, ),
-        // ( name: "SKILL_SPACT_PURGE", value: 803, ),
-        // ( name: "SKILL_SPACT_UNISON_IMPACT", value: 804, ),
-        // ( name: "SKILL_SPACT_GROUP_HYPNOSIS", value: 805, ),
-        // ( name: "SKILL_SPACT_THREAD_OF_INNERVATION", value: 806, ),
-        // ( name: "SKILL_SPACT_MARKING", value: 807, ),
-        // ( name: "SKILL_SPACT_GRAND_FINALE", value: 808, ),
-        // ( name: "SKILL_SPACT_DATA_DELETE", value: 809, ),
-        // ( name: "SKILL_SPACT_DISPATCH_FLYING_BEAST", value: 810, ),
-        // ( name: "SKILL_SPACT_KILLING_DANCE", value: 811, ),
-        // ( name: "SKILL_SPACT_DECAPITATION2", value: 812, ),
-        // ( name: "SKILL_SPACT_ANAPHYLAXIS", value: 813, ),
-        // ( name: "SKILL_SPACT_HAZARD_RECIPE", value: 814, ),
-        // ( name: "SKILL_SPACT_VENOTRATE", value: 815, ),
-        // ( name: "SKILL_SPACT_PERSUASION", value: 816, ),
-        // ( name: "SKILL_SPACT_PECULIAR_JOKE", value: 817, ),
-        // ( name: "SKILL_SPACT_BLENDED_LIE", value: 818, ),
-        // ( name: "SKILL_SPACT_INTIMIDATION", value: 819, ),
-        // ( name: "SKILL_SPACT_MYSTERIOUS_SONG", value: 820, ),
-        // ( name: "SKILL_SPACT_TUIN_DER_LUSTEN", value: 821, ),
 
         ( name: "MAX_SKILL", value: 661, code_value: "SKILL_SPACT_MANIS_DISASSEMBLY + 1" ),
       ]
@@ -7182,107 +4448,6 @@ AnalysisConfig(
           value: 1150,
           code_value: "SKILL_EFFECT_MIN + 50"
         ),
-
-        // (
-        //   name: "SKILL_EFFECT_MUTATE",
-        //   value: 1152,
-        //   code_value: "SKILL_EFFECT_MIN + 52"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_GAIN_WRANGWRANG",
-        //   value: 1153,
-        //   code_value: "SKILL_EFFECT_MIN + 53"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_AQUA_SANCTIO",
-        //   value: 1154,
-        //   code_value: "SKILL_EFFECT_MIN + 54"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_DISASTER",
-        //   value: 1155,
-        //   code_value: "SKILL_EFFECT_MIN + 55"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_NEKTAR",
-        //   value: 1156,
-        //   code_value: "SKILL_EFFECT_MIN + 56"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_SOMA",
-        //   value: 1157,
-        //   code_value: "SKILL_EFFECT_MIN + 57"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_MYSTERIOUS_DIARY",
-        //   value: 1158,
-        //   code_value: "SKILL_EFFECT_MIN + 58"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_COFFEE",
-        //   value: 1159,
-        //   code_value: "SKILL_EFFECT_MIN + 59"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_JUICE",
-        //   value: 1160,
-        //   code_value: "SKILL_EFFECT_MIN + 60"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_KNEADED_SWEETS",
-        //   value: 1161,
-        //   code_value: "SKILL_EFFECT_MIN + 61"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_CONTINENT_MAP",
-        //   value: 1162,
-        //   code_value: "SKILL_EFFECT_MIN + 62"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_ESSENTIAL_OIL",
-        //   value: 1163,
-        //   code_value: "SKILL_EFFECT_MIN + 63"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_GASOLINE",
-        //   value: 1164,
-        //   code_value: "SKILL_EFFECT_MIN + 64"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_GREEN_TEA",
-        //   value: 1165,
-        //   code_value: "SKILL_EFFECT_MIN + 65"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_BLACK_TEA",
-        //   value: 1166,
-        //   code_value: "SKILL_EFFECT_MIN + 66"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_POTION_WISDOM",
-        //   value: 1167,
-        //   code_value: "SKILL_EFFECT_MIN + 67"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_BUTLERS_DIARY",
-        //   value: 1168,
-        //   code_value: "SKILL_EFFECT_MIN + 68"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_BARLEY_TEA",
-        //   value: 1169,
-        //   code_value: "SKILL_EFFECT_MIN + 69"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_COLA",
-        //   value: 1170,
-        //   code_value: "SKILL_EFFECT_MIN + 70"
-        // ),
-        // (
-        //   name: "SKILL_EFFECT_DISINFECTANT",
-        //   value: 1171,
-        //   code_value: "SKILL_EFFECT_MIN + 71"
-        // ),
       ]
     ),
     "skill_or_buff_id": (
@@ -7337,17 +4502,6 @@ AnalysisConfig(
         ( name: "ACTION_SEX", value: 11, ),
         ( name: "ACTION_BLEND", value: 12, ),
         ( name: "ACTION_CHARGE", value: 13, ),
-        // ( name: "ACTION_CUT_TREE", value: 14, ),
-        // ( name: "ACTION_PERFORM_PREACH", value: 15, ),
-        // ( name: "ACTION_MEAL", value: 16, ),
-        // ( name: "ACTION_PERFORM_DANCE", value: 17, ),
-        // ( name: "ACTION_XMAS_CAKE", value: 18, ),
-        // ( name: "ACTION_PERSUASION", value: 19, ),
-        // ( name: "ACTION_PECULIAR_JOKE", value: 20, ),
-        // ( name: "ACTION_BLENDED_LIE", value: 21, ),
-        // ( name: "ACTION_INTIMIDATION", value: 22, ),
-        // ( name: "ACTION_MYSTERIOUS_SONG", value: 23, ),
-        // ( name: "ACTION_TUIN_DER_LUSTEN", value: 24, ),
       ]
     ),
     "action_2": (
@@ -7506,50 +4660,8 @@ AnalysisConfig(
         ( name: "MUSICLIST_MCFIELD3", value: 88, ),
         ( name: "MUSICLIST_MCMEMORY", value: 89, ),
         ( name: "MUSICLIST_MCINTRO", value: 90, ),
+
         ( name: "MUSICLIST_SCENE_MUSIC", value: 91, ),
-        // ( name: "MUSICLIST_MCBATTLE2", value: 91, ),
-        // ( name: "MUSICLIST_MCBOSS3", value: 92, ),
-        // ( name: "MUSICLIST_MCTOWN7", value: 93, ),
-        // ( name: "MUSICLIST_MCTOWN8", value: 94, ),
-        // ( name: "MUSICLIST_MCTOWN9", value: 95, ),
-        // ( name: "MUSICLIST_MCDUNGEON7", value: 96, ),
-        // ( name: "MUSICLIST_MCDUNGEON8", value: 97, ),
-        // ( name: "MUSICLIST_MCDUNGEON9", value: 98, ),
-        // ( name: "MUSICLIST_MCLOG", value: 99, ),
-        // ( name: "MUSICLIST_MCVOYAGE", value: 100, ),
-        // ( name: "MUSICLIST_MCOPENING2", value: 101, ),
-        // ( name: "MUSICLIST_MCMAID", value: 102, ),
-        // ( name: "MUSICLIST_MCLONELY2", value: 103, ),
-        // ( name: "MUSICLIST_MCMEMORY2", value: 104, ),
-        // ( name: "MUSICLIST_MCOPENING3", value: 105, ),
-        // ( name: "MUSICLIST_MCLASTBOSS3", value: 106, ),
-        // ( name: "MUSICLIST_MCBOSS4", value: 107, ),
-        // ( name: "MUSICLIST_MCUNREST3", value: 108, ),
-        // ( name: "MUSICLIST_MCDUNGEON10", value: 109, ),
-        // ( name: "MUSICLIST_MCFEST", value: 110, ),
-        // ( name: "MUSICLIST_MCJAPAN", value: 111, ),
-        // ( name: "MUSICLIST_MCSAND", value: 112, ),
-        // ( name: "MUSICLIST_MCBOSS5", value: 113, ),
-        // ( name: "MUSICLIST_MCTOWN10", value: 114, ),
-        // ( name: "MUSICLIST_MCDUNGEON11", value: 115, ),
-        // ( name: "MUSICLIST_MCLOST1", value: 116, ),
-        // ( name: "MUSICLIST_MCLOST2", value: 117, ),
-        // ( name: "MUSICLIST_MCLOST3", value: 118, ),
-        // ( name: "MUSICLIST_MCTOWN11", value: 119, ),
-        // ( name: "MUSICLIST_MCTOWN12", value: 120, ),
-        // ( name: "MUSICLIST_MCSAD", value: 121, ),
-        // ( name: "MUSICLIST_MCEND", value: 122, ),
-        // ( name: "MUSICLIST_MCEND2", value: 123, ),
-        // ( name: "MUSICLIST_MCHUGE", value: 124, ),
-        // ( name: "MUSICLIST_MCLASTBOSS4", value: 125, ),
-        // ( name: "MUSICLIST_MCLASTBOSS5", value: 126, ),
-        // ( name: "MUSICLIST_UNDEFINED_1", value: 127, ),
-        // ( name: "MUSICLIST_UNDEFINED_2", value: 128, ),
-        // ( name: "MUSICLIST_UNDEFINED_3", value: 129, ),
-        // ( name: "MUSICLIST_UNDEFINED_4", value: 130, ),
-        // ( name: "MUSICLIST_UNDEFINED_5", value: 131, ),
-        // ( name: "MUSICLIST_MCHOME0", value: 132, ),
-        // ( name: "MUSICLIST_SCENE_MUSIC", value: 133, ),
 
         ( name: "MUSICLIST_MAX", value: 92, code_value: "MUSICLIST_SCENE_MUSIC + 1" ),
       ]
@@ -7677,63 +4789,6 @@ AnalysisConfig(
         ( name: "SOUNDLIST_ENC2", value: 119, ),
         ( name: "SOUNDLIST_PRAY2", value: 120, ),
         ( name: "SOUNDLIST_OFFER2", value: 121, ),
-        // ( name: "SOUNDLIST_GONG", value: 122, ),
-        // ( name: "SOUNDLIST_SLAP", value: 123, ),
-        // ( name: "SOUNDLIST_CEFFECT", value: 124, ),
-        // ( name: "SOUNDLIST_RAIN", value: 125, ),
-        // ( name: "SOUNDLIST_WAVE", value: 126, ),
-        // ( name: "SOUNDLIST_WHISTLE", value: 127, ),
-        // ( name: "SOUNDLIST_QUIZBAD", value: 128, ),
-        // ( name: "SOUNDLIST_POWER", value: 129, ),
-        // ( name: "SOUNDLIST_PIANO1", value: 130, ),
-        // ( name: "SOUNDLIST_PIANO2B", value: 131, ),
-        // ( name: "SOUNDLIST_PIANO3", value: 132, ),
-        // ( name: "SOUNDLIST_PIANO4B", value: 133, ),
-        // ( name: "SOUNDLIST_PIANO5", value: 134, ),
-        // ( name: "SOUNDLIST_PIANO6", value: 135, ),
-        // ( name: "SOUNDLIST_PIANO7B", value: 136, ),
-        // ( name: "SOUNDLIST_PIANO8", value: 137, ),
-        // ( name: "SOUNDLIST_PIANO9B", value: 138, ),
-        // ( name: "SOUNDLIST_PIANO10", value: 139, ),
-        // ( name: "SOUNDLIST_PIANO11B", value: 140, ),
-        // ( name: "SOUNDLIST_PIANO12", value: 141, ),
-        // ( name: "SOUNDLIST_PIANO13", value: 142, ),
-        // ( name: "SOUNDLIST_PIANO14B", value: 143, ),
-        // ( name: "SOUNDLIST_PIANO15", value: 144, ),
-        // ( name: "SOUNDLIST_PIANO16B", value: 145, ),
-        // ( name: "SOUNDLIST_PIANO17", value: 146, ),
-        // ( name: "SOUNDLIST_PIANO18", value: 147, ),
-        // ( name: "SOUNDLIST_PIANO19B", value: 148, ),
-        // ( name: "SOUNDLIST_PIANO20", value: 149, ),
-        // ( name: "SOUNDLIST_PIANO21B", value: 150, ),
-        // ( name: "SOUNDLIST_PIANO22", value: 151, ),
-        // ( name: "SOUNDLIST_PIANO23B", value: 152, ),
-        // ( name: "SOUNDLIST_PIANO24", value: 153, ),
-        // ( name: "SOUNDLIST_SONIC", value: 154, ),
-        // ( name: "SOUNDLIST_SHOTS", value: 155, ),
-        // ( name: "SOUNDLIST_STAB", value: 156, ),
-        // ( name: "SOUNDLIST_MIZU", value: 157, ),
-        // ( name: "SOUNDLIST_BUBLE", value: 158, ),
-        // ( name: "SOUNDLIST_SCREAM", value: 159, ),
-        // ( name: "SOUNDLIST_SWING", value: 160, ),
-        // ( name: "SOUNDLIST_BEAST02", value: 161, ),
-        // ( name: "SOUNDLIST_MIND000", value: 162, ),
-        // ( name: "SOUNDLIST_LOAD", value: 163, ),
-        // ( name: "SOUNDLIST_EXPLOSION", value: 164, ),
-        // ( name: "SOUNDLIST_CLAP2F", value: 165, ),
-        // ( name: "SOUNDLIST_CLAP4F", value: 166, ),
-        // ( name: "SOUNDLIST_CHIME000R", value: 167, ),
-        // ( name: "SOUNDLIST_GUNSHOT1", value: 168, ),
-        // ( name: "SOUNDLIST_GUNSHOT3", value: 169, ),
-        // ( name: "SOUNDLIST_CRACK", value: 170, ),
-        // ( name: "SOUNDLIST_CRACK2", value: 171, ),
-        // ( name: "SOUNDLIST_ATTACK00", value: 172, ),
-        // ( name: "SOUNDLIST_BOM03", value: 173, ),
-        // ( name: "SOUNDLIST_BOM06", value: 174, ),
-        // ( name: "SOUNDLIST_BOM15", value: 175, ),
-        // ( name: "SOUNDLIST_SWING39", value: 176, ),
-        // ( name: "SOUNDLIST_MECHA20", value: 177, ),
-        // ( name: "SOUNDLIST_WATERM", value: 178, ),
 
         ( name: "SOUNDLIST_MAX", value: 122, code_value: "SOUNDLIST_OFFER2 + 1", exclude: true ),
       ],
@@ -7791,62 +4846,6 @@ AnalysisConfig(
         ( name: "EFFECT_SUMMONING_CRYSTAL", value: 47, ),
         ( name: "EFFECT_CREATOR_STATUE", value: 48, ),
         ( name: "EFFECT_GAROK_HAMMER", value: 49, ),
-        ( name: "EFFECT_KUMIROMI_STATUE", value: 50, ),
-        // ( name: "EFFECT_MANI_STATUE", value: 51, ),
-        // ( name: "EFFECT_TAMERS_WHIP", value: 52, ),
-        // ( name: "EFFECT_YACATECT_GEMSTONE", value: 53, ),
-        // ( name: "EFFECT_SATELLITE_SHOOTER", value: 54, ),
-        // ( name: "EFFECT_YACATECT_STATUE", value: 55, ),
-        // ( name: "EFFECT_ITZPALT_STATUE", value: 56, ),
-        // ( name: "EFFECT_COMMAND_FLAG", value: 57, ),
-        // ( name: "EFFECT_EVOLUTION_ITEM", value: 58, ),
-        // ( name: "EFFECT_STONE_MASK", value: 59, ),
-        // ( name: "EFFECT_BUSINESS_CARD", value: 60, ),
-        // ( name: "EFFECT_CLEANING_DOLL", value: 61, ),
-        // ( name: "EFFECT_ASTRAL_LIGHT_PEN", value: 62, ),
-        // ( name: "EFFECT_COFFIN", value: 63, ),
-        // ( name: "EFFECT_CHOCO_KIT", value: 64, ),
-        // ( name: "EFFECT_FERTILIZER", value: 65, ),
-        // ( name: "EFFECT_SOUL_SPINDLE", value: 66, ),
-        // ( name: "EFFECT_WAKEUP_NEFIA", value: 67, ),
-        // ( name: "EFFECT_JUKE_BOX", value: 68, ),
-        // ( name: "EFFECT_NINE_GOD_SIGN", value: 69, ),
-        // ( name: "EFFECT_DOG_WHISTLE", value: 70, ),
-        // ( name: "EFFECT_PIPE", value: 71, ),
-        // ( name: "EFFECT_INSIGHT_LENS", value: 72, ),
-        // ( name: "EFFECT_WONDER_BODY_FORMER", value: 73, ),
-        // ( name: "EFFECT_DD_CEMETERY_KEY", value: 74, ),
-        // ( name: "EFFECT_PICNIC_BASKET", value: 75, ),
-        // ( name: "EFFECT_4DIM_MIRROR", value: 76, ),
-        // ( name: "EFFECT_SHIFT_CORE", value: 77, ),
-        // ( name: "EFFECT_JUICE_MIXER", value: 78, ),
-        // ( name: "EFFECT_TAKTSTOCK", value: 79, ),
-        // ( name: "EFFECT_AMMO_BOX", value: 80, ),
-        // ( name: "EFFECT_FIRST_AID", value: 81, ),
-        // ( name: "EFFECT_PANZERFAUST_X", value: 82, ),
-        // ( name: "EFFECT_M202_SPECIAL", value: 83, ),
-        // ( name: "EFFECT_ATOMIC_LAUNCHER", value: 84, ),
-        // ( name: "EFFECT_ELEMENTS_EYES", value: 85, ),
-        // ( name: "EFFECT_TOBACCO1", value: 86, ),
-        // ( name: "EFFECT_TOBACCO2", value: 87, ),
-        // ( name: "EFFECT_TOBACCO3", value: 88, ),
-        // ( name: "EFFECT_TOBACCO4", value: 89, ),
-        // ( name: "EFFECT_TOBACCO", value: 90, ),
-        // ( name: "EFFECT_UNDEAD_FUSION", value: 91, ),
-        // ( name: "EFFECT_FIREWORK", value: 92, ),
-        // ( name: "EFFECT_SEASONING", value: 93, ),
-        // ( name: "EFFECT_CRAFT_REPAIR_KIT", value: 94, ),
-        // ( name: "EFFECT_BIO_PRINTER", value: 95, ),
-        // ( name: "EFFECT_STARDUST", value: 96, ),
-        // ( name: "EFFECT_HEART_OF_TWILIGHT", value: 97, ),
-        // ( name: "EFFECT_SEPPUKU", value: 98, ),
-        // ( name: "EFFECT_YACATECTS_BANK", value: 99, ),
-        // ( name: "EFFECT_XMAS_CAKE", value: 100, ),
-        // ( name: "EFFECT_GROUND_BAIT", value: 101, ),
-        // ( name: "EFFECT_ENCOUNTER_CANCELLER", value: 102, ),
-        // ( name: "EFFECT_DEVIL_FRAGMENT", value: 103, ),
-        // ( name: "EFFECT_FIXITY_ANCHOR", value: 104, ),
-        // ( name: "EFFECT_TWIG", value: 105, )
       ]
     ),
     "trait_normal": (
@@ -7896,13 +4895,8 @@ AnalysisConfig(
         ( name: "TRAIT_NORMAL_OTHER_RES_CURSE", value: 42, ),
         ( name: "TRAIT_NORMAL_OTHER_SHIELD_BASH", value: 43, ),
         ( name: "TRAIT_NORMAL_OTHER_GENTLE_FACE", value: 44, ),
-        // ( name: "TRAIT_NORMAL_SPACT_KNOCKOUT", value: 45, ),
-        // ( name: "TRAIT_NORMAL_OTHER_INDEPENDENT", value: 46, ),
-        // ( name: "TRAIT_NORMAL_SPACT_EYE_OF_MANA", value: 47, ),
-        // ( name: "TRAIT_NORMAL_OTHER_MOUNT_BOND", value: 48, ),
-        // ( name: "TRAIT_NORMAL_SPACT_MISTELTEIN", value: 49, ),
-        // ( name: "MAX_NORMAL_TRAIT", value: 50, )
-        ( name: "MAX_NORMAL_TRAIT", value: 45, )
+
+        ( name: "MAX_NORMAL_TRAIT", value: 45, code_value: "TRAIT_NORMAL_OTHER_GENTLE_FACE + 1", override: true )
       ]
     ),
     "trait_race": (
@@ -7949,10 +4943,8 @@ AnalysisConfig(
         ( name: "TRAIT_ETHER_RANDOM_TELEPORT", value: 214, ),
         ( name: "TRAIT_ETHER_ABSORB_ROD", value: 215, ),
         ( name: "TRAIT_ETHER_POISON_HANDS", value: 216, ),
-        // ( name: "TRAIT_ETHER_EQUIP_HEAD", value: 217, ),
 
-        ( name: "MAX_TRAIT_ETHER", value: 217, exclude: true ),
-        // ( name: "MAX_TRAIT_ETHER", value: 218, exclude: true ),
+        ( name: "MAX_TRAIT_ETHER", value: 217, code_value: "TRAIT_ETHER_POISON_HANDS + 1", exclude: true ),
       ]
     ),
     "trait": (
@@ -7963,7 +4955,6 @@ AnalysisConfig(
       ],
       variables: [
         ( name: "MAX_TRAIT", value: 217, code_value: "MAX_TRAIT_ETHER" )
-        // ( name: "MAX_TRAIT", value: 218, code_value: "MAX_TRAIT_ETHER" )
       ]
     ),
     "sprite_sheet": (
@@ -8043,33 +5034,6 @@ AnalysisConfig(
         ( name: "MAP_CHIP_ROLE_SAND_HARD", value: 8, ),
         ( name: "MAP_CHIP_ROLE_COAST", value: 9, ),
         ( name: "MAP_CHIP_ROLE_SAND_WATER", value: 10, ),
-        // ( name: "MAP_CHIP_ROLE_COMPOST", value: 11, ),
-        // ( name: "MAP_CHIP_ROLE_GRATING", value: 12 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO1", value: 13 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO2B", value: 14 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO3", value: 15 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO4B", value: 16 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO5", value: 17 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO6", value: 18 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO7B", value: 19 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO8", value: 20 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO9B", value: 21 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO10", value: 22 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO11B", value: 23 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO12", value: 24 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO13", value: 25 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO14B", value: 26 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO15", value: 27 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO16B", value: 28 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO17", value: 29 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO18", value: 30 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO19B", value: 31 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO20", value: 32 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO21B", value: 33 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO22", value: 34 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO23B", value: 35 ),
-        // ( name: "MAP_CHIP_ROLE_PIANO24", value: 36 ),
-        // ( name: "MAP_CHIP_ROLE_DISPLAY_SPACE", value: 37 ),
       ],
     ),
     "item_find_mode": (
@@ -8078,8 +5042,6 @@ AnalysisConfig(
         ( name: "ITEM_FIND_MODE_SKILL_REF", value: 1 ),
         ( name: "ITEM_FIND_MODE_TYPE_MINOR", value: 2 ),
         ( name: "ITEM_FIND_MODE_DBID", value: 3 ),
-        // ( name: "ITEM_FIND_MODE_PARAM2_GT_3", value: 4 ),
-        // ( name: "ITEM_FIND_MODE_CHARGE_EQ_6666", value: 5 ),
       ]
     ),
     "item_find_location": (
@@ -8820,16 +5782,12 @@ AnalysisConfig(
             substitute: (rhs: { 0: Group("role") })
           )),
         MatchAll((
-            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_PIC", "CDATA_PIC_ORG", "CDATA_CHARA_PIC", "CDATA_MARK_ITEM_PIC"]) })),
-            substitute: (rhs: { 0: XY2Pic })
-          )),
-        MatchAll((
-            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_AREA"]) })),
-            substitute: (rhs: { 0: Group("area_id") })
-          )),
-        MatchAll((
             rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ATTACK_STYLE"]) })),
             substitute: (rhs: { 0: Group("wield_style") })
+          )),
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_PIC", "CDATA_PIC_ORG", "CDATA_CHARA_PIC"]) })),
+            substitute: (rhs: { 0: XY2Pic })
           )),
         MatchAll((
             rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_QUALITY"]) })),
@@ -8862,22 +5820,6 @@ AnalysisConfig(
         MatchAll((
             rules: (lhs: Array({ 0: VariantRecursive("cdata", ["STARTING_CDATA_BUFF"], Lhs("+")) })),
             substitute: (rhs: { 0: Group("buff_id") })
-          )),
-        MatchAll((
-            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_CHARACTER_TIER"]) })),
-            substitute: (rhs: { 0: Group("chara_tier") })
-          )),
-        MatchAll((
-            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_DIRECTIVE_MODE"]) })),
-            substitute: (rhs: { 0: Group("directive_mode") })
-          )),
-        MatchAll((
-            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_SHIFT_FORM"]) })),
-            substitute: (rhs: { 0: Group("shift_form") })
-          )),
-        MatchAll((
-            rules: (lhs: Array({ 0: Variant("cdata", ["CDATA_ENVIRONMENT_EFFECT"]) })),
-            substitute: (rhs: { 0: Group("environment_effect") })
           )),
         MatchAll((
             rules: (
@@ -9067,14 +6009,6 @@ AnalysisConfig(
         MatchAll((
             rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_QUEST_STATE"]) }) ),
             substitute: ( rhs: { 0: Group("quest_state") } )
-          )),
-        MatchAll((
-            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_GAME_MODE"]) }) ),
-            substitute: ( rhs: { 0: Group("gamemode") } )
-          )),
-        MatchAll((
-            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_INVITED_GOD"]) }) ),
-            substitute: ( rhs: { 0: Group("chara_id") } )
           )),
       ]
     ),
@@ -10381,281 +7315,6 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
       }
     ),
-    "txtsetquiz0": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz1": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz2": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz3": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz4": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz5": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz6": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz7": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz8": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz9": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz10": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz11": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz12": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz13": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz14": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz15": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz16": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz17": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz18": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz19": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz20": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz21": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz22": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz23": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz24": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz25": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz26": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz27": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz28": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz29": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz30": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz31": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz32": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz33": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetquiz34": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetnecrom": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsettamer": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetshop": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetshopkazu": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetshopfeat": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetybank": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetride": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsettezca": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtselecttc": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtselectride": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtseteyes": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetbirth": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetnecro": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetnefia": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtplusbody": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsettactical": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetequipw": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetchocoword": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetchocoword2": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "txtsetchocoword3": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
     "limitmax": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10754,11 +7413,6 @@ AnalysisConfig(
         0: (name: "arg1", type: Int),
       }
     ),
-    "_miruna": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
     "_ru": (
       args: {
         0: (name: "arg1", type: Int),
@@ -10780,11 +7434,6 @@ AnalysisConfig(
       }
     ),
     "_dana": (
-      args: {
-        0: (name: "arg1", type: Int),
-      }
-    ),
-    "_siro": (
       args: {
         0: (name: "arg1", type: Int),
       }
@@ -11139,7 +7788,7 @@ AnalysisConfig(
               substitute: Group("filter")
             ),
             (
-              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_DBID", "ITEM_FIND_MODE_PARAM2_GT_3", "ITEM_FIND_MODE_CHARGE_EQ_6666"]) },
+              rules: { 1: Variant("item_find_mode", ["ITEM_FIND_MODE_DBID"]) },
               substitute: Group("item_id")
             ),
             (
@@ -11274,11 +7923,6 @@ AnalysisConfig(
       }
     ),
     "item_separate": (
-      args: {
-        0: (name: "itemid", type: Var),
-      }
-    ),
-    "item_separatefish": (
       args: {
         0: (name: "itemid", type: Var),
       }
