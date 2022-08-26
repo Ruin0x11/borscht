@@ -12,6 +12,81 @@ AnalysisConfig(
   ],
 
   variable_groups: {
+    "ocdata": (
+      variables: [
+        ( name: "OCDATA_AI_STRATEGY", value: 0, macro: "ocAIStrategy" ),
+        ( name: "OCDATA_AI_HEALING_BEHAVIOR", value: 1, macro: "ocAIHealingBehavior" ),
+        ( name: "OCDATA_AI_DOORS", value: 2, macro: "ocAIDoors" ),
+        ( name: "OCDATA_AI_PICKUP_ORES", value: 3, macro: "ocAIPickupOres" ),
+        ( name: "OCDATA_AI_EAT_FROM_GROUND", value: 4, macro: "ocAIEatFromGround" ),
+        ( name: "OCDATA_AI_AUTO_EAT", value: 5, macro: "ocAIAutoEat" ),
+        ( name: "OCDATA_AI_SINGING", value: 6, macro: "ocAISinging" ),
+        ( name: "OCDATA_AI_RACE_SKILLS", value: 7, macro: "ocAIRaceSkills" ),
+        ( name: "OCDATA_AI_CLASS_SKILLS", value: 8, macro: "ocAIClassSkills" ),
+        ( name: "OCDATA_AI_SPECIAL_AMMO", value: 9, macro: "ocAISpecialAmmo" ),
+        ( name: "OCDATA_AI_DISTANCE", value: 10, macro: "ocAIDistance" ),
+
+        ( name: "OCDATA_AI_SPECIAL_ACTION_1", value: 49, macro: "ocAISpecialAction1" ),
+        ( name: "OCDATA_AI_SPECIAL_ACTION_2", value: 50, macro: "ocAISpecialAction2" ),
+
+        ( name: "OCDATA_PET_BECAME_ADVENTURER", value: 100, macro: "ocPetBecameAdventurer" ),
+        ( name: "OCDATA_CHIP_TRANSPARENCY", value: 101, macro: "ocChipTransparency" ),
+        ( name: "OCDATA_SHADOW_TYPE", value: 102, macro: "ocShadowType" ),
+        ( name: "OCDATA_PREVENT_EAT_DRINK", value: 103, macro: "ocPreventEatDrink" ),
+        ( name: "OCDATA_PET_JOB_SKILL", value: 104, macro: "ocPetJobSkill" ),
+        ( name: "OCDATA_PET_FEATS_ACQUIRABLE", value: 105, macro: "ocFeatsAcquirable" ),
+        ( name: "OCDATA_PET_RIDING_IDX", value: 106, macro: "ocPetRidingIdx" ),
+        ( name: "OCDATA_PET_BEING_RIDDEN_IDX", value: 107, macro: "ocPetBeingRiddenIdx" ),
+        // ( name: "OCDATA_OO_FRIENDSHIP_TOKEN_LAST_DATE", value: 108, macro: "ocOOFrienshipTokenLastDate" ),
+        ( name: "OCDATA_OOMSE_KUMIROMI_EXPERIENCE_NEXT_LEVEL", value: 108, macro: "ocOOMSEKumiromiExpNextLevel" ),
+
+        ( name: "OCDATA_STRESS", value: 140, macro: "ocStress" ),
+
+        ( name: "OCDATA_HOSTILE_TARGET_1", value: 150, macro: "ocHostileTarget1" ),
+        ( name: "OCDATA_HOSTILE_TARGET_2", value: 151, macro: "ocHostileTarget2" ),
+        ( name: "OCDATA_HOSTILE_TARGET_3", value: 152, macro: "ocHostileTarget3" ),
+        ( name: "OCDATA_HOSTILE_TARGET_4", value: 153, macro: "ocHostileTarget4" ),
+        ( name: "OCDATA_HOSTILE_TARGET_5", value: 154, macro: "ocHostileTarget5" ),
+        ( name: "OCDATA_HOSTILE_TARGET_TOTAL", value: 155, macro: "ocHostileTargetTotal" ),
+        ( name: "OCDATA_WANT_COOPERATE_TARGET_1", value: 156, macro: "ocWantCooperateTarget1" ),
+        ( name: "OCDATA_WANT_COOPERATE_TARGET_2", value: 157, macro: "ocWantCooperateTarget2" ),
+        ( name: "OCDATA_WANT_COOPERATE_TARGET_3", value: 158, macro: "ocWantCooperateTarget3" ),
+        ( name: "OCDATA_WANT_COOPERATE_TARGET_4", value: 159, macro: "ocWantCooperateTarget4" ),
+        ( name: "OCDATA_WANT_COOPERATE_TARGET_5", value: 160, macro: "ocWantCooperateTarget5" ),
+        ( name: "OCDATA_WANT_COOPERATE_TARGET_TOTAL", value: 161, macro: "ocWantCooperateTargetTotal" ),
+
+        ( name: "OCDATA_ADVENTURER_PARTY", value: 190, macro: "ocAdvParty" ),
+        ( name: "OCDATA_LIGHT", value: 191, macro: "ocLight" ),
+
+        ( name: "OCDATA_STARTING_CURSE_BUFF_TYPE", value: 192, macro: "ocCurseBuffType" ),
+        ( name: "OCDATA_STARTING_CURSE_BUFF_POWER", value: 193, macro: "ocCurseBuffPower" ),
+        ( name: "OCDATA_STARTING_CURSE_BUFF_TURNS", value: 194, macro: "ocCurseBuffTurns" ),
+
+        ( name: "OCDATA_STARTING_BIT", value: 240 ),
+        ( name: "OCDATA_MAX_BIT", value: 10 ),
+      ]
+    ),
+    "ai_strategy": (
+      variables: [
+        ( name: "AI_STRATEGY_ACT_FREELY", value: 0 ),
+        ( name: "AI_STRATEGY_RUSH_IN", value: 1 ),
+        ( name: "AI_STRATEGY_NEARBY_ENEMIES", value: 2 ),
+        ( name: "AI_STRATEGY_DEFEND_ME", value: 3 ),
+        ( name: "AI_STRATEGY_DONT_ATTACK", value: 4 ),
+        ( name: "AI_STRATEGY_LET_YOUR_ALLIES_GO", value: 5 )
+      ]
+    ),
+    "ai_special_ammo": (
+      variables: [
+        ( name: "AI_SPECIAL_AMMO_NORMAL", value: 0 ),
+        ( name: "AI_SPECIAL_AMMO_RAPID", value: 1 ),
+        ( name: "AI_SPECIAL_AMMO_BOMB", value: 2 ),
+        ( name: "AI_SPECIAL_AMMO_PIERCE", value: 3 ),
+        ( name: "AI_SPECIAL_AMMO_MAGIC", value: 4 ),
+        ( name: "AI_SPECIAL_AMMO_TIME_STOP", value: 5 ),
+        ( name: "AI_SPECIAL_AMMO_BURST", value: 6 ),
+      ]
+    ),
     "ogdata": (
       variables: [
         ( name: "STARTING_OGDATA_TITLE", value: 440, exclude: true ),
@@ -697,6 +772,16 @@ AnalysisConfig(
   },
 
   arrays: {
+    "ocdata": (
+      indices: [
+        (
+          substitute: { 0: Group("ocdata") }
+        ),
+        (
+          macro: ( index: 0, group: "ocdata" )
+        ),
+      ]
+    ),
     "ogdata": (
       indices: [
         (
@@ -710,7 +795,20 @@ AnalysisConfig(
     ),
   },
 
-  expressions: {},
+  expressions: {
+    "ocdata": (
+      indices: [
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("ocdata", ["OCDATA_AI_STRATEGY"]) })),
+            substitute: (rhs: { 0: Group("ai_strategy") })
+          )),
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("ocdata", ["OCDATA_AI_SPECIAL_AMMO"]) })),
+            substitute: (rhs: { 0: Group("ai_special_ammo") })
+          )),
+      ]
+    )
+  },
 
   functions: {
     "weight2str": (
