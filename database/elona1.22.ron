@@ -2082,7 +2082,7 @@ AnalysisConfig(
         ( name: "CDATA_DV_FIX", value: 77, macro: "cDvFix" ),
         ( name: "CDATA_BARRIER", value: 78, macro: "cBarrier" ),
         ( name: "CDATA_EMO_ICON", value: 79, macro: "cEmoIcon" ),
-        ( name: "CDATA_AREA", value: 80, macro: "ctype " ),
+        ( name: "CDATA_AREA", value: 80, macro: "cType" ),
         ( name: "CDATA_AREA_LEVEL", value: 81, macro: "cAreaLv" ),
         ( name: "CDATA_QUEST_NPC", value: 82, macro: "cQuestNpc" ),
         ( name: "CDATA_DIR", value: 83, macro: "cDir" ),
@@ -5131,7 +5131,13 @@ AnalysisConfig(
         (
           rules: { 1: Group("chara"), },
           substitute: { 1: Group("chara") }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "cdatan",
+          )
+        ),
       ]
     ),
     "cbitorg": (

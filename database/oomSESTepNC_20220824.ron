@@ -26,10 +26,17 @@ AnalysisConfig(
         ( name: "OCDATA_AI_SPECIAL_AMMO", value: 9, macro: "ocAISpecialAmmo" ),
         ( name: "OCDATA_AI_DISTANCE", value: 10, macro: "ocAIDistance" ),
 
+        ( name: "OCDATA_ADVENTURER_JOURNEY_TURNS", value: 30, macro: "ocAdvJourneyTurns" ),
+
         ( name: "OCDATA_AI_SPECIAL_ACTION_1", value: 49, macro: "ocAISpecialAction1" ),
         ( name: "OCDATA_AI_SPECIAL_ACTION_2", value: 50, macro: "ocAISpecialAction2" ),
+        ( name: "OCDATA_ALIEN_CHILD_IDX", value: 51, macro: "ocAlienChildIdx" ),
+        ( name: "OCDATA_ALIEN_CHILD_CREATURE_ID", value: 52, macro: "ocAlienChildCreatureID" ),
+        ( name: "OCDATA_ITEM_DV", value: 53, macro: "ocItemDV" ),
+        ( name: "OCDATA_CARD_CREATURE_ID", value: 54, macro: "ocCardCreatureID" ),
+        ( name: "OCDATA_CARD_CUSTOM_CREATURE_ID", value: 54, macro: "ocCardCustomCreatureID" ),
 
-        ( name: "OCDATA_PET_BECAME_ADVENTURER", value: 100, macro: "ocPetBecameAdventurer" ),
+        ( name: "OCDATA_FORMER_PET", value: 100, macro: "ocFormerPet" ),
         ( name: "OCDATA_CHIP_TRANSPARENCY", value: 101, macro: "ocChipTransparency" ),
         ( name: "OCDATA_SHADOW_TYPE", value: 102, macro: "ocShadowType" ),
         ( name: "OCDATA_PREVENT_EAT_DRINK", value: 103, macro: "ocPreventEatDrink" ),
@@ -70,8 +77,8 @@ AnalysisConfig(
         ( name: "OCDATA_STARTING_CURSE_BUFF_POWER", value: 193, macro: "ocCurseBuffPower" ),
         ( name: "OCDATA_STARTING_CURSE_BUFF_TURNS", value: 194, macro: "ocCurseBuffTurns" ),
 
-        ( name: "OCDATA_STARTING_BIT", value: 240 ),
-        ( name: "OCDATA_MAX_BIT", value: 10, exclude: true ),
+        ( name: "STARTING_OCDATA_BIT", value: 240 ),
+        ( name: "MAX_OCDATA_BIT", value: 10, exclude: true ),
       ]
     ),
     "fukidashi_display": (
@@ -104,6 +111,67 @@ AnalysisConfig(
     ),
     "ogdata": (
       variables: [
+        ( name: "OGDATA_DUNGEON_STAYERS_0F", value: 0 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_1F", value: 1 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_2F", value: 2 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_3F", value: 3 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_4F", value: 4 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_5F", value: 5 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_6F", value: 6 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_7F", value: 7 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_8F", value: 8 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_9F", value: 9 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_0F", value: 10 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_1F", value: 11 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_2F", value: 12 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_3F", value: 13 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_4F", value: 14 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_5F", value: 15 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_6F", value: 16 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_7F", value: 17 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_8F", value: 18 ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_9F", value: 19 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_TOTAL", value: 20 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_GREATEST", value: 21 ),
+        ( name: "OGDATA_DUNGEON_BUILT_FLOORS", value: 22 ),
+        ( name: "OGDATA_DUNGEON_EVENT_FLAG", value: 23 ),
+        ( name: "OGDATA_QUEST_KNIGHTS_OF_LITTLE_GIRLS", value: 24 ),
+        ( name: "OGDATA_HEAD_MAID_FLOOR", value: 25 ),
+
+        ( name: "OGDATA_YOUNG_LADY_SEED", value: 27 ),
+        ( name: "OGDATA_QUEST_CAT_SISTER", value: 28 ),
+        ( name: "OGDATA_QUEST_GUILD_WARS", value: 29 ),
+        ( name: "OGDATA_MAKE_CHILD_PARTNER", value: 30 ),
+        ( name: "OGDATA_CAN_MAKE_CHILD", value: 31 ),
+        ( name: "OGDATA_GOD_SERVANTS_COUNT", value: 32 ),
+        ( name: "OGDATA_EXTRAVAGANT_PARTY", value: 33 ),
+        ( name: "OGDATA_CUSTOM_ITEM_COUNT", value: 34 ),
+        ( name: "OGDATA_OMAKE_VERSION", value: 35 ),
+
+        // omake_overhaul
+        ( name: "OGDATA_OO_VERSION", value: 100 ),
+        ( name: "OGDATA_CARGO_VALUE", value: 101 ),
+
+        ( name: "OGDATA_EVENT_DUNGEON_ALIEN", value: 200 ),
+        ( name: "OGDATA_EVENT_HEAD_MAID_PUTIT", value: 201 ),
+
+        ( name: "OGDATA_SMITHING_TARGET_ENCHANTMENT", value: 427 ),
+        ( name: "OGDATA_UNIQUE_MONSTER_KILL_COUNT", value: 428 ),
+        ( name: "OGDATA_PURCHASED_SLAVE_COUNT", value: 429 ),
+        ( name: "OGDATA_TIMES_MARRIED", value: 430 ),
+        ( name: "OGDATA_TIMES_USED_NUKE", value: 431 ),
+
+        // TODO ogbit
+        ( name: "STARTING_OGDATA_BIT", value: 432, exclude: true ),
+
+        ( name: "OGDATA_TIMES_ATE_HUMAN_FLESH", value: 433 ),
+        ( name: "OGDATA_TIMES_DID_HUMAN_ALCHEMY", value: 434 ),
+        ( name: "OGDATA_TIMES_MADE_CHILDREN", value: 435 ),
+        ( name: "OGDATA_TIMES_SOLD_OWN_BODY", value: 436 ),
+        ( name: "OGDATA_TIMES_SENT_PETS", value: 437 ),
+        ( name: "OGDATA_TOTAL_TRAVEL_DISTANCE", value: 438 ),
+        ( name: "OGDATA_TIMES_READ_YOUNGER_SISTERS_DIARY", value: 439 ),
+
         ( name: "STARTING_OGDATA_TITLE", value: 440, exclude: true ),
 
         (
