@@ -54,6 +54,14 @@ AnalysisConfig(
         ( name: "OCDATA_WANT_COOPERATE_TARGET_4", value: 159, macro: "ocWantCooperateTarget4" ),
         ( name: "OCDATA_WANT_COOPERATE_TARGET_5", value: 160, macro: "ocWantCooperateTarget5" ),
         ( name: "OCDATA_WANT_COOPERATE_TARGET_TOTAL", value: 161, macro: "ocWantCooperateTargetTotal" ),
+        ( name: "OCDATA_AI_CALM", value: 162, macro: "ocAiCalm" ),
+        ( name: "OCDATA_FUKIDASHI_INDIVIDUAL", value: 163, macro: "ocFukidashiIndividual" ),
+        ( name: "OCDATA_FUKIDASHI_DISPLAY_WHEN_OFF", value: 164, macro: "ocFukidashiDisplayWhenOff" ),
+        ( name: "OCDATA_FUKIDASHI_OFFSET_X", value: 165, macro: "ocFukidashiOffsetX" ),
+        ( name: "OCDATA_FUKIDASHI_OFFSET_Y", value: 166, macro: "ocFukidashiOffsetY" ),
+        ( name: "OCDATA_FUKIDASHI_R", value: 167, macro: "ocFukidashiR" ),
+        ( name: "OCDATA_FUKIDASHI_G", value: 168, macro: "ocFukidashiG" ),
+        ( name: "OCDATA_FUKIDASHI_B", value: 169, macro: "ocFukidashiB" ),
 
         ( name: "OCDATA_ADVENTURER_PARTY", value: 190, macro: "ocAdvParty" ),
         ( name: "OCDATA_LIGHT", value: 191, macro: "ocLight" ),
@@ -63,7 +71,14 @@ AnalysisConfig(
         ( name: "OCDATA_STARTING_CURSE_BUFF_TURNS", value: 194, macro: "ocCurseBuffTurns" ),
 
         ( name: "OCDATA_STARTING_BIT", value: 240 ),
-        ( name: "OCDATA_MAX_BIT", value: 10 ),
+        ( name: "OCDATA_MAX_BIT", value: 10, exclude: true ),
+      ]
+    ),
+    "fukidashi_display": (
+      variables: [
+        ( name: "FUKIDASHI_DISPLAY_NONE", value: 0 ),
+        ( name: "FUKIDASHI_DISPLAY_ONE", value: 1 ),
+        ( name: "FUKIDASHI_DISPLAY_UNLIMITED", value: 2 ),
       ]
     ),
     "ai_strategy": (
@@ -776,6 +791,18 @@ AnalysisConfig(
       indices: [
         (
           substitute: { 0: Group("ocdata") }
+        ),
+        (
+          rules: { 0: VariantRecursive("ocdata", ["OCDATA_STARTING_CURSE_BUFF_TYPE"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("ocdata", ["OCDATA_STARTING_CURSE_BUFF_TYPE"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: VariantRecursive("ocdata", ["OCDATA_STARTING_CURSE_BUFF_POWER"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("ocdata", ["OCDATA_STARTING_CURSE_BUFF_POWER"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: VariantRecursive("ocdata", ["OCDATA_STARTING_CURSE_BUFF_TURNS"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("ocdata", ["OCDATA_STARTING_CURSE_BUFF_TURNS"], Lhs("+")) }
         ),
         (
           macro: ( index: 0, group: "ocdata" )
