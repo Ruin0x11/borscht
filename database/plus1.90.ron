@@ -482,7 +482,6 @@ AnalysisConfig(
         ( name: "CDATA_REMOTE_BLOW", value: 57 ),
         ( name: "CDATA_ALLIED", value: 58 ),
         ( name: "CDATA_SPRITE_SIZE_MILK", value: 59 ),
-        ( name: "CDATA_DRAIN_HP", value: 60 ),
 
         ( name: "CDATA_REFLECT_MAGIC", value: 94 ),
         ( name: "CDATA_PIC_ORG", value: 95 ),
@@ -492,6 +491,7 @@ AnalysisConfig(
         ( name: "CDATA_PRECIOUS_ALLY", value: 99 ),
 
         ( name: "CDATA_NECRO_FORCE", value: 146 ),
+        ( name: "CDATA_SHOP_INVEST", value: 147 ),
         ( name: "CDATA_EVASION_PENALTY", value: 148 ),
 
         ( name: "CDATA_AP_TOTAL", value: 159 ),

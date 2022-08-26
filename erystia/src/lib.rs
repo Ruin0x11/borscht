@@ -1098,6 +1098,24 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                                 }
                                 _ => ()
                             },
+                            ast::AstNodeKind::Variable(varexp) => {
+                                if let PrimitiveTokenKind::GlobalVariable(varname) = &varexp.ident.kind {
+                                    let mut found: Option<&VariableDefinition> = None;
+                                    for var in group.iter_resolved_variables() {
+                                        if &var.name == varname {
+                                            found = Some(var);
+                                            break;
+                                        }
+                                    }
+
+                                    if let Some(var) = found {
+                                        if let Some(name) = var.r#macro.as_ref() {
+                                            node.ident.kind = PrimitiveTokenKind::GlobalVariable(name.clone());
+                                            arg.exps.remove(mac.index);
+                                        }
+                                    }
+                                }
+                            },
                             _ => ()
                         }
                         // let variable_name = match node.ident.kind {

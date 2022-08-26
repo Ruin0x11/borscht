@@ -765,6 +765,169 @@ AnalysisConfig(
   },
 
   labels: {
+    "*uploader": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\uploader.bmp\""
+        )
+      ]
+    ),
+    "*browser": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\browser.bmp\""
+        )
+      ]
+    ),
+    "*autoTurn_pic": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"\\\\graphic\\\\anime2.bmp\""
+        )
+      ]
+    ),
+    "*cm_init": (
+      rules: [
+        (
+          kind: If,
+          match: "if ( cfg_wizard ) {"
+        ),
+        (
+          kind: Assignment,
+          match: "mode = MODELIST_CHARA_CREATION"
+        ),
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\void.bmp\", 1"
+        ),
+        (
+          kind: StringLiteral,
+          match: "これ以上は冒険者を保存できない。"
+        )
+      ]
+    ),
+    "*com_blend": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\deco_blend.bmp\", 1"
+        )
+      ]
+    ),
+    "*com_trait": (
+      rules: [
+        (
+          kind: Function,
+          match: "snd SOUNDLIST_FEAT"
+        ),
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\deco_feat.bmp\", 1"
+        ),
+      ]
+    ),
+    "*sleep_draw_init": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"\\\\graphic\\\\bg_night.bmp\", 1"
+        )
+      ]
+    ),
+    "*chat_refresh": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\face1.bmp\", 1"
+        ),
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\ie_chat.bmp\""
+        )
+      ]
+    ),
+    "*com_politics_chart": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\deco_politics.bmp\", 1"
+        ),
+        (
+          kind: Assignment,
+          match: "lv = 0"
+        )
+      ]
+    ),
+    "*com_politics_economy": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\deco_politics.bmp\", 1"
+        ),
+        (
+          kind: Assignment,
+          match: "ww = 540"
+        )
+      ]
+    ),
+    "*skip_rule": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\deco_politics.bmp\", 1"
+        ),
+        (
+          kind: Assignment,
+          match: "ww = 480"
+        )
+      ]
+    ),
+    "*com_chatlog": (
+      rules: [
+        (
+          kind: Function,
+          match: "picload_ exedir + \"graphic\\\\ie_scroll.bmp\""
+        ),
+        (
+          kind: StringLiteral,
+          match: "何かキーを押すと閉じる"
+        ),
+        (
+          kind: Assignment,
+          match: "header = instr(netbuf, 0, \"<!--START-->\")"
+        )
+      ]
+    ),
+
+    "*config_loadOmake": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "autodestroy_sound."
+        )
+      ]
+    ),
+    "*config_initOmake": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cfg_useffhp = 1"
+        )
+      ]
+    ),
+
+    "*db_card": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cardrefpic"
+        )
+      ]
+    ),
+
     "*ai_turn": (
       rules: [
         (
@@ -1148,6 +1311,25 @@ AnalysisConfig(
 
     "a2d.hsp": (
       begin: Function("netload")
+    ),
+
+    "key.hsp": (
+      begin: Function("key_check")
+    ),
+    "item.hsp": (
+      begin: Function("getinheritance")
+    ),
+    "cell.hsp": (
+      begin: Function("cell_show")
+    ),
+    "dmg.hsp": (
+      begin: Function("dmghp")
+    ),
+    "net.hsp": (
+      begin: Function("net_read")
+    ),
+    "db_card.hsp": (
+      begin: Label("*db_card")
     ),
 
     "NC.hsp": (
