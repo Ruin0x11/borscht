@@ -713,6 +713,12 @@ AnalysisConfig(
   expressions: {},
 
   functions: {
+    "weight2str": (
+      args: {
+        0: (name: "weightInStone", type: Int),
+      }
+    ),
+
     "seasonal_check": (
       args: {
         0: (name: "season_id", type: Int, indices: [ ( substitute: Group("season")) ]),
@@ -766,6 +772,90 @@ AnalysisConfig(
           match: "「こんなことして、許さない"
         )
       ]
+    ),
+
+    "*housing_design": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "マウスの左クリックでタイルの敷設、コントロールキーを押しながらマウスの左クリックで塗りつぶし、右クリックでタイルの取得、移動キーでスクリーン移動、決定キーでタイル一覧、キャンセルキーで終了。"
+        )
+      ]
+    ),
+
+    "*pet_openStrategyMenu": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "frequency_read = 10"
+        )
+      ]
+    ),
+    "*pet_openStrategyMenu_pgchk": (
+        after: "*pet_openStrategyMenu"
+    ),
+    "*pet_openStrategyMenu_loop": (
+        after: "*pet_openStrategyMenu_pgchk"
+    ),
+
+    "*quest_makeQuestClientDialog": (
+        after: "*pet_openStrategyMenu_loop"
+    ),
+
+    "*bodycheck_prompt": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "求める部位の選択"
+        )
+      ]
+    ),
+
+    "*nc_com_ai": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "If the target distance is farther than the proper distance"
+        )
+      ]
+    ),
+    "*nc_com_ai_pgchk": (
+      after: "*nc_com_ai",
+    ),
+    "*nc_com_ai_loop": (
+      after: "*nc_com_ai_pgchk",
+    ),
+
+    "*nc_ai_special": (
+      after: "*nc_com_ai_loop",
+    ),
+
+    "*nc_ai_changeskill": (
+      after: "*nc_ai_special",
+    ),
+
+    "*nc_clampgold": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_GOLD, CHARA_PLAYER) += 2147483647"
+        )
+      ]
+    ),
+
+    "*nc_yotogi": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "誰と夜伽をする？"
+        )
+      ]
+    ),
+    "*nc_yotogi_pgchk": (
+        after: "*nc_yotogi"
+    ),
+    "*nc_yotogi_loop": (
+        after: "*nc_yotogi_pgchk"
     ),
 
     "*nc_pict": (
@@ -982,6 +1072,84 @@ AnalysisConfig(
   },
 
   files: {
+    "karioki.hsp": (
+      begin: Function("d3getfps")
+    ),
+    "sqlite.hsp": (
+      begin: Function("sql_q_")
+    ),
+    "ctalk.hsp": (
+      begin: Function("ctalk")
+    ),
+    "custom.hsp": (
+      begin: Function("custom_isGodServant")
+    ),
+    "ctrlfile.hsp": (
+      begin: Function("ctrlFile")
+    ),
+    "datetime.hsp": (
+      begin: Function("datetime_normalizeGameDate")
+    ),
+
+    "attack.hsp": (
+      begin: Function("attack_weakGuard")
+    ),
+    "chara2.hsp": (
+      begin: Function("chara_gainSkillBonus")
+    ),
+    "encicon.hsp": (
+      begin: Function("encIcon_addIcon")
+    ),
+    "food.hsp": (
+      begin: Function("food_meltBySalt")
+    ),
+    "housing.hsp": (
+      begin: Label("*housing_design")
+    ),
+    "housing.hsp": (
+      begin: Function("initializeOneSouthTyrisTown")
+    ),
+    "locations.hsp": (
+      begin: Function("initializeOneSouthTyrisTown")
+    ),
+    "map2.hsp": (
+      begin: Function("map_initcustom")
+    ),
+    "map_effect.hsp": (
+      begin: Function("mapEffect_isImmuneToCobweb")
+    ),
+    "migration.hsp": (
+      begin: Function("migration_normalizeFieldsOfJewelOfLoveAndKumiromisExperience")
+    ),
+    "pet_strategy.hsp": (
+      begin: Label("*pet_openStrategyMenu")
+    ),
+    "quest2.hsp": (
+      begin: Label("*quest_makeQuestClientDialog")
+    ),
+    "random.hsp": (
+      begin: Function("randattb")
+    ),
+    "shop.hsp": (
+      begin: Label("*shop_restock")
+    ),
+    "text.hsp": (
+      begin: Function("text_init")
+    ),
+    "trait.hsp": (
+      begin: Label("*trait_init")
+    ),
+    "util.hsp": (
+      begin: Function("weight2str")
+    ),
+    "skill2.hsp": (
+      begin: Label("*trainer_skill")
+    ),
+
+    "a2d.hsp": (
+      begin: Function("netload")
+    ),
+
     "NC.hsp": (
       begin: Function("seasonal_check")
     ),
@@ -1004,9 +1172,6 @@ AnalysisConfig(
       begin: Label("*nc_cname")
     ),
     "nc_evmap.hsp": (
-      begin: Label("*NC_MAP_PRO")
-    ),
-    "nc_gift.hsp": (
       begin: Label("*NC_MAP_PRO")
     ),
     "nc_haizinhelp.hsp": (

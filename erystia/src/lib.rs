@@ -1667,7 +1667,7 @@ impl FileStartPoint {
     fn matches(&self, name: &str) -> bool {
         match self {
             FileStartPoint::Label(s) |
-            FileStartPoint::Function(s) => name == s
+            FileStartPoint::Function(s) => name.eq_ignore_ascii_case(s)
         }
     }
 }
