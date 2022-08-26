@@ -111,608 +111,716 @@ AnalysisConfig(
     ),
     "ogdata": (
       variables: [
-        ( name: "OGDATA_DUNGEON_STAYERS_0F", value: 0 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_1F", value: 1 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_2F", value: 2 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_3F", value: 3 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_4F", value: 4 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_5F", value: 5 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_6F", value: 6 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_7F", value: 7 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_8F", value: 8 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_9F", value: 9 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_0F", value: 10 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_1F", value: 11 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_2F", value: 12 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_3F", value: 13 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_4F", value: 14 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_5F", value: 15 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_6F", value: 16 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_7F", value: 17 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_8F", value: 18 ),
-        ( name: "OGDATA_DUNGEON_NEUTRALS_9F", value: 19 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_TOTAL", value: 20 ),
-        ( name: "OGDATA_DUNGEON_STAYERS_GREATEST", value: 21 ),
-        ( name: "OGDATA_DUNGEON_BUILT_FLOORS", value: 22 ),
-        ( name: "OGDATA_DUNGEON_EVENT_FLAG", value: 23 ),
-        ( name: "OGDATA_QUEST_KNIGHTS_OF_LITTLE_GIRLS", value: 24 ),
-        ( name: "OGDATA_HEAD_MAID_FLOOR", value: 25 ),
+        ( name: "OGDATA_DUNGEON_STAYERS_0F", value: 0, macro: "ogDungeonStayers0F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_1F", value: 1, macro: "ogDungeonStayers1F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_2F", value: 2, macro: "ogDungeonStayers2F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_3F", value: 3, macro: "ogDungeonStayers3F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_4F", value: 4, macro: "ogDungeonStayers4F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_5F", value: 5, macro: "ogDungeonStayers5F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_6F", value: 6, macro: "ogDungeonStayers6F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_7F", value: 7, macro: "ogDungeonStayers7F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_8F", value: 8, macro: "ogDungeonStayers8F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_9F", value: 9, macro: "ogDungeonStayers9F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_0F", value: 10, macro: "ogDungeonNeutrals0F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_1F", value: 11, macro: "ogDungeonNeutrals1F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_2F", value: 12, macro: "ogDungeonNeutrals2F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_3F", value: 13, macro: "ogDungeonNeutrals3F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_4F", value: 14, macro: "ogDungeonNeutrals4F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_5F", value: 15, macro: "ogDungeonNeutrals5F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_6F", value: 16, macro: "ogDungeonNeutrals6F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_7F", value: 17, macro: "ogDungeonNeutrals7F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_8F", value: 18, macro: "ogDungeonNeutrals8F" ),
+        ( name: "OGDATA_DUNGEON_NEUTRALS_9F", value: 19, macro: "ogDungeonNeutrals9F" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_TOTAL", value: 20, macro: "ogDungeonStayersTotal" ),
+        ( name: "OGDATA_DUNGEON_STAYERS_GREATEST", value: 21, macro: "ogDungeonStayersGreatest" ),
+        ( name: "OGDATA_DUNGEON_BUILT_FLOORS", value: 22, macro: "ogDungeonBuiltFloors" ),
+        ( name: "OGDATA_DUNGEON_EVENT_FLAG", value: 23, macro: "ogDungeonEventFlag" ),
+        ( name: "OGDATA_QUEST_KNIGHTS_OF_LITTLE_GIRLS", value: 24, macro: "ogQuestKnightsOfLittleGirls" ),
+        ( name: "OGDATA_HEAD_MAID_FLOOR", value: 25, macro: "ogHeadMaidFloor" ),
 
-        ( name: "OGDATA_YOUNG_LADY_SEED", value: 27 ),
-        ( name: "OGDATA_QUEST_CAT_SISTER", value: 28 ),
-        ( name: "OGDATA_QUEST_GUILD_WARS", value: 29 ),
-        ( name: "OGDATA_MAKE_CHILD_PARTNER", value: 30 ),
-        ( name: "OGDATA_CAN_MAKE_CHILD", value: 31 ),
-        ( name: "OGDATA_GOD_SERVANTS_COUNT", value: 32 ),
-        ( name: "OGDATA_EXTRAVAGANT_PARTY", value: 33 ),
-        ( name: "OGDATA_CUSTOM_ITEM_COUNT", value: 34 ),
-        ( name: "OGDATA_OMAKE_VERSION", value: 35 ),
+        ( name: "OGDATA_YOUNG_LADY_SEED", value: 27, macro: "ogYoungLadySeed" ),
+        ( name: "OGDATA_QUEST_CAT_SISTER", value: 28, macro: "ogQuestCatSister" ),
+        ( name: "OGDATA_QUEST_GUILD_WARS", value: 29, macro: "ogQuestGuildWars" ),
+        ( name: "OGDATA_MAKE_CHILD_PARTNER", value: 30, macro: "ogMakeChildPartner" ),
+        ( name: "OGDATA_CAN_MAKE_CHILD", value: 31, macro: "ogCanMakeChild" ),
+        ( name: "OGDATA_GOD_SERVANTS_COUNT", value: 32, macro: "ogGodServantsCount" ),
+        ( name: "OGDATA_EXTRAVAGANT_PARTY", value: 33, macro: "ogExtravagantParty" ),
+        ( name: "OGDATA_CUSTOM_ITEM_COUNT", value: 34, macro: "ogCustomItemCount" ),
+        ( name: "OGDATA_OMAKE_VERSION", value: 35, macro: "ogOmakeVersion" ),
 
         // omake_overhaul
-        ( name: "OGDATA_OO_VERSION", value: 100 ),
-        ( name: "OGDATA_CARGO_VALUE", value: 101 ),
+        ( name: "OGDATA_OO_VERSION", value: 100, macro: "ogOOVersion" ),
+        ( name: "OGDATA_CARGO_VALUE", value: 101, macro: "ogCargoValue" ),
 
-        ( name: "OGDATA_EVENT_DUNGEON_ALIEN", value: 200 ),
-        ( name: "OGDATA_EVENT_HEAD_MAID_PUTIT", value: 201 ),
+        ( name: "OGDATA_EVENT_DUNGEON_ALIEN", value: 200, macro: "ogEventDungeonAlien" ),
+        ( name: "OGDATA_EVENT_HEAD_MAID_PUTIT", value: 201, macro: "ogEventHeadMaidPutit" ),
 
-        ( name: "OGDATA_SMITHING_TARGET_ENCHANTMENT", value: 427 ),
-        ( name: "OGDATA_UNIQUE_MONSTER_KILL_COUNT", value: 428 ),
-        ( name: "OGDATA_PURCHASED_SLAVE_COUNT", value: 429 ),
-        ( name: "OGDATA_TIMES_MARRIED", value: 430 ),
-        ( name: "OGDATA_TIMES_USED_NUKE", value: 431 ),
+        ( name: "OGDATA_SMITHING_TARGET_ENCHANTMENT", value: 427, macro: "ogSmithingTargetEnchantment" ),
+        ( name: "OGDATA_UNIQUE_MONSTER_KILL_COUNT", value: 428, macro: "ogUniqueMonsterKillCount" ),
+        ( name: "OGDATA_PURCHASED_SLAVE_COUNT", value: 429, macro: "ogPurchasedSlaveCount" ),
+        ( name: "OGDATA_TIMES_MARRIED", value: 430, macro: "ogTimesMarried" ),
+        ( name: "OGDATA_TIMES_USED_NUKE", value: 431, macro: "ogTimesUsedNuke" ),
 
         // TODO ogbit
         ( name: "STARTING_OGDATA_BIT", value: 432, exclude: true ),
 
-        ( name: "OGDATA_TIMES_ATE_HUMAN_FLESH", value: 433 ),
-        ( name: "OGDATA_TIMES_DID_HUMAN_ALCHEMY", value: 434 ),
-        ( name: "OGDATA_TIMES_MADE_CHILDREN", value: 435 ),
-        ( name: "OGDATA_TIMES_SOLD_OWN_BODY", value: 436 ),
-        ( name: "OGDATA_TIMES_SENT_PETS", value: 437 ),
-        ( name: "OGDATA_TOTAL_TRAVEL_DISTANCE", value: 438 ),
-        ( name: "OGDATA_TIMES_READ_YOUNGER_SISTERS_DIARY", value: 439 ),
+        ( name: "OGDATA_TIMES_ATE_HUMAN_FLESH", value: 433, macro: "ogTimesAteHumanFlesh" ),
+        ( name: "OGDATA_TIMES_DID_HUMAN_ALCHEMY", value: 434, macro: "ogTimesDidHumanAlchemy" ),
+        ( name: "OGDATA_TIMES_MADE_CHILDREN", value: 435, macro: "ogTimesMadeChildren" ),
+        ( name: "OGDATA_TIMES_SOLD_OWN_BODY", value: 436, macro: "ogTimesSoldOwnBody" ),
+        ( name: "OGDATA_TIMES_SENT_PETS", value: 437, macro: "ogTimesSentPets" ),
+        ( name: "OGDATA_TOTAL_TRAVEL_DISTANCE", value: 438, macro: "ogTotalTravelDistance" ),
+        ( name: "OGDATA_TIMES_READ_YOUNGER_SISTERS_DIARY", value: 439, macro: "ogTimesReadYoungerSistersDiary" ),
 
         ( name: "STARTING_OGDATA_TITLE", value: 440, exclude: true ),
 
         (
           name: "OGDATA_TITLE_DECOY",
           value: 440,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DECOY"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DECOY",
+          macro: "ogTitleDecoy"
         ),
         (
           name: "OGDATA_TITLE_BORN_IN_A_TEMPLE",
           value: 441,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BORN_IN_A_TEMPLE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BORN_IN_A_TEMPLE",
+          macro: "ogTitleBornInATemple"
         ),
         (
           name: "OGDATA_TITLE_LEER",
           value: 442,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_LEER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LEER",
+          macro: "ogTitleLeer"
         ),
         (
           name: "OGDATA_TITLE_NEKODAMASHI",
           value: 443,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_NEKODAMASHI"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NEKODAMASHI",
+          macro: "ogTitleNekodamashi"
         ),
         (
           name: "OGDATA_TITLE_PHANTOM_SLASHER",
           value: 444,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_PHANTOM_SLASHER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_PHANTOM_SLASHER",
+          macro: "ogTitlePhantomSlasher"
         ),
         (
           name: "OGDATA_TITLE_CHECKMATE",
           value: 445,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_CHECKMATE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHECKMATE",
+          macro: "ogTitleCheckmate"
         ),
         (
           name: "OGDATA_TITLE_THE_DAILY_LUNCH_SHOW_SPECIAL",
           value: 446,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_DAILY_LUNCH_SHOW_SPECIAL"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_DAILY_LUNCH_SHOW_SPECIAL",
+          macro: "ogTitleTheDailyLunchShowSpecial"
         ),
         (
           name: "OGDATA_TITLE_REPEAT_KILL_SQUAD",
           value: 447,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_REPEAT_KILL_SQUAD"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_REPEAT_KILL_SQUAD",
+          macro: "ogTitleRepeatKillSquad"
         ),
         (
           name: "OGDATA_TITLE_CHAMPION_OF_THE_LABYRINTHS",
           value: 448,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_CHAMPION_OF_THE_LABYRINTHS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHAMPION_OF_THE_LABYRINTHS",
+          macro: "ogTitleChampionOfTheLabyrinths"
         ),
         (
           name: "OGDATA_TITLE_MACH_SPEED_CAT",
           value: 449,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MACH_SPEED_CAT"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MACH_SPEED_CAT",
+          macro: "ogTitleMachSpeedCat"
         ),
         (
           name: "OGDATA_TITLE_DESTROYED_DESTRUCTIVE_WEAPONS",
           value: 450,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DESTROYED_DESTRUCTIVE_WEAPONS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DESTROYED_DESTRUCTIVE_WEAPONS",
+          macro: "ogTitleDestroyedDestructiveWeapons"
         ),
         (
           name: "OGDATA_TITLE_THE_PURIFIER",
           value: 451,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_PURIFIER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_PURIFIER",
+          macro: "ogTitleThePurifier"
         ),
         (
           name: "OGDATA_TITLE_JOHN_CONNOR",
           value: 452,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_JOHN_CONNOR"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_JOHN_CONNOR",
+          macro: "ogTitleJohnConnor"
         ),
         (
           name: "OGDATA_TITLE_SADIST_KILLER",
           value: 453,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_SADIST_KILLER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SADIST_KILLER",
+          macro: "ogTitleSadistKiller"
         ),
         (
           name: "OGDATA_TITLE_ELEMENTAL_MASTER",
           value: 454,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ELEMENTAL_MASTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ELEMENTAL_MASTER",
+          macro: "ogTitleElementalMaster"
         ),
         (
           name: "OGDATA_TITLE_HARVESTER",
           value: 455,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_HARVESTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HARVESTER",
+          macro: "ogTitleHarvester"
         ),
         (
           name: "OGDATA_TITLE_EARTH_SPLITTER",
           value: 456,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_EARTH_SPLITTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_EARTH_SPLITTER",
+          macro: "ogTitleEarthSplitter"
         ),
         (
           name: "OGDATA_TITLE_MEWMEWMEW",
           value: 457,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MEWMEWMEW"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MEWMEWMEW",
+          macro: "ogTitleMewmewmew"
         ),
         (
           name: "OGDATA_TITLE_YOURE_FIRED",
           value: 458,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_YOURE_FIRED"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_YOURE_FIRED",
+          macro: "ogTitleYoureFired"
         ),
         (
           name: "OGDATA_TITLE_NOBODYS_INSIDE",
           value: 459,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_NOBODYS_INSIDE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NOBODYS_INSIDE",
+          macro: "ogTitleNobodysInside"
         ),
         (
           name: "OGDATA_TITLE_RAGNAROK",
           value: 460,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_RAGNAROK"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_RAGNAROK",
+          macro: "ogTitleRagnarok"
         ),
         (
           name: "OGDATA_TITLE_DO_GOODER",
           value: 461,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DO_GOODER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DO_GOODER",
+          macro: "ogTitleDoGooder"
         ),
         (
           name: "OGDATA_TITLE_MOLD_KILLER",
           value: 462,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MOLD_KILLER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MOLD_KILLER",
+          macro: "ogTitleMoldKiller"
         ),
         (
           name: "OGDATA_TITLE_RETURNING_HOME",
           value: 463,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_RETURNING_HOME"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_RETURNING_HOME",
+          macro: "ogTitleReturningHome"
         ),
         (
           name: "OGDATA_TITLE_WAILING_CHOIR",
           value: 464,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_WAILING_CHOIR"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_WAILING_CHOIR",
+          macro: "ogTitleWailingChoir"
         ),
         (
           name: "OGDATA_TITLE_GOD_OF_WAR",
           value: 465,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_GOD_OF_WAR"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_GOD_OF_WAR",
+          macro: "ogTitleGodOfWar"
         ),
         (
           name: "OGDATA_TITLE_THE_13TH",
           value: 466,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_13TH"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_13TH",
+          macro: "ogTitleThe13Th"
         ),
         (
           name: "OGDATA_TITLE_ARCHMAGE",
           value: 467,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ARCHMAGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ARCHMAGE",
+          macro: "ogTitleArchmage"
         ),
         (
           name: "OGDATA_TITLE_EMPTINESS",
           value: 468,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_EMPTINESS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_EMPTINESS",
+          macro: "ogTitleEmptiness"
         ),
         (
           name: "OGDATA_TITLE_ONE_MAN_ARMY",
           value: 469,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ONE_MAN_ARMY"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ONE_MAN_ARMY",
+          macro: "ogTitleOneManArmy"
         ),
         (
           name: "OGDATA_TITLE_HELLS_WALL",
           value: 470,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_HELLS_WALL"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HELLS_WALL",
+          macro: "ogTitleHellsWall"
         ),
         (
           name: "OGDATA_TITLE_THE_BLIND_SWORD",
           value: 471,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_BLIND_SWORD"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_BLIND_SWORD",
+          macro: "ogTitleTheBlindSword"
         ),
         (
           name: "OGDATA_TITLE_MAD_SCIENTIST",
           value: 472,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MAD_SCIENTIST"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MAD_SCIENTIST",
+          macro: "ogTitleMadScientist"
         ),
         (
           name: "OGDATA_TITLE_DRAGONS_DEN",
           value: 473,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DRAGONS_DEN"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DRAGONS_DEN",
+          macro: "ogTitleDragonsDen"
         ),
         (
           name: "OGDATA_TITLE_TREASURE_HUNTER",
           value: 474,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_TREASURE_HUNTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TREASURE_HUNTER",
+          macro: "ogTitleTreasureHunter"
         ),
         (
           name: "OGDATA_TITLE_FATHER",
           value: 475,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_FATHER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FATHER",
+          macro: "ogTitleFather"
         ),
         (
           name: "OGDATA_TITLE_STEALTH",
           value: 476,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_STEALTH"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_STEALTH",
+          macro: "ogTitleStealth"
         ),
         (
           name: "OGDATA_TITLE_MESSENGER_OF_JUSTICE",
           value: 477,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MESSENGER_OF_JUSTICE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MESSENGER_OF_JUSTICE",
+          macro: "ogTitleMessengerOfJustice"
         ),
         (
           name: "OGDATA_TITLE_BEST_IN_PALMIA",
           value: 478,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BEST_IN_PALMIA"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BEST_IN_PALMIA",
+          macro: "ogTitleBestInPalmia"
         ),
         (
           name: "OGDATA_TITLE_SUPER_TOURIST",
           value: 479,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_SUPER_TOURIST"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SUPER_TOURIST",
+          macro: "ogTitleSuperTourist"
         ),
         (
           name: "OGDATA_TITLE_ELDER_DEMON_POPE",
           value: 480,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ELDER_DEMON_POPE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ELDER_DEMON_POPE",
+          macro: "ogTitleElderDemonPope"
         ),
         (
           name: "OGDATA_TITLE_STRENGTH_IS_POWER",
           value: 481,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_STRENGTH_IS_POWER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_STRENGTH_IS_POWER",
+          macro: "ogTitleStrengthIsPower"
         ),
         (
           name: "OGDATA_TITLE_DUAL_WIELD_MASTERY",
           value: 482,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DUAL_WIELD_MASTERY"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DUAL_WIELD_MASTERY",
+          macro: "ogTitleDualWieldMastery"
         ),
         (
           name: "OGDATA_TITLE_SLAVE_TO_TURNIPS",
           value: 483,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_SLAVE_TO_TURNIPS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SLAVE_TO_TURNIPS",
+          macro: "ogTitleSlaveToTurnips"
         ),
         (
           name: "OGDATA_TITLE_UNMASKED_RIDER",
           value: 484,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_UNMASKED_RIDER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_UNMASKED_RIDER",
+          macro: "ogTitleUnmaskedRider"
         ),
         (
           name: "OGDATA_TITLE_THE_BABY",
           value: 485,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_BABY"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_BABY",
+          macro: "ogTitleTheBaby"
         ),
         (
           name: "OGDATA_TITLE_BROTHER_SISTER",
           value: 486,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BROTHER_SISTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BROTHER_SISTER",
+          macro: "ogTitleBrotherSister"
         ),
         (
           name: "OGDATA_TITLE_SEARCH_OF_MOTHER",
           value: 487,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_SEARCH_OF_MOTHER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SEARCH_OF_MOTHER",
+          macro: "ogTitleSearchOfMother"
         ),
         (
           name: "OGDATA_TITLE_THE_DAY_WE_FLY_ON_OUR_WINGS",
           value: 488,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_DAY_WE_FLY_ON_OUR_WINGS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_DAY_WE_FLY_ON_OUR_WINGS",
+          macro: "ogTitleTheDayWeFlyOnOurWings"
         ),
         (
           name: "OGDATA_TITLE_1000TH_TARGET_SLAYED",
           value: 489,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_1000TH_TARGET_SLAYED"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_1000TH_TARGET_SLAYED",
+          macro: "ogTitle1000ThTargetSlayed"
         ),
         (
           name: "OGDATA_TITLE_HAPPY_FAMILY_PLAN",
           value: 490,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_HAPPY_FAMILY_PLAN"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HAPPY_FAMILY_PLAN",
+          macro: "ogTitleHappyFamilyPlan"
         ),
         (
           name: "OGDATA_TITLE_MINCEMEAT_ALCHEMIST",
           value: 491,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MINCEMEAT_ALCHEMIST"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MINCEMEAT_ALCHEMIST",
+          macro: "ogTitleMincemeatAlchemist"
         ),
         (
           name: "OGDATA_TITLE_HANNIBAL_LECTER",
           value: 492,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_HANNIBAL_LECTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HANNIBAL_LECTER",
+          macro: "ogTitleHannibalLecter"
         ),
         (
           name: "OGDATA_TITLE_THE_UNFAITHFUL",
           value: 493,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_UNFAITHFUL"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_UNFAITHFUL",
+          macro: "ogTitleTheUnfaithful"
         ),
         (
           name: "OGDATA_TITLE_BILLIONAIRE",
           value: 494,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BILLIONAIRE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BILLIONAIRE",
+          macro: "ogTitleBillionaire"
         ),
         (
           name: "OGDATA_TITLE_YOU_SOUND_FAMILIAR",
           value: 495,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_YOU_SOUND_FAMILIAR"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_YOU_SOUND_FAMILIAR",
+          macro: "ogTitleYouSoundFamiliar"
         ),
         (
           name: "OGDATA_TITLE_FELIX_HOENIKKER",
           value: 496,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_FELIX_HOENIKKER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FELIX_HOENIKKER",
+          macro: "ogTitleFelixHoenikker"
         ),
         (
           name: "OGDATA_TITLE_NIGHTTIME_PREDATOR",
           value: 497,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_NIGHTTIME_PREDATOR"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NIGHTTIME_PREDATOR",
+          macro: "ogTitleNighttimePredator"
         ),
         (
           name: "OGDATA_TITLE_HELLO_I_AM_MAYOR",
           value: 498,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_HELLO_I_AM_MAYOR"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HELLO_I_AM_MAYOR",
+          macro: "ogTitleHelloIAmMayor"
         ),
         (
           name: "OGDATA_TITLE_JUNKIE",
           value: 499,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_JUNKIE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_JUNKIE",
+          macro: "ogTitleJunkie"
         ),
         (
           name: "OGDATA_TITLE_BLACK_ORGANIZATION_MEMBER",
           value: 500,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BLACK_ORGANIZATION_MEMBER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BLACK_ORGANIZATION_MEMBER",
+          macro: "ogTitleBlackOrganizationMember"
         ),
         (
           name: "OGDATA_TITLE_MONSTER_HUNTER",
           value: 501,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MONSTER_HUNTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MONSTER_HUNTER",
+          macro: "ogTitleMonsterHunter"
         ),
         (
           name: "OGDATA_TITLE_DEVOURER_OF_ENDS",
           value: 502,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DEVOURER_OF_ENDS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DEVOURER_OF_ENDS",
+          macro: "ogTitleDevourerOfEnds"
         ),
         (
           name: "OGDATA_TITLE_TUBAL-CAIN",
           value: 503,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_TUBAL-CAIN"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TUBAL-CAIN",
+          macro: "ogTitleTubalCain"
         ),
         (
           name: "OGDATA_TITLE_ATHANA",
           value: 504,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ATHANA"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ATHANA",
+          macro: "ogTitleAthana"
         ),
         (
           name: "OGDATA_TITLE_AREUS",
           value: 505,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_AREUS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_AREUS",
+          macro: "ogTitleAreus"
         ),
         (
           name: "OGDATA_TITLE_FAUNUS",
           value: 506,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_FAUNUS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FAUNUS",
+          macro: "ogTitleFaunus"
         ),
         (
           name: "OGDATA_TITLE_BASTET",
           value: 507,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BASTET"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BASTET",
+          macro: "ogTitleBastet"
         ),
         (
           name: "OGDATA_TITLE_KUMARI",
           value: 508,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_KUMARI"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_KUMARI",
+          macro: "ogTitleKumari"
         ),
         (
           name: "OGDATA_TITLE_DEUS_EX_MACHINA",
           value: 509,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DEUS_EX_MACHINA"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DEUS_EX_MACHINA",
+          macro: "ogTitleDeusExMachina"
         ),
         (
           name: "OGDATA_TITLE_DINTS",
           value: 510,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DINTS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DINTS",
+          macro: "ogTitleDints"
         ),
         (
           name: "OGDATA_TITLE_NURTA",
           value: 511,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_NURTA"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NURTA",
+          macro: "ogTitleNurta"
         ),
         (
           name: "OGDATA_TITLE_ISIS",
           value: 512,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ISIS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ISIS",
+          macro: "ogTitleIsis"
         ),
         (
           name: "OGDATA_TITLE_CARLY",
           value: 513,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_CARLY"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CARLY",
+          macro: "ogTitleCarly"
         ),
         (
           name: "OGDATA_TITLE_CHRONOS",
           value: 514,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_CHRONOS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHRONOS",
+          macro: "ogTitleChronos"
         ),
         (
           name: "OGDATA_TITLE_BEYOND_WISH",
           value: 515,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BEYOND_WISH"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BEYOND_WISH",
+          macro: "ogTitleBeyondWish"
         ),
         (
           name: "OGDATA_TITLE_GANESA",
           value: 516,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_GANESA"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_GANESA",
+          macro: "ogTitleGanesa"
         ),
         (
           name: "OGDATA_TITLE_BATTLE_MASTER",
           value: 517,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BATTLE_MASTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BATTLE_MASTER",
+          macro: "ogTitleBattleMaster"
         ),
         (
           name: "OGDATA_TITLE_ITEM_MASTER",
           value: 518,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_ITEM_MASTER"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ITEM_MASTER",
+          macro: "ogTitleItemMaster"
         ),
         (
           name: "OGDATA_TITLE_THE_END",
           value: 519,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_END"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_END",
+          macro: "ogTitleTheEnd"
         ),
         (
           name: "OGDATA_TITLE_POW_CHARANGE",
           value: 520,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_POW_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_POW_CHARANGE",
+          macro: "ogTitlePowCharange"
         ),
         (
           name: "OGDATA_TITLE_END_CHARANGE",
           value: 521,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_END_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_END_CHARANGE",
+          macro: "ogTitleEndCharange"
         ),
         (
           name: "OGDATA_TITLE_DEX_CHARANGE",
           value: 522,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DEX_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DEX_CHARANGE",
+          macro: "ogTitleDexCharange"
         ),
         (
           name: "OGDATA_TITLE_PER_CHARANGE",
           value: 523,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_PER_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_PER_CHARANGE",
+          macro: "ogTitlePerCharange"
         ),
         (
           name: "OGDATA_TITLE_LER_CHARANGE",
           value: 524,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_LER_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LER_CHARANGE",
+          macro: "ogTitleLerCharange"
         ),
         (
           name: "OGDATA_TITLE_WIL_CHARANGE",
           value: 525,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_WIL_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_WIL_CHARANGE",
+          macro: "ogTitleWilCharange"
         ),
         (
           name: "OGDATA_TITLE_MAG_CHARANGE",
           value: 526,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MAG_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MAG_CHARANGE",
+          macro: "ogTitleMagCharange"
         ),
         (
           name: "OGDATA_TITLE_CHR_CHARANGE",
           value: 527,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_CHR_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHR_CHARANGE",
+          macro: "ogTitleChrCharange"
         ),
         (
           name: "OGDATA_TITLE_HP_CHARANGE",
           value: 528,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_HP_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HP_CHARANGE",
+          macro: "ogTitleHpCharange"
         ),
         (
           name: "OGDATA_TITLE_MP_CHARANGE",
           value: 529,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_MP_CHARANGE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MP_CHARANGE",
+          macro: "ogTitleMpCharange"
         ),
         (
           name: "OGDATA_TITLE_DISORDERLY_CROWD",
           value: 530,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_DISORDERLY_CROWD"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DISORDERLY_CROWD",
+          macro: "ogTitleDisorderlyCrowd"
         ),
         (
           name: "OGDATA_TITLE_INNOVATION",
           value: 531,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_INNOVATION"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_INNOVATION",
+          macro: "ogTitleInnovation"
         ),
         (
           name: "OGDATA_TITLE_LET_IT_GO",
           value: 532,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_LET_IT_GO"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LET_IT_GO",
+          macro: "ogTitleLetItGo"
         ),
         (
           name: "OGDATA_TITLE_WIZARD_ONLY_LIVE_TWICE",
           value: 533,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_WIZARD_ONLY_LIVE_TWICE"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_WIZARD_ONLY_LIVE_TWICE",
+          macro: "ogTitleWizardOnlyLiveTwice"
         ),
         (
           name: "OGDATA_TITLE_NECROMANIA",
           value: 534,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_NECROMANIA"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NECROMANIA",
+          macro: "ogTitleNecromania"
         ),
         (
           name: "OGDATA_TITLE_THE_WORLD_IS_SPINNING",
           value: 535,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_WORLD_IS_SPINNING"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_WORLD_IS_SPINNING",
+          macro: "ogTitleTheWorldIsSpinning"
         ),
         (
           name: "OGDATA_TITLE_SEAGULL_SAILORS",
           value: 536,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_SEAGULL_SAILORS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SEAGULL_SAILORS",
+          macro: "ogTitleSeagullSailors"
         ),
         (
           name: "OGDATA_TITLE_REDCAP",
           value: 537,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_REDCAP"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_REDCAP",
+          macro: "ogTitleRedcap"
         ),
         (
           name: "OGDATA_TITLE_LOVE_SAVES_THE_TYRIS",
           value: 538,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_LOVE_SAVES_THE_TYRIS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LOVE_SAVES_THE_TYRIS",
+          macro: "ogTitleLoveSavesTheTyris"
         ),
         (
           name: "OGDATA_TITLE_FAIRY_CROSSING_NEW_HORIZONS",
           value: 539,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_FAIRY_CROSSING_NEW_HORIZONS"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FAIRY_CROSSING_NEW_HORIZONS",
+          macro: "ogTitleFairyCrossingNewHorizons"
         ),
         (
           name: "OGDATA_TITLE_TECHNOLOGY_FOR_FREEDOM",
           value: 540,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_TECHNOLOGY_FOR_FREEDOM"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TECHNOLOGY_FOR_FREEDOM",
+          macro: "ogTitleTechnologyForFreedom"
         ),
         (
           name: "OGDATA_TITLE_NOWS_YOUR_CHANCE_TO_BE_A",
           value: 541,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_NOWS_YOUR_CHANCE_TO_BE_A"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NOWS_YOUR_CHANCE_TO_BE_A",
+          macro: "ogTitleNowsYourChanceToBeA"
         ),
         (
           name: "OGDATA_TITLE_BIG_SHOT",
           value: 542,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_BIG_SHOT"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BIG_SHOT",
+          macro: "ogTitleBigShot"
         ),
         (
           name: "OGDATA_TITLE_PASTORALISM_MOON",
           value: 543,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_PASTORALISM_MOON"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_PASTORALISM_MOON",
+          macro: "ogTitlePastoralismMoon"
         ),
         (
           name: "OGDATA_TITLE_THE_TETSUWAN_RUSH",
           value: 544,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_TETSUWAN_RUSH"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_TETSUWAN_RUSH",
+          macro: "ogTitleTheTetsuwanRush"
         ),
         (
           name: "OGDATA_TITLE_TETRAPOD",
           value: 545,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_TETRAPOD"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TETRAPOD",
+          macro: "ogTitleTetrapod"
         ),
         (
           name: "OGDATA_TITLE_SHEEP_DOG",
           value: 546,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_SHEEP_DOG"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SHEEP_DOG",
+          macro: "ogTitleSheepDog"
         ),
         (
           name: "OGDATA_TITLE_CENSORED",
           value: 547,
-          code_value: "STARTING_OGDATA_TITLE + TITLE_CENSORED"
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CENSORED",
+          macro: "ogTitleCensored"
         ),
       ]
     ),
@@ -828,6 +936,14 @@ AnalysisConfig(
           ( name: "TITLE_CENSORED", value: 107 ),
       ]
     ),
+    "inv": (
+      variables: [
+        ( name: "INV_CITEM_INDEX", value: 31, macro: "iCItemIdx" ),
+        ( name: "INV_CITEM_SERIAL_NO", value: 32, macro: "iCItemSerialNo" ),
+        ( name: "INV_CNPC_ID", value: 33, macro: "iCNpcId" ),
+        ( name: "INV_CNPC_SERIAL_NO", value: 34, macro: "ICNpcSerialNo" ),
+      ]
+    ),
     "season": (
       variables: [
         ( name: "NC_SEASON_YOUNGER_SISTERS_DAY", value: 0 ),
@@ -885,6 +1001,9 @@ AnalysisConfig(
         ),
         (
           substitute: { 0: Group("ogdata") }
+        ),
+        (
+          macro: ( index: 0, group: "ogdata" )
         ),
       ]
     ),

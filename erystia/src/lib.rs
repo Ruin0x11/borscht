@@ -1070,6 +1070,8 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
     }
 
     fn apply_array_macro(&mut self, node: &mut ast::VariableNode, mac: &ArrayMacro) {
+        let mut remove_arg = false;
+
         match self.config.variable_groups.get(&mac.group) {
             Some(group) => {
                 if let Some(ref mut arg) = &mut node.arg {
@@ -1093,6 +1095,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                                         if let Some(name) = var.r#macro.as_ref() {
                                             node.ident.kind = PrimitiveTokenKind::GlobalVariable(name.clone());
                                             arg.exps.remove(mac.index);
+                                            remove_arg = arg.exps.len() == 0;
                                         }
                                     }
                                 }
@@ -1112,6 +1115,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                                         if let Some(name) = var.r#macro.as_ref() {
                                             node.ident.kind = PrimitiveTokenKind::GlobalVariable(name.clone());
                                             arg.exps.remove(mac.index);
+                                            remove_arg = arg.exps.len() == 0;
                                         }
                                     }
                                 }
@@ -1140,6 +1144,10 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
                 }
             },
             None => self.diagnostics.push(DiagnosticKind::Error, format!("Variable group {} not defined.", &mac.group))
+        }
+
+        if remove_arg {
+            node.arg = None;
         }
     }
 

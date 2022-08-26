@@ -245,52 +245,54 @@ AnalysisConfig(
     ),
     "inv": (
       variables: [
-        ( name: "INV_ITEM_NUM", value: 0 ),
-        ( name: "INV_ITEM_VALUE", value: 1 ),
-        ( name: "INV_ITEM_PIC", value: 2 ),
-        ( name: "INV_ITEM_ID", value: 3 ),
-        ( name: "INV_ITEM_QUALITY", value: 4 ),
-        ( name: "INV_ITEM_X", value: 5 ),
-        ( name: "INV_ITEM_Y", value: 6 ),
-        ( name: "INV_ITEM_WEIGHT", value: 7 ),
-        ( name: "INV_ITEM_KNOWN", value: 8 ),
-        ( name: "INV_ITEM_CHARGE", value: 9 ),
-        ( name: "INV_ITEM_FILE", value: 9 ),
-        ( name: "INV_ITEM_AMMO", value: 9 ),
-        ( name: "INV_ITEM_NEXT_PERIOD", value: 9 ),
-        ( name: "INV_ITEM_CLIENT", value: 9 ),
-        ( name: "INV_ITEM_DICE1", value: 10 ),
-        ( name: "INV_ITEM_DICE2", value: 11 ),
-        ( name: "INV_ITEM_DAMAGE", value: 12 ),
-        ( name: "INV_ITEM_ATTACK", value: 13 ),
-        ( name: "INV_ITEM_DV", value: 14 ),
-        ( name: "INV_ITEM_PV", value: 15 ),
-        ( name: "INV_ITEM_SKILL_REF", value: 16 ),
-        ( name: "INV_ITEM_STATUS", value: 17 ),
-        ( name: "INV_ITEM_EQUIP", value: 18 ),
-        ( name: "INV_ITEM_EFFECT", value: 19 ),
-        ( name: "INV_ITEM_LEVEL", value: 20 ),
-        ( name: "INV_ITEM_PROPERTY", value: 21 ),
-        ( name: "INV_ITEM_COL", value: 22 ),
-        ( name: "INV_ITEM_SUB_NAME", value: 23 ),
-        ( name: "INV_ITEM_MATERIAL", value: 24 ),
-        ( name: "INV_ITEM_PARAM1", value: 25, primary: true ),
-        ( name: "INV_ITEM_GOD", value: 25 ),
-        ( name: "INV_ITEM_BOOK_ID", value: 25 ),
-        ( name: "INV_ITEM_GROWTH", value: 25 ),
-        ( name: "INV_ITEM_PARAM2", value: 26, primary: true ),
-        ( name: "INV_ITEM_EXP", value: 26 ),
-        ( name: "INV_ITEM_PARAM3", value: 27, primary: true ),
-        ( name: "INV_ITEM_ROT", value: 27 ),
-        ( name: "INV_ITEM_INTERVAL", value: 27 ),
-        ( name: "INV_ITEM_PARAM4", value: 28, primary: true ),
-        ( name: "INV_ITEM_FISHING_BAIT", value: 28 ),
-        ( name: "INV_ITEM_IDENTIFY_LEVEL", value: 29 ),
-        ( name: "INV_ITEM_TURN", value: 30 ),
+        ( name: "INV_ITEM_NUM", value: 0, macro: "iNum" ),
+        ( name: "INV_ITEM_VALUE", value: 1, macro: "iValue" ),
+        ( name: "INV_ITEM_PIC", value: 2, macro: "iPic" ),
+        ( name: "INV_ITEM_ID", value: 3, macro: "iID" ),
+        ( name: "INV_ITEM_QUALITY", value: 4, macro: "iQuality" ),
+        ( name: "INV_ITEM_X", value: 5, macro: "iX" ),
+        ( name: "INV_ITEM_Y", value: 6, macro: "iY" ),
+        ( name: "INV_ITEM_WEIGHT", value: 7, macro: "iWeight" ),
+        ( name: "INV_ITEM_KNOWN", value: 8, macro: "iKnown" ),
+        ( name: "INV_ITEM_CHARGE", value: 9, macro: "iCharge" ),
+        ( name: "INV_ITEM_FILE", value: 9, macro: "iFile" ),
+        ( name: "INV_ITEM_AMMO", value: 9, macro: "iAmmo" ),
+        ( name: "INV_ITEM_NEXT_PERIOD", value: 9, macro: "iNextPeriod" ),
+        ( name: "INV_ITEM_CLIENT", value: 9, macro: "iClient" ),
+        ( name: "INV_ITEM_DICE1", value: 10, macro: "iDice1" ),
+        ( name: "INV_ITEM_DICE2", value: 11, macro: "iDice2" ),
+        ( name: "INV_ITEM_DAMAGE", value: 12, macro: "iDmg" ),
+        ( name: "INV_ITEM_ATTACK", value: 13, macro: "iAtk" ),
+        ( name: "INV_ITEM_DV", value: 14, macro: "iDV" ),
+        ( name: "INV_ITEM_PV", value: 15, macro: "iPV" ),
+        ( name: "INV_ITEM_SKILL_REF", value: 16, macro: "iSkillRef" ),
+        ( name: "INV_ITEM_STATUS", value: 17, macro: "iStatus" ),
+        ( name: "INV_ITEM_EQUIP", value: 18, macro: "iEquip" ),
+        ( name: "INV_ITEM_EFFECT", value: 19, macro: "iEffect" ),
+        ( name: "INV_ITEM_LEVEL", value: 20, macro: "iLevel" ),
+        ( name: "INV_ITEM_PROPERTY", value: 21, macro: "iProperty" ),
+        ( name: "INV_ITEM_COL", value: 22, macro: "iCol" ),
+        ( name: "INV_ITEM_SUB_NAME", value: 23, macro: "iSubName" ),
+        ( name: "INV_ITEM_MATERIAL", value: 24, macro: "iMaterial" ),
+        ( name: "INV_ITEM_PARAM1", value: 25, primary: true, macro: "iParam1" ),
+        ( name: "INV_ITEM_GOD", value: 25, macro: "iGod" ),
+        ( name: "INV_ITEM_BOOK_ID", value: 25, macro: "iBookId" ),
+        ( name: "INV_ITEM_GROWTH", value: 25, macro: "iGrowth" ),
+        ( name: "INV_ITEM_PARAM2", value: 26, primary: true, macro: "iParam2" ),
+        ( name: "INV_ITEM_EXP", value: 26, macro: "iExp" ),
+        ( name: "INV_ITEM_PARAM3", value: 27, primary: true, macro: "iParam3" ),
+        ( name: "INV_ITEM_ROT", value: 27, macro: "iRot" ),
+        ( name: "INV_ITEM_INTERVAL", value: 27, macro: "iInterval" ),
+        ( name: "INV_ITEM_PARAM4", value: 28, primary: true, macro: "iParam4" ),
+        ( name: "INV_ITEM_FISHING_BAIT", value: 28, macro: "iPoleBite" ),
+        ( name: "INV_ITEM_IDENTIFY_LEVEL", value: 29, macro: "iIdtLevel" ),
+        ( name: "INV_ITEM_TURN", value: 30, macro: "iTurn" ),
+
         ( name: "STARTING_INV_ITEM_BIT", value: 35 ),
         ( name: "RANGE_INV_ITEM_BIT", value: 5, exclude: true ),
 
         ( name: "STARTING_INV_ITEM_ENCHANT", value: 40 ),
+        ( name: "STARTING_INV_ITEM_ENCHANT_POWER", value: 41 ),
         ( name: "RANGE_INV_ITEM_ENCHANT", value: 15, exclude: true ),
         ( name: "RANGE_INV_ITEM_FIXED_ENCHANT", value: 10, exclude: true ),
 
@@ -5170,7 +5172,21 @@ AnalysisConfig(
           substitute: {
             0: Group("inv")
           }
-        )
+        ),
+        (
+          rules: { 0: VariantRecursive("inv", ["STARTING_INV_ITEM_ENCHANT"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("inv", ["STARTING_INV_ITEM_ENCHANT"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: VariantRecursive("inv", ["STARTING_INV_ITEM_ENCHANT_POWER"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("inv", ["STARTING_INV_ITEM_ENCHANT_POWER"], Lhs("+")) }
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "inv",
+          )
+        ),
       ]
     ),
     "ioriginalnameref": (
@@ -5915,6 +5931,10 @@ AnalysisConfig(
         MatchAll((
             rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_MATERIAL"]) })),
             substitute: (rhs: { 0: Group("item_material") })
+          )),
+        MatchAll((
+            rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_EFFECT"]) })),
+            substitute: (rhs: { 0: Group("item_effect") })
           )),
         MatchAll((
             rules: (lhs: Array({ 0: Variant("inv", ["INV_ITEM_EFFECT"]) })),
