@@ -1583,21 +1583,19 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
                                     let to = exp.token_offset;
                                     let tc = exp.tab_count;
                                     (Some(exp), TxtUnrollState::FoundTxtvalid(to, tc))
-                                } else {
-                                    if name == "txtc" {
-                                        match state {
-                                            TxtUnrollState::None => {
-                                                (None, TxtUnrollState::FoundTxtc1(exp.token_offset, exp.tab_count))
-                                            },
-                                            TxtUnrollState::FoundTxtvalid(to, tc) => {
-                                                exps.pop().unwrap(); // discard previous `txtvalid = 0`
-                                                (None, TxtUnrollState::FoundTxtc1(to, tc))
-                                            },
-                                            _ => (Some(exp), TxtUnrollState::None)
-                                        }
-                                    } else {
-                                        (Some(exp), TxtUnrollState::None)
+                                } else if name == "txtc" {
+                                    match state {
+                                        TxtUnrollState::None => {
+                                            (None, TxtUnrollState::FoundTxtc1(exp.token_offset, exp.tab_count))
+                                        },
+                                        TxtUnrollState::FoundTxtvalid(to, tc) => {
+                                            exps.pop().unwrap(); // discard previous `txtvalid = 0`
+                                            (None, TxtUnrollState::FoundTxtc1(to, tc))
+                                        },
+                                        _ => (Some(exp), TxtUnrollState::None)
                                     }
+                                } else {
+                                    (Some(exp), TxtUnrollState::None)
                                 }
                             } else {
                                 (Some(exp), TxtUnrollState::None)
@@ -1605,7 +1603,17 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
                         } else {
                             (Some(exp), TxtUnrollState::None)
                         }
-                    } else {
+                    } else if let ast::AstNodeKind::Function(func) = &exp.kind {
+                        if get_function_name(&func, self.hsp3as) == "txt_select" {
+                            // The oomSEST codebase was cleaned up to remove the
+                            // txtvalid/txtc calls, detect that here.
+                            exps.push(Box::new(make_txt_node(exp.token_offset, exp.tab_count, *func.clone().arg.unwrap(), self.txt_function.clone())));
+                            (None, TxtUnrollState::None)
+                        } else {
+                            (Some(exp), TxtUnrollState::None)
+                        }
+                    }
+                    else {
                         (Some(exp), TxtUnrollState::None)
                     }
                 }

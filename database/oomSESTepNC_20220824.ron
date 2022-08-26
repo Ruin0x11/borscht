@@ -4,6 +4,7 @@ AnalysisConfig(
   meta: (
     variant_name: "oomSESTepNC",
     version: "20220824",
+    // Needs to be compiled with "#cmpopt varname 1" to match up.
     ax_sha256: "893e06136c2b7d349b4a417342f40ac717887b10cf7cd3184f465cfc70ee5e0f"
   ),
 
@@ -946,26 +947,115 @@ AnalysisConfig(
     ),
     "season": (
       variables: [
-        ( name: "NC_SEASON_YOUNGER_SISTERS_DAY", value: 0 ),
-        ( name: "NC_SEASON_PARTY_DAY", value: 1 ),
-        ( name: "NC_SEASON_CHRISTMAS_EVE", value: 2 ),
-        ( name: "NC_SEASON_CHRISTMAS", value: 3 ),
-        ( name: "NC_SEASON_VALENTINES_DAY", value: 4 ),
-        ( name: "NC_SEASON_AFTER_VALENTINES_DAY", value: 5 ),
-        ( name: "NC_SEASON_RENRI", value: 6 ),
-        ( name: "NC_SEASON_HINAMATSURI", value: 7 ),
-        ( name: "NC_SEASON_TAX_WEEK", value: 8 ),
-        ( name: "NC_SEASON_APRIL_FOOLS", value: 9 ),
-        ( name: "NC_SEASON_DRAGON_SLAYERS_DAY", value: 10 ),
-        ( name: "NC_SEASON_GOLDEN_WEEK", value: 11 ),
-        ( name: "NC_SEASON_AYAME", value: 12 ),
-        ( name: "NC_SEASON_MIDSUMMER", value: 13 ),
-        ( name: "NC_SEASON_SASA", value: 14 ),
-        ( name: "NC_SEASON_SILVER_WOLF", value: 15 ),
-        ( name: "NC_SEASON_LANTERN_FESTIVAL", value: 16 ),
-        ( name: "NC_SEASON_DEFENDERS_DAY", value: 17 ),
-        ( name: "NC_SEASON_HALLOWEEN_EVE", value: 18 ),
-        ( name: "NC_SEASON_HALLOWEEN", value: 19 ),
+        ( name: "SEASON_YOUNGER_SISTERS_DAY", value: 0 ),
+        ( name: "SEASON_PARTY_DAY", value: 1 ),
+        ( name: "SEASON_CHRISTMAS_EVE", value: 2 ),
+        ( name: "SEASON_CHRISTMAS", value: 3 ),
+        ( name: "SEASON_VALENTINES_DAY", value: 4 ),
+        ( name: "SEASON_AFTER_VALENTINES_DAY", value: 5 ),
+        ( name: "SEASON_RENRI", value: 6 ),
+        ( name: "SEASON_HINAMATSURI", value: 7 ),
+        ( name: "SEASON_TAX_WEEK", value: 8 ),
+        ( name: "SEASON_APRIL_FOOLS", value: 9 ),
+        ( name: "SEASON_DRAGON_SLAYERS_DAY", value: 10 ),
+        ( name: "SEASON_GOLDEN_WEEK", value: 11 ),
+        ( name: "SEASON_AYAME", value: 12 ),
+        ( name: "SEASON_MIDSUMMER", value: 13 ),
+        ( name: "SEASON_SASA", value: 14 ),
+        ( name: "SEASON_SILVER_WOLF", value: 15 ),
+        ( name: "SEASON_LANTERN_FESTIVAL", value: 16 ),
+        ( name: "SEASON_DEFENDERS_DAY", value: 17 ),
+        ( name: "SEASON_HALLOWEEN_EVE", value: 18 ),
+        ( name: "SEASON_HALLOWEEN", value: 19 ),
+      ]
+    ),
+    "ncgdata": (
+      variables: [
+        ( name: "NCGDATA_JEWELS_OF_LOVE_RECEIVED", value: 0, macro: "ncgLoveJewels" ),
+        ( name: "NCGDATA_CAT_SISTER_EVENTS_CLEARED", value: 1, macro: "ncgCatSisterEventsCleared" ),
+        ( name: "NCGDATA_KNIGHTS_EVENTS_CLEARED", value: 2, macro: "ncgKnightsEventsCleared" ),
+        ( name: "NCGDATA_MAKE_GOOD_COUNT", value: 3, macro: "ncgMakeGoodCount" ),
+        ( name: "NCGDATA_ARENA_WIN_COUNT", value: 4, macro: "ncgArenaWinCount" ),
+        ( name: "NCGDATA_HOME_BASEMENT_FLOORS", value: 5, macro: "ncgHomeBasementFloors" ),
+
+        ( name: "NCGDATA_GOLD_OVERFLOW", value: 50, macro: "ncgGoldOverflow" ),
+
+        ( name: "NCGDATA_GREATEST_DAMAGE", value: 60, macro: "ncgGreatestDamage" ),
+        ( name: "NCGDATA_TIMES_WISHED", value: 61, macro: "ncgTimesWished" ),
+        ( name: "NCGDATA_GREATEST_SEX_GOLD", value: 62, macro: "ncgGreatestSexGold" ),
+        ( name: "NCGDATA_HAMMER_MAX_LEVEL", value: 63, macro: "ncgHammerMaxLevel" ),
+        ( name: "NCGDATA_TOTAL_ITEMS_SMITHED", value: 64, macro: "ncgTotalItemsSmithed" ),
+        ( name: "NCGDATA_GREATEST_PERFORMANCE_TIPS", value: 65, macro: "ncgGreatestPerformanceTips" ),
+        ( name: "NCGDATA_TOTAL_MAGIC_CAST", value: 66, macro: "ncgTotalMagicCast" ),
+        ( name: "NCGDATA_TOTAL_HUMAN_FLESH_EATEN", value: 67, macro: "ncgTotalHumanFleshEaten" ),
+        ( name: "NCGDATA_DEEPEST_VOID_FLOOR", value: 68, macro: "ncgDeepestVoidFloor" ),
+        ( name: "NCGDATA_TOTAL_TOW_KILLED", value: 69, macro: "ncgTotalTowKilled" ),
+        ( name: "NCGDATA_TOTAL_QUESTS_COMPLETED", value: 70, macro: "ncgTotalQuestsCompleted" ),
+        ( name: "NCGDATA_TOTAL_SOUL_COUNT", value: 71, macro: "ncgTotalSoulCount" ),
+        ( name: "NCGDATA_DEEPEST_ABYSS_FLOOR", value: 72, macro: "ncgDeepestAbyssFloor" ),
+
+        ( name: "NCGDATA_SPP_POINTS", value: 100, macro: "ncgSPPPoints" ),
+
+        ( name: "NCGDATA_HERB_MERCHANT", value: 104, macro: "ncgHerbMerchant" ),
+        ( name: "NCGDATA_IMMIGRANT_VISIT_PERIOD", value: 105, macro: "ncgImmigrantVisitPeriod" ),
+        ( name: "NCGDATA_SIGNS_OF_PROSPERITY", value: 106, macro: "ncgSignsOfProsperity" ),
+        ( name: "NCGDATA_BODY_REBUILD_PLATINUM_COST", value: 107, macro: "ncgBodyRebuildPlatinumCost" ),
+        ( name: "NCGDATA_SAVED_CLEANLY", value: 108, macro: "ncgSavedCleanly" ),
+        ( name: "NCGDATA_LEARN_SKILL_PLATINUM_COST", value: 109, macro: "ncgLearnSkillPlatinumCost" ),
+
+        ( name: "NCGDATA_QUEST_THE_PASSION_OF_THE_EGG_SHOP", value: 150, macro: "ncgQuestThePassionOfTheEggShop" ),
+        ( name: "NCGDATA_QUEST_THE_PASSION_OF_THE_EGG_SHOP_EGG_TYPE", value: 151, macro: "ncgQuestThePassionOfTheEggShopEggType" ),
+        ( name: "NCGDATA_QUEST_NEWCOMERS_PROBLEMS", value: 152, macro: "ncgQuestNewcomersProblems" ),
+        ( name: "NCGDATA_QUEST_SPIRIT_OF_DISTRACTION", value: 153, macro: "ncgQuestSpiritOfDistraction" ),
+        ( name: "NCGDATA_QUEST_SINGLE_COMBAT", value: 154, macro: "ncgQuestSingleCombat" ),
+        ( name: "NCGDATA_QUEST_AWAIT_ONES_RETURN", value: 155, macro: "ncgQuestAwaitOnesReturn" ),
+        ( name: "NCGDATA_QUEST_CREATE_DANGEROUS_ARMOR", value: 156, macro: "ncgQuestCreateDangerousArmor" ),
+        ( name: "NCGDATA_QUEST_A_SMALL_EXPENSE", value: 157, macro: "ncgQuestASmallExpense" ),
+        ( name: "NCGDATA_QUEST_FOR_MY_FRIENDS", value: 158, macro: "ncgQuestForMyFriends" ),
+
+        ( name: "NCGDATA_RECEIVED_GIFT_THIS_MONTH", value: 200, macro: "ncgReceivedGiftThisMonth" ),
+        ( name: "NCGDATA_BOUGHT_FAIRY_RESORT", value: 201, macro: "ncgBoughtFairyResort" ),
+        ( name: "NCGDATA_MOVED_BORDER", value: 202, macro: "ncgMovedBorder" ),
+        ( name: "NCGDATA_DEEPEST_ABYSS_FLOOR_THIS_TIME", value: 203, macro: "ncgDeepestAbyssFloorThisTime" ),
+        ( name: "NCGDATA_SANDBAG_SELF_TURNS", value: 204, macro: "ncgSandbagSelfTurns" ),
+        ( name: "NCGDATA_SLEEP_POTENTIAL_BONUS", value: 205, macro: "ncgSleepPotentialBonus" ),
+
+        ( name: "STARTING_NCGDATA_POINTS_TRAINED", value: 210, exclude: true ),
+
+        ( name: "NCGDATA_POINTS_TRAINED_STR", value: 210, macro: "ncgPointsTrainedStr" ),
+        ( name: "NCGDATA_POINTS_TRAINED_CON", value: 211, macro: "ncgPointsTrainedCon" ),
+        ( name: "NCGDATA_POINTS_TRAINED_DEX", value: 212, macro: "ncgPointsTrainedDex" ),
+        ( name: "NCGDATA_POINTS_TRAINED_PER", value: 213, macro: "ncgPointsTrainedPer" ),
+        ( name: "NCGDATA_POINTS_TRAINED_LER", value: 214, macro: "ncgPointsTrainedLer" ),
+        ( name: "NCGDATA_POINTS_TRAINED_WIL", value: 215, macro: "ncgPointsTrainedWil" ),
+        ( name: "NCGDATA_POINTS_TRAINED_MAG", value: 216, macro: "ncgPointsTrainedMag" ),
+        ( name: "NCGDATA_POINTS_TRAINED_CHA", value: 217, macro: "ncgPointsTrainedCha" ),
+        ( name: "NCGDATA_POINTS_TRAINED_LIFE", value: 218, macro: "ncgPointsTrainedLife" ),
+        ( name: "NCGDATA_POINTS_TRAINED_MANA", value: 219, macro: "ncgPointsTrainedMana" ),
+
+        ( name: "STARTING_NCGDATA_ABYSS_TITLES", value: 300, exclude: true ),
+
+        ( name: "NCGDATA_ABYSS_TITLE_1", value: 300 ),
+        ( name: "NCGDATA_ABYSS_TITLE_2", value: 301 ),
+        ( name: "NCGDATA_ABYSS_TITLE_3", value: 302 ),
+        ( name: "NCGDATA_ABYSS_TITLE_4", value: 303 ),
+        ( name: "NCGDATA_ABYSS_TITLE_5", value: 304 ),
+        ( name: "NCGDATA_ABYSS_TITLE_6", value: 305 ),
+        ( name: "NCGDATA_ABYSS_TITLE_7", value: 306 ),
+        ( name: "NCGDATA_ABYSS_TITLE_8", value: 307 ),
+        ( name: "NCGDATA_ABYSS_TITLE_9", value: 308 ),
+        ( name: "NCGDATA_ABYSS_TITLE_10", value: 309 ),
+        ( name: "NCGDATA_ABYSS_TITLE_11", value: 310 ),
+        ( name: "NCGDATA_ABYSS_TITLE_12", value: 311 ),
+        ( name: "NCGDATA_ABYSS_TITLE_13", value: 312 ),
+        ( name: "NCGDATA_ABYSS_TITLE_14", value: 313 ),
+
+        ( name: "NCGDATA_ABYSS_POINTS", value: 350, macro: "ncgAbyssPoints" ),
+
+        ( name: "NCGDATA_SECRET_ZONE_ITEMS_OBTAINED", value: 360, macro: "ncgSecretZoneItemsObtained" ),
+        ( name: "NCGDATA_LIVESTOCK_BRED", value: 361, macro: "ncgLivestockBred" ),
+
+        ( name: "STARTING_NCGDATA_ANOTHER_MATERIALS", value: 400, exclude: true ),
       ]
     ),
   },
@@ -1004,6 +1094,28 @@ AnalysisConfig(
         ),
         (
           macro: ( index: 0, group: "ogdata" )
+        ),
+      ]
+    ),
+    "ncgdata": (
+      indices: [
+        (
+          rules: { 0: Flag },
+          substitute: { 0: Flag("ncgdata") }
+        ),
+        (
+          substitute: { 0: Group("ncgdata") }
+        ),
+        (
+          rules: { 0: VariantRecursive("ncgdata", ["STARTING_NCGDATA_ABYSS_TITLES"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("ncgdata", ["STARTING_NCGDATA_ABYSS_TITLES"], Lhs("+")) }
+        ),
+        (
+          rules: { 0: VariantRecursive("ncgdata", ["STARTING_NCGDATA_ANOTHER_MATERIALS"], Lhs("+")) },
+          substitute: { 0: VariantRecursive("ncgdata", ["STARTING_NCGDATA_ANOTHER_MATERIALS"], Lhs("+")) }
+        ),
+        (
+          macro: ( index: 0, group: "ncgdata" )
         ),
       ]
     ),
@@ -1625,9 +1737,6 @@ AnalysisConfig(
       begin: Function("netload")
     ),
 
-    "key.hsp": (
-      begin: Function("key_check")
-    ),
     "item.hsp": (
       begin: Function("getinheritance")
     ),
