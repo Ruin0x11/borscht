@@ -1023,7 +1023,20 @@ AnalysisConfig(
         ( name: "MAX_EQUIP_SLOT_TOTAL", value: 30 ),
       ]
     ),
-
+    "recipe_blend": (
+      variables: [
+        ( name: "RECIPE_BLEND_ACTION_HERBED_FOOD", value: 10000, code_value: "STARTING_RECIPE_BLEND_ACTION" ),
+        ( name: "RECIPE_BLEND_ACTION_ANOTHER_HEART", value: 10001 ),
+        ( name: "RECIPE_BLEND_ACTION_COFFIN", value: 10002 ),
+        ( name: "RECIPE_BLEND_ACTION_FIRE_FROOF", value: 10003 ),
+        ( name: "RECIPE_BLEND_ACTION_ACID_PROOF", value: 10004 ),
+        ( name: "RECIPE_BLEND_ACTION_BAIT", value: 10005 ),
+        ( name: "RECIPE_BLEND_ACTION_BLESS", value: 10006 ),
+        ( name: "RECIPE_BLEND_ACTION_WELL", value: 10007 ),
+        ( name: "RECIPE_BLEND_ACTION_WELL_DRAW", value: 10008 ),
+        ( name: "RECIPE_BLEND_ACTION_UNUSED", value: 10009 ),
+      ]
+    ),
     "filter_race": (
       variables: [
         ( name: "FILTER_NOTHING", value: 0 ),
@@ -1326,6 +1339,11 @@ AnalysisConfig(
         ( name: "ANIMATION_GENE", value: 20 ),
         ( name: "ANIMATION_RAGNA", value: 21 ),
         ( name: "ANIMATION_METEOR", value: 22 ),
+
+        ( name: "ANIMATION_UNUSED1", value: 108 ),
+        ( name: "ANIMATION_UNUSED2", value: 109 ),
+        ( name: "ANIMATION_UNUSED3", value: 110 ),
+        ( name: "ANIMATION_UNUSED4", value: 111 ),
       ]
     ),
     "mode": (
@@ -1413,6 +1431,9 @@ AnalysisConfig(
         ( name: "EVENT_VISITOR", value: 25 ),
         ( name: "EVENT_SLEEP_AMBUSH", value: 26 ),
         ( name: "EVENT_LITTLE_SISTER", value: 27 ),
+        ( name: "EVENT_GOD_INSIDE_EHEKATL", value: 28 ),
+        ( name: "EVENT_GOD_INSIDE_RAND_BOSS_2", value: 29 ),
+        ( name: "EVENT_GOD_INSIDE_MY_EYES", value: 30 ),
       ]
     ),
     "map_type": (
@@ -3502,7 +3523,7 @@ AnalysisConfig(
 
         ( name: "MAX_ITEM_ID", value: 795, code_value: "ITEM_ID_PUTITORO + 3", exclude: true ),
 
-        ( name: "MAX_ITEM_DBID", value: 1199, ),
+        ( name: "MAX_ITEM_DBID", value: 800, ),
       ],
       ignore: [ -1, 9999 ]
     ),
