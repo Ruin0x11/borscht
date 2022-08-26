@@ -1560,7 +1560,7 @@ AnalysisConfig(
         ( name: "MAP_UNUSED_INDEX3", value: 3, macro: "mapUnused" ),
         ( name: "MAP_ITEM_CHIPS", value: 4, macro: "mapItems" ),
         ( name: "MAP_ITEM_CHIPS_MEMORY", value: 5, macro: "mapItemsMemory" ),
-        ( name: "MAP_FEATS_ON_TILE", value: 6, macro: "mapFeats" ),
+        ( name: "MAP_FEATS_ON_TILE", value: 6, macro: "mapFeat" ),
         ( name: "MAP_BLOOD_AND_DEBRIS", value: 7, macro: "mapFragment" ),
         ( name: "MAP_MEF_INDEX_PLUS_ONE", value: 8, macro: "mapMef" ),
         ( name: "MAP_LIGHT_TYPE", value: 9, macro: "mapLight" ),
