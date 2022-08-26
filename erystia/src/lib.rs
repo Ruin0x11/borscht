@@ -6,8 +6,10 @@ extern crate ron;
 extern crate sha2;
 extern crate anyhow;
 extern crate exe2ax;
+extern crate itertools;
 
 use std::collections::{HashMap, HashSet};
+use std::cmp::Ordering;
 use std::fs::{self, File};
 use std::io::Write;
 use std::fmt;
@@ -19,6 +21,7 @@ use exe2ax::as_::dictionary::HspDictionaryValue;
 use exe2ax::as_::ax3::lexical::*;
 use exe2ax::as_::ax3::visitor::{self, *};
 use sha2::{Digest, Sha256};
+use itertools::Itertools;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 enum DiagnosticKind {
@@ -38,7 +41,7 @@ impl fmt::Display for DiagnosticKind {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, Eq)]
 struct Diagnostic {
     kind: DiagnosticKind,
     msg: String
@@ -47,6 +50,24 @@ struct Diagnostic {
 impl fmt::Display for Diagnostic {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.kind, self.msg)
+    }
+}
+
+impl Ord for Diagnostic {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.msg.cmp(&other.msg)
+    }
+}
+
+impl PartialOrd for Diagnostic {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl PartialEq for Diagnostic {
+    fn eq(&self, other: &Self) -> bool {
+        self.msg == other.msg
     }
 }
 
@@ -2255,7 +2276,7 @@ pub fn analyze<'a>(hsp3as: &'a mut Hsp3As, opts: &AnalysisOptions) -> Result<Ana
     };
 
     let mut errors = 0;
-    for diag in diagnostics.iter() {
+    for diag in diagnostics.iter().sorted() {
         if diag.kind == DiagnosticKind::Error {
             errors += 1;
             println!("{}", diag);

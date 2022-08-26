@@ -11,15 +11,1030 @@ AnalysisConfig(
     "database/elona1.22.ron"
   ],
 
-  variable_groups: {},
+  variable_groups: {
+    "ogdata": (
+      variables: [
+        ( name: "STARTING_OGDATA_TITLE", value: 440, exclude: true ),
 
-  arrays: {},
+        (
+          name: "OGDATA_TITLE_DECOY",
+          value: 440,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DECOY"
+        ),
+        (
+          name: "OGDATA_TITLE_BORN_IN_A_TEMPLE",
+          value: 441,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BORN_IN_A_TEMPLE"
+        ),
+        (
+          name: "OGDATA_TITLE_LEER",
+          value: 442,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LEER"
+        ),
+        (
+          name: "OGDATA_TITLE_NEKODAMASHI",
+          value: 443,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NEKODAMASHI"
+        ),
+        (
+          name: "OGDATA_TITLE_PHANTOM_SLASHER",
+          value: 444,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_PHANTOM_SLASHER"
+        ),
+        (
+          name: "OGDATA_TITLE_CHECKMATE",
+          value: 445,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHECKMATE"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_DAILY_LUNCH_SHOW_SPECIAL",
+          value: 446,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_DAILY_LUNCH_SHOW_SPECIAL"
+        ),
+        (
+          name: "OGDATA_TITLE_REPEAT_KILL_SQUAD",
+          value: 447,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_REPEAT_KILL_SQUAD"
+        ),
+        (
+          name: "OGDATA_TITLE_CHAMPION_OF_THE_LABYRINTHS",
+          value: 448,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHAMPION_OF_THE_LABYRINTHS"
+        ),
+        (
+          name: "OGDATA_TITLE_MACH_SPEED_CAT",
+          value: 449,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MACH_SPEED_CAT"
+        ),
+        (
+          name: "OGDATA_TITLE_DESTROYED_DESTRUCTIVE_WEAPONS",
+          value: 450,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DESTROYED_DESTRUCTIVE_WEAPONS"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_PURIFIER",
+          value: 451,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_PURIFIER"
+        ),
+        (
+          name: "OGDATA_TITLE_JOHN_CONNOR",
+          value: 452,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_JOHN_CONNOR"
+        ),
+        (
+          name: "OGDATA_TITLE_SADIST_KILLER",
+          value: 453,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SADIST_KILLER"
+        ),
+        (
+          name: "OGDATA_TITLE_ELEMENTAL_MASTER",
+          value: 454,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ELEMENTAL_MASTER"
+        ),
+        (
+          name: "OGDATA_TITLE_HARVESTER",
+          value: 455,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HARVESTER"
+        ),
+        (
+          name: "OGDATA_TITLE_EARTH_SPLITTER",
+          value: 456,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_EARTH_SPLITTER"
+        ),
+        (
+          name: "OGDATA_TITLE_MEWMEWMEW",
+          value: 457,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MEWMEWMEW"
+        ),
+        (
+          name: "OGDATA_TITLE_YOURE_FIRED",
+          value: 458,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_YOURE_FIRED"
+        ),
+        (
+          name: "OGDATA_TITLE_NOBODYS_INSIDE",
+          value: 459,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NOBODYS_INSIDE"
+        ),
+        (
+          name: "OGDATA_TITLE_RAGNAROK",
+          value: 460,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_RAGNAROK"
+        ),
+        (
+          name: "OGDATA_TITLE_DO_GOODER",
+          value: 461,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DO_GOODER"
+        ),
+        (
+          name: "OGDATA_TITLE_MOLD_KILLER",
+          value: 462,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MOLD_KILLER"
+        ),
+        (
+          name: "OGDATA_TITLE_RETURNING_HOME",
+          value: 463,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_RETURNING_HOME"
+        ),
+        (
+          name: "OGDATA_TITLE_WAILING_CHOIR",
+          value: 464,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_WAILING_CHOIR"
+        ),
+        (
+          name: "OGDATA_TITLE_GOD_OF_WAR",
+          value: 465,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_GOD_OF_WAR"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_13TH",
+          value: 466,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_13TH"
+        ),
+        (
+          name: "OGDATA_TITLE_ARCHMAGE",
+          value: 467,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ARCHMAGE"
+        ),
+        (
+          name: "OGDATA_TITLE_EMPTINESS",
+          value: 468,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_EMPTINESS"
+        ),
+        (
+          name: "OGDATA_TITLE_ONE_MAN_ARMY",
+          value: 469,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ONE_MAN_ARMY"
+        ),
+        (
+          name: "OGDATA_TITLE_HELLS_WALL",
+          value: 470,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HELLS_WALL"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_BLIND_SWORD",
+          value: 471,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_BLIND_SWORD"
+        ),
+        (
+          name: "OGDATA_TITLE_MAD_SCIENTIST",
+          value: 472,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MAD_SCIENTIST"
+        ),
+        (
+          name: "OGDATA_TITLE_DRAGONS_DEN",
+          value: 473,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DRAGONS_DEN"
+        ),
+        (
+          name: "OGDATA_TITLE_TREASURE_HUNTER",
+          value: 474,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TREASURE_HUNTER"
+        ),
+        (
+          name: "OGDATA_TITLE_FATHER",
+          value: 475,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FATHER"
+        ),
+        (
+          name: "OGDATA_TITLE_STEALTH",
+          value: 476,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_STEALTH"
+        ),
+        (
+          name: "OGDATA_TITLE_MESSENGER_OF_JUSTICE",
+          value: 477,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MESSENGER_OF_JUSTICE"
+        ),
+        (
+          name: "OGDATA_TITLE_BEST_IN_PALMIA",
+          value: 478,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BEST_IN_PALMIA"
+        ),
+        (
+          name: "OGDATA_TITLE_SUPER_TOURIST",
+          value: 479,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SUPER_TOURIST"
+        ),
+        (
+          name: "OGDATA_TITLE_ELDER_DEMON_POPE",
+          value: 480,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ELDER_DEMON_POPE"
+        ),
+        (
+          name: "OGDATA_TITLE_STRENGTH_IS_POWER",
+          value: 481,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_STRENGTH_IS_POWER"
+        ),
+        (
+          name: "OGDATA_TITLE_DUAL_WIELD_MASTERY",
+          value: 482,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DUAL_WIELD_MASTERY"
+        ),
+        (
+          name: "OGDATA_TITLE_SLAVE_TO_TURNIPS",
+          value: 483,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SLAVE_TO_TURNIPS"
+        ),
+        (
+          name: "OGDATA_TITLE_UNMASKED_RIDER",
+          value: 484,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_UNMASKED_RIDER"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_BABY",
+          value: 485,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_BABY"
+        ),
+        (
+          name: "OGDATA_TITLE_BROTHER_SISTER",
+          value: 486,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BROTHER_SISTER"
+        ),
+        (
+          name: "OGDATA_TITLE_SEARCH_OF_MOTHER",
+          value: 487,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SEARCH_OF_MOTHER"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_DAY_WE_FLY_ON_OUR_WINGS",
+          value: 488,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_DAY_WE_FLY_ON_OUR_WINGS"
+        ),
+        (
+          name: "OGDATA_TITLE_1000TH_TARGET_SLAYED",
+          value: 489,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_1000TH_TARGET_SLAYED"
+        ),
+        (
+          name: "OGDATA_TITLE_HAPPY_FAMILY_PLAN",
+          value: 490,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HAPPY_FAMILY_PLAN"
+        ),
+        (
+          name: "OGDATA_TITLE_MINCEMEAT_ALCHEMIST",
+          value: 491,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MINCEMEAT_ALCHEMIST"
+        ),
+        (
+          name: "OGDATA_TITLE_HANNIBAL_LECTER",
+          value: 492,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HANNIBAL_LECTER"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_UNFAITHFUL",
+          value: 493,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_UNFAITHFUL"
+        ),
+        (
+          name: "OGDATA_TITLE_BILLIONAIRE",
+          value: 494,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BILLIONAIRE"
+        ),
+        (
+          name: "OGDATA_TITLE_YOU_SOUND_FAMILIAR",
+          value: 495,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_YOU_SOUND_FAMILIAR"
+        ),
+        (
+          name: "OGDATA_TITLE_FELIX_HOENIKKER",
+          value: 496,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FELIX_HOENIKKER"
+        ),
+        (
+          name: "OGDATA_TITLE_NIGHTTIME_PREDATOR",
+          value: 497,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NIGHTTIME_PREDATOR"
+        ),
+        (
+          name: "OGDATA_TITLE_HELLO_I_AM_MAYOR",
+          value: 498,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HELLO_I_AM_MAYOR"
+        ),
+        (
+          name: "OGDATA_TITLE_JUNKIE",
+          value: 499,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_JUNKIE"
+        ),
+        (
+          name: "OGDATA_TITLE_BLACK_ORGANIZATION_MEMBER",
+          value: 500,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BLACK_ORGANIZATION_MEMBER"
+        ),
+        (
+          name: "OGDATA_TITLE_MONSTER_HUNTER",
+          value: 501,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MONSTER_HUNTER"
+        ),
+        (
+          name: "OGDATA_TITLE_DEVOURER_OF_ENDS",
+          value: 502,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DEVOURER_OF_ENDS"
+        ),
+        (
+          name: "OGDATA_TITLE_TUBAL-CAIN",
+          value: 503,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TUBAL-CAIN"
+        ),
+        (
+          name: "OGDATA_TITLE_ATHANA",
+          value: 504,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ATHANA"
+        ),
+        (
+          name: "OGDATA_TITLE_AREUS",
+          value: 505,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_AREUS"
+        ),
+        (
+          name: "OGDATA_TITLE_FAUNUS",
+          value: 506,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FAUNUS"
+        ),
+        (
+          name: "OGDATA_TITLE_BASTET",
+          value: 507,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BASTET"
+        ),
+        (
+          name: "OGDATA_TITLE_KUMARI",
+          value: 508,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_KUMARI"
+        ),
+        (
+          name: "OGDATA_TITLE_DEUS_EX_MACHINA",
+          value: 509,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DEUS_EX_MACHINA"
+        ),
+        (
+          name: "OGDATA_TITLE_DINTS",
+          value: 510,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DINTS"
+        ),
+        (
+          name: "OGDATA_TITLE_NURTA",
+          value: 511,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NURTA"
+        ),
+        (
+          name: "OGDATA_TITLE_ISIS",
+          value: 512,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ISIS"
+        ),
+        (
+          name: "OGDATA_TITLE_CARLY",
+          value: 513,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CARLY"
+        ),
+        (
+          name: "OGDATA_TITLE_CHRONOS",
+          value: 514,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHRONOS"
+        ),
+        (
+          name: "OGDATA_TITLE_BEYOND_WISH",
+          value: 515,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BEYOND_WISH"
+        ),
+        (
+          name: "OGDATA_TITLE_GANESA",
+          value: 516,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_GANESA"
+        ),
+        (
+          name: "OGDATA_TITLE_BATTLE_MASTER",
+          value: 517,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BATTLE_MASTER"
+        ),
+        (
+          name: "OGDATA_TITLE_ITEM_MASTER",
+          value: 518,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_ITEM_MASTER"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_END",
+          value: 519,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_END"
+        ),
+        (
+          name: "OGDATA_TITLE_POW_CHARANGE",
+          value: 520,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_POW_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_END_CHARANGE",
+          value: 521,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_END_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_DEX_CHARANGE",
+          value: 522,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DEX_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_PER_CHARANGE",
+          value: 523,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_PER_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_LER_CHARANGE",
+          value: 524,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LER_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_WIL_CHARANGE",
+          value: 525,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_WIL_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_MAG_CHARANGE",
+          value: 526,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MAG_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_CHR_CHARANGE",
+          value: 527,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CHR_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_HP_CHARANGE",
+          value: 528,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_HP_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_MP_CHARANGE",
+          value: 529,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_MP_CHARANGE"
+        ),
+        (
+          name: "OGDATA_TITLE_DISORDERLY_CROWD",
+          value: 530,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_DISORDERLY_CROWD"
+        ),
+        (
+          name: "OGDATA_TITLE_INNOVATION",
+          value: 531,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_INNOVATION"
+        ),
+        (
+          name: "OGDATA_TITLE_LET_IT_GO",
+          value: 532,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LET_IT_GO"
+        ),
+        (
+          name: "OGDATA_TITLE_WIZARD_ONLY_LIVE_TWICE",
+          value: 533,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_WIZARD_ONLY_LIVE_TWICE"
+        ),
+        (
+          name: "OGDATA_TITLE_NECROMANIA",
+          value: 534,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NECROMANIA"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_WORLD_IS_SPINNING",
+          value: 535,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_WORLD_IS_SPINNING"
+        ),
+        (
+          name: "OGDATA_TITLE_SEAGULL_SAILORS",
+          value: 536,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SEAGULL_SAILORS"
+        ),
+        (
+          name: "OGDATA_TITLE_REDCAP",
+          value: 537,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_REDCAP"
+        ),
+        (
+          name: "OGDATA_TITLE_LOVE_SAVES_THE_TYRIS",
+          value: 538,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_LOVE_SAVES_THE_TYRIS"
+        ),
+        (
+          name: "OGDATA_TITLE_FAIRY_CROSSING_NEW_HORIZONS",
+          value: 539,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_FAIRY_CROSSING_NEW_HORIZONS"
+        ),
+        (
+          name: "OGDATA_TITLE_TECHNOLOGY_FOR_FREEDOM",
+          value: 540,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TECHNOLOGY_FOR_FREEDOM"
+        ),
+        (
+          name: "OGDATA_TITLE_NOWS_YOUR_CHANCE_TO_BE_A",
+          value: 541,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_NOWS_YOUR_CHANCE_TO_BE_A"
+        ),
+        (
+          name: "OGDATA_TITLE_BIG_SHOT",
+          value: 542,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_BIG_SHOT"
+        ),
+        (
+          name: "OGDATA_TITLE_PASTORALISM_MOON",
+          value: 543,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_PASTORALISM_MOON"
+        ),
+        (
+          name: "OGDATA_TITLE_THE_TETSUWAN_RUSH",
+          value: 544,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_THE_TETSUWAN_RUSH"
+        ),
+        (
+          name: "OGDATA_TITLE_TETRAPOD",
+          value: 545,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_TETRAPOD"
+        ),
+        (
+          name: "OGDATA_TITLE_SHEEP_DOG",
+          value: 546,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_SHEEP_DOG"
+        ),
+        (
+          name: "OGDATA_TITLE_CENSORED",
+          value: 547,
+          code_value: "STARTING_OGDATA_TITLE + TITLE_CENSORED"
+        ),
+      ]
+    ),
+    "title": (
+      variables: [
+          ( name: "TITLE_DECOY", value: 0 ),
+          ( name: "TITLE_BORN_IN_A_TEMPLE", value: 1 ),
+          ( name: "TITLE_LEER", value: 2 ),
+          ( name: "TITLE_NEKODAMASHI", value: 3 ),
+          ( name: "TITLE_PHANTOM_SLASHER", value: 4 ),
+          ( name: "TITLE_CHECKMATE", value: 5 ),
+          ( name: "TITLE_THE_DAILY_LUNCH_SHOW_SPECIAL", value: 6 ),
+          ( name: "TITLE_REPEAT_KILL_SQUAD", value: 7 ),
+          ( name: "TITLE_CHAMPION_OF_THE_LABYRINTHS", value: 8 ),
+          ( name: "TITLE_MACH_SPEED_CAT", value: 9 ),
+          ( name: "TITLE_DESTROYED_DESTRUCTIVE_WEAPONS", value: 10 ),
+          ( name: "TITLE_THE_PURIFIER", value: 11 ),
+          ( name: "TITLE_JOHN_CONNOR", value: 12 ),
+          ( name: "TITLE_SADIST_KILLER", value: 13 ),
+          ( name: "TITLE_ELEMENTAL_MASTER", value: 14 ),
+          ( name: "TITLE_HARVESTER", value: 15 ),
+          ( name: "TITLE_EARTH_SPLITTER", value: 16 ),
+          ( name: "TITLE_MEWMEWMEW", value: 17 ),
+          ( name: "TITLE_YOURE_FIRED", value: 18 ),
+          ( name: "TITLE_NOBODYS_INSIDE", value: 19 ),
+          ( name: "TITLE_RAGNAROK", value: 20 ),
+          ( name: "TITLE_DO_GOODER", value: 21 ),
+          ( name: "TITLE_MOLD_KILLER", value: 22 ),
+          ( name: "TITLE_RETURNING_HOME", value: 23 ),
+          ( name: "TITLE_WAILING_CHOIR", value: 24 ),
+          ( name: "TITLE_GOD_OF_WAR", value: 25 ),
+          ( name: "TITLE_THE_13TH", value: 26 ),
+          ( name: "TITLE_ARCHMAGE", value: 27 ),
+          ( name: "TITLE_EMPTINESS", value: 28 ),
+          ( name: "TITLE_ONE_MAN_ARMY", value: 29 ),
+          ( name: "TITLE_HELLS_WALL", value: 30 ),
+          ( name: "TITLE_THE_BLIND_SWORD", value: 31 ),
+          ( name: "TITLE_MAD_SCIENTIST", value: 32 ),
+          ( name: "TITLE_DRAGONS_DEN", value: 33 ),
+          ( name: "TITLE_TREASURE_HUNTER", value: 34 ),
+          ( name: "TITLE_FATHER", value: 35 ),
+          ( name: "TITLE_STEALTH", value: 36 ),
+          ( name: "TITLE_MESSENGER_OF_JUSTICE", value: 37 ),
+          ( name: "TITLE_BEST_IN_PALMIA", value: 38 ),
+          ( name: "TITLE_SUPER_TOURIST", value: 39 ),
+          ( name: "TITLE_ELDER_DEMON_POPE", value: 40 ),
+          ( name: "TITLE_STRENGTH_IS_POWER", value: 41 ),
+          ( name: "TITLE_DUAL_WIELD_MASTERY", value: 42 ),
+          ( name: "TITLE_SLAVE_TO_TURNIPS", value: 43 ),
+          ( name: "TITLE_UNMASKED_RIDER", value: 44 ),
+          ( name: "TITLE_THE_BABY", value: 45 ),
+          ( name: "TITLE_BROTHER_SISTER", value: 46 ),
+          ( name: "TITLE_SEARCH_OF_MOTHER", value: 47 ),
+          ( name: "TITLE_THE_DAY_WE_FLY_ON_OUR_WINGS", value: 48 ),
+          ( name: "TITLE_1000TH_TARGET_SLAYED", value: 49 ),
+          ( name: "TITLE_HAPPY_FAMILY_PLAN", value: 50 ),
+          ( name: "TITLE_MINCEMEAT_ALCHEMIST", value: 51 ),
+          ( name: "TITLE_HANNIBAL_LECTER", value: 52 ),
+          ( name: "TITLE_THE_UNFAITHFUL", value: 53 ),
+          ( name: "TITLE_BILLIONAIRE", value: 54 ),
+          ( name: "TITLE_YOU_SOUND_FAMILIAR", value: 55 ),
+          ( name: "TITLE_FELIX_HOENIKKER", value: 56 ),
+          ( name: "TITLE_NIGHTTIME_PREDATOR", value: 57 ),
+          ( name: "TITLE_HELLO_I_AM_MAYOR", value: 58 ),
+          ( name: "TITLE_JUNKIE", value: 59 ),
+          ( name: "TITLE_BLACK_ORGANIZATION_MEMBER", value: 60 ),
+          ( name: "TITLE_MONSTER_HUNTER", value: 61 ),
+          ( name: "TITLE_DEVOURER_OF_ENDS", value: 62 ),
+          ( name: "TITLE_TUBAL-CAIN", value: 63 ),
+          ( name: "TITLE_ATHANA", value: 64 ),
+          ( name: "TITLE_AREUS", value: 65 ),
+          ( name: "TITLE_FAUNUS", value: 66 ),
+          ( name: "TITLE_BASTET", value: 67 ),
+          ( name: "TITLE_KUMARI", value: 68 ),
+          ( name: "TITLE_DEUS_EX_MACHINA", value: 69 ),
+          ( name: "TITLE_DINTS", value: 70 ),
+          ( name: "TITLE_NURTA", value: 71 ),
+          ( name: "TITLE_ISIS", value: 72 ),
+          ( name: "TITLE_CARLY", value: 73 ),
+          ( name: "TITLE_CHRONOS", value: 74 ),
+          ( name: "TITLE_BEYOND_WISH", value: 75 ),
+          ( name: "TITLE_GANESA", value: 76 ),
+          ( name: "TITLE_BATTLE_MASTER", value: 77 ),
+          ( name: "TITLE_ITEM_MASTER", value: 78 ),
+          ( name: "TITLE_THE_END", value: 79 ),
+          ( name: "TITLE_POW_CHARANGE", value: 80 ),
+          ( name: "TITLE_END_CHARANGE", value: 81 ),
+          ( name: "TITLE_DEX_CHARANGE", value: 82 ),
+          ( name: "TITLE_PER_CHARANGE", value: 83 ),
+          ( name: "TITLE_LER_CHARANGE", value: 84 ),
+          ( name: "TITLE_WIL_CHARANGE", value: 85 ),
+          ( name: "TITLE_MAG_CHARANGE", value: 86 ),
+          ( name: "TITLE_CHR_CHARANGE", value: 87 ),
+          ( name: "TITLE_HP_CHARANGE", value: 88 ),
+          ( name: "TITLE_MP_CHARANGE", value: 89 ),
+          ( name: "TITLE_DISORDERLY_CROWD", value: 90 ),
+          ( name: "TITLE_INNOVATION", value: 91 ),
+          ( name: "TITLE_LET_IT_GO", value: 92 ),
+          ( name: "TITLE_WIZARD_ONLY_LIVE_TWICE", value: 93 ),
+          ( name: "TITLE_NECROMANIA", value: 94 ),
+          ( name: "TITLE_THE_WORLD_IS_SPINNING", value: 95 ),
+          ( name: "TITLE_SEAGULL_SAILORS", value: 96 ),
+          ( name: "TITLE_REDCAP", value: 97 ),
+          ( name: "TITLE_LOVE_SAVES_THE_TYRIS", value: 98 ),
+          ( name: "TITLE_FAIRY_CROSSING_NEW_HORIZONS", value: 99 ),
+          ( name: "TITLE_TECHNOLOGY_FOR_FREEDOM", value: 100 ),
+          ( name: "TITLE_NOWS_YOUR_CHANCE_TO_BE_A", value: 101 ),
+          ( name: "TITLE_BIG_SHOT", value: 102 ),
+          ( name: "TITLE_PASTORALISM_MOON", value: 103 ),
+          ( name: "TITLE_THE_TETSUWAN_RUSH", value: 104 ),
+          ( name: "TITLE_TETRAPOD", value: 105 ),
+          ( name: "TITLE_SHEEP_DOG", value: 106 ),
+          ( name: "TITLE_CENSORED", value: 107 ),
+      ]
+    ),
+    "season": (
+      variables: [
+        ( name: "NC_SEASON_YOUNGER_SISTERS_DAY", value: 0 ),
+        ( name: "NC_SEASON_PARTY_DAY", value: 1 ),
+        ( name: "NC_SEASON_CHRISTMAS_EVE", value: 2 ),
+        ( name: "NC_SEASON_CHRISTMAS", value: 3 ),
+        ( name: "NC_SEASON_VALENTINES_DAY", value: 4 ),
+        ( name: "NC_SEASON_AFTER_VALENTINES_DAY", value: 5 ),
+        ( name: "NC_SEASON_RENRI", value: 6 ),
+        ( name: "NC_SEASON_HINAMATSURI", value: 7 ),
+        ( name: "NC_SEASON_TAX_WEEK", value: 8 ),
+        ( name: "NC_SEASON_APRIL_FOOLS", value: 9 ),
+        ( name: "NC_SEASON_DRAGON_SLAYERS_DAY", value: 10 ),
+        ( name: "NC_SEASON_GOLDEN_WEEK", value: 11 ),
+        ( name: "NC_SEASON_AYAME", value: 12 ),
+        ( name: "NC_SEASON_MIDSUMMER", value: 13 ),
+        ( name: "NC_SEASON_SASA", value: 14 ),
+        ( name: "NC_SEASON_SILVER_WOLF", value: 15 ),
+        ( name: "NC_SEASON_LANTERN_FESTIVAL", value: 16 ),
+        ( name: "NC_SEASON_DEFENDERS_DAY", value: 17 ),
+        ( name: "NC_SEASON_HALLOWEEN_EVE", value: 18 ),
+        ( name: "NC_SEASON_HALLOWEEN", value: 19 ),
+      ]
+    ),
+  },
+
+  arrays: {
+    "ogdata": (
+      indices: [
+        (
+          rules: { 0: Flag },
+          substitute: { 0: Flag("ogdata") }
+        ),
+        (
+          substitute: { 0: Group("ogdata") }
+        ),
+      ]
+    ),
+  },
 
   expressions: {},
 
-  functions: {},
+  functions: {
+    "seasonal_check": (
+      args: {
+        0: (name: "season_id", type: Int, indices: [ ( substitute: Group("season")) ]),
+        1: (name: "ignore_realtime", type: Int, indices: [ ( substitute: Group("boolean")) ]),
+      }
+    ),
+    "subquestrequirement": (
+      args: {
+        0: (name: "req", type: Str),
+      }
+    ),
+    "newtitle": (
+      args: {
+        0: (name: "title_id", type: Int, indices: [ ( substitute: Group("title") ) ]),
+      }
+    ),
+    "check_stquest": (
+      args: {}
+    ),
+    "check_stquest_amount": (
+      args: {}
+    ),
 
-  labels: {},
+    "check_adddamage": (
+      args: {}
+    ),
+    "check_adddamage_punch": (
+      args: {}
+    ),
+    "check_adddamage_count": (
+      args: {
+        0: (name: "skillid", type: Int, type: Int, indices: [ ( substitute: Group("skill_id")) ]),
+      }
+    ),
+    "check_adddamage_arrow": (
+      args: {}
+    ),
 
-  files: {}
+    "sgodname": (
+      args: {
+        0: (name: "godname", type: Str),
+      }
+    ),
+  },
+
+  labels: {
+    "*ai_turn": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "「こんなことして、許さない"
+        )
+      ]
+    ),
+
+    "*nc_pict": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "[図鑑]何をする？"
+        )
+      ]
+    ),
+    "*nc_pict_npc": (
+      after: "*nc_pict",
+    ),
+    "*nc_pict_npc_pgchk": (
+      after: "*nc_pict_npc",
+    ),
+    "*nc_pict_npc_loop": (
+      after: "*nc_pict_npc_pgchk",
+    ),
+    "*nc_pict_item": (
+      after: "*nc_pict_npc_loop",
+    ),
+    "*nc_pict_item_pgchk": (
+      after: "*nc_pict_item",
+    ),
+    "*nc_pict_item_loop": (
+      after: "*nc_pict_item_pgchk",
+    ),
+    "*nc_pict_cnpc": (
+      after: "*nc_pict_item_loop",
+    ),
+    "*nc_pict_cnpc_pgchk": (
+      after: "*nc_pict_cnpc",
+    ),
+    "*nc_pict_cnpc_loop": (
+      after: "*nc_pict_cnpc_pgchk",
+    ),
+    "*nc_pict_citem": (
+      after: "*nc_pict_cnpc_loop",
+    ),
+    "*nc_pict_citem_pgchk": (
+      after: "*nc_pict_citem",
+    ),
+    "*nc_pict_citem_loop": (
+      after: "*nc_pict_citem_pgchk",
+    ),
+
+    "*nc_com_abysstitles": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "常に体力が減り続ける/20P"
+        )
+      ]
+    ),
+    "*nc_com_abysstitles_pgchk": (
+      after: "*nc_com_abysstitles",
+    ),
+    "*nc_com_abysstitles_loop": (
+      after: "*nc_com_abysstitles_pgchk",
+    ),
+    "*nc_com_abysstitles_checkkey": (
+      after: "*nc_com_abysstitles_loop",
+    ),
+
+    "*nc_charasheet": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "ブルーバブル殺害数"
+        )
+      ]
+    ),
+    "*nc_charasheet_yarikomi": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "You broke the record!"
+        )
+      ]
+    ),
+
+    "*nc_cname": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "名前を戻す"
+        )
+      ]
+    ),
+    "*nc_cname_pgchk": (
+      after: "*nc_cname",
+    ),
+    "*nc_cname_loop": (
+      after: "*nc_cname_pgchk",
+    ),
+
+    "*NC_MAP_PRO": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "娼婦ギルド"
+        )
+      ]
+    ),
+
+    "*NC_MAP_SHEEP": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "Tamed Sheep"
+        )
+      ]
+    ),
+
+    "*nc_gift": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "[不思議な贈り物]何をする？"
+        )
+      ]
+    ),
+
+    "*nc_haizinhelp": (
+      after: "*nc_cname_loop"
+    ),
+
+    "*nc_horse_exert": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "は掛かってしまった。"
+        )
+      ]
+    ),
+    "*nc_horse_move": (
+      after: "*nc_horse_exert"
+    ),
+    "*nc_horse_checkwin": (
+      after: "*nc_horse_move"
+    ),
+    "*nc_horse_procskill": (
+      after: "*nc_horse_checkwin"
+    ),
+
+    "*nc_com_jobskill": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "No more acquisitions"
+        )
+      ]
+    ),
+    "*nc_com_jobskill_pgchk": (
+      after: "*nc_com_jobskill",
+    ),
+    "*nc_com_jobskill_loop": (
+      after: "*nc_com_jobskill_pgchk",
+    ),
+
+    "*nc_com_music": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "予約した曲を順番に再生"
+        )
+      ]
+    ),
+    "*nc_com_music_pgchk": (
+        after: "*nc_com_music"
+    ),
+    "*nc_com_music_loop": (
+        after: "*nc_com_music_pgchk"
+    ),
+
+    "*nc_com_macro": (
+      after: "*nc_com_music_loop",
+    ),
+    "*nc_com_macro_pgchk": (
+      after: "*nc_com_macro",
+    ),
+    "*nc_com_macro_loop": (
+      after: "*nc_com_macro_pgchk",
+    ),
+
+    "*MMA_sgodname_found": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "namet = lang(usergoddatan(3, god_no), cnven(usergoddatan(2, god_no)))"
+        )
+      ]
+    ),
+
+    "*nc_net": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "Wizardモードではこの機能を使用できない。"
+        )
+      ]
+    ),
+
+    "*nc_net_Webhook_1": (
+      after: "*nc_net"
+    ),
+    "*nc_net_Webhook_2": (
+      after: "*nc_net_Webhook_1"
+    ),
+    "*nc_net_sendmessage": (
+      after: "*nc_net_Webhook_2"
+    ),
+  },
+
+  files: {
+    "NC.hsp": (
+      begin: Function("seasonal_check")
+    ),
+    "nc_gift.hsp": (
+      begin: Label("*nc_gift")
+    ),
+    "nc_pict.hsp": (
+      begin: Label("*nc_pict")
+    ),
+    "nc_abysstitles.hsp": (
+      begin: Label("*nc_com_abysstitles")
+    ),
+    "nc_adddamage.hsp": (
+      begin: Function("check_adddamage")
+    ),
+    "nc_charasheet.hsp": (
+      begin: Label("*nc_charasheet")
+    ),
+    "nc_cname.hsp": (
+      begin: Label("*nc_cname")
+    ),
+    "nc_evmap.hsp": (
+      begin: Label("*NC_MAP_PRO")
+    ),
+    "nc_gift.hsp": (
+      begin: Label("*NC_MAP_PRO")
+    ),
+    "nc_haizinhelp.hsp": (
+      begin: Label("*nc_haizinhelp")
+    ),
+    "nc_horse.hsp": (
+      begin: Function("horse_getrank")
+    ),
+    "nc_jobskill.hsp": (
+      begin: Label("*nc_com_jobskill")
+    ),
+    "nc_kouhai.hsp": (
+      begin: Function("kouhai")
+    ),
+    "nc_macro.hsp": (
+      begin: Label("*nc_com_macro")
+    ),
+    "nc_mmasstp.hsp": (
+      begin: Function("throwsstpmessage")
+    ),
+    "nc_mmatext.hsp": (
+      begin: Function("sgodname")
+    ),
+    "nc_music.hsp": (
+      begin: Label("*nc_com_music")
+    ),
+    "nc_net.hsp": (
+      begin: Label("*nc_net")
+    ),
+  }
 )

@@ -3784,7 +3784,16 @@ AnalysisConfig(
     ),
   },
 
-  labels: {},
+  labels: {
+    "*map_createDungeonMinefield": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "地雷原"
+        )
+      ]
+    ),
+  },
 
   files: {}
 )
