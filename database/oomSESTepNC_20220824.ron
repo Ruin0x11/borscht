@@ -1063,6 +1063,42 @@ AnalysisConfig(
         ( name: "INV_CNPC_SERIAL_NO", value: 34, macro: "ICNpcSerialNo" ),
       ]
     ),
+    "role": (
+      variables: [
+        ( name: "ROLE_SHOP_ELLY", value: 3001 ),
+        ( name: "ROLE_SHOP_SHUA", value: 3002 ),
+        ( name: "ROLE_SHOP_THE_JUNK_SHOP_EGGPLANT_PUTIT", value: 3003 ),
+        ( name: "ROLE_SHOP_CHALLENGER_YOUNGER_SISTER", value: 3004 ),
+
+        ( name: "ROLE_SHOP_MATERIAL", value: 3100 ),
+        ( name: "ROLE_SHOP_SPELLBOOK", value: 3101 ),
+        ( name: "ROLE_SHOP_APHRODISIAC", value: 3102 ),
+        ( name: "ROLE_SHOP_DOUJINSHI", value: 3103 ),
+        ( name: "ROLE_SHOP_UNKNOWN3104", value: 3104 ),
+        ( name: "ROLE_SHOP_HERB_MERCHANT", value: 3105 ),
+        ( name: "ROLE_SHOP_PROSTITUTE_GUILD", value: 3106 ),
+        ( name: "ROLE_SHOP_BLACKSMITH_GUILD", value: 3107 ),
+        ( name: "ROLE_SHOP_LURGY", value: 3108 ),
+        ( name: "ROLE_SHOP_MYSTERIOUS_PRODUCER", value: 3109 ),
+        ( name: "ROLE_SHOP_MUSICAL_INSTRUMENT_SELLER", value: 3110 ),
+        ( name: "ROLE_SHOP_FAIRY", value: 3111 ),
+        ( name: "ROLE_SHOP_MORPHY", value: 3112 ),
+
+        ( name: "ROLE_QUEST_RICH_NOBLE", value: 3120 ),
+        ( name: "ROLE_QUEST_PROSTITUTE", value: 3121 ),
+
+        ( name: "ROLE_UNIQUE_MINA", value: 3300 ),
+        ( name: "ROLE_UNIQUE_TAIF", value: 3301 ),
+        ( name: "ROLE_UNIQUE_NINEDA", value: 3302 ),
+        ( name: "ROLE_UNIQUE_FEN", value: 3303 ),
+        ( name: "ROLE_UNIQUE_TRUE", value: 3304 ),
+        ( name: "ROLE_UNIQUE_NITO", value: 3305 ),
+        ( name: "ROLE_UNIQUE_JEN", value: 3306 ),
+
+        ( name: "ROLE_PET_SENTRY", value: 10001 ),
+        ( name: "ROLE_PET_MAID", value: 10018 ),
+      ]
+    ),
     "season": (
       variables: [
         ( name: "SEASON_YOUNGER_SISTERS_DAY", value: 0 ),
