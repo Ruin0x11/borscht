@@ -2813,6 +2813,13 @@ AnalysisConfig(
         ( name: "MAX_SKILL_RESDMG", value: 68, code_value: "SKILL_RESDMG_TOFU + 1", override: true ),
       ]
     ),
+    "skill_normal": (
+      variables: [
+        ( name: "SKILL_NORMAL_SWIMMING", value: 190, macro: "sSwimming", override: true ),
+
+        ( name: "MAX_SKILL_NORMAL", value: 191, code_value: "SKILL_NORMAL_SWIMMING + 1", override: true ),
+      ]
+    ),
     "skill_spell": (
       variables: [
         ( name: "SKILL_SPELL_SUMMON_SPIRIT", value: 467, ),

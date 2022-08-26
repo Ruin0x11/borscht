@@ -151,7 +151,7 @@ AnalysisConfig(
 
         // omake_overhaul
         ( name: "OGDATA_OO_VERSION", value: 100, macro: "ogOOVersion" ),
-        ( name: "OGDATA_CARGO_VALUE", value: 101, macro: "ogCargoValue" ),
+        ( name: "OGDATA_CARGO_value", value: 101, macro: "ogCargoValue" ),
 
         ( name: "OGDATA_EVENT_DUNGEON_ALIEN", value: 200, macro: "ogEventDungeonAlien" ),
         ( name: "OGDATA_EVENT_HEAD_MAID_PUTIT", value: 201, macro: "ogEventHeadMaidPutit" ),
@@ -937,6 +937,30 @@ AnalysisConfig(
           ( name: "TITLE_CENSORED", value: 107 ),
       ]
     ),
+    "trophy": (
+      variables: [
+        ( name: "TROPHY_WEAKNESS", value: 0 ),
+        ( name: "TROPHY_INDECISIVENESS", value: 1 ),
+        ( name: "TROPHY_MONOTHEISM", value: 2 ),
+        ( name: "TROPHY_ATHEISM", value: 3 ),
+        ( name: "TROPHY_BAD COMMUNICATION", value: 4 ),
+        ( name: "TROPHY_CHASTE", value: 5 ),
+        ( name: "TROPHY_LIFELONG_VOW", value: 6 ),
+        ( name: "TROPHY_TRIGGER_HAPPY", value: 7 ),
+        ( name: "TROPHY_ILLITERACY", value: 8 ),
+        ( name: "TROPHY_ANIMAL_HOSTILITY", value: 9 ),
+        ( name: "TROPHY_LONELINESS", value: 10 ),
+        ( name: "TROPHY_SEXUAL_ADDICTION", value: 11 ),
+        ( name: "TROPHY_GAMBLING", value: 12 ),
+        ( name: "TROPHY_PACIFIST", value: 13 ),
+        ( name: "TROPHY_DEATHLESS", value: 14 ),
+        ( name: "TROPHY_GOING_BACK", value: 15 ),
+        ( name: "TROPHY_1_HIT_KO", value: 16 ),
+        ( name: "TROPHY_NO GROWTH", value: 17 ),
+        ( name: "TROPHY_HARD MODE", value: 18 ),
+        ( name: "TROPHY_ZEN", value: 19 )
+      ]
+    ),
     "inv": (
       variables: [
         ( name: "INV_CITEM_INDEX", value: 31, macro: "iCItemIdx" ),
@@ -1119,6 +1143,16 @@ AnalysisConfig(
         ),
       ]
     ),
+    "trophy": (
+      indices: [
+        (
+          substitute: { 0: Group("trophy") }
+        ),
+        (
+          macro: ( index: 0, group: "trophy" )
+        ),
+      ]
+    ),
   },
 
   expressions: {
@@ -1140,6 +1174,12 @@ AnalysisConfig(
     "weight2str": (
       args: {
         0: (name: "weightInStone", type: Int),
+      }
+    ),
+
+    "trophycheck": (
+      args: {
+        0: (name: "trophy_id", type: Int, indices: [ ( substitute: Group("trophy")) ]),
       }
     ),
 

@@ -133,15 +133,15 @@ AnalysisConfig(
     ),
     "mef": (
       variables: [
-        ( name: "MEF_TYPE", value: 0 ),
-        ( name: "MEF_CHIP", value: 1 ),
-        ( name: "MEF_X", value: 2 ),
-        ( name: "MEF_Y", value: 3 ),
-        ( name: "MEF_TURNS_REMAINING", value: 4 ),
-        ( name: "MEF_POWER", value: 5 ),
-        ( name: "MEF_SOURCE", value: 6 ),
-        ( name: "MEF_ITEM_ID", value: 7 ),
-        ( name: "MEF_ITEM_STATUS", value: 8 ),
+        ( name: "MEF_TYPE", value: 0, macro: "mefExist" ),
+        ( name: "MEF_CHIP", value: 1, macro: "mefPic" ),
+        ( name: "MEF_X", value: 2, macro: "mefX" ),
+        ( name: "MEF_Y", value: 3, macro: "mefY" ),
+        ( name: "MEF_TURNS_REMAINING", value: 4, macro: "mefDur" ),
+        ( name: "MEF_POWER", value: 5, macro: "mefP" ),
+        ( name: "MEF_SOURCE", value: 6, macro: "mefOwner" ),
+        ( name: "MEF_ITEM_ID", value: 7, macro: "mefRef" ),
+        ( name: "MEF_ITEM_STATUS", value: 8, macro: "mefRef2" ),
       ]
     ),
     "mef_type": (
@@ -1487,11 +1487,11 @@ AnalysisConfig(
     ),
     "feat": (
       variables: [
-        ( name: "FEAT_CELL_PIC", value: 0 ),
-        ( name: "FEAT_CELL_FEATURE_ID", value: 1 ),
-        ( name: "FEAT_CELL_SUB_FEATURE_ID", value: 2 ),
-        ( name: "FEAT_CELL_PARAM_1", value: 3 ),
-        ( name: "FEAT_CELL_PARAM_2", value: 4 ),
+        ( name: "FEAT_CELL_PIC", value: 0, macro: "featPic" ),
+        ( name: "FEAT_CELL_FEATURE_ID", value: 1, macro: "featId" ),
+        ( name: "FEAT_CELL_SUB_FEATURE_ID", value: 2, macro: "featIdSub" ),
+        ( name: "FEAT_CELL_PARAM_1", value: 3, macro: "featParam1" ),
+        ( name: "FEAT_CELL_PARAM_2", value: 4, macro: "featParam2" ),
       ]
     ),
     "feat_object": (
@@ -1520,28 +1520,28 @@ AnalysisConfig(
     ),
     "mdata": (
       variables: [
-        ( name: "MDATA_WIDTH", value: 0 ),
-        ( name: "MDATA_HEIGHT", value: 1 ),
-        ( name: "MDATA_TILE_FILE", value: 2 ),
-        ( name: "MDATA_RENEW", value: 3 ),
-        ( name: "MDATA_DOWNSTAIRS_POS", value: 4 ),
-        ( name: "MDATA_UPSTAIRS_POS", value: 5 ),
-        ( name: "MDATA_TYPE", value: 6 ),
-        ( name: "MDATA_CAN_SAVE", value: 7 ),
-        ( name: "MDATA_RESTORE_POS", value: 8 ),
-        ( name: "MDATA_TIMESCALE", value: 9 ),
-        ( name: "MDATA_MODERATE_CROWD", value: 10 ),
-        ( name: "MDATA_LEVEL", value: 11 ),
-        ( name: "MDATA_TILESET", value: 12 ),
-        ( name: "MDATA_MUSIC", value: 13 ),
-        ( name: "MDATA_FIELD", value: 14 ),
-        ( name: "MDATA_WALL", value: 15 ),
-        ( name: "MDATA_RENEW_MINOR", value: 16 ),
-        ( name: "MDATA_NO_RENEW", value: 17 ),
-        ( name: "MDATA_MAX_INV", value: 18 ),
-        ( name: "MDATA_VERSION", value: 19 ),
-        ( name: "MDATA_FIRE_SOUND", value: 20 ),
-        ( name: "MDATA_VERSION_FIX1", value: 21 ),
+        ( name: "MDATA_WIDTH", value: 0, macro: "mWidth" ),
+        ( name: "MDATA_HEIGHT", value: 1, macro: "mHeight" ),
+        ( name: "MDATA_TILE_FILE", value: 2, macro: "mTileFile" ),
+        ( name: "MDATA_RENEW", value: 3, macro: "mRenew" ),
+        ( name: "MDATA_DOWNSTAIRS_POS", value: 4, macro: "mDownStairPos" ),
+        ( name: "MDATA_UPSTAIRS_POS", value: 5, macro: "mUpStairPos" ),
+        ( name: "MDATA_TYPE", value: 6, macro: "mType" ),
+        ( name: "MDATA_CAN_SAVE", value: 7, macro: "mCanSave" ),
+        ( name: "MDATA_RESTORE_POS", value: 8, macro: "mRestorePos" ),
+        ( name: "MDATA_TIMESCALE", value: 9, macro: "mTimeScale" ),
+        ( name: "MDATA_MODERATE_CROWD", value: 10, macro: "mModerateCrowd" ),
+        ( name: "MDATA_LEVEL", value: 11, macro: "mLevel" ),
+        ( name: "MDATA_TILESET", value: 12, macro: "mTileSet" ),
+        ( name: "MDATA_MUSIC", value: 13, macro: "mMusic" ),
+        ( name: "MDATA_FIELD", value: 14, macro: "mField" ),
+        ( name: "MDATA_WALL", value: 15, macro: "mWall" ),
+        ( name: "MDATA_RENEW_MINOR", value: 16, macro: "mRenewMinor" ),
+        ( name: "MDATA_NO_RENEW", value: 17, macro: "mNoRenew" ),
+        ( name: "MDATA_MAX_INV", value: 18, macro: "mMaxInv" ),
+        ( name: "MDATA_VERSION", value: 19, macro: "mVersion" ),
+        ( name: "MDATA_FIRE_SOUND", value: 20, macro: "mFireSound" ),
+        ( name: "MDATA_VERSION_FIX1", value: 21, macro: "mVersionFix1" ),
       ]
     ),
     "mdatan": (
@@ -1554,16 +1554,16 @@ AnalysisConfig(
     ),
     "map": (
       variables: [
-        ( name: "MAP_TILE_ID", value: 0 ),
-        ( name: "MAP_CHARA_INDEX_PLUS_ONE", value: 1 ),
-        ( name: "MAP_TILE_ID_MEMORY", value: 2 ),
-        ( name: "MAP_UNUSED_INDEX3", value: 3 ),
-        ( name: "MAP_ITEM_CHIPS", value: 4 ),
-        ( name: "MAP_ITEM_CHIPS_MEMORY", value: 5 ),
-        ( name: "MAP_FEATS_ON_TILE", value: 6 ),
-        ( name: "MAP_BLOOD_AND_DEBRIS", value: 7 ),
-        ( name: "MAP_MEF_INDEX_PLUS_ONE", value: 8 ),
-        ( name: "MAP_LIGHT_TYPE", value: 9 ),
+        ( name: "MAP_TILE_ID", value: 0, macro: "mapId" ),
+        ( name: "MAP_CHARA_INDEX_PLUS_ONE", value: 1, macro: "mapChara" ),
+        ( name: "MAP_TILE_ID_MEMORY", value: 2, macro: "mapIdMemory" ),
+        ( name: "MAP_UNUSED_INDEX3", value: 3, macro: "mapUnused" ),
+        ( name: "MAP_ITEM_CHIPS", value: 4, macro: "mapItems" ),
+        ( name: "MAP_ITEM_CHIPS_MEMORY", value: 5, macro: "mapItemsMemory" ),
+        ( name: "MAP_FEATS_ON_TILE", value: 6, macro: "mapFeats" ),
+        ( name: "MAP_BLOOD_AND_DEBRIS", value: 7, macro: "mapFragment" ),
+        ( name: "MAP_MEF_INDEX_PLUS_ONE", value: 8, macro: "mapMef" ),
+        ( name: "MAP_LIGHT_TYPE", value: 9, macro: "mapLight" ),
       ]
     ),
     "map_tileset": (
@@ -1659,35 +1659,35 @@ AnalysisConfig(
     ),
     "adata": (
       variables: [
-        ( name: "ADATA_TYPE", value: 0 ),
-        ( name: "ADATA_X", value: 1 ),
-        ( name: "ADATA_Y", value: 2 ),
-        ( name: "ADATA_START_ON", value: 3 ),
-        ( name: "ADATA_TILE_FILE", value: 4 ),
-        ( name: "ADATA_NAME", value: 5 ),
-        ( name: "ADATA_DEEPEST", value: 6 ),
-        ( name: "ADATA_INITIALIZED", value: 7 ),
-        ( name: "ADATA_TIME_SCALE", value: 9 ),
-        ( name: "ADATA_MAX_LEVEL", value: 10 ),
-        ( name: "ADATA_CAN_SAVE", value: 11 ),
-        ( name: "ADATA_RESTORE_POS", value: 12 ),
-        ( name: "ADATA_SHOP_TYPE", value: 13 ),
-        ( name: "ADATA_ICON", value: 15 ),
-        ( name: "ADATA_ID", value: 16 ),
-        ( name: "ADATA_MIN_LEVEL", value: 17 ),
-        ( name: "ADATA_TILESET", value: 18 ),
-        ( name: "ADATA_LAST_VISIT", value: 19 ),
-        ( name: "ADATA_BOSS", value: 20 ),
-        ( name: "ADATA_FIELD", value: 21 ),
-        ( name: "ADATA_ARENA_WIN", value: 22 ),
-        ( name: "ADATA_PET_ARENA_WIN", value: 23 ),
-        ( name: "ADATA_RANDOM_SEED", value: 24 ),
-        ( name: "ADATA_RANDOM_RENEW", value: 25 ),
-        ( name: "ADATA_ARENA_RENEW1", value: 26 ),
-        ( name: "ADATA_ARENA_RENEW2", value: 27 ),
-        ( name: "ADATA_ECONOMY", value: 28 ),
-        ( name: "ADATA_FESTIVAL", value: 29 ),
-        ( name: "ADATA_PARENT", value: 30 ),
+        ( name: "ADATA_TYPE", value: 0, macro: "areaType" ),
+        ( name: "ADATA_X", value: 1, macro: "areaX" ),
+        ( name: "ADATA_Y", value: 2, macro: "areaY" ),
+        ( name: "ADATA_START_ON", value: 3, macro: "areaStartOn" ),
+        ( name: "ADATA_TILE_FILE", value: 4, macro: "areaTileFile" ),
+        ( name: "ADATA_NAME", value: 5, macro: "areaName" ),
+        ( name: "ADATA_DEEPEST", value: 6, macro: "areaDeepest" ),
+        ( name: "ADATA_INITIALIZED", value: 7, macro: "areaTimescale" ),
+        ( name: "ADATA_TIME_SCALE", value: 9, macro: "areaMaxLevel" ),
+        ( name: "ADATA_MAX_LEVEL", value: 10, macro: "areaCanSave" ),
+        ( name: "ADATA_CAN_SAVE", value: 11, macro: "areaRestorePos" ),
+        ( name: "ADATA_RESTORE_POS", value: 12, macro: "areaIcon" ),
+        ( name: "ADATA_SHOP_TYPE", value: 13, macro: "areaShopType" ),
+        ( name: "ADATA_ICON", value: 15, macro: "areaIcon" ),
+        ( name: "ADATA_ID", value: 16, macro: "areaId" ),
+        ( name: "ADATA_MIN_LEVEL", value: 17, macro: "areaMinLevel" ),
+        ( name: "ADATA_TILESET", value: 18, macro: "areaTileSet" ),
+        ( name: "ADATA_LAST_VISIT", value: 19, macro: "areaLastVisit" ),
+        ( name: "ADATA_BOSS", value: 20, macro: "areaBoss" ),
+        ( name: "ADATA_FIELD", value: 21, macro: "areaField" ),
+        ( name: "ADATA_ARENA_WIN", value: 22, macro: "areaArenaWin" ),
+        ( name: "ADATA_PET_ARENA_WIN", value: 23, macro: "areaPetArenaWin" ),
+        ( name: "ADATA_RANDOM_SEED", value: 24, macro: "areaRandSeed" ),
+        ( name: "ADATA_RANDOM_RENEW", value: 25, macro: "areaRandRenew" ),
+        ( name: "ADATA_ARENA_RENEW1", value: 26, macro: "areaArenaRenew1" ),
+        ( name: "ADATA_ARENA_RENEW2", value: 27, macro: "areaArenaRenew2" ),
+        ( name: "ADATA_ECONOMY", value: 28, macro: "areaEconomy" ),
+        ( name: "ADATA_FESTIVAL", value: 29, macro: "areaFestival" ),
+        ( name: "ADATA_PARENT", value: 30, macro: "areaParent" ),
       ]
     ),
     "shop_type": (
@@ -1712,25 +1712,25 @@ AnalysisConfig(
         ( name: "QDATA_MAX_CLIENT", value: 500 ),
         ( name: "QNAME_MAX_SIZE", value: 40 ),
 
-        ( name: "QDATA_CLIENT", value: 0 ),
-        ( name: "QDATA_MAP", value: 1 ),
-        ( name: "QDATA_RENEW", value: 2 ),
-        ( name: "QDATA_EXIST", value: 3 ),
-        ( name: "QDATA_VAR", value: 4 ),
-        ( name: "QDATA_LEVEL", value: 5 ),
-        ( name: "QDATA_REWARD", value: 6 ),
-        ( name: "QDATA_REWARD_ITEM", value: 7 ),
-        ( name: "QDATA_STATE", value: 8 ),
-        ( name: "QDATA_DEADLINE", value: 9 ),
+        ( name: "QDATA_CLIENT", value: 0, macro: "qClient" ),
+        ( name: "QDATA_MAP", value: 1, macro: "qMap" ),
+        ( name: "QDATA_RENEW", value: 2, macro: "qRenew" ),
+        ( name: "QDATA_EXIST", value: 3, macro: "qExist" ),
+        ( name: "QDATA_VAR", value: 4, macro: "qVar" ),
+        ( name: "QDATA_LEVEL", value: 5, macro: "qLevel" ),
+        ( name: "QDATA_REWARD", value: 6, macro: "qReward" ),
+        ( name: "QDATA_REWARD_ITEM", value: 7, macro: "qRewardItem" ),
+        ( name: "QDATA_STATE", value: 8, macro: "qStatus" ),
+        ( name: "QDATA_DEADLINE", value: 9, macro: "qDeadline" ),
 
-        ( name: "QDATA_ENCOUNTER", value: 10 ),
-        ( name: "QDATA_DEST_CLIENT", value: 10 ),
+        ( name: "QDATA_ENCOUNTER", value: 10, macro: "qEncount" ),
+        ( name: "QDATA_DEST_CLIENT", value: 10, macro: "qDestClient" ),
 
-        ( name: "QDATA_DEST_ITEM", value: 11 ),
-        ( name: "QDATA_PARAM1", value: 12 ),
-        ( name: "QDATA_PARAM2", value: 13 ),
-        ( name: "QDATA_TYPE", value: 14 ),
-        ( name: "QDATA_QUEST_TARGET", value: 15 ),
+        ( name: "QDATA_DEST_ITEM", value: 11, macro: "qDestItem" ),
+        ( name: "QDATA_PARAM1", value: 12, macro: "qParam1" ),
+        ( name: "QDATA_PARAM2", value: 13, macro: "qParam2" ),
+        ( name: "QDATA_TYPE", value: 14, macro: "qType" ),
+        ( name: "QDATA_QUEST_TARGET", value: 15, macro: "qQuestTarget" ),
       ]
     ),
     "quest_type": (
@@ -2321,123 +2321,123 @@ AnalysisConfig(
     ),
     "gdata": (
       variables: [
-        ( name: "GDATA_DEATH", value: 0 ),
-        ( name: "GDATA_DEEPEST", value: 1 ),
-        ( name: "GDATA_KILLED", value: 2 ),
-        ( name: "GDATA_CROWD", value: 3 ),
-        ( name: "GDATA_TURN", value: 4 ),
-        ( name: "GDATA_WORLD_X", value: 5 ),
-        ( name: "GDATA_WORLD_Y", value: 6 ),
-        ( name: "GDATA_DAY_PAST", value: 7 ),
-        ( name: "GDATA_RAND_SEED_A", value: 8 ),
-        ( name: "GDATA_RAND_SEED_B", value: 9 ),
-        ( name: "GDATA_YEAR", value: 10 ),
-        ( name: "GDATA_MONTH", value: 11 ),
-        ( name: "GDATA_DAY", value: 12 ),
-        ( name: "GDATA_HOUR", value: 13 ),
-        ( name: "GDATA_MIN", value: 14 ),
-        ( name: "GDATA_SEC", value: 15 ),
-        ( name: "GDATA_COUNT_SHOP", value: 16 ),
-        ( name: "GDATA_WEATHER", value: 17 ),
-        ( name: "GDATA_NEXT_WEATHER", value: 18 ),
-        ( name: "GDATA_AREA_PREV", value: 19 ),
-        ( name: "GDATA_AREA", value: 20 ),
-        ( name: "GDATA_SUB_AREA", value: 21 ),
-        ( name: "GDATA_LEVEL", value: 22 ),
-        ( name: "GDATA_SUB_LEVEL", value: 23 ),
-        ( name: "GDATA_HOME_LEVEL", value: 24 ),
-        ( name: "GDATA_ABSORB_CHARGE", value: 25 ),
-        ( name: "GDATA_LEVEL_START_ON", value: 26 ),
-        ( name: "GDATA_COUNT_SHELTER", value: 27 ),
-        ( name: "GDATA_TRAVEL_SPEED", value: 28 ),
-        ( name: "GDATA_RES_ETHERWIND", value: 29 ),
-        ( name: "GDATA_RUN", value: 30 ),
-        ( name: "GDATA_RUN_LEFT", value: 31 ),
-        ( name: "GDATA_RUN_UP", value: 32 ),
-        ( name: "GDATA_RUN_RIGHT", value: 33 ),
-        ( name: "GDATA_RUN_DOWN", value: 34 ),
-        ( name: "GDATA_RUN_DIR", value: 35 ),
-        ( name: "GDATA_STORY_BOOKMARK", value: 36 ),
-        ( name: "GDATA_LIGHT_SOURCE", value: 37 ),
-        ( name: "GDATA_QUIT_Y", value: 38 ),
-        ( name: "GDATA_LEARNED", value: 39 ),
+        ( name: "GDATA_DEATH", value: 0, macro: "gDeath" ),
+        ( name: "GDATA_DEEPEST", value: 1, macro: "gDeepest" ),
+        ( name: "GDATA_KILLED", value: 2, macro: "gKilled" ),
+        ( name: "GDATA_CROWD", value: 3, macro: "gCrowd" ),
+        ( name: "GDATA_TURN", value: 4, macro: "gTurn" ),
+        ( name: "GDATA_WORLD_X", value: 5, macro: "gWorldX" ),
+        ( name: "GDATA_WORLD_Y", value: 6, macro: "gWorldY" ),
+        ( name: "GDATA_DAY_PAST", value: 7, macro: "gDayPast" ),
+        ( name: "GDATA_RAND_SEED_A", value: 8, macro: "gRandSeedA" ),
+        ( name: "GDATA_RAND_SEED_B", value: 9, macro: "gRandSeedB" ),
+        ( name: "GDATA_YEAR", value: 10, macro: "gYear " ),
+        ( name: "GDATA_MONTH", value: 11, macro: "gMonth " ),
+        ( name: "GDATA_DAY", value: 12, macro: "gDay " ),
+        ( name: "GDATA_HOUR", value: 13, macro: "gHour " ),
+        ( name: "GDATA_MIN", value: 14, macro: "gMin " ),
+        ( name: "GDATA_SEC", value: 15, macro: "gSec " ),
+        ( name: "GDATA_COUNT_SHOP", value: 16, macro: "gCountShop" ),
+        ( name: "GDATA_WEATHER", value: 17, macro: "gWeather" ),
+        ( name: "GDATA_NEXT_WEATHER", value: 18, macro: "gNextWeather" ),
+        ( name: "GDATA_AREA_PREV", value: 19, macro: "gAreaPrev" ),
+        ( name: "GDATA_AREA", value: 20, macro: "gArea " ),
+        ( name: "GDATA_SUB_AREA", value: 21, macro: "gSubArea " ),
+        ( name: "GDATA_LEVEL", value: 22, macro: "gLevel " ),
+        ( name: "GDATA_SUB_LEVEL", value: 23, macro: "gSubLevel" ),
+        ( name: "GDATA_HOME_LEVEL", value: 24, macro: "gHomeLevel" ),
+        ( name: "GDATA_ABSORB_CHARGE", value: 25, macro: "gAbsorbCharge" ),
+        ( name: "GDATA_LEVEL_START_ON", value: 26, macro: "gLevelStartOn" ),
+        ( name: "GDATA_COUNT_SHELTER", value: 27, macro: "gCountShelter" ),
+        ( name: "GDATA_TRAVEL_SPEED", value: 28, macro: "gTravelSpeed" ),
+        ( name: "GDATA_RES_ETHERWIND", value: 29, macro: "gResEtherWind" ),
+        ( name: "GDATA_RUN", value: 30, macro: "gRun " ),
+        ( name: "GDATA_RUN_LEFT", value: 31, macro: "gRunLeft " ),
+        ( name: "GDATA_RUN_UP", value: 32, macro: "gRunUp " ),
+        ( name: "GDATA_RUN_RIGHT", value: 33, macro: "gRunRight " ),
+        ( name: "GDATA_RUN_DOWN", value: 34, macro: "gRunDown" ),
+        ( name: "GDATA_RUN_DIR", value: 35, macro: "gRunDir" ),
+        ( name: "GDATA_STORY_BOOKMARK", value: 36, macro: "gStoryBookmark" ),
+        ( name: "GDATA_LIGHT_SOURCE", value: 37, macro: "gLightSource" ),
+        ( name: "GDATA_QUIT_Y", value: 38, macro: "gQuitY" ),
+        ( name: "GDATA_LEARNED", value: 39, macro: "gLearned" ),
 
         ( name: "STARTING_GDATA_SHORTCUT", value: 40 ),
         ( name: "RANGE_GDATA_SHORTCUT", value: 20, exclude: true ),
 
-        ( name: "GDATA_LAST_EDGE_X", value: 60 ),
-        ( name: "GDATA_LAST_EDGE_Y", value: 61 ),
-        ( name: "GDATA_WORLD_TILE", value: 62 ),
-        ( name: "GDATA_RETURN", value: 63 ),
-        ( name: "GDATA_TELEPORT_AREA", value: 64 ),
-        ( name: "GDATA_TELEPORT_LEVEL", value: 65 ),
-        ( name: "GDATA_RETURN_AREA", value: 66 ),
-        ( name: "GDATA_RETURN_LEVEL", value: 67 ),
-        ( name: "GDATA_RETURN_X", value: 68 ),
-        ( name: "GDATA_RETURN_Y", value: 69 ),
-        ( name: "GDATA_QUEST", value: 70 ),
-        ( name: "GDATA_QUEST_TYPE", value: 71 ),
-        ( name: "GDATA_QUEST_REF", value: 72 ),
-        ( name: "GDATA_QUEST_STATE", value: 73 ),
-        ( name: "GDATA_QUEST_FAME", value: 74 ),
-        ( name: "GDATA_CLIENT", value: 75 ),
-        ( name: "GDATA_HOME_BASE", value: 76 ),
-        ( name: "GDATA_HOME_FURNITURE", value: 77 ),
-        ( name: "GDATA_HOME_VALUE", value: 78 ),
-        ( name: "GDATA_WORLD_RENEW", value: 79 ),
-        ( name: "GDATA_CARGO_WEIGHT", value: 80 ),
-        ( name: "GDATA_CARGO_LIMIT_ORG", value: 81 ),
-        ( name: "GDATA_CARGO_LIMIT", value: 82 ),
-        ( name: "GDATA_RES_WEATHER", value: 83 ),
-        ( name: "GDATA_TIME_LIMIT", value: 84 ),
-        ( name: "GDATA_CORRUPTION", value: 85 ),
-        ( name: "GDATA_USERNPC_COUNT", value: 86 ),
-        ( name: "GDATA_COUNT_NOTICE", value: 87 ),
-        ( name: "GDATA_NEXT_TRAIN", value: 88 ),
-        ( name: "GDATA_LIGHT", value: 89 ),
-        ( name: "GDATA_SLEEP", value: 90 ),
-        ( name: "GDATA_ROW_ACT", value: 91 ),
-        ( name: "GDATA_SLEEP_EXP", value: 92 ),
-        ( name: "GDATA_TRAIT_POINT", value: 93 ),
-        ( name: "GDATA_SCOPE", value: 94 ),
-        ( name: "GDATA_WELL_WISH", value: 95 ),
-        ( name: "GDATA_VERSION", value: 96 ),
-        ( name: "GDATA_HEIR_DEED", value: 97 ),
-        ( name: "GDATA_SLEEP_GENE", value: 98 ),
-        ( name: "GDATA_NEXT_VOTE", value: 99 ),
+        ( name: "GDATA_LAST_EDGE_X", value: 60, macro: "gLastEdgeX" ),
+        ( name: "GDATA_LAST_EDGE_Y", value: 61, macro: "gLastEdgeY" ),
+        ( name: "GDATA_WORLD_TILE", value: 62, macro: "gWorldTile" ),
+        ( name: "GDATA_RETURN", value: 63, macro: "gReturn " ),
+        ( name: "GDATA_TELEPORT_AREA", value: 64, macro: "gTeleportArea" ),
+        ( name: "GDATA_TELEPORT_LEVEL", value: 65, macro: "gTeleportLevel" ),
+        ( name: "GDATA_RETURN_AREA", value: 66, macro: "gReturnArea" ),
+        ( name: "GDATA_RETURN_LEVEL", value: 67, macro: "gReturnLevel" ),
+        ( name: "GDATA_RETURN_X", value: 68, macro: "gReturnX" ),
+        ( name: "GDATA_RETURN_Y", value: 69, macro: "gReturnY" ),
+        ( name: "GDATA_QUEST", value: 70, macro: "gQuest" ),
+        ( name: "GDATA_QUEST_TYPE", value: 71, macro: "gQuestType" ),
+        ( name: "GDATA_QUEST_REF", value: 72, macro: "gQuestRef" ),
+        ( name: "GDATA_QUEST_STATE", value: 73, macro: "gQuestStatus" ),
+        ( name: "GDATA_QUEST_FAME", value: 74, macro: "gQuestFame" ),
+        ( name: "GDATA_CLIENT", value: 75, macro: "gClient" ),
+        ( name: "GDATA_HOME_BASE", value: 76, macro: "gHomeBase" ),
+        ( name: "GDATA_HOME_FURNITURE", value: 77, macro: "gHomeFurniture" ),
+        ( name: "GDATA_HOME_VALUE", value: 78, macro: "gHomeValue" ),
+        ( name: "GDATA_WORLD_RENEW", value: 79, macro: "gWorldRenew" ),
+        ( name: "GDATA_CARGO_WEIGHT", value: 80, macro: "gCargoWeight" ),
+        ( name: "GDATA_CARGO_LIMIT_ORG", value: 81, macro: "gCargoLimitOrg" ),
+        ( name: "GDATA_CARGO_LIMIT", value: 82, macro: "gCargoLimit" ),
+        ( name: "GDATA_RES_WEATHER", value: 83, macro: "gResWeather" ),
+        ( name: "GDATA_TIME_LIMIT", value: 84, macro: "gTimelimit" ),
+        ( name: "GDATA_CORRUPTION", value: 85, macro: "gCorrupt" ),
+        ( name: "GDATA_USERNPC_COUNT", value: 86, macro: "unCount" ),
+        ( name: "GDATA_COUNT_NOTICE", value: 87, macro: "gCountNotice" ),
+        ( name: "GDATA_NEXT_TRAIN", value: 88, macro: "gNextTrain" ),
+        ( name: "GDATA_LIGHT", value: 89, macro: "gLight" ),
+        ( name: "GDATA_SLEEP", value: 90, macro: "gSleep" ),
+        ( name: "GDATA_ROW_ACT", value: 91, macro: "gRowAct" ),
+        ( name: "GDATA_SLEEP_EXP", value: 92, macro: "gSleepExp" ),
+        ( name: "GDATA_TRAIT_POINT", value: 93, macro: "gTraitPoint" ),
+        ( name: "GDATA_SCOPE", value: 94, macro: "gScope" ),
+        ( name: "GDATA_WELL_WISH", value: 95, macro: "gWellWish" ),
+        ( name: "GDATA_VERSION", value: 96, macro: "gVersion" ),
+        ( name: "GDATA_HEIR_DEED", value: 97, macro: "gHeirDeed" ),
+        ( name: "GDATA_SLEEP_GENE", value: 98, macro: "gSleepGene" ),
+        ( name: "GDATA_NEXT_VOTE", value: 99, macro: "gNextVote" ),
 
         ( name: "STARTING_GDATA_RANK", value: 120, exclude: true ),
-        ( name: "GDATA_RANK_ARENA", value: 120 ),
-        ( name: "GDATA_RANK_PET_ARENA", value: 121 ),
-        ( name: "GDATA_RANK_CRAWLER", value: 122 ),
-        ( name: "GDATA_RANK_MUSEUM", value: 123 ),
-        ( name: "GDATA_RANK_HOME", value: 124 ),
-        ( name: "GDATA_RANK_SHOP", value: 125 ),
-        ( name: "GDATA_RANK_VOTE", value: 126 ),
-        ( name: "GDATA_RANK_FISHING", value: 127 ),
-        ( name: "GDATA_RANK_GUILD", value: 128 ),
+        ( name: "GDATA_RANK_ARENA", value: 120, macro: "gRankArena" ),
+        ( name: "GDATA_RANK_PET_ARENA", value: 121, macro: "gRankPetArena" ),
+        ( name: "GDATA_RANK_CRAWLER", value: 122, macro: "gRankCrawler" ),
+        ( name: "GDATA_RANK_MUSEUM", value: 123, macro: "gRankMuseum" ),
+        ( name: "GDATA_RANK_HOME", value: 124, macro: "gRankHome" ),
+        ( name: "GDATA_RANK_SHOP", value: 125, macro: "gRankShop" ),
+        ( name: "GDATA_RANK_VOTE", value: 126, macro: "gRankVote" ),
+        ( name: "GDATA_RANK_FISHING", value: 127, macro: "gRankFishing" ),
+        ( name: "GDATA_RANK_GUILD", value: 128, macro: "gRankGuild" ),
 
         ( name: "STARTING_GDATA_RANK_NORMA", value: 140 ),
 
         ( name: "GDATA_QUEST_POOL", value: 160 ),
 
-        ( name: "GDATA_COST_HIRE", value: 170 ),
-        ( name: "GDATA_MAP_EVENT", value: 171 ),
+        ( name: "GDATA_COST_HIRE", value: 170, macro: "gCostHire" ),
+        ( name: "GDATA_MAP_EVENT", value: 171, macro: "gMapEvent" ),
         ( name: "GDATA_ACTIVATE_PROC", value: 172 ),
         ( name: "GDATA_SENSE_OBJECT", value: 173 ),
         ( name: "GDATA_ADVENTURER_ORACLE", value: 174 ),
         ( name: "GDATA_TEMPORARY_FLAGS", value: 175 ),
         ( name: "GDATA_PIERCING_BONUS", value: 176 ),
         ( name: "GDATA_SKILLBOOK_COOLDOWN", value: 177 ),
-        ( name: "GDATA_BILL", value: 179 ),
-        ( name: "GDATA_TRAVEL_DISTANCE", value: 180 ),
-        ( name: "GDATA_TRAVEL_TIME", value: 181 ),
-        ( name: "GDATA_LAST_TOWN", value: 182 ),
-        ( name: "GDATA_RIDER", value: 183 ),
-        ( name: "GDATA_MAP_VERSION", value: 184 ),
-        ( name: "GDATA_GOD_TALK", value: 185 ),
-        ( name: "GDATA_VOID_BOSS", value: 186 ),
-        ( name: "GDATA_GOD_DETECT", value: 187 ),
+        ( name: "GDATA_BILL", value: 179, macro: "gBill" ),
+        ( name: "GDATA_TRAVEL_DISTANCE", value: 180, macro: "gTravelDistance" ),
+        ( name: "GDATA_TRAVEL_TIME", value: 181, macro: "gTravelTime" ),
+        ( name: "GDATA_LAST_TOWN", value: 182, macro: "gLastTown" ),
+        ( name: "GDATA_RIDER", value: 183, macro: "gRider" ),
+        ( name: "GDATA_MAP_VERSION", value: 184, macro: "gMapVersion" ),
+        ( name: "GDATA_GOD_TALK", value: 185, macro: "gGodTalk" ),
+        ( name: "GDATA_VOID_BOSS", value: 186, macro: "gVoidBoss" ),
+        ( name: "GDATA_GOD_DETECT", value: 187, macro: "gGodDetect" ),
 
         ( name: "STARTING_GDATA_HELP", value: 200 ),
 
@@ -2445,257 +2445,301 @@ AnalysisConfig(
         (
           name: "GDATA_FLAG_TUTORIAL",
           value: 250,
-          code_value: "STARTING_GDATA_FLAG + 0"
+          code_value: "STARTING_GDATA_FLAG + 0",
+          macro: "flagTutorial"
         ),
         (
           name: "GDATA_FLAG_MAIN",
           value: 252,
-          code_value: "STARTING_GDATA_FLAG + 2"
+          code_value: "STARTING_GDATA_FLAG + 2",
+          macro: "flagMain"
         ),
         (
           name: "GDATA_FLAG_MAIN_FOOL",
           value: 253,
-          code_value: "STARTING_GDATA_FLAG + 3"
+          code_value: "STARTING_GDATA_FLAG + 3",
+            macro: "flagMsFool"
         ),
         (
           name: "GDATA_FLAG_MAIN_SAGE",
           value: 254,
-          code_value: "STARTING_GDATA_FLAG + 4"
+          code_value: "STARTING_GDATA_FLAG + 4",
+            macro: "flagMsSage"
         ),
         (
           name: "GDATA_FLAG_MAIN_KING",
           value: 255,
-          code_value: "STARTING_GDATA_FLAG + 5"
+          code_value: "STARTING_GDATA_FLAG + 5",
+            macro: "flagMsKing"
         ),
         (
           name: "GDATA_FLAG_CASINO",
           value: 256,
-          code_value: "STARTING_GDATA_FLAG + 6"
+          code_value: "STARTING_GDATA_FLAG + 6",
+            macro: "flagCasino"
         ),
         (
           name: "GDATA_FLAG_ALLY",
           value: 257,
-          code_value: "STARTING_GDATA_FLAG + 7"
+          code_value: "STARTING_GDATA_FLAG + 7",
+            macro: "flagAlly"
         ),
         (
           name: "GDATA_FLAG_FIRE_GIANT",
           value: 258,
-          code_value: "STARTING_GDATA_FLAG + 8"
+          code_value: "STARTING_GDATA_FLAG + 8",
+            macro: "flagFireGiant"
         ),
         (
           name: "GDATA_FLAG_GIANT_ID",
           value: 259,
-          code_value: "STARTING_GDATA_FLAG + 9"
+          code_value: "STARTING_GDATA_FLAG + 9",
+            macro: "fireGiantId"
         ),
         (
           name: "GDATA_FLAG_HOLY_WELL",
           value: 260,
-          code_value: "STARTING_GDATA_FLAG + 10"
+          code_value: "STARTING_GDATA_FLAG + 10",
+            macro: "flagHolyWell"
         ),
         (
           name: "GDATA_FLAG_KAMIKAZE",
           value: 261,
-          code_value: "STARTING_GDATA_FLAG + 11"
+          code_value: "STARTING_GDATA_FLAG + 11",
+            macro: "flagKamikaze"
         ),
         (
           name: "GDATA_FLAG_RENEW_DUNGEON",
           value: 262,
-          code_value: "STARTING_GDATA_FLAG + 12"
+          code_value: "STARTING_GDATA_FLAG + 12",
+            macro: "flagRenewDungeon"
         ),
         (
           name: "GDATA_FLAG_GUILD_MAGE",
           value: 263,
-          code_value: "STARTING_GDATA_FLAG + 13"
+          code_value: "STARTING_GDATA_FLAG + 13",
+            macro: "flagMageGuild"
         ),
         (
           name: "GDATA_FLAG_GUILD_FIGHTER",
           value: 264,
-          code_value: "STARTING_GDATA_FLAG + 14"
+          code_value: "STARTING_GDATA_FLAG + 14",
+            macro: "flagFighterGuild"
         ),
         (
           name: "GDATA_FLAG_GUILD_THIEF",
           value: 265,
-          code_value: "STARTING_GDATA_FLAG + 15"
+          code_value: "STARTING_GDATA_FLAG + 15",
+            macro: "flagThiefGuild"
         ),
         (
           name: "GDATA_FLAG_GUILD_MAGE_NORMA",
           value: 266,
-          code_value: "STARTING_GDATA_FLAG + 16"
+          code_value: "STARTING_GDATA_FLAG + 16",
+            macro: "flagMageGuildNorma"
         ),
         (
           name: "GDATA_FLAG_GUILD_FIGHTER_NORMA",
           value: 267,
-          code_value: "STARTING_GDATA_FLAG + 17"
+          code_value: "STARTING_GDATA_FLAG + 17",
+            macro: "fFGNorma"
         ),
         (
           name: "GDATA_FLAG_GUILD_FIGHTER_THIEF",
           value: 268,
-          code_value: "STARTING_GDATA_FLAG + 18"
+          code_value: "STARTING_GDATA_FLAG + 18",
+            macro: "fFGTG"
         ),
         (
           name: "GDATA_FLAG_GUILD_THIEF_NORMA",
           value: 269,
-          code_value: "STARTING_GDATA_FLAG + 19"
+          code_value: "STARTING_GDATA_FLAG + 19",
+            macro: "flagThiefGuildNorma"
         ),
 
         (
           name: "GDATA_FLAG_SUB_SLIME",
           value: 450,
-          code_value: "STARTING_GDATA_FLAG + 200"
+          code_value: "STARTING_GDATA_FLAG + 200",
+            macro: "sqSlime"
         ),
         (
           name: "GDATA_FLAG_SUB_ROGUE",
           value: 451,
-          code_value: "STARTING_GDATA_FLAG + 201"
+          code_value: "STARTING_GDATA_FLAG + 201",
+            macro: "sqRogue"
         ),
         (
           name: "GDATA_FLAG_SUB_NIGHTMARE",
           value: 452,
-          code_value: "STARTING_GDATA_FLAG + 202"
+          code_value: "STARTING_GDATA_FLAG + 202",
+            macro: "sqNightmare"
         ),
         (
           name: "GDATA_FLAG_SUB_MOTHER",
           value: 453,
-          code_value: "STARTING_GDATA_FLAG + 203"
+          code_value: "STARTING_GDATA_FLAG + 203",
+            macro: "sqMother"
         ),
         (
           name: "GDATA_FLAG_SUB_WIFE",
           value: 454,
-          code_value: "STARTING_GDATA_FLAG + 204"
+          code_value: "STARTING_GDATA_FLAG + 204",
+            macro: "sqWife"
         ),
         (
           name: "GDATA_FLAG_SUB_DOG",
           value: 455,
-          code_value: "STARTING_GDATA_FLAG + 205"
+          code_value: "STARTING_GDATA_FLAG + 205",
+            macro: "sqDog"
         ),
         (
           name: "GDATA_FLAG_SUB_CAT",
           value: 456,
-          code_value: "STARTING_GDATA_FLAG + 206"
+          code_value: "STARTING_GDATA_FLAG + 206",
+            macro: "sqCat"
         ),
         (
           name: "GDATA_FLAG_SUB_WAR",
           value: 457,
-          code_value: "STARTING_GDATA_FLAG + 207"
+          code_value: "STARTING_GDATA_FLAG + 207",
+            macro: "sqWar"
         ),
         (
           name: "GDATA_FLAG_SUB_YEEK",
           value: 458,
-          code_value: "STARTING_GDATA_FLAG + 208"
+          code_value: "STARTING_GDATA_FLAG + 208",
+            macro: "sqYeek"
         ),
         (
           name: "GDATA_FLAG_SUB_KAMIKAZE",
           value: 459,
-          code_value: "STARTING_GDATA_FLAG + 209"
+          code_value: "STARTING_GDATA_FLAG + 209",
+            macro: "sqKamikaze"
         ),
         (
           name: "GDATA_FLAG_SUB_MIAS_DREAM",
           value: 460,
-          code_value: "STARTING_GDATA_FLAG + 210"
+          code_value: "STARTING_GDATA_FLAG + 210",
+            macro: "sqSilverCat"
         ),
         (
           name: "GDATA_FLAG_SUB_VEIN",
           value: 461,
-          code_value: "STARTING_GDATA_FLAG + 211"
+          code_value: "STARTING_GDATA_FLAG + 211",
+            macro: "sqVein"
         ),
         (
           name: "GDATA_FLAG_SUB_PYRAMID",
           value: 462,
-          code_value: "STARTING_GDATA_FLAG + 212"
+          code_value: "STARTING_GDATA_FLAG + 212",
+            macro: "sqPyramid"
         ),
         (
           name: "GDATA_FLAG_SUB_NUKE",
           value: 463,
-          code_value: "STARTING_GDATA_FLAG + 213"
+          code_value: "STARTING_GDATA_FLAG + 213",
+            macro: "sqNuke"
         ),
         (
           name: "GDATA_FLAG_SUB_BIOLOGIST",
           value: 464,
-          code_value: "STARTING_GDATA_FLAG + 214"
+          code_value: "STARTING_GDATA_FLAG + 214",
+            macro: "sqBiologist"
         ),
         (
           name: "GDATA_FLAG_SUB_SEWER",
           value: 465,
-          code_value: "STARTING_GDATA_FLAG + 215"
+          code_value: "STARTING_GDATA_FLAG + 215",
+            macro: "sqSewer"
         ),
         (
           name: "GDATA_FLAG_SUB_GUILD_MAGE",
           value: 466,
-          code_value: "STARTING_GDATA_FLAG + 216"
+          code_value: "STARTING_GDATA_FLAG + 216",
+            macro: "sqMageGuild"
         ),
         (
           name: "GDATA_FLAG_SUB_GUILD_FIGHTER",
           value: 467,
-          code_value: "STARTING_GDATA_FLAG + 217"
+          code_value: "STARTING_GDATA_FLAG + 217",
+            macro: "sqFighterGuild"
         ),
         (
           name: "GDATA_FLAG_SUB_GUILD_THIEF",
           value: 468,
-          code_value: "STARTING_GDATA_FLAG + 218"
+          code_value: "STARTING_GDATA_FLAG + 218",
+            macro: "sqThiefGuild"
         ),
         (
           name: "GDATA_FLAG_SUB_MAGE_1",
           value: 469,
-          code_value: "STARTING_GDATA_FLAG + 219"
+          code_value: "STARTING_GDATA_FLAG + 219",
+            macro: "sqMage1"
         ),
         (
           name: "GDATA_FLAG_SUB_FIGHTER_1",
           value: 470,
-          code_value: "STARTING_GDATA_FLAG + 220"
+          code_value: "STARTING_GDATA_FLAG + 220",
+            macro: "sqFighter1"
         ),
         (
           name: "GDATA_FLAG_SUB_THIEF_1",
           value: 471,
-          code_value: "STARTING_GDATA_FLAG + 221"
+          code_value: "STARTING_GDATA_FLAG + 221",
+            macro: "sqThief1"
         ),
         (
           name: "GDATA_FLAG_SUB_MINOTAUR",
           value: 472,
-          code_value: "STARTING_GDATA_FLAG + 222"
+          code_value: "STARTING_GDATA_FLAG + 222",
+            macro: "sqMinotaur"
         ),
         (
           name: "GDATA_FLAG_SUB_DADDY",
           value: 473,
-          code_value: "STARTING_GDATA_FLAG + 223"
+          code_value: "STARTING_GDATA_FLAG + 223",
+            macro: "sqDaddy"
         ),
         (
           name: "GDATA_FLAG_SUB_KANEDA",
           value: 474,
-          code_value: "STARTING_GDATA_FLAG + 224"
+          code_value: "STARTING_GDATA_FLAG + 224",
+            macro: "sqKaneda"
         ),
 
         ( name: "STARTING_GDATA_CORRUPTION", value: 700, exclude: true ),
 
         ( name: "STARTING_GDATA_DISPLAY_SKILL", value: 750, exclude: true ),
 
-        ( name: "GDATA_ETHER_SPEED", value: 800 ),
-        ( name: "GDATA_TIME_STOP_TIME", value: 801 ),
-        ( name: "GDATA_EX_BATTLE_WIN", value: 802 ),
-        ( name: "GDATA_EX_BATTLE_MAX_LVL", value: 803 ),
-        ( name: "GDATA_NEXT_UPLOAD", value: 804 ),
-        ( name: "GDATA_PLAY_TIME", value: 805 ),
-        ( name: "GDATA_LAST_ETHER", value: 806 ),
-        ( name: "GDATA_GOD_RANK", value: 807 ),
-        ( name: "GDATA_EQUIP_CHANGE", value: 808 ),
-        ( name: "GDATA_DMG_TYPE", value: 809 ),
-        ( name: "GDATA_SISTER_KILLED", value: 810 ),
-        ( name: "GDATA_SISTER_SAVED", value: 811 ),
-        ( name: "GDATA_SISTER_REWARD", value: 812 ),
-        ( name: "GDATA_DECK", value: 813 ),
-        ( name: "GDATA_GUEST", value: 814 ),
-        ( name: "GDATA_CAPITAL", value: 815 ),
+        ( name: "GDATA_ETHER_SPEED", value: 800, macro: "gEtherSpeed" ),
+        ( name: "GDATA_TIME_STOP_TIME", value: 801, macro: "gTimeStopTime" ),
+        ( name: "GDATA_EX_BATTLE_WIN", value: 802, macro: "gExBattleWin" ),
+        ( name: "GDATA_EX_BATTLE_MAX_LVL", value: 803, macro: "gExBattleMaxLv" ),
+        ( name: "GDATA_NEXT_UPLOAD", value: 804, macro: "gNextUpload" ),
+        ( name: "GDATA_PLAY_TIME", value: 805, macro: "gPlayTime" ),
+        ( name: "GDATA_LAST_ETHER", value: 806, macro: "gLastEther" ),
+        ( name: "GDATA_GOD_RANK", value: 807, macro: "gGodRank" ),
+        ( name: "GDATA_EQUIP_CHANGE", value: 808, macro: "gEquipChange" ),
+        ( name: "GDATA_DMG_TYPE", value: 809, macro: "dmgType" ),
+        ( name: "GDATA_SISTER_KILLED", value: 810, macro: "gSisterKilled" ),
+        ( name: "GDATA_SISTER_SAVED", value: 811, macro: "gSisterSaved" ),
+        ( name: "GDATA_SISTER_REWARD", value: 812, macro: "gSisterReward" ),
+        ( name: "GDATA_DECK", value: 813, macro: "gDeck" ),
+        ( name: "GDATA_GUEST", value: 814, macro: "gGuest" ),
+        ( name: "GDATA_CAPITAL", value: 815, macro: "gCapital" ),
 
-        ( name: "GDATA_BASIC_TAX", value: 820 ),
+        ( name: "GDATA_BASIC_TAX", value: 820, macro: "gBasicTax" ),
 
-        ( name: "GDATA_GUILD_TRAINER", value: 825 ),
-        ( name: "GDATA_ITEM_TURN", value: 826 ),
-        ( name: "GDATA_NEW_FEAT", value: 827 ),
-        ( name: "GDATA_WIZARD", value: 828 ),
-        ( name: "GDATA_TOKEN", value: 829 ),
+        ( name: "GDATA_GUILD_TRAINER", value: 825, macro: "gGuildTrainer" ),
+        ( name: "GDATA_ITEM_TURN", value: 826, macro: "gItemTurn" ),
+        ( name: "GDATA_NEW_FEAT", value: 827, macro: "gNewFeat" ),
+        ( name: "GDATA_WIZARD", value: 828, macro: "gWizard" ),
+        ( name: "GDATA_TOKEN", value: 829, macro: "gToken" ),
         ( name: "GDATA_DECK_SIZE", value: 830 ),
 
-        ( name: "GDATA_WORLD", value: 850 ),
-        ( name: "GDATA_WALLET", value: 851 ),
+        ( name: "GDATA_WORLD", value: 850, macro: "gWorld" ),
+        ( name: "GDATA_WALLET", value: 851, macro: "gWallet" ),
       ]
     ),
     "gdatan": (
@@ -3941,16 +3985,16 @@ AnalysisConfig(
         ( name: "SKILL_ATTR_LIFE", value: 2, ),
         ( name: "SKILL_ATTR_MANA", value: 3, ),
 
-        ( name: "SKILL_ATTR_STR", value: 10, ),
-        ( name: "SKILL_ATTR_CON", value: 11, ),
-        ( name: "SKILL_ATTR_DEX", value: 12, ),
-        ( name: "SKILL_ATTR_PER", value: 13, ),
-        ( name: "SKILL_ATTR_LER", value: 14, ),
-        ( name: "SKILL_ATTR_WIL", value: 15, ),
-        ( name: "SKILL_ATTR_MAG", value: 16, ),
-        ( name: "SKILL_ATTR_CHA", value: 17, ),
-        ( name: "SKILL_ATTR_SPD", value: 18, ),
-        ( name: "SKILL_ATTR_LUC", value: 19, ),
+        ( name: "SKILL_ATTR_STR", value: 10, macro: "sSTR" ),
+        ( name: "SKILL_ATTR_CON", value: 11, macro: "sEND" ),
+        ( name: "SKILL_ATTR_DEX", value: 12, macro: "sDEX" ),
+        ( name: "SKILL_ATTR_PER", value: 13, macro: "sPER" ),
+        ( name: "SKILL_ATTR_LER", value: 14, macro: "sLER" ),
+        ( name: "SKILL_ATTR_WIL", value: 15, macro: "sWIL" ),
+        ( name: "SKILL_ATTR_MAG", value: 16, macro: "sMAG" ),
+        ( name: "SKILL_ATTR_CHA", value: 17, macro: "sCHR" ),
+        ( name: "SKILL_ATTR_SPD", value: 18, macro: "sSPD" ),
+        ( name: "SKILL_ATTR_LUC", value: 19, macro: "sLUC" ),
 
         ( name: "STARTING_SKILL_ATTR", value: 10, code_value: "SKILL_ATTR_STR", exclude: true ),
         ( name: "MAX_SKILL_ATTR_BASIC", value: 8, exclude: true ),
@@ -3961,17 +4005,17 @@ AnalysisConfig(
       variables: [
         ( name: "STARTING_SKILL_RESIST", value: 50, exclude: true ),
 
-        ( name: "SKILL_RES_FIRE", value: 50, ),
-        ( name: "SKILL_RES_COLD", value: 51, ),
-        ( name: "SKILL_RES_LIGHTNING", value: 52, ),
-        ( name: "SKILL_RES_DARKNESS", value: 53, ),
-        ( name: "SKILL_RES_MIND", value: 54, ),
-        ( name: "SKILL_RES_POISON", value: 55, ),
-        ( name: "SKILL_RES_NETHER", value: 56, ),
-        ( name: "SKILL_RES_SOUND", value: 57, ),
-        ( name: "SKILL_RES_NERVE", value: 58, ),
-        ( name: "SKILL_RES_CHAOS", value: 59, ),
-        ( name: "SKILL_RES_MAGIC", value: 60, ),
+        ( name: "SKILL_RES_FIRE", value: 50, macro: "sResFire" ),
+        ( name: "SKILL_RES_COLD", value: 51, macro: "sResCold" ),
+        ( name: "SKILL_RES_LIGHTNING", value: 52, macro: "sResLightning" ),
+        ( name: "SKILL_RES_DARKNESS", value: 53, macro: "sResNether" ),
+        ( name: "SKILL_RES_MIND", value: 54, macro: "sResDarkness" ),
+        ( name: "SKILL_RES_POISON", value: 55, macro: "sResMind" ),
+        ( name: "SKILL_RES_NETHER", value: 56, macro: "sResPoison" ),
+        ( name: "SKILL_RES_SOUND", value: 57, macro: "sResSound" ),
+        ( name: "SKILL_RES_NERVE", value: 58, macro: "sResChaos" ),
+        ( name: "SKILL_RES_CHAOS", value: 59, macro: "sResNerve" ),
+        ( name: "SKILL_RES_MAGIC", value: 60, macro: "sResMagic" ),
 
         ( name: "MAX_SKILL_RESIST", value: 71, code_value: "SKILL_RES_MAGIC + 1" ),
       ]
@@ -3999,18 +4043,18 @@ AnalysisConfig(
       variables: [
         ( name: "STARTING_SKILL_WEAPON", value: 100, exclude: true ),
 
-        ( name: "SKILL_WEAPON_LONGSWORD", value: 100, ),
-        ( name: "SKILL_WEAPON_SHORTSWORD", value: 101, ),
-        ( name: "SKILL_WEAPON_AXE", value: 102, ),
-        ( name: "SKILL_WEAPON_BLUNT", value: 103, ),
-        ( name: "SKILL_WEAPON_POLEARM", value: 104, ),
-        ( name: "SKILL_WEAPON_STAVE", value: 105, ),
-        ( name: "SKILL_WEAPON_MARTIAL_ARTS", value: 106, ),
-        ( name: "SKILL_WEAPON_SCYTHE", value: 107, ),
-        ( name: "SKILL_WEAPON_BOW", value: 108, ),
-        ( name: "SKILL_WEAPON_CROSSBOW", value: 109, ),
-        ( name: "SKILL_WEAPON_FIREARM", value: 110, ),
-        ( name: "SKILL_WEAPON_THROWING", value: 111, ),
+        ( name: "SKILL_WEAPON_LONGSWORD", value: 100, macro: "sLongSword" ),
+        ( name: "SKILL_WEAPON_SHORTSWORD", value: 101, macro: "sShortSword" ),
+        ( name: "SKILL_WEAPON_AXE", value: 102, macro: "sAxe" ),
+        ( name: "SKILL_WEAPON_BLUNT", value: 103, macro: "sBlunt" ),
+        ( name: "SKILL_WEAPON_POLEARM", value: 104, macro: "sPole" ),
+        ( name: "SKILL_WEAPON_STAVE", value: 105, macro: "sStave" ),
+        ( name: "SKILL_WEAPON_MARTIAL_ARTS", value: 106, macro: "sMartial" ),
+        ( name: "SKILL_WEAPON_SCYTHE", value: 107, macro: "sSickle" ),
+        ( name: "SKILL_WEAPON_BOW", value: 108, macro: "sBow" ),
+        ( name: "SKILL_WEAPON_CROSSBOW", value: 109, macro: "sCrossBow" ),
+        ( name: "SKILL_WEAPON_FIREARM", value: 110, macro: "sGun" ),
+        ( name: "SKILL_WEAPON_THROWING", value: 111, macro: "sThrow" ),
 
         ( name: "MAX_SKILL_WEAPON", value: 112, code_value: "SKILL_WEAPON_THROWING + 1" ),
       ]
@@ -4019,57 +4063,56 @@ AnalysisConfig(
       variables: [
         ( name: "STARTING_SKILL_NORMAL", value: 150, exclude: true ),
 
-        ( name: "SKILL_NORMAL_LITERACY", value: 150, ),
-        ( name: "SKILL_NORMAL_GENE_ENGINEER", value: 151, ),
-        ( name: "SKILL_NORMAL_TACTICS", value: 152, ),
-        ( name: "SKILL_NORMAL_WEIGHT_LIFTING", value: 153, ),
-        ( name: "SKILL_NORMAL_HEALING", value: 154, ),
-        ( name: "SKILL_NORMAL_MEDITATION", value: 155, ),
-        ( name: "SKILL_NORMAL_NEGOTIATION", value: 156, ),
-        ( name: "SKILL_NORMAL_STEALTH", value: 157, ),
-        ( name: "SKILL_NORMAL_LOCK_PICKING", value: 158, ),
-        ( name: "SKILL_NORMAL_DETECTION", value: 159, ),
-        ( name: "SKILL_NORMAL_INVESTING", value: 160, ),
-        ( name: "SKILL_NORMAL_ANATOMY", value: 161, ),
-        ( name: "SKILL_NORMAL_SENSE_QUALITY", value: 162, ),
-        ( name: "SKILL_NORMAL_MINING", value: 163, ),
-        ( name: "SKILL_NORMAL_MAGIC_CAPACITY", value: 164, ),
-        ( name: "SKILL_NORMAL_MEMORIZATION", value: 165, ),
-        ( name: "SKILL_NORMAL_DUAL_WIELD", value: 166, ),
-        ( name: "SKILL_NORMAL_TWO_HAND", value: 167, ),
-        ( name: "SKILL_NORMAL_SHIELD", value: 168, ),
-        ( name: "SKILL_NORMAL_HEAVY_ARMOR", value: 169, ),
-        ( name: "SKILL_NORMAL_MEDIUM_ARMOR", value: 170, ),
-        ( name: "SKILL_NORMAL_LIGHT_ARMOR", value: 171, ),
-        ( name: "SKILL_NORMAL_CASTING", value: 172, ),
-        ( name: "SKILL_NORMAL_EVASION", value: 173, ),
-        ( name: "SKILL_NORMAL_MAGIC_DEVICE", value: 174, ),
-        ( name: "SKILL_NORMAL_DISARM_TRAP", value: 175, ),
-        ( name: "SKILL_NORMAL_CARPENTRY", value: 176, ),
-        ( name: "SKILL_NORMAL_TAILORING", value: 177, ),
-        ( name: "SKILL_NORMAL_ALCHEMY", value: 178, ),
-        ( name: "SKILL_NORMAL_JEWELER", value: 179, ),
-        ( name: "SKILL_NORMAL_GARDENING", value: 180, ),
-        ( name: "SKILL_NORMAL_FAITH", value: 181, ),
-        ( name: "SKILL_NORMAL_TRAVELING", value: 182, ),
-        ( name: "SKILL_NORMAL_PERFORMER", value: 183, ),
-        ( name: "SKILL_NORMAL_COOKING", value: 184, ),
-        ( name: "SKILL_NORMAL_FISHING", value: 185, ),
-        ( name: "SKILL_NORMAL_EYE_OF_MIND", value: 186, ),
-        ( name: "SKILL_NORMAL_GREATER_EVASION", value: 187, ),
-        ( name: "SKILL_NORMAL_CONTROL_MAGIC", value: 188, ),
-        ( name: "SKILL_NORMAL_MARKSMAN", value: 189, ),
-        ( name: "SKILL_NORMAL_SWIMMING", value: 190, ),
+        ( name: "SKILL_NORMAL_LITERACY", value: 150, macro: "sLiteracy" ),
+        ( name: "SKILL_NORMAL_GENE_ENGINEER", value: 151, macro: "sGene" ),
+        ( name: "SKILL_NORMAL_TACTICS", value: 152, macro: "ctype " ),
+        ( name: "SKILL_NORMAL_WEIGHT_LIFTING", value: 153, macro: "sWeightLifting" ),
+        ( name: "SKILL_NORMAL_HEALING", value: 154, macro: "sHealing" ),
+        ( name: "SKILL_NORMAL_MEDITATION", value: 155, macro: "sMeditation" ),
+        ( name: "SKILL_NORMAL_NEGOTIATION", value: 156, macro: "sTrade" ),
+        ( name: "SKILL_NORMAL_STEALTH", value: 157, macro: "sStealth" ),
+        ( name: "SKILL_NORMAL_LOCK_PICKING", value: 158, macro: "sOpenLock" ),
+        ( name: "SKILL_NORMAL_DETECTION", value: 159, macro: "sDetection" ),
+        ( name: "SKILL_NORMAL_INVESTING", value: 160, macro: "sInvest" ),
+        ( name: "SKILL_NORMAL_ANATOMY", value: 161, macro: "sAnatomy" ),
+        ( name: "SKILL_NORMAL_SENSE_QUALITY", value: 162, macro: "sSenseQuality" ),
+        ( name: "SKILL_NORMAL_MINING", value: 163, macro: "sMining" ),
+        ( name: "SKILL_NORMAL_MAGIC_CAPACITY", value: 164, macro: "sMagicCapacity" ),
+        ( name: "SKILL_NORMAL_MEMORIZATION", value: 165, macro: "sMemorize" ),
+        ( name: "SKILL_NORMAL_DUAL_WIELD", value: 166, macro: "sTwoWield" ),
+        ( name: "SKILL_NORMAL_TWO_HAND", value: 167, macro: "sTwoHand" ),
+        ( name: "SKILL_NORMAL_SHIELD", value: 168, macro: "sShield" ),
+        ( name: "SKILL_NORMAL_HEAVY_ARMOR", value: 169, macro: "sHeavyArmor" ),
+        ( name: "SKILL_NORMAL_MEDIUM_ARMOR", value: 170, macro: "sMediumArmor" ),
+        ( name: "SKILL_NORMAL_LIGHT_ARMOR", value: 171, macro: "sLightArmor" ),
+        ( name: "SKILL_NORMAL_CASTING", value: 172, macro: "sCasting" ),
+        ( name: "SKILL_NORMAL_EVASION", value: 173, macro: "sEvade" ),
+        ( name: "SKILL_NORMAL_MAGIC_DEVICE", value: 174, macro: "sMagicDevice" ),
+        ( name: "SKILL_NORMAL_DISARM_TRAP", value: 175, macro: "sDisarmTrap" ),
+        ( name: "SKILL_NORMAL_CARPENTRY", value: 176, macro: "sCarpentry" ),
+        ( name: "SKILL_NORMAL_TAILORING", value: 177, macro: "sTailor" ),
+        ( name: "SKILL_NORMAL_ALCHEMY", value: 178, macro: "sAlchemy" ),
+        ( name: "SKILL_NORMAL_JEWELER", value: 179, macro: "sJeweller" ),
+        ( name: "SKILL_NORMAL_GARDENING", value: 180, macro: "sGardening" ),
+        ( name: "SKILL_NORMAL_FAITH", value: 181, macro: "sPrayer" ),
+        ( name: "SKILL_NORMAL_TRAVELING", value: 182, macro: "sTravel" ),
+        ( name: "SKILL_NORMAL_PERFORMER", value: 183, macro: "sPerform" ),
+        ( name: "SKILL_NORMAL_COOKING", value: 184, macro: "sCooking" ),
+        ( name: "SKILL_NORMAL_FISHING", value: 185, macro: "sFishing" ),
+        ( name: "SKILL_NORMAL_EYE_OF_MIND", value: 186, macro: "sCritical" ),
+        ( name: "SKILL_NORMAL_GREATER_EVASION", value: 187, macro: "sEvadePlus" ),
+        ( name: "SKILL_NORMAL_CONTROL_MAGIC", value: 188, macro: "sMagicControl" ),
+        ( name: "SKILL_NORMAL_MARKSMAN", value: 189, macro: "sMarksman" ),
 
-        ( name: "MAX_SKILL_NORMAL", value: 191, code_value: "SKILL_NORMAL_SWIMMING + 1" ),
+        ( name: "MAX_SKILL_NORMAL", value: 190, code_value: "SKILL_NORMAL_MARKSMAN + 1" ),
       ]
     ),
     "skill_active": (
       variables: [
         ( name: "STARTING_SKILL_ACTIVE", value: 300, exclude: true ),
 
-        ( name: "SKILL_ACTIVE_PICKPOCKET", value: 300, ),
-        ( name: "SKILL_ACTIVE_RIDING", value: 301, ),
+        ( name: "SKILL_ACTIVE_PICKPOCKET", value: 300, macro: "sPickpocket" ),
+        ( name: "SKILL_ACTIVE_RIDING", value: 301, macro: "sRiding" ),
 
         ( name: "MAX_SKILL_ACTIVE", value: 302, code_value: "SKILL_ACTIVE_RIDING + 1" ),
       ]
@@ -4078,71 +4121,71 @@ AnalysisConfig(
       variables: [
         ( name: "STARTING_SKILL_SPELL", value: 400, exclude: true ),
 
-        ( name: "SKILL_SPELL_HEAL_LIGHT", value: 400, ),
-        ( name: "SKILL_SPELL_HEAL_CRITICAL", value: 401, ),
-        ( name: "SKILL_SPELL_CURE_OF_ERIS", value: 402, ),
-        ( name: "SKILL_SPELL_CURE_OF_JURE", value: 403, ),
-        ( name: "SKILL_SPELL_HEALING_RAIN", value: 404, ),
-        ( name: "SKILL_SPELL_HEALING_TOUCH", value: 405, ),
-        ( name: "SKILL_SPELL_HOLY_LIGHT", value: 406, ),
-        ( name: "SKILL_SPELL_VANQUISH_HEX", value: 407, ),
-        ( name: "SKILL_SPELL_TELEPORT", value: 408, ),
-        ( name: "SKILL_SPELL_TELEPORT_OTHER", value: 409, ),
-        ( name: "SKILL_SPELL_SHORT_TELEPORT", value: 410, ),
-        ( name: "SKILL_SPELL_IDENTIFY", value: 411, ),
-        ( name: "SKILL_SPELL_UNCURSE", value: 412, ),
-        ( name: "SKILL_SPELL_ORACLE", value: 413, ),
-        ( name: "SKILL_SPELL_MAGIC_DART", value: 414, ),
-        ( name: "SKILL_SPELL_NETHER_ARROW", value: 415, ),
-        ( name: "SKILL_SPELL_NERVE_ARROW", value: 416, ),
-        ( name: "SKILL_SPELL_CHAOS_EYE", value: 417, ),
-        ( name: "SKILL_SPELL_DARK_EYE", value: 418, ),
-        ( name: "SKILL_SPELL_ICE_BOLT", value: 419, ),
-        ( name: "SKILL_SPELL_FIRE_BOLT", value: 420, ),
-        ( name: "SKILL_SPELL_LIGHTNING_BOLT", value: 421, ),
-        ( name: "SKILL_SPELL_DARKNESS_BOLT", value: 422, ),
-        ( name: "SKILL_SPELL_MIND_BOLT", value: 423, ),
-        ( name: "SKILL_SPELL_SUMMON_MONSTERS", value: 424, ),
-        ( name: "SKILL_SPELL_SUMMON_WILD", value: 425, ),
-        ( name: "SKILL_SPELL_RETURN", value: 428, ),
-        ( name: "SKILL_SPELL_MAGIC_MAP", value: 429, ),
-        ( name: "SKILL_SPELL_SENSE_OBJECT", value: 430, ),
-        ( name: "SKILL_SPELL_ICE_BALL", value: 431, ),
-        ( name: "SKILL_SPELL_FIRE_BALL", value: 432, ),
-        ( name: "SKILL_SPELL_CHAOS_BALL", value: 433, ),
-        ( name: "SKILL_SPELL_RAGING_ROAR", value: 434, ),
-        ( name: "SKILL_SPELL_DOMINATE", value: 435, ),
-        ( name: "SKILL_SPELL_WEB", value: 436, ),
-        ( name: "SKILL_SPELL_MIST_OF_DARKNESS", value: 437, ),
-        ( name: "SKILL_SPELL_WALL_CREATION", value: 438, ),
-        ( name: "SKILL_SPELL_RESTORE_BODY", value: 439, ),
-        ( name: "SKILL_SPELL_RESTORE_SPIRIT", value: 440, ),
-        ( name: "SKILL_SPELL_WISH", value: 441, ),
-        ( name: "SKILL_SPELL_HOLY_SHIELD", value: 442, ),
-        ( name: "SKILL_SPELL_MIST_OF_SILENCE", value: 443, ),
-        ( name: "SKILL_SPELL_REGENERATION", value: 444, ),
-        ( name: "SKILL_SPELL_ATTRIBUTE_SHIELD", value: 445, ),
-        ( name: "SKILL_SPELL_SPEED", value: 446, ),
-        ( name: "SKILL_SPELL_SLOW", value: 447, ),
-        ( name: "SKILL_SPELL_HERO", value: 448, ),
-        ( name: "SKILL_SPELL_MIST_OF_FRAILNESS", value: 449, ),
-        ( name: "SKILL_SPELL_ELEMENT_SCAR", value: 450, ),
-        ( name: "SKILL_SPELL_HOLY_VEIL", value: 451, ),
-        ( name: "SKILL_SPELL_NIGHTMARE", value: 452, ),
-        ( name: "SKILL_SPELL_DIVINE_WISDOM", value: 453, ),
-        ( name: "SKILL_SPELL_MUTATION", value: 454, ),
-        ( name: "SKILL_SPELL_ACID_GROUND", value: 455, ),
-        ( name: "SKILL_SPELL_FIRE_WALL", value: 456, ),
-        ( name: "SKILL_SPELL_DOOR_CREATION", value: 457, ),
-        ( name: "SKILL_SPELL_INCOGNITO", value: 458, ),
-        ( name: "SKILL_SPELL_CRYSTAL_SPEAR", value: 459, ),
-        ( name: "SKILL_SPELL_MAGIC_STORM", value: 460, ),
-        ( name: "SKILL_SPELL_RESURRECTION", value: 461, ),
-        ( name: "SKILL_SPELL_CONTINGENCY", value: 462, ),
-        ( name: "SKILL_SPELL_4DIM_POCKET", value: 463, ),
-        ( name: "SKILL_SPELL_WIZARDS_HARVEST", value: 464, ),
-        ( name: "SKILL_SPELL_METEOR", value: 465, ),
-        ( name: "SKILL_SPELL_GRAVITY", value: 466, ),
+        ( name: "SKILL_SPELL_HEAL_LIGHT", value: 400, macro: "sHealLight" ),
+        ( name: "SKILL_SPELL_HEAL_CRITICAL", value: 401, macro: "sHealCritical" ),
+        ( name: "SKILL_SPELL_CURE_OF_ERIS", value: 402, macro: "sHeal" ),
+        ( name: "SKILL_SPELL_CURE_OF_JURE", value: 403, macro: "sHealAll" ),
+        ( name: "SKILL_SPELL_HEALING_RAIN", value: 404, macro: "sHealRain" ),
+        ( name: "SKILL_SPELL_HEALING_TOUCH", value: 405, macro: "sHealTouch" ),
+        ( name: "SKILL_SPELL_HOLY_LIGHT", value: 406, macro: "sRemoveHex" ),
+        ( name: "SKILL_SPELL_VANQUISH_HEX", value: 407, macro: "sVanishHex" ),
+        ( name: "SKILL_SPELL_TELEPORT", value: 408, macro: "sTeleportSelf" ),
+        ( name: "SKILL_SPELL_TELEPORT_OTHER", value: 409, macro: "sTeleportOther" ),
+        ( name: "SKILL_SPELL_SHORT_TELEPORT", value: 410, macro: "sShortTeleport" ),
+        ( name: "SKILL_SPELL_IDENTIFY", value: 411, macro: "sIdentify" ),
+        ( name: "SKILL_SPELL_UNCURSE", value: 412, macro: "sUncurse" ),
+        ( name: "SKILL_SPELL_ORACLE", value: 413, macro: "sRevealArtifact" ),
+        ( name: "SKILL_SPELL_MAGIC_DART", value: 414, macro: "sMagicArrow" ),
+        ( name: "SKILL_SPELL_NETHER_ARROW", value: 415, macro: "sNetherArrow" ),
+        ( name: "SKILL_SPELL_NERVE_ARROW", value: 416, macro: "sNerveArrow" ),
+        ( name: "SKILL_SPELL_CHAOS_EYE", value: 417, macro: "sChaosArrow" ),
+        ( name: "SKILL_SPELL_DARK_EYE", value: 418, macro: "sDarknessArrow" ),
+        ( name: "SKILL_SPELL_ICE_BOLT", value: 419, macro: "sIceBolt" ),
+        ( name: "SKILL_SPELL_FIRE_BOLT", value: 420, macro: "sFireBolt" ),
+        ( name: "SKILL_SPELL_LIGHTNING_BOLT", value: 421, macro: "sLightningBolt" ),
+        ( name: "SKILL_SPELL_DARKNESS_BOLT", value: 422, macro: "sDarknessBolt" ),
+        ( name: "SKILL_SPELL_MIND_BOLT", value: 423, macro: "sMindBolt" ),
+        ( name: "SKILL_SPELL_SUMMON_MONSTERS", value: 424, macro: "sSummon" ),
+        ( name: "SKILL_SPELL_SUMMON_WILD", value: 425, macro: "sSummonWild" ),
+        ( name: "SKILL_SPELL_RETURN", value: 428, macro: "sReturn" ),
+        ( name: "SKILL_SPELL_MAGIC_MAP", value: 429, macro: "sMagicMap" ),
+        ( name: "SKILL_SPELL_SENSE_OBJECT", value: 430, macro: "sObjectMap" ),
+        ( name: "SKILL_SPELL_ICE_BALL", value: 431, macro: "sIceBall" ),
+        ( name: "SKILL_SPELL_FIRE_BALL", value: 432, macro: "sFireBall" ),
+        ( name: "SKILL_SPELL_CHAOS_BALL", value: 433, macro: "sChaosBall" ),
+        ( name: "SKILL_SPELL_RAGING_ROAR", value: 434, macro: "sSoundBall" ),
+        ( name: "SKILL_SPELL_DOMINATE", value: 435, macro: "sCharm" ),
+        ( name: "SKILL_SPELL_WEB", value: 436, macro: "sWeb" ),
+        ( name: "SKILL_SPELL_MIST_OF_DARKNESS", value: 437, macro: "sMist" ),
+        ( name: "SKILL_SPELL_WALL_CREATION", value: 438, macro: "sMakeWall" ),
+        ( name: "SKILL_SPELL_RESTORE_BODY", value: 439, macro: "sRestoreBody" ),
+        ( name: "SKILL_SPELL_RESTORE_SPIRIT", value: 440, macro: "sRestoreSpirit" ),
+        ( name: "SKILL_SPELL_WISH", value: 441, macro: "sWish" ),
+        ( name: "SKILL_SPELL_HOLY_SHIELD", value: 442, macro: "sHolyShield" ),
+        ( name: "SKILL_SPELL_MIST_OF_SILENCE", value: 443, macro: "sDaze" ),
+        ( name: "SKILL_SPELL_REGENERATION", value: 444, macro: "sRegeneration" ),
+        ( name: "SKILL_SPELL_ATTRIBUTE_SHIELD", value: 445, macro: "sResEle" ),
+        ( name: "SKILL_SPELL_SPEED", value: 446, macro: "sSpeedUp" ),
+        ( name: "SKILL_SPELL_SLOW", value: 447, macro: "sSpeedDown" ),
+        ( name: "SKILL_SPELL_HERO", value: 448, macro: "sHero" ),
+        ( name: "SKILL_SPELL_MIST_OF_FRAILNESS", value: 449, macro: "sWeakArmor" ),
+        ( name: "SKILL_SPELL_ELEMENT_SCAR", value: 450, macro: "sWeakEle" ),
+        ( name: "SKILL_SPELL_HOLY_VEIL", value: 451, macro: "sHolyVeil" ),
+        ( name: "SKILL_SPELL_NIGHTMARE", value: 452, macro: "sNightmare" ),
+        ( name: "SKILL_SPELL_DIVINE_WISDOM", value: 453, macro: "sKnowledge" ),
+        ( name: "SKILL_SPELL_MUTATION", value: 454, macro: "sMutation" ),
+        ( name: "SKILL_SPELL_ACID_GROUND", value: 455, macro: "sAcidGround" ),
+        ( name: "SKILL_SPELL_FIRE_WALL", value: 456, macro: "sFireWall" ),
+        ( name: "SKILL_SPELL_DOOR_CREATION", value: 457, macro: "sMakeDoor" ),
+        ( name: "SKILL_SPELL_INCOGNITO", value: 458, macro: "sIncognito" ),
+        ( name: "SKILL_SPELL_CRYSTAL_SPEAR", value: 459, macro: "sMagicLaser" ),
+        ( name: "SKILL_SPELL_MAGIC_STORM", value: 460, macro: "sMagicBall" ),
+        ( name: "SKILL_SPELL_RESURRECTION", value: 461, macro: "sResurrect" ),
+        ( name: "SKILL_SPELL_CONTINGENCY", value: 462, macro: "sContingency" ),
+        ( name: "SKILL_SPELL_4DIM_POCKET", value: 463, macro: "sPocket" ),
+        ( name: "SKILL_SPELL_WIZARDS_HARVEST", value: 464, macro: "sHarvest" ),
+        ( name: "SKILL_SPELL_METEOR", value: 465, macro: "sMeteor" ),
+        ( name: "SKILL_SPELL_GRAVITY", value: 466, macro: "sGravity" ),
 
         ( name: "MAX_SPELL", value: 467, code_value: "SKILL_SPELL_GRAVITY + 1" ),
       ]
@@ -5295,6 +5338,12 @@ AnalysisConfig(
         (
           substitute: { 0: Group("gdata") }
         ),
+        (
+          macro: (
+            index: 0,
+            group: "gdata",
+          )
+        ),
       ]
     ),
     "gdatan": (
@@ -5315,13 +5364,25 @@ AnalysisConfig(
       indices: [
         (
           substitute: { 0: Group("mdata") }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "mdata",
+          )
+        ),
       ]
     ),
     "map": (
       indices: [
         (
           substitute: { 2: Group("map") }
+        ),
+        (
+          macro: (
+            index: 2,
+            group: "map",
+          )
         ),
       ]
     ),
@@ -5336,21 +5397,39 @@ AnalysisConfig(
       indices: [
         (
           substitute: { 0: Group("feat"), }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "feat",
+          )
+        ),
       ]
     ),
     "adata": (
       indices: [
         (
           substitute: { 0: Group("adata") }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "adata",
+          )
+        ),
       ]
     ),
     "qdata": (
       indices: [
         (
           substitute: { 0: Group("qdata") }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "qdata",
+          )
+        ),
       ]
     ),
     "sdata": (
@@ -5363,6 +5442,12 @@ AnalysisConfig(
               ]),
             1: Group("chara")
           }
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "skill_id"
+          )
         )
       ]
     ),
@@ -5510,7 +5595,13 @@ AnalysisConfig(
       indices: [
         (
           substitute: { 0: Group("mef") }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "mef",
+          )
+        ),
       ]
     ),
     "lightdata": (
