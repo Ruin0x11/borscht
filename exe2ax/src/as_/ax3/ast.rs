@@ -394,14 +394,14 @@ impl<'a> AstPrintable<'a> for FunctionNode {
 
 #[derive(Clone, Debug)]
 pub struct OnStatementNode {
-    pub primitive: PrimitiveToken,
+    pub ident: PrimitiveToken,
     pub exp: Option<AstNodeRef>,
     pub func: Option<AstNodeRef>,
 }
 
 impl<'a> AstPrintable<'a> for OnStatementNode {
     fn print_code<W: Write>(&self, f: &mut W, tab_count: u32, ctxt: &'a Hsp3As) -> Result<(), io::Error> {
-        write!(f, "{}", self.primitive)?;
+        write!(f, "{}", self.ident)?;
 
         if let Some(exp) = &self.exp {
             exp.print_code(f, tab_count, ctxt)?;

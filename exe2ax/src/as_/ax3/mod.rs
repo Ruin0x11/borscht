@@ -1174,6 +1174,39 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
         return AstNode::new(token_offset, kind, self.tab_count)
     }
 
+    fn read_on_function(&mut self) -> AstNode {
+        let tok = self.tokens.next().unwrap();
+        let tab_count = self.tab_count;
+        let token_offset = tok.token_offset;
+
+        if self.next_is_end_of_line() {
+            let kind = AstNodeKind::OnStatement(OnStatementNode {
+                ident: tok,
+                exp: None,
+                func: None
+            });
+            return AstNode::new(token_offset, kind, tab_count);
+        }
+
+        let exp = self.read_expression();
+        if self.next_is_end_of_line() {
+            let kind = AstNodeKind::OnStatement(OnStatementNode {
+                ident: tok,
+                exp: Some(Box::new(exp)),
+                func: None
+            });
+            return AstNode::new(token_offset, kind, tab_count);
+        }
+
+        let func = self.read_function(false);
+        let kind = AstNodeKind::OnStatement(OnStatementNode {
+            ident: tok,
+            exp: Some(Box::new(exp)),
+            func: Some(Box::new(func))
+        });
+        AstNode::new(token_offset, kind, tab_count)
+    }
+
     pub fn read_logical_line(&mut self) -> Vec<AstNode> {
         let offset_here = self.tokens.peek().unwrap().token_offset;
 
@@ -1250,8 +1283,7 @@ impl<'a, R: Read + Seek> Parser<'a, R> {
                 let kind = AstNodeKind::Literal(LiteralNode::Symbol("TODO".to_string()));
                 AstNode::new(next.token_offset, kind, self.tab_count)
             },
-            // PrimitiveTokenKind::OnFunction |
-            // PrimitiveTokenKind::McallFunction |
+            PrimitiveTokenKind::OnFunction => self.read_on_function(),
             x => {
                 panic!("Not found: {:?}", x);
             }

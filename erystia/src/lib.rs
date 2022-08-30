@@ -1075,7 +1075,7 @@ impl<'a> ConstantSubstitutionVisitor<'a> {
         match self.config.variable_groups.get(&mac.group) {
             Some(group) => {
                 if let Some(ref mut arg) = &mut node.arg {
-                    if let ast::AstNodeKind::Argument(ref mut arg) = arg.kind {
+                    if let ast::AstNodeKind::Argument(ref mut arg) = arg.kind && arg.exps.len() > mac.index {
                         let exp = &arg.exps[mac.index];
 
                         match &exp.kind {
@@ -1567,9 +1567,14 @@ impl<'a> VisitorMut for TxtUnrollVisitor<'a> {
                     }
                 },
                 TxtUnrollState::FoundTxtSelect(to, tc, args) => {
-                    let assign = exp.kind.into_assignment().unwrap();
-                    assert!(get_variable_name(&assign.var, self.hsp3as).unwrap() == "tcol@txtfunc");
-                    (None, TxtUnrollState::FoundTcol(to, tc, args))
+                    let assign = exp.kind.as_assignment().unwrap();
+                    let name = get_variable_name(&assign.var, self.hsp3as).unwrap();
+                    if name == "tcol@txtfunc" || name == "tcol" {
+                        (None, TxtUnrollState::FoundTcol(to, tc, args))
+                    }
+                    else {
+                        (Some(exp), TxtUnrollState::None)
+                    }
                 },
                 TxtUnrollState::FoundTcol(to, tc, args) => {
                     exps.push(Box::new(make_txt_node(to, tc, *args, self.txt_function.clone())));
