@@ -1692,6 +1692,9 @@ struct LabelDefinition {
     #[serde(default)]
     after: Option<String>,
 
+    #[serde(default)]
+    exact: Option<String>,
+
     #[serde(skip_serializing, default)]
     _matched_so_far: usize
 }
@@ -1741,10 +1744,17 @@ impl<'a> LabelRenameVisitor<'a> {
 
             if defn.rules.len() == 0 {
                 if let Some(prev) = &self.previous_label {
+                    if let Some(exact) = &defn.exact {
+                        let visiting = self.visiting_label.unwrap();
+                        if self.hsp3as.label_names.get(&visiting).unwrap() == exact {
+                            assert!(found_after.is_none(), "More than one label with same 'exact' or 'after' field found: {:?} ({})", found_after, label_name);
+                            found_after = Some(label_name.clone());
+                        }
+                    }
                     if let Some(after) = &defn.after {
                         if let Some(prev_resolved) = self.resolved_labels.get(prev) {
                             if self.hsp3as.label_names.get(prev).unwrap() == after {
-                                assert!(found_after.is_none(), "More than one label with same 'after' field found: {} ({})", after, label_name);
+                                assert!(found_after.is_none(), "More than one label with same 'exact' or 'after' field found: {} ({})", after, label_name);
                                 found_after = Some(label_name.clone());
                             }
                         }
@@ -2151,21 +2161,25 @@ fn validate_config(config: &AnalysisConfig) -> Result<()> {
     }
 
     for (label_name, defn) in config.labels.iter() {
-        if defn.rules.len() == 0 {
-            match &defn.after {
-                Some(after) => {
-                    if !config.labels.iter().any(|(label_name, _)| label_name == after)  {
-                        return Err(anyhow!("Label given in after property '{}' not declared (on label definition {})", after, label_name))
-                    }
-                },
-                None => return Err(anyhow!("Label definition '{}' must have either 'rules' or 'after' field", label_name))
-            }
-            if defn.after.is_none() {
-            }
-        } else {
-            if defn.after.is_some() {
-                return Err(anyhow!("Label definition '{}' cannot have both 'rules' and 'after' fields", label_name))
-            }
+        let has_rules = defn.rules.len() > 0;
+        let has_after = defn.after.is_some();
+        let has_exact = defn.exact.is_some();
+
+        if !(has_rules || has_after || has_exact) {
+            return Err(anyhow!("Label definition '{}' must have either 'exact', 'rules' or 'after' field", label_name))
+        }
+
+        if (has_rules && has_after) || (has_rules && has_exact) || (has_exact && has_after) {
+            return Err(anyhow!("Label definition '{}' cannot have more than one of 'exact', rules' and 'after' fields", label_name))
+        }
+
+        match &defn.after {
+            Some(after) => {
+                if !config.labels.iter().any(|(label_name, _)| label_name == after)  {
+                    return Err(anyhow!("Label given in after property '{}' not declared (on label definition {})", after, label_name))
+                }
+            },
+            None => ()
         }
     }
 

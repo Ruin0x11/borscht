@@ -3792,11 +3792,487 @@ AnalysisConfig(
   },
 
   labels: {
+    "*expWeightLifting": (
+      rules: [
+        (
+          kind: Function,
+          match: "skillexp SKILL_NORMAL_WEIGHT_LIFTING, r1, 4, 0, 1000"
+        )
+      ]
+    ),
+    "*fov_los_WHILE7": (
+      after: "*fov_los_WEND6",
+      loop_kind: While,
+    ),
+    "*fov_los_WEND7": (
+      after: "*fov_los_WHILE7",
+      loop_kind: WhileEnd,
+    ),
+    "*fov_los_WHILE8": (
+      after: "*fov_los_WEND7",
+      loop_kind: While,
+    ),
+    "*fov_los_WEND8": (
+      after: "*fov_los_WHILE8",
+      loop_kind: WhileEnd,
+    ),
+    "*fov_los_WHILE9": (
+      after: "*fov_los_WEND8",
+      loop_kind: While,
+    ),
+    "*fov_los_WEND9": (
+      after: "*fov_los_WHILE9",
+      loop_kind: WhileEnd,
+    ),
+    "*fov_los_WHILE10": (
+      after: "*fov_los_WEND9",
+      loop_kind: While,
+    ),
+    "*fov_los_WEND10": (
+      after: "*fov_los_WHILE10",
+      loop_kind: WhileEnd,
+    ),
+    "*place_necro": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "hitugi = 0"
+        ),
+      ]
+    ),
+    "*setHistory1": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "生まれつき天涯孤独だった。"
+        )
+      ]
+    ),
+    "*setHistory2": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "自分を見つめ直すため旅に出る。"
+        )
+      ]
+    ),
+    "*setHistory3": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "温厚で慈悲深いが、"
+        )
+      ]
+    ),
+    "*setHistory4": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "熱中すると周りが見えなくなる。"
+        )
+      ]
+    ),
+    "*setHistory5": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "監禁が趣味"
+        )
+      ]
+    ),
+    "*chat_unique_enthumesis": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "flagMain = 710"
+        )
+      ]
+    ),
+    "*chat_unique_lankata": (
+      rules: [
+        (
+          kind: Function,
+          match: "chara_vanquish findchara(CREATURE_ID_ALFRED_THE_CANGNAN_WIND)"
+        )
+      ]
+    ),
+    "*chat_unique_leold_limb": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "自分が試す"
+        )
+      ]
+    ),
+    // (
+    //   name: "*com_change_gamemode",
+    //   rules: [
+    //     (
+    //       kind: Function,
+    //       match: "	pos 0, 0"
+    //     )
+    //   ]
+    // ),
+    "*com_change_gamemode_loop": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "そっと目をそらす…"
+        )
+      ]
+    ),
+    "*com_change_gamemode_finish": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "あはははははっ！本当に選んでしまったのですね…♪ようこそ、新しい宇宙へ。"
+        )
+      ]
+    ),
+    "*chat_unique_leold_maxspeed": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "すまん。今の俺ではこれ以上鍛えることができないようだ。"
+        )
+      ]
+    ),
+    "*chat_unique_leold_lack_ap": (
+      rules: [
+        (
+          kind: Function,
+          match: "…こりゃもっとAP貯めないと無理だな。"
+        )
+      ]
+    ),
+    "*chat_unique_leold_done": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "bitp = CHARA_BIT_AWAKE_INSULT"
+        )
+      ]
+    ),
+    "*chat_unique_leold_awaken": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "スキルボーナス100獲得(消費AP1500)"
+        )
+      ]
+    ),
+    "*evochat_portrait": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "(現在、立ち姿は決まっていない)"
+        )
+      ]
+    ),
+    "*change_god": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "gdata(GDATA_FLAG_TIMES_CONVERTED)++"
+        )
+      ]
+    ),
+    "*cm_past": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "君の経歴を教えてくれるかな。内緒にしてもいいけれど。"
+        )
+      ]
+    ),
+    "*cm_past_loop": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "経歴のロール"
+        )
+      ]
+    ),
+    "*cm_race_name_change": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "種族名を変更する？"
+        )
+      ]
+    ),
+    "*cm_race_name_change_input": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "新しい種族は？"
+        )
+      ]
+    ),
+    "*com_vote_new": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "現在、処刑投票は行われていない。"
+        )
+      ]
+    ),
+    "*com_vote_new_loop": (
+      after: "*com_vote_new",
+      loop_kind: While
+
+    ),
+    "*com_vote_new_loop_WHILE1": (
+      after: "*com_vote_new_loop",
+      loop_kind: WhileContinue
+    ),
+    "*com_vote_new_loop_WEND1": (
+      after: "*com_vote_new_loop_WHILE1",
+      loop_kind: WhileEnd
+    ),
+    "*com_applyWideSkill": (
+      rules: [
+        (
+          kind: If,
+          match: "if ( spact(cnt) == 1 ) {"
+        ),
+        (
+          kind: Expression,
+          match: "cnt + 600 == 746"
+        ),
+      ]
+    ),
+    "*com_applyWideSkill_loop_pgchk": (
+      after: "*com_applyWideSkill"
+    ),
+    "*com_applyWideSkill_loop": (
+      after: "*com_applyWideSkill_loop_pgchk",
+      loop_kind: While
+    ),
+    "*com_item_mark": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "移動キーでマーク移動"
+        )
+      ]
+    ),
+    "*com_item_mark_loop": (
+      after: "*com_item_mark"
+    ),
+    "*com_item_mark_adjust": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "angle, hit the enter key to decide the position, hit the cancel key to exit."
+        )
+      ]
+    ),
+    "*com_item_mark_adjust_loop": (
+      after: "*com_item_mark_adjust"
+    ),
+    "*com_jukebox": (
+      rules: [
+        (
+          kind: Function,
+          match: "repeat 134 - 50 - 1, 50"
+        )
+      ]
+    ),
+    "*com_jukebox_loop_pgchk": (
+      after: "*com_jukebox"
+    ),
+    "*com_jukebox_loop": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "s += \"No Music\""
+        )
+      ]
+    ),
+    "*com_shape_change": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "元々の姿にする"
+        )
+      ]
+    ),
+    "*com_shape_change_WHILE1": (
+      after: "*com_shape_change"
+    ),
+    "*com_shape_change_WHILE1_CONTINUE": (
+      after: "*com_shape_change_WHILE1"
+    ),
+    "*calcGodRecruitingPenalty": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1) / 5, 1000 * 50000, 1000 * 400000)"
+        )
+      ]
+    ),
+    "*calcMaileINITService": (
+      rules: [
+        (
+          kind: If,
+          match: "if ( sdata(cnt + STARTING_SKILL_SPACT, r1) > 1000 * 20000 ) {"
+        )
+      ]
+    ),
+    "*calcAdvRecruitingPenalty": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1) / 2, 1, 1000 * 200000)"
+        )
+      ]
+    ),
+    "*calcSoulSpindlePenalty": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1), 1, 1000 * 50000)"
+        )
+      ]
+    ),
+    "*calcThirst": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_THIRST, r1) = 1"
+        )
+      ]
+    ),
+    "*perform_dance": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_PERFORM_DANCE"
+        )
+      ]
+    ),
+    "*perform_preach": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_PERFORM_PREACH"
+        )
+      ]
+    ),
+    "*skill_charge": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_CHARGE"
+        )
+      ]
+    ),
+    "*skill_persuasion": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_PERSUASION"
+        )
+      ]
+    ),
+    "*skill_peculiar_joke": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_PECULIAR_JOKE"
+        )
+      ]
+    ),
+    "*skill_blended_lie": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_BLENDED_LIE"
+        )
+      ]
+    ),
+    "*skill_intimidation": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_INTIMIDATION"
+        )
+      ]
+    ),
+    "*skill_mysterious_song": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_MYSTERIOUS_SONG"
+        )
+      ]
+    ),
+    "*eat_meal_xmas_cake": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_XMAS_CAKE"
+        )
+      ]
+    ),
+    "*skill_tuin_der_lusten": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cRowAct(cc) = ACTION_TUIN_DER_LUSTEN"
+        )
+      ]
+    ),
+    "*effect_directive": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "cdata(CDATA_DIRECTIVE_MODE, tc) = DIRECTIVE_MODE_INTERCEPT"
+        )
+      ]
+    ),
     "*map_createDungeonMinefield": (
       rules: [
         (
           kind: StringLiteral,
           match: "地雷原"
+        )
+      ]
+    ),
+    "*game_win2": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "Unbelievable! You conquered Rehmido!"
+        )
+      ]
+    ),
+    "*game_win2_WHILE1": (
+      after: "*game_win2"
+    ),
+    "*game_win2_WEND1": (
+      after: "*game_win2_WHILE1"
+    ),
+    "*game_win3": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "Unbelievable! You conquered God's prison!"
+        )
+      ]
+    ),
+    "*game_win3_WHILE1": (
+      after: "*game_win3",
+    ),
+    "*game_win3_WEND1": (
+      after: "*game_win3_WHILE1",
+    ),
+    "*los": (
+      rules: [
+        (
+          kind: Assignment,
+          match: "sy(2) = cY(CHARA_PLAYER) - 17 / 2, cY(CHARA_PLAYER) + 17 / 2, 17 / 2 - cY(CHARA_PLAYER)"
         )
       ]
     ),

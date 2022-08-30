@@ -511,21 +511,21 @@ AnalysisConfig(
     ),
     "fishdata": (
       variables: [
-        ( name: "FISHDATA_PIC", value: 0 ),
-        ( name: "FISHDATA_LEVEL", value: 1 ),
-        ( name: "FISHDATA_RARE", value: 2 ),
-        ( name: "FISHDATA_POWER", value: 3 ),
-        ( name: "FISHDATA_SPEED", value: 4 ),
-        ( name: "FISHDATA_WEIGHT", value: 5 ),
-        ( name: "FISHDATA_VALUE", value: 6 ),
-        ( name: "FISHDATA_ID", value: 7 ),
+        ( name: "FISHDATA_PIC", value: 0, macro: "fishPic" ),
+        ( name: "FISHDATA_LEVEL", value: 1, macro: "fishLevel" ),
+        ( name: "FISHDATA_RARE", value: 2, macro: "fishRare" ),
+        ( name: "FISHDATA_POWER", value: 3, macro: "fishPow" ),
+        ( name: "FISHDATA_SPEED", value: 4, macro: "fishSpeed" ),
+        ( name: "FISHDATA_WEIGHT", value: 5, macro: "fishWeight" ),
+        ( name: "FISHDATA_VALUE", value: 6, macro: "fishValue" ),
+        ( name: "FISHDATA_ID", value: 7, macro: "fishId" ),
 
         ( name: "MAX_FISH", value: 100 ),
       ]
     ),
     "fishdatan": (
       variables: [
-        ( name: "FISHDATAN_NAME", value: 0 ),
+        ( name: "FISHDATAN_NAME", value: 0, macro: "fishName" ),
       ]
     ),
     "material_id": (
@@ -2331,19 +2331,19 @@ AnalysisConfig(
         ( name: "GDATA_DAY_PAST", value: 7, macro: "gDayPast" ),
         ( name: "GDATA_RAND_SEED_A", value: 8, macro: "gRandSeedA" ),
         ( name: "GDATA_RAND_SEED_B", value: 9, macro: "gRandSeedB" ),
-        ( name: "GDATA_YEAR", value: 10, macro: "gYear " ),
-        ( name: "GDATA_MONTH", value: 11, macro: "gMonth " ),
-        ( name: "GDATA_DAY", value: 12, macro: "gDay " ),
-        ( name: "GDATA_HOUR", value: 13, macro: "gHour " ),
-        ( name: "GDATA_MIN", value: 14, macro: "gMin " ),
-        ( name: "GDATA_SEC", value: 15, macro: "gSec " ),
+        ( name: "GDATA_YEAR", value: 10, macro: "gYear" ),
+        ( name: "GDATA_MONTH", value: 11, macro: "gMonth" ),
+        ( name: "GDATA_DAY", value: 12, macro: "gDay" ),
+        ( name: "GDATA_HOUR", value: 13, macro: "gHour" ),
+        ( name: "GDATA_MIN", value: 14, macro: "gMin" ),
+        ( name: "GDATA_SEC", value: 15, macro: "gSec" ),
         ( name: "GDATA_COUNT_SHOP", value: 16, macro: "gCountShop" ),
         ( name: "GDATA_WEATHER", value: 17, macro: "gWeather" ),
         ( name: "GDATA_NEXT_WEATHER", value: 18, macro: "gNextWeather" ),
         ( name: "GDATA_AREA_PREV", value: 19, macro: "gAreaPrev" ),
-        ( name: "GDATA_AREA", value: 20, macro: "gArea " ),
-        ( name: "GDATA_SUB_AREA", value: 21, macro: "gSubArea " ),
-        ( name: "GDATA_LEVEL", value: 22, macro: "gLevel " ),
+        ( name: "GDATA_AREA", value: 20, macro: "gArea" ),
+        ( name: "GDATA_SUB_AREA", value: 21, macro: "gSubArea" ),
+        ( name: "GDATA_LEVEL", value: 22, macro: "gLevel" ),
         ( name: "GDATA_SUB_LEVEL", value: 23, macro: "gSubLevel" ),
         ( name: "GDATA_HOME_LEVEL", value: 24, macro: "gHomeLevel" ),
         ( name: "GDATA_ABSORB_CHARGE", value: 25, macro: "gAbsorbCharge" ),
@@ -2351,10 +2351,10 @@ AnalysisConfig(
         ( name: "GDATA_COUNT_SHELTER", value: 27, macro: "gCountShelter" ),
         ( name: "GDATA_TRAVEL_SPEED", value: 28, macro: "gTravelSpeed" ),
         ( name: "GDATA_RES_ETHERWIND", value: 29, macro: "gResEtherWind" ),
-        ( name: "GDATA_RUN", value: 30, macro: "gRun " ),
-        ( name: "GDATA_RUN_LEFT", value: 31, macro: "gRunLeft " ),
-        ( name: "GDATA_RUN_UP", value: 32, macro: "gRunUp " ),
-        ( name: "GDATA_RUN_RIGHT", value: 33, macro: "gRunRight " ),
+        ( name: "GDATA_RUN", value: 30, macro: "gRun" ),
+        ( name: "GDATA_RUN_LEFT", value: 31, macro: "gRunLeft" ),
+        ( name: "GDATA_RUN_UP", value: 32, macro: "gRunUp" ),
+        ( name: "GDATA_RUN_RIGHT", value: 33, macro: "gRunRight" ),
         ( name: "GDATA_RUN_DOWN", value: 34, macro: "gRunDown" ),
         ( name: "GDATA_RUN_DIR", value: 35, macro: "gRunDir" ),
         ( name: "GDATA_STORY_BOOKMARK", value: 36, macro: "gStoryBookmark" ),
@@ -2368,7 +2368,7 @@ AnalysisConfig(
         ( name: "GDATA_LAST_EDGE_X", value: 60, macro: "gLastEdgeX" ),
         ( name: "GDATA_LAST_EDGE_Y", value: 61, macro: "gLastEdgeY" ),
         ( name: "GDATA_WORLD_TILE", value: 62, macro: "gWorldTile" ),
-        ( name: "GDATA_RETURN", value: 63, macro: "gReturn " ),
+        ( name: "GDATA_RETURN", value: 63, macro: "gReturn" ),
         ( name: "GDATA_TELEPORT_AREA", value: 64, macro: "gTeleportArea" ),
         ( name: "GDATA_TELEPORT_LEVEL", value: 65, macro: "gTeleportLevel" ),
         ( name: "GDATA_RETURN_AREA", value: 66, macro: "gReturnArea" ),
@@ -2744,8 +2744,8 @@ AnalysisConfig(
     ),
     "gdatan": (
       variables: [
-        ( name: "GDATAN_TEAM1", value: 0 ),
-        ( name: "GDATAN_TEAM2", value: 1 ),
+        ( name: "GDATAN_TEAM1", value: 0, macro: "gnTeam1" ),
+        ( name: "GDATAN_TEAM2", value: 1, macro: "gnTeam2" ),
       ]
     ),
     "rank": (
@@ -4065,7 +4065,7 @@ AnalysisConfig(
 
         ( name: "SKILL_NORMAL_LITERACY", value: 150, macro: "sLiteracy" ),
         ( name: "SKILL_NORMAL_GENE_ENGINEER", value: 151, macro: "sGene" ),
-        ( name: "SKILL_NORMAL_TACTICS", value: 152, macro: "ctype " ),
+        ( name: "SKILL_NORMAL_TACTICS", value: 152, macro: "sTactics" ),
         ( name: "SKILL_NORMAL_WEIGHT_LIFTING", value: 153, macro: "sWeightLifting" ),
         ( name: "SKILL_NORMAL_HEALING", value: 154, macro: "sHealing" ),
         ( name: "SKILL_NORMAL_MEDITATION", value: 155, macro: "sMeditation" ),
@@ -5350,7 +5350,13 @@ AnalysisConfig(
       indices: [
         (
           substitute: { 0: Group("gdatan") }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "gdatan",
+          )
+        ),
       ]
     ),
     "genetemp": (
@@ -5534,7 +5540,13 @@ AnalysisConfig(
           substitute: {
             0: Group("fishdata"),
           }
-        )
+        ),
+        (
+          macro: (
+            index: 0,
+            group: "fishdata",
+          )
+        ),
       ]
     ),
     "tname": (
@@ -10141,7 +10153,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdatan(CDATAN_RACE, CHARA_PLAYER) == \"dwarf\" ) {"
+          match: "if ( cnRace(CHARA_PLAYER) == \"dwarf\" ) {"
         )
       ]
     ),
@@ -10189,7 +10201,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "s = lang(\"\" + gdata(GDATA_GUEST), \"\" + gdata(GDATA_GUEST) + \" guest\" + _s2(gdata(GDATA_GUEST)))"
+          match: "s = lang(\"\" + gGuest, \"\" + gGuest + \" guest\" + _s2(gGuest))"
         )
       ]
     ),
@@ -10501,14 +10513,10 @@ AnalysisConfig(
           kind: If,
           match: "if ( locvar_fov_los_ty < fov_los_arg4 == 0 ) {"
         ),
-        (
-          kind: If,
-          match: "if ( map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_INDEX_PLUS_ONE) != 0 ) {"
-        ),
-        (
-          kind: If,
-          match: "if ( mef(MEF_TYPE, map(fov_los_arg1, locvar_fov_los_ty, MAP_MEF_INDEX_PLUS_ONE) - 1) == MEF_TYPE_KEMURIDAMA ) {"
-        )
+        // (
+        //   kind: If,
+        //   match: "if ( mefExist(mapMef(fov_los_arg1, locvar_fov_los_ty) - 1) == MEF_TYPE_KEMURIDAMA ) {"
+        // )
       ],
       loop_kind: While
     ),
@@ -10554,38 +10562,6 @@ AnalysisConfig(
     ),
     "*fov_los_WEND6": (
       after: "*fov_los_WHILE6",
-      loop_kind: WhileEnd,
-    ),
-    "*fov_los_WHILE7": (
-      after: "*fov_los_WEND6",
-      loop_kind: While,
-    ),
-    "*fov_los_WEND7": (
-      after: "*fov_los_WHILE7",
-      loop_kind: WhileEnd,
-    ),
-    "*fov_los_WHILE8": (
-      after: "*fov_los_WEND7",
-      loop_kind: While,
-    ),
-    "*fov_los_WEND8": (
-      after: "*fov_los_WHILE8",
-      loop_kind: WhileEnd,
-    ),
-    "*fov_los_WHILE9": (
-      after: "*fov_los_WEND8",
-      loop_kind: While,
-    ),
-    "*fov_los_WEND9": (
-      after: "*fov_los_WHILE9",
-      loop_kind: WhileEnd,
-    ),
-    "*fov_los_WHILE10": (
-      after: "*fov_los_WEND9",
-      loop_kind: While,
-    ),
-    "*fov_los_WEND10": (
-      after: "*fov_los_WHILE10",
       loop_kind: WhileEnd,
     ),
     "*get_route_WHILE1": (
@@ -10750,27 +10726,6 @@ AnalysisConfig(
         )
       ]
     ),
-    "*com_vote_new": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "現在、処刑投票は行われていない。"
-        )
-      ]
-    ),
-    "*com_vote_new_loop": (
-      after: "*com_vote_new",
-      loop_kind: While
-
-    ),
-    "*com_vote_new_loop_WHILE1": (
-      after: "*com_vote_new_loop",
-      loop_kind: WhileContinue
-    ),
-    "*com_vote_new_loop_WEND1": (
-      after: "*com_vote_new_loop_WHILE1",
-      loop_kind: WhileEnd
-    ),
     "*com_vote": (
       rules: [
         (
@@ -10863,7 +10818,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( map(sx, sy, MAP_TILE_ID_MEMORY) == map(sx, sy, MAP_TILE_ID) ) {"
+          match: "if ( mapIdMemory(sx, sy) == mapId(sx, sy) ) {"
         )
       ]
     ),
@@ -10927,7 +10882,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "sx = cdata(CDATA_X_NEW, CHARA_PLAYER) - scx, cdata(CDATA_X_NEW, CHARA_PLAYER)"
+          match: "sx = cXnew(CHARA_PLAYER) - scx, cXnew(CHARA_PLAYER)"
         )
       ]
     ),
@@ -10935,7 +10890,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "sy(2) = cdata(CDATA_Y, CHARA_PLAYER) - 17 / 2, cdata(CDATA_Y, CHARA_PLAYER) + 17 / 2, 17 / 2 - cdata(CDATA_Y, CHARA_PLAYER)"
+          match: "sy(2) = cY(CHARA_PLAYER) - 15 / 2, cY(CHARA_PLAYER) + 15 / 2, 15 / 2 - cY(CHARA_PLAYER)"
         )
       ]
     ),
@@ -11070,7 +11025,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_BODY_SPEED_FIX, r1) = 0"
+          match: "cBodySpdFix(r1) = 0"
         )
       ]
     ),
@@ -11086,39 +11041,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_SKILLPOINT, r1) += p"
-        )
-      ]
-    ),
-    "*calcGodRecruitingPenalty": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1) / 5, 1000 * 50000, 1000 * 400000)"
-        )
-      ]
-    ),
-    "*calcMaileINITService": (
-      rules: [
-        (
-          kind: If,
-          match: "if ( sdata(cnt + STARTING_SKILL_SPACT, r1) > 1000 * 20000 ) {"
-        )
-      ]
-    ),
-    "*calcAdvRecruitingPenalty": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1) / 2, 1, 1000 * 200000)"
-        )
-      ]
-    ),
-    "*calcSoulSpindlePenalty": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "sdata(cnt + STARTING_SKILL_SPACT, r1) = limit(sdata(cnt + STARTING_SKILL_SPACT, r1), 1, 1000 * 50000)"
+          match: "cSkillPoint(r1) += p"
         )
       ]
     ),
@@ -11134,7 +11057,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_EXP_TO_NEXT_LVL, r1) = 100000000"
+          match: "cExpToNext(r1) = 100000000"
         )
       ]
     ),
@@ -11174,7 +11097,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "skillexp SKILL_NORMAL_DETECTION, cc, gdata(GDATA_LEVEL) * 2 + 20"
+          match: "skillexp SKILL_NORMAL_DETECTION, cc, gLevel * 2 + 20"
         )
       ]
     ),
@@ -11190,7 +11113,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cdata(CDATA_MP, r1)) * 400 / (cdata(CDATA_MAX_MP, r1) + 1),"
+          match: "skillexp SKILL_NORMAL_MAGIC_CAPACITY, r1, limit(abs(cMP(r1)) * 400 / (cMMP(r1) + 1),"
         )
       ]
     ),
@@ -11222,7 +11145,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "skillexp SKILL_NORMAL_WEIGHT_LIFTING, r1, 4, 0, 1000"
+          match: "skillexp SKILL_NORMAL_WEIGHT_LIFTING, pc, 4, 0, 1000"
         )
       ]
     ),
@@ -11323,7 +11246,11 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( rnd(refdiff + 1) < sdata(SKILL_ATTR_PER, cc) + sdata(SKILL_NORMAL_DETECTION, cc) * 4 ) {"
+          match: "if ( featIdSub == CELL_SUB_FEATURE_TRAP_QUEST_MINE ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( rnd(refdiff + 1) < sPER(cc) + sDetection(cc) * 4 ) {"
         )
       ]
     ),
@@ -11347,7 +11274,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_X, r1) > cdata(CDATA_X, r2) - cv & cdata(CDATA_X, r1) < cdata(CDATA_X, r2) + cv ) {"
+          match: "if ( cX(r1) > cX(r2) - cv & cX(r1) < cX(r2) + cv ) {"
         )
       ]
     ),
@@ -11356,14 +11283,6 @@ AnalysisConfig(
         (
           kind: If,
           match: "if ( trait(TRAIT_RACE_SLOW_DIGESTION) ) {"
-        )
-      ]
-    ),
-    "*calcThirst": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_THIRST, r1) = 1"
         )
       ]
     ),
@@ -11379,7 +11298,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_BURDEN, CHARA_PLAYER) = 4"
+          match: "cBurden(CHARA_PLAYER) = 4"
         )
       ]
     ),
@@ -11395,7 +11314,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdatan(CDATAN_RACE, rc) == \"mutant\" ) {"
+          match: "if ( cnRace(rc) == \"mutant\" ) {"
         )
       ]
     ),
@@ -11411,16 +11330,8 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_X, rc) = cdata(CDATA_X, CHARA_PLAYER)"
+          match: "cX(rc) = cX(CHARA_PLAYER)"
         )
-      ]
-    ),
-    "*place_necro": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "hitugi = 0"
-        ),
       ]
     ),
     "*chara_init": (
@@ -11435,7 +11346,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdatan(CDATAN_NAME, rc) = lang(\"《\", \"{\") + cdatan(CDATAN_NAME, rc) + lang(\"》\", \"}\")"
+          match: "cnName(rc) = lang(\"《\", \"{\") + cnName(rc) + lang(\"》\", \"}\")"
         )
       ]
     ),
@@ -11443,7 +11354,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_HUNGER, rc) = 9000"
+          match: "cHunger(rc) = 9000"
         )
       ]
     ),
@@ -11451,7 +11362,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdatan(CDATAN_CLASS, CHARA_PLAYER) == \"pianist\" ) {"
+          match: "if ( cnClass(CHARA_PLAYER) == \"pianist\" ) {"
         )
       ]
     ),
@@ -11459,7 +11370,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "txt cnven(cdatan(CDATAN_NAME, rc)) + lang(\"が現れた！\", \" \" + have(rc) + \" been resurrected!\")"
+          match: "txt cnven(cnName(rc)) + lang(\"が現れた！\", \" \" + have(rc) + \" been resurrected!\")"
         )
       ]
     ),
@@ -11532,22 +11443,6 @@ AnalysisConfig(
       after: "*cm_aka_WHILE1",
       loop_kind: WhileEnd
     ),
-    "*cm_past": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "君の経歴を教えてくれるかな。内緒にしてもいいけれど。"
-        )
-      ]
-    ),
-    "*cm_past_loop": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "経歴のロール"
-        )
-      ]
-    ),
     "*cm_race": (
       rules: [
         (
@@ -11562,22 +11457,6 @@ AnalysisConfig(
     "*cm_race_loop_WHILE1": (
       after: "*cm_race_loop",
       loop_kind: While
-    ),
-    "*cm_race_name_change": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "種族名を変更する？"
-        )
-      ]
-    ),
-    "*cm_race_name_change_input": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "新しい種族は？"
-        )
-      ]
     ),
     "*cm_sex": (
       rules: [
@@ -11691,7 +11570,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdatan(CDATAN_NAME, rc) = \"????\""
+          match: "cnName(rc) = \"????\""
         )
       ]
     ),
@@ -11748,7 +11627,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "inv(INV_ITEM_PROPERTY, ti) = PROP_INHERITED"
+          match: "iProperty(ti) = PROP_INHERITED"
         )
       ]
     ),
@@ -11821,7 +11700,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "inv(INV_ITEM_VALUE, ci) = inv(INV_ITEM_VALUE, ci) * (80 + inv(INV_ITEM_SUB_NAME, ci) * 20) / 100"
+          match: "iValue(ci) = iValue(ci) * (80 + iSubName(ci) * 20) / 100"
         )
       ]
     ),
@@ -12000,7 +11879,7 @@ AnalysisConfig(
     "*eatYith": (
       rules: [
         (
-          kind: Function,
+          kind: StringLiteral,
           match: "の胃は狂気で満たされた。"
         ),
         (
@@ -12009,7 +11888,7 @@ AnalysisConfig(
         ),
         (
           kind: Function,
-          match: "resistmodh cc, SKILL_RES_MIND, 50"
+          match: "resistmod cc, SKILL_RES_MIND, 50"
         ),
         (
           kind: Function,
@@ -12462,7 +12341,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_COUNT_NOTICE) = 9999"
+          match: "gCountNotice = 9999"
         ),
         (
           kind: StringLiteral,
@@ -12474,7 +12353,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_LEVEL_START_ON) = 5"
+          match: "gLevelStartOn = 5"
         )
       ]
     ),
@@ -12482,7 +12361,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "mdata(MDATA_HEIGHT) = 60 + rnd(60)"
+          match: "mHeight = 60 + rnd(60)"
         )
       ]
     ),
@@ -12541,7 +12420,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_HOME_BASE) = 1000"
+          match: "gHomeBase = 1000"
         )
       ]
     ),
@@ -12557,7 +12436,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "adata(ADATA_ICON, p) = xy2pic(11, 4)"
+          match: "areaIcon(p) = xy2pic(11, 4)"
         )
       ]
     ),
@@ -12601,7 +12480,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( mdata(MDATA_TILE_FILE) != 2 | cnt >= 297 ) {"
+          match: "if ( mTileFile != 2 | cnt >= 297 ) {"
         )
       ]
     ),
@@ -12609,11 +12488,11 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "worker = getworker(gdata(GDATA_AREA))"
+          match: "mid = \"\" + area + \"_\" + (100 + 1)"
         ),
         (
           kind: If,
-          match: "if ( worker != (-1) ) {"
+          match: "if ( areaId(gArea) == AREA_SHOP ) {"
         ),
       ]
     ),
@@ -12629,7 +12508,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "mdata(MDATA_MODERATE_CROWD) = (100 - gdata(GDATA_RANK_SHOP) / 100) / 4 + 1"
+          match: "mModerateCrowd = (100 - gRankShop / 100) / 4 + 1"
         )
       ]
     ),
@@ -12645,7 +12524,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_LEVEL, MAX_CHARA_NC) >= gdata(GDATA_DEEPEST_LEVEL) * 2 ) {"
+          match: "if ( cLevel(MAX_CHARA_NC) >= gDeepest * 2 ) {"
         )
       ]
     ),
@@ -12661,7 +12540,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_HOME_FURNITURE) += limit(inv(INV_ITEM_VALUE, val) / 50, 50, 500)"
+          match: "gHomeFurniture += limit(iValue(val) / 50, 50, 500)"
         )
       ]
     ),
@@ -12701,7 +12580,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_CROWD) * 3 < mdata(MDATA_MODERATE_CROWD) * 2 ) {"
+          match: "if ( gCrowd * 3 < mModerateCrowd * 2 ) {"
         )
       ]
     ),
@@ -12717,7 +12596,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_EXIST, cnt) = CHAR_STATE_ADV",
+          match: "cExist(cnt) = CHAR_STATE_ADV",
           exact: true
         )
       ]
@@ -12782,7 +12661,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_HOUR) >= 10 & gdata(GDATA_HOUR) < 12 ) {"
+          match: "if ( gHour >= 10 & gHour < 12 ) {"
         )
       ]
     ),
@@ -12790,7 +12669,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cyinit = rnd(mdata(MDATA_HEIGHT))"
+          match: "cyinit = rnd(mHeight)"
         )
       ]
     ),
@@ -12798,7 +12677,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_WORLD_RENEW) == TRUE ) {"
+          match: "if ( gWorldRenew == TRUE ) {"
         )
       ]
     ),
@@ -12809,7 +12688,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( adata(ADATA_ID, cnt) == 900 ) {"
+          match: "if ( areaId(cnt) == 900 ) {"
         )
       ]
     ),
@@ -12817,7 +12696,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "map(x, y, MAP_LIGHT_TYPE) = 0"
+          match: "mapLight(x, y) = 0"
         )
       ]
     ),
@@ -12825,7 +12704,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "adata(ADATA_ID, p) = AREA_TEST_GROUND"
+          match: "areaId(p) = AREA_TEST_GROUND"
         )
       ]
     ),
@@ -12833,7 +12712,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "adata(ADATA_ID, p) = AREA_RANDOM_DUNGEON"
+          match: "areaId(p) = AREA_RANDOM_DUNGEON"
         )
       ]
     ),
@@ -12841,7 +12720,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_FLAG_FIRE_GIANT) == 1 ) {"
+          match: "if ( flagFireGiant == 1 ) {"
         )
       ]
     ),
@@ -13066,8 +12945,8 @@ AnalysisConfig(
     "*select_deck": (
       rules: [
         (
-          kind: Assignment,
-          match: "locvar_cslinedown_cflist = 1, 2, 3, 4, 5, 6, 7, 8, 9"
+          kind: Expression,
+          match: "dim locvar_tcgdrawcard_dlist, 2, 400"
         )
       ]
     ),
@@ -13293,8 +13172,12 @@ AnalysisConfig(
     "*set_npcGod": (
       rules: [
         (
-          kind: Assignment,
-          match: "cdata(CDATA_GOD, tc) = GOD_YACATECT"
+          kind: If,
+          match: "if ( cGod(tc) == GOD_EYTH | rnd(4) == 0 ) {"
+        ),
+        (
+          kind: Expression,
+          match: "cbitmod CHARA_BIT_NO_GOD, tc, TRUE"
         )
       ]
     ),
@@ -13310,7 +13193,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_GOD, r1) == GOD_MANI ) {"
+          match: "if ( cGod(r1) == GOD_MANI ) {"
         )
       ]
     ),
@@ -13342,7 +13225,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_FLAG_TIMES_CONVERTED)++"
+          match: "cPray(CHARA_PLAYER) = 500"
         )
       ]
     ),
@@ -13546,7 +13429,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "tlocx = cdata(CDATA_X, list(0, cnt))"
+          match: "tlocx = cX(list(0, cnt))"
         )
       ]
     ),
@@ -13603,7 +13486,11 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( allyctrl == 7 ) {"
+          match: "if ( allyctrl == 2 ) {"
+        ),
+        (
+          kind: Assignment,
+          match: "list(0, listmax) = 99, -9999"
         )
       ]
     ),
@@ -13698,11 +13585,11 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_EXIST, cnt) != CHAR_STATE_TEMP ) {"
+          match: "if ( cExist(cnt) != CHAR_STATE_TEMP ) {"
         ),
         (
           kind: Assignment,
-          match: "list(0, listmax) = cnt, -cdata(CDATA_LEVEL, cnt)"
+          match: "list(0, listmax) = cnt, -cLevel(cnt)"
         )
       ]
     ),
@@ -13728,30 +13615,11 @@ AnalysisConfig(
       after: "*com_reserve_loop_pgchk",
       loop_kind: While
     ),
-    "*com_jukebox": (
-      rules: [
-        (
-          kind: Function,
-          match: "repeat 134 - 50 - 1, 50"
-        )
-      ]
-    ),
-    "*com_jukebox_loop_pgchk": (
-      after: "*com_jukebox"
-    ),
-    "*com_jukebox_loop": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "s += \"No Music\""
-        )
-      ]
-    ),
     "*com_listAdv": (
       rules: [
         (
           kind: Assignment,
-          match: "list(0, listmax) = cnt, -cdata(CDATA_FAME, cnt)"
+          match: "list(0, listmax) = cnt, -cFame(cnt)"
         )
       ]
     ),
@@ -13820,7 +13688,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "itemcreate -1, ITEM_ID_CARD, cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 0"
+          match: "itemcreate -1, ITEM_ID_CARD, cX(CHARA_PLAYER), cY(CHARA_PLAYER), 0"
         ),
         (
           kind: StringLiteral,
@@ -13832,7 +13700,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "itemcreate -1, ITEM_ID_FIGURINE, cdata(CDATA_X, CHARA_PLAYER), cdata(CDATA_Y, CHARA_PLAYER), 0"
+          match: "itemcreate -1, ITEM_ID_FIGURINE, cX(CHARA_PLAYER), cY(CHARA_PLAYER), 0"
         ),
         (
           kind: StringLiteral,
@@ -13879,11 +13747,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( spact(cnt) == 1 ) {"
-        ),
-        (
-          kind: If,
-          match: "cnt + 600 != 746"
+          match: "if ( spact(cnt) "
         ),
       ]
     ),
@@ -13892,25 +13756,6 @@ AnalysisConfig(
     ),
     "*com_applySkill_loop_WHILE1": (
       after: "*com_applySkill_loop",
-      loop_kind: While
-    ),
-    "*com_applyWideSkill": (
-      rules: [
-        (
-          kind: If,
-          match: "if ( spact(cnt) == 1 ) {"
-        ),
-        (
-          kind: Expression,
-          match: "cnt + 600 == 746"
-        ),
-      ]
-    ),
-    "*com_applyWideSkill_loop_pgchk": (
-      after: "*com_applyWideSkill"
-    ),
-    "*com_applyWideSkill_loop": (
-      after: "*com_applyWideSkill_loop_pgchk",
       loop_kind: While
     ),
     "*com_stack": (
@@ -14026,56 +13871,16 @@ AnalysisConfig(
         ),
         (
           kind: If,
-          match: "if ( gdata(GDATA_AREA) == AREA_YOWYN ) {"
+          match: "if ( gArea == AREA_YOWYN ) {"
         ),
         (
           kind: If,
-          match: "if ( gdata(GDATA_AREA) == AREA_VERNIS ) {"
+          match: "if ( gArea == AREA_VERNIS ) {"
         )
       ]
     ),
     "*notable_skill": (
       after: "*trainer_skill"
-    ),
-    "*setHistory1": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "生まれつき天涯孤独だった。"
-        )
-      ]
-    ),
-    "*setHistory2": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "自分を見つめ直すため旅に出る。"
-        )
-      ]
-    ),
-    "*setHistory3": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "温厚で慈悲深いが、"
-        )
-      ]
-    ),
-    "*setHistory4": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "熱中すると周りが見えなくなる。"
-        )
-      ]
-    ),
-    "*setHistory5": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "監禁が趣味"
-        )
-      ]
     ),
     "*com_charainfo": (
       rules: [
@@ -14106,51 +13911,15 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "rtval = 100, 0, cdata(CDATA_PIC, cc) - 692"
+          match: "rtval = 100, 0, cPic(cc) - 692"
         )
       ]
-    ),
-    "*com_item_mark": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "移動キーでマーク移動"
-        )
-      ]
-    ),
-    "*com_item_mark_loop": (
-      after: "*com_item_mark"
-    ),
-    "*com_item_mark_adjust": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "angle, hit the enter key to decide the position, hit the cancel key to exit."
-        )
-      ]
-    ),
-    "*com_item_mark_adjust_loop": (
-      after: "*com_item_mark_adjust"
-    ),
-    "*com_shape_change": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "元々の姿にする"
-        )
-      ]
-    ),
-    "*com_shape_change_WHILE1": (
-      after: "*com_shape_change"
-    ),
-    "*com_shape_change_WHILE1_CONTINUE": (
-      after: "*com_shape_change_WHILE1"
     ),
     "*com_portrait": (
       rules: [
         (
           kind: Function,
-          match: "buffer BUFFER_PIC, 3200, 112"
+          match: "picload exedir + \"graphic\\deco_mirror.bmp\", 1"
         )
       ]
     ),
@@ -14299,7 +14068,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( synccheck(cdata(CDATA_TARGET, cc), -1) == 0 ) {"
+          match: "if ( synccheck(cTarget(cc), -1) == 0 ) {"
         )
       ]
     ),
@@ -14332,7 +14101,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "p = dist(cdata(CDATA_X, cc), cdata(CDATA_Y, cc), list(1, cnt), list(2, cnt))"
+          match: "p = dist(cX(cc), cY(cc), list(1, cnt), list(2, cnt))"
         )
       ]
     ),
@@ -14368,7 +14137,7 @@ AnalysisConfig(
         ),
         (
           kind: If,
-          match: "if ( qdata(QDATA_STATE, p) == QUEST_STATE_ONGOING ) {"
+          match: "if ( qStatus(p) == QUEST_STATE_ONGOING ) {"
         )
       ]
     ),
@@ -14392,7 +14161,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_ROW_ACT) = ACTION_TRAIN"
+          match: "gRowAct = ACTION_TRAIN"
         )
       ]
     ),
@@ -14424,7 +14193,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( inv(INV_ITEM_ID, cnt) == ITEM_ID_CARD | inv(INV_ITEM_ID, cnt) == ITEM_ID_FIGURINE ) {"
+          match: "if ( iID(cnt) == ITEM_ID_CARD | iID(cnt) == ITEM_ID_FIGURINE ) {"
         )
       ]
     ),
@@ -14432,7 +14201,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "mdata(MDATA_RESTORE_POS) = 1"
+          match: "mRestorePos = 1"
         )
       ]
     ),
@@ -14440,11 +14209,11 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_VERSION) < "
+          match: "if ( gVersion < "
         ),
         (
           kind: Assignment,
-          match: "gdata(GDATA_VERSION) ="
+          match: "gVersion ="
         )
       ]
     ),
@@ -14452,7 +14221,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_MAP_VERSION)++"
+          match: "gMapVersion++"
         )
       ]
     ),
@@ -14468,7 +14237,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_PLAY_TIME) = genetemp(GDATA_PLAY_TIME)"
+          match: "gPlayTime = genetemp(GDATA_PLAY_TIME)"
         )
       ]
     ),
@@ -14492,7 +14261,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cun = cdata(CDATA_USERNPC_ID, rc)"
+          match: "cun = cUNID(rc)"
         )
       ]
     ),
@@ -14532,7 +14301,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "headtemp = \"【\" + gdatan(GDATAN_TEAM1) + \"】(\" + n + \"体) Lv\" + lv + \"\\n\""
+          match: "headtemp = \"【\" + gnTeam1 + \"】(\" + n + \"体) Lv\" + lv + \"\\n\""
         )
       ]
     ),
@@ -14572,7 +14341,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_TELEPORT_AREA) = AREA_SHOW_HOUSE"
+          match: "gTeleportArea = AREA_SHOW_HOUSE"
         )
       ]
     ),
@@ -14744,71 +14513,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM"
-        )
-      ]
-    ),
-    "*perform_dance": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM_DANCE"
-        )
-      ]
-    ),
-    "*perform_preach": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM_PREACH"
-        )
-      ]
-    ),
-    "*skill_charge": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_CHARGE"
-        )
-      ]
-    ),
-    "*skill_persuasion": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERSUASION"
-        )
-      ]
-    ),
-    "*skill_peculiar_joke": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PECULIAR_JOKE"
-        )
-      ]
-    ),
-    "*skill_blended_lie": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_BLENDED_LIE"
-        )
-      ]
-    ),
-    "*skill_intimidation": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_INTIMIDATION"
-        )
-      ]
-    ),
-    "*skill_mysterious_song": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_MYSTERIOUS_SONG"
+          match: "cRowAct(cc) = ACTION_PERFORM"
         )
       ]
     ),
@@ -14816,15 +14521,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_MEAL"
-        )
-      ]
-    ),
-    "*eat_meal_xmas_cake": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_XMAS_CAKE"
+          match: "cRowAct(cc) = ACTION_MEAL"
         )
       ]
     ),
@@ -14832,15 +14529,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_SEX"
-        )
-      ]
-    ),
-    "*skill_tuin_der_lusten": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_TUIN_DER_LUSTEN"
+          match: "cRowAct(cc) = ACTION_SEX"
         )
       ]
     ),
@@ -14848,7 +14537,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_GENERAL"
+          match: "cRowAct(cc) = ACTION_GENERAL"
         )
       ]
     ),
@@ -14891,7 +14580,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "dbsum += fishdata(FISHDATA_RARE, cnt)"
+          match: "dbsum += fishRare(cnt)"
         )
       ]
     ),
@@ -15019,7 +14708,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "name(cc) + \" zap \" +"
+          match: "は杖をうまく使えなかった。"
         )
       ]
     ),
@@ -15132,16 +14821,21 @@ AnalysisConfig(
         )
       ]
     ),
-    "*effect_directive": (
+    "*effect_elixer": (
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_DIRECTIVE_MODE, tc) = DIRECTIVE_MODE_INTERCEPT"
+          match: "cPoison(tc) = 0"
+        ),
+        (
+          kind: Assignment,
+          match: "cMochi(tc) = 0"
+        ),
+        (
+          kind: Assignment,
+          match: "cHP(tc) = cMHP(tc)"
         )
       ]
-    ),
-    "*effect_elixer": (
-      after: "*effect_directive"
     ),
     "*act_throw": (
       rules: [
@@ -15187,7 +14881,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "inv(INV_ITEM_EQUIP, ci) = body"
+          match: "iEquip(ci) = body"
         )
       ]
     ),
@@ -15199,7 +14893,7 @@ AnalysisConfig(
         ),
         (
           kind: Assignment,
-          match: "inv(INV_ITEM_EQUIP, ci) = 0"
+          match: "iEquip(ci) = 0"
         )
       ]
     ),
@@ -15331,7 +15025,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( inv(INV_ITEM_ID, ri) == ITEM_ID_SAFE ) {"
+          match: "if ( iID(ri) == ITEM_ID_SAFE ) {"
         )
       ]
     ),
@@ -15379,7 +15073,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_BARRIER, tc) ) {"
+          match: "if ( cBarrier(tc) ) {"
         )
       ]
     ),
@@ -15394,9 +15088,13 @@ AnalysisConfig(
     "*act_attackSub": (
       rules: [
         (
-          kind: If,
-          match: "if ( ammoproc == ENCHANT_AMMO_EXPLOSIVE ) {"
-        )
+          kind: Assignment,
+          match: "cw = attackitem"
+        ),
+        (
+          kind: Expression,
+          match: "healmp cc, p / 5"
+        ),
       ]
     ),
     "*act_search": (
@@ -15419,7 +15117,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "map(refx, refy, MAP_TILE_ID) = tile_tunnel"
+          match: "mapId(refx, refy) = tile_tunnel"
         ),
         (
           kind: Function,
@@ -15486,7 +15184,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( feat(FEAT_CELL_PARAM_1) \\ 50 == 0 ) {"
+          match: "if ( featParam1 \\ 50 == 0 ) {"
         )
       ]
     ),
@@ -15494,7 +15192,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "feat(FEAT_CELL_PARAM_1) += 50"
+          match: "featParam1 += 50"
         )
       ]
     ),
@@ -15536,7 +15234,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_ROW_ACT) = ACTION_STEAL"
+          match: "gRowAct = ACTION_STEAL"
         ),
         (
           kind: Function,
@@ -15602,100 +15300,11 @@ AnalysisConfig(
         )
       ]
     ),
-    "*chat_unique_leold_limb": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "自分が試す"
-        )
-      ]
-    ),
-    // (
-    //   name: "*com_change_gamemode",
-    //   rules: [
-    //     (
-    //       kind: Function,
-    //       match: "	pos 0, 0"
-    //     )
-    //   ]
-    // ),
-    "*com_change_gamemode_loop": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "そっと目をそらす…"
-        )
-      ]
-    ),
-    "*com_change_gamemode_finish": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "あはははははっ！本当に選んでしまったのですね…♪ようこそ、新しい宇宙へ。"
-        )
-      ]
-    ),
-    "*chat_unique_leold_maxspeed": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "すまん。今の俺ではこれ以上鍛えることができないようだ。"
-        )
-      ]
-    ),
-    "*chat_unique_leold_lack_ap": (
-      rules: [
-        (
-          kind: Function,
-          match: "…こりゃもっとAP貯めないと無理だな。"
-        )
-      ]
-    ),
-    "*chat_unique_leold_done": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "bitp = CHARA_BIT_AWAKE_INSULT"
-        )
-      ]
-    ),
-    "*chat_unique_leold_awaken": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "スキルボーナス100獲得(消費AP1500)"
-        )
-      ]
-    ),
-    "*evochat_portrait": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "(現在、立ち姿は決まっていない)"
-        )
-      ]
-    ),
     "*sqMother_1": (
       rules: [
         (
           kind: Function,
           match: "(Hand her a potion of cure corruption.)"
-        )
-      ]
-    ),
-    "*chat_unique_enthumesis": (
-      rules: [
-        (
-          kind: Assignment,
-          match: "gdata(GDATA_FLAG_MAIN) = 710"
-        )
-      ]
-    ),
-    "*chat_unique_lankata": (
-      rules: [
-        (
-          kind: Function,
-          match: "chara_vanquish findchara(CREATURE_ID_ALFRED_THE_CANGNAN_WIND)"
         )
       ]
     ),
@@ -15719,14 +15328,14 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_INTEREST, tc) -= rnd(30)"
+          match: "cInterest(tc) -= rnd(30)"
         )
       ]
     ),
     "*chat_slave": (
       rules: [
         (
-          kind: Function,
+          kind: StringLiteral,
           match: "Okay. Let me check the stable..."
         )
       ]
@@ -15743,7 +15352,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( qdata(QDATA_EXIST, rq) == QUEST_TYPE_HUNT | qdata(QDATA_EXIST, rq) == QUEST_TYPE_HUNTEX ) {"
+          match: "if ( qExist(rq) == QUEST_TYPE_HUNT | qExist(rq) == QUEST_TYPE_HUNTEX ) {"
         )
       ]
     ),
@@ -15803,11 +15412,11 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_ROLE, tc) == ROLE_SHOP_TRADE ) {"
+          match: "if ( cRole(tc) == ROLE_SHOP_TRADE ) {"
         ),
         (
           kind: Assignment,
-          match: "invfile = cdata(CDATA_ROLE_FILE_ID, tc)"
+          match: "invfile = cRoleFileId(tc)"
         ),
       ]
     ),
@@ -15843,7 +15452,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_ROLE_RESTOCK, tc) ="
+          match: "cRoleRestock(tc) ="
         )
       ]
     ),
@@ -15867,7 +15476,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_CAPITAL) = 15"
+          match: "gCapital = 15"
         )
       ]
     ),
@@ -15906,8 +15515,8 @@ AnalysisConfig(
     "*com_politics_economy_loop": (
       rules: [
         (
-          kind: Assignment,
-          match: "mdata(MDATA_CITY_PROPERTY_VALUE) = 300"
+          kind: StringLiteral,
+          match: "この場所には経済活動がない。"
         )
       ]
     ),
@@ -15946,7 +15555,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "city = adata(ADATA_ECONOMY, area)"
+          match: "city = areaEconomy(area)"
         )
       ]
     ),
@@ -16004,7 +15613,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_RACE_ID, r1) = DB_RACE_KOBOLT"
+          match: "cRaceId(r1) = DB_RACE_KOBOLT"
         )
       ]
     ),
@@ -16075,8 +15684,8 @@ AnalysisConfig(
     "*add_ally": (
       rules: [
         (
-          kind: Assignment,
-          match: "gdata(GDATA_ACTIVE_GOD_PETS)--"
+          kind: StringLiteral,
+          match: "仲間の最大数に達しているため、仲間にできなかった…"
         )
       ]
     ),
@@ -16087,7 +15696,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_EXIST, rc) = CHAR_STATE_ADV"
+          match: "cExist(rc) = CHAR_STATE_ADV"
         )
       ]
     ),
@@ -16103,7 +15712,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_AI_ITEM, rc) = ci"
+          match: "cAiItem(rc) = ci"
         )
       ]
     ),
@@ -16143,7 +15752,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( inv(INV_ITEM_NUM, cnt) == 0 | inv(INV_ITEM_EQUIP, cnt) != 0 ) {"
+          match: "if ( iNum(cnt) == 0 | iEquip(cnt) != 0 ) {"
         )
       ]
     ),
@@ -16167,7 +15776,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "qdata(QDATA_MAP, i) = gdata(GDATA_AREA)"
+          match: "qMap(i) = gArea"
         )
       ]
     ),
@@ -16175,7 +15784,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( qdata(QDATA_TYPE, rq) == QUEST_SUBTYPE_SUPPLY | qdata(QDATA_TYPE, rq) == QUEST_SUBTYPE_DELIVER ) {"
+          match: "if ( qType(rq) == QUEST_SUBTYPE_SUPPLY | qType(rq) == QUEST_SUBTYPE_DELIVER ) {"
         )
       ]
     ),
@@ -16183,15 +15792,15 @@ AnalysisConfig(
       rules: [
         (
           kind: Function,
-          match: "repeat gdata(GDATA_CLIENT)"
+          match: "repeat gClient"
         ),
         (
           kind: If,
-          match: "if ( cdata(CDATA_RELATION_ORG, rc) != RELATION_NEUTRAL ) {"
+          match: "if ( cOrgRelation(rc) != RELATION_NEUTRAL ) {"
         ),
         (
           kind: If,
-          match: "if ( cdata(CDATA_ROLE, rc) == ROLE_SPECIAL ) {"
+          match: "if ( cRole(rc) == ROLE_SPECIAL ) {"
         ),
         (
           kind: Function,
@@ -16203,7 +15812,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "qdata(QDATA_TYPE, rq) = QUEST_TYPE_NONE"
+          match: "qType(rq) = QUEST_TYPE_NONE"
         )
       ]
     ),
@@ -16211,7 +15820,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "qdata(QDATA_DEADLINE, rq)--"
+          match: "qDeadline(rq)--"
         )
       ]
     ),
@@ -16219,7 +15828,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "val = gdata(GDATA_QUEST)"
+          match: "val = gQuest"
         )
       ]
     ),
@@ -16255,7 +15864,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_QUEST) == QUEST_SUBTYPE_ELIMINATE ) {"
+          match: "if ( gQuest == QUEST_SUBTYPE_ELIMINATE ) {"
         )
       ]
     ),
@@ -16314,8 +15923,8 @@ AnalysisConfig(
     "*scene_end": (
       rules: [
         (
-          kind: Function,
-          match: "gosub *screen_fadeOut"
+          kind: Assignment,
+          match: "sceneMode = FALSE"
         ),
         (
           kind: Assignment,
@@ -16355,7 +15964,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdatan(CDATAN_RACE, cc) == \"cat\" ) {"
+          match: "if ( cnRace(cc) == \"cat\" ) {"
         )
       ]
     ),
@@ -16363,7 +15972,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "tlocx = cdata(CDATA_X, gdata(GDATA_FLAG_GIANT_ID))"
+          match: "tlocx = cX(fireGiantId)"
         )
       ]
     ),
@@ -16652,8 +16261,8 @@ AnalysisConfig(
     "*weather_change": (
       rules: [
         (
-          kind: If,
-          match: "if ( gdata(GDATA_AREA) == AREA_NORTH_TYRIS & gdata(GDATA_WORLD_X) < 65 & gdata(GDATA_WORLD_Y) > 10 ) {"
+          kind: StringLiteral,
+          match: "The weather changes."
         )
       ]
     ),
@@ -16661,7 +16270,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_NEXT_WEATHER)--"
+          match: "gNextWeather--"
         )
       ]
     ),
@@ -16669,7 +16278,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_SPEED_SUM, ct) -= mdata(MDATA_TIMESCALE)"
+          match: "cSpeedSum(ct) -= mTimeScale"
         )
       ]
     ),
@@ -16677,7 +16286,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cdata(CDATA_TIME_SCALE, cc) = cdata(CDATA_SPEED_FIX, cc)"
+          match: "cTimeScale(cc) = cSpeedFix(cc)"
         )
       ]
     ),
@@ -16685,7 +16294,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_RETURN)--"
+          match: "gReturn--"
         )
       ]
     ),
@@ -16701,7 +16310,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( cdata(CDATA_EXP, cc) >= cdata(CDATA_EXP_TO_NEXT_LVL, cc) ) {"
+          match: "if ( cExp(cc) >= cExpToNext(cc) ) {"
         )
       ]
     ),
@@ -16709,7 +16318,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "gdata(GDATA_TIME_STOP_TIME)--"
+          match: "gTimeStopTime--"
         )
       ]
     ),
@@ -16757,7 +16366,7 @@ AnalysisConfig(
       rules: [
         (
           kind: If,
-          match: "if ( gdata(GDATA_QUIT_Y) != (-1) ) {"
+          match: "if ( gQuitY != (-1) ) {"
         )
       ]
     ),
@@ -16774,34 +16383,6 @@ AnalysisConfig(
     ),
     "*game_win_WEND1": (
       after: "*game_win_WHILE1"
-    ),
-    "*game_win2": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "Unbelievable! You conquered Rehmido!"
-        )
-      ]
-    ),
-    "*game_win2_WHILE1": (
-      after: "*game_win2"
-    ),
-    "*game_win2_WEND1": (
-      after: "*game_win2_WHILE1"
-    ),
-    "*game_win3": (
-      rules: [
-        (
-          kind: StringLiteral,
-          match: "Unbelievable! You conquered God's prison!"
-        )
-      ]
-    ),
-    "*game_win3_WHILE1": (
-      after: "*game_win3",
-    ),
-    "*game_win3_WEND1": (
-      after: "*game_win3_WHILE1",
     ),
     "*pc_dead": (
       rules: [

@@ -1531,6 +1531,55 @@ AnalysisConfig(
         )
       ]
     ),
+    "*com_nefia_list": (
+        exact: "*label_4982"
+    ),
+    "*com_nefia_list_pgchk": (
+        after: "*com_nefia_list"
+    ),
+    "*com_nefia_list_loop": (
+        after: "*com_nefia_list_pgchk"
+    ),
+    "*oom_draw_posinfo": (
+      rules: [
+        (
+          kind: If,
+          match: "if ( existfile_minimap == 1 ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( mapIdMemory(sx, sy) == mapId(sx, sy) ) {"
+        )
+      ]
+    ),
+    "*com_teleport_loc": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "[通常のテレポート]"
+        ),
+      ]
+    ),
+    "*com_teleport_loc_drawlist": (
+        after: "*com_teleport_loc"
+    ),
+    "*com_teleport_loc_drawmap": (
+        after: "*com_teleport_loc_drawlist"
+    ),
+    "*com_fukidashi": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "吹き出しデフォルト設定"
+        ),
+      ]
+    ),
+    "*com_fukidashi_pgchk": (
+        after: "*com_fukidashi"
+    ),
+    "*com_fukidashi_loop": (
+        after: "*com_fukidashi_pgchk"
+    ),
     "*cm_init": (
       rules: [
         (
