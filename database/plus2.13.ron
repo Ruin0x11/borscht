@@ -44,7 +44,7 @@ AnalysisConfig(
         ( name: "SOUNDLIST_GUN10", value: 301, ),
 
         ( name: "SOUNDLIST_MAX", value: 302, code_value: "SOUNDLIST_GUN10 + 1", exclude: true ),
-        ],
+      ],
     ),
     "animation_id": (
       variables: [

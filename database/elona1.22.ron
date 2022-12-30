@@ -10236,7 +10236,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "ぬいぐるみを守れ！ Lv6相当"
+          match: "ヴェルニースのミシェスに、スライムの退治を頼まれた。スライムの巣窟は、ミシェスの家のすぐ南の家のようだ。"
         )
       ]
     ),
@@ -16229,8 +16229,8 @@ AnalysisConfig(
     "*game_init": (
       rules: [
         (
-          kind: If,
-          match: "if ( dirinfo(4) == \"medit\" ) {"
+          kind: StringLiteral,
+          match: "Invalid defLoadFolder. name"
         )
       ]
     ),
@@ -16260,6 +16260,14 @@ AnalysisConfig(
     ),
     "*weather_change": (
       rules: [
+        (
+          kind: If,
+          match: "if ( gWeather == WEATHER_SNOW ) {"
+        ),
+        (
+          kind: If,
+          match: "if ( gWeather == WEATHER_HARD_RAIN | gWeather == WEATHER_RAIN ) {"
+        ),
         (
           kind: StringLiteral,
           match: "The weather changes."
@@ -16404,7 +16412,7 @@ AnalysisConfig(
       rules: [
         (
           kind: StringLiteral,
-          match: "無事に納入を終えた！"
+          match: "ビッグダディの肩から、"
         )
       ]
     ),

@@ -35,7 +35,7 @@ AnalysisConfig(
         ( name: "OCDATA_ALIEN_CHILD_CREATURE_ID", value: 52, macro: "ocAlienChildCreatureID" ),
         ( name: "OCDATA_ITEM_DV", value: 53, macro: "ocItemDV" ),
         ( name: "OCDATA_CARD_CREATURE_ID", value: 54, macro: "ocCardCreatureID" ),
-        ( name: "OCDATA_CARD_CUSTOM_CREATURE_ID", value: 54, macro: "ocCardCustomCreatureID" ),
+        ( name: "OCDATA_CARD_CUSTOM_CREATURE_ID", value: 55, macro: "ocCardCustomCreatureID" ),
 
         ( name: "OCDATA_FORMER_PET", value: 100, macro: "ocFormerPet" ),
         ( name: "OCDATA_CHIP_TRANSPARENCY", value: 101, macro: "ocChipTransparency" ),
@@ -1763,6 +1763,40 @@ AnalysisConfig(
           match: "求める部位の選択"
         )
       ]
+    ),
+
+    "*autopick_test": (
+      rules: [
+        (
+          kind: If,
+          match: "if ( instr(buff, 0, \"#\") != (-1) ) {"
+        )
+      ]
+    ),
+    "*autopick_test_WHILE1": (
+      after: "*autopick_test"
+    ),
+    "*autopick_test_WHILE1_END": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "鑑定段階1の"
+        )
+      ]
+    ),
+    "*autopick_test_WHILE2": (
+      after: "*autopick_test_WHILE1_END"
+    ),
+    "*autopick_test_WHILE2_END": (
+      rules: [
+        (
+          kind: If,
+          match: "if ( instr(s, 0, lang(\"食べ物\", \"foods\")) != (-1) ) {"
+        )
+      ]
+    ),
+    "*autopick_execute": (
+      after: "*autopick_test_WHILE2_END"
     ),
 
     "*nc_com_ai": (

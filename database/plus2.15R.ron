@@ -1,0 +1,74 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "Elona+",
+    version: "2.15R",
+    ax_sha256: "3abe6cad3697d535ee07563fbb284d0eb79ffd4a9d0c1bf668fce165dabb0c3c"
+  ),
+
+  includes: [
+    "database/plus2.14.ron"
+  ],
+
+  variable_groups: {
+    "chara_id": (
+      variables: [
+        ( name: "CREATURE_ID_PROVOCASQUID", value: 1067 ),
+        ( name: "CREATURE_ID_DOLPHIN_SOLDIER", value: 1068 ),
+        ( name: "CREATURE_ID_DOSUKEBE_SEA_ANEMONE", value: 1069 ),
+        ( name: "CREATURE_ID_MOSTMUSCYLLA", value: 1070 ),
+        ( name: "CREATURE_ID_DAGANOTOSUS", value: 1071 ),
+        ( name: "CREATURE_ID_SP_CHAMPION", value: 1072 ),
+
+        ( name: "MAX_CREATURE_ID", value: 1075, code_value: "CREATURE_ID_PROVOCASQUID + 3" ),
+      ]
+    ),
+    "filter_race": (
+      variables: [
+        ( name: "FILTER_RACE_SEAMONSTER_DOLPHIN_SOLDIER", value: 51 ),
+        ( name: "FILTER_RACE_SEAMONSTER_DAGANOTOSUS", value: 52 ),
+      ]
+    ),
+    "item_id": (
+      variables: [
+        ( name: "ITEM_ID_NECRO_PARTS", value: 1265 ),
+        ( name: "ITEM_ID_SLIME_MOLD", value: 1266 ),
+        ( name: "ITEM_ID_SLIME_FUKAGURUMI", value: 1267 ),
+
+        ( name: "MAX_ITEM_ID", value: 1270, code_value: "ITEM_ID_SLIME_FUKAGURUMI + 3", exclude: true ),
+      ],
+    ),
+    "item_effect": (
+      variables: [
+        ( name: "EFFECT_SLIME_MOLD", value: 136 ),
+        ( name: "EFFECT_NECRO_PARTS", value: 137 ),
+      ]
+    ),
+    "skill_spact": (
+      variables: [
+        ( name: "SKILL_SPACT_POSING", value: 846, ),
+        ( name: "SKILL_SPACT_SHARK_TRADE", value: 847, ),
+
+        ( name: "MAX_SKILL", value: 848, code_value: "SKILL_SPACT_SHARK_TRADE + 1" ),
+      ]
+    ),
+    "skill_damage_resist": (
+      variables: [
+        ( name: "SKILL_RESDMG_CONSTITUTION", value: 68, override: true ),
+
+        ( name: "MAX_SKILL_RESDMG", value: 69, code_value: "SKILL_RESDMG_CONSTITUTION + 1" ),
+      ]
+    ),
+  },
+
+  arrays: {},
+
+  expressions: {},
+
+  functions: {},
+
+  labels: {},
+
+  files: {}
+)

@@ -112,15 +112,36 @@ struct Metadata {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+struct Options {
+    no_macros: bool
+}
+
+impl Default for Options {
+    fn default() -> Self {
+        Options {
+            no_macros: false,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 struct AnalysisConfig {
     meta: Metadata,
     #[serde(default)]
+    options: Options,
+    #[serde(default)]
     includes: Vec<String>,
+    #[serde(default)]
     variable_groups: HashMap<GroupName, VariableGroup>,
+    #[serde(default)]
     arrays: HashMap<String, ArrayDefinition>,
+    #[serde(default)]
     expressions: HashMap<String, ExprDefinition>,
+    #[serde(default)]
     functions: HashMap<String, FunctionDefinition>,
+    #[serde(default)]
     labels: HashMap<String, LabelDefinition>,
+    #[serde(default)]
     files: HashMap<String, FileDefinition>
 }
 
@@ -1295,12 +1316,17 @@ impl<'a> VisitorMut for ConstantSubstitutionVisitor<'a> {
                 if let Some(array_def) = &self.config.arrays.get(&variable_name) {
                     for index in array_def.indices.iter() {
                         if self.array_index_matches(arg, &index.rules) {
-                            match &index.r#macro {
-                                Some(m) => {
-                                    mac = Some(m.clone());
-                                    break;
-                                },
-                                None => self.substitute_array_indices(arg, &index.substitute)
+                            if self.config.options.no_macros {
+                                self.substitute_array_indices(arg, &index.substitute)
+                            }
+                            else {
+                                match &index.r#macro {
+                                    Some(m) => {
+                                        mac = Some(m.clone());
+                                        break;
+                                    },
+                                    None => self.substitute_array_indices(arg, &index.substitute)
+                                }
                             }
                         }
                     }
@@ -2028,6 +2054,11 @@ impl<'a> Visitor for FileSplitVisitor<'a> {
 }
 
 fn merge_configs(config: &mut AnalysisConfig, parent: AnalysisConfig) -> Result<()> {
+    // Options
+    if parent.options.no_macros {
+        config.options.no_macros = true;
+    }
+
     // Variables
     for (group_name, group) in parent.variable_groups.into_iter() {
         if config.variable_groups.contains_key(&group_name) {

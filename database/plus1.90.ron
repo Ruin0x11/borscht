@@ -9,7 +9,7 @@ AnalysisConfig(
   ),
 
   includes: [
-    "database/elona1.22.ron"
+    "database/elona1.22nomacros.ron"
   ],
 
   variable_groups: {
@@ -3884,7 +3884,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "flagMain = 710"
+          match: "gdata(GDATA_FLAG_MAIN) = 710"
         )
       ]
     ),
@@ -4148,7 +4148,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_PERFORM_DANCE"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM_DANCE"
         )
       ]
     ),
@@ -4156,7 +4156,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_PERFORM_PREACH"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERFORM_PREACH"
         )
       ]
     ),
@@ -4164,7 +4164,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_CHARGE"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_CHARGE"
         )
       ]
     ),
@@ -4172,7 +4172,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_PERSUASION"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PERSUASION"
         )
       ]
     ),
@@ -4180,7 +4180,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_PECULIAR_JOKE"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_PECULIAR_JOKE"
         )
       ]
     ),
@@ -4188,7 +4188,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_BLENDED_LIE"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_BLENDED_LIE"
         )
       ]
     ),
@@ -4196,7 +4196,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_INTIMIDATION"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_INTIMIDATION"
         )
       ]
     ),
@@ -4204,7 +4204,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_MYSTERIOUS_SONG"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_MYSTERIOUS_SONG"
         )
       ]
     ),
@@ -4212,7 +4212,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_XMAS_CAKE"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_XMAS_CAKE"
         )
       ]
     ),
@@ -4220,7 +4220,7 @@ AnalysisConfig(
       rules: [
         (
           kind: Assignment,
-          match: "cRowAct(cc) = ACTION_TUIN_DER_LUSTEN"
+          match: "cdata(CDATA_ROW_ACT, cc) = ACTION_TUIN_DER_LUSTEN"
         )
       ]
     ),

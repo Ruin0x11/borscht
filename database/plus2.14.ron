@@ -1,0 +1,133 @@
+#![enable(implicit_some)]
+
+AnalysisConfig(
+  meta: (
+    variant_name: "Elona+",
+    version: "2.14",
+    ax_sha256: "41f313983d4825a4fe1498c9e3ba79724f011f35f7d4ea8aea15c6438170835a"
+  ),
+
+  includes: [
+    "database/plus2.13.ron"
+  ],
+
+  variable_groups: {
+    "item_id": (
+      variables: [
+        ( name: "ITEM_ID_B_DAMA", value: 1262 ),
+        ( name: "ITEM_ID_BOTTLE_CAP", value: 1263 ),
+        ( name: "ITEM_ID_DERNEFIA", value: 1264 ),
+
+        ( name: "MAX_ITEM_ID", value: 1267, code_value: "ITEM_ID_DERNEFIA + 3", exclude: true ),
+      ],
+    ),
+    "chara_bit": (
+      variables: [
+        ( name: "CHARA_BIT_PROHIBIT_PICKING_UP_ITEMS", value: 1032 ),
+        ( name: "CHARA_BIT_PROHIBIT_EATING_FROM_GROUND", value: 1033 ),
+        ( name: "CHARA_BIT_BIRTHED_CHILD", value: 1034 ),
+      ]
+    ),
+    "gdata": (
+      variables: [
+        (
+          name: "GDATA_FLAG_MOST_EXPENSIVE_WORLD_MAP_VEHICLE_THIS_MONTH",
+          value: 692,
+          code_value: "STARTING_GDATA_FLAG + 442"
+        ),
+      ]
+    ),
+    "skill_spact": (
+      variables: [
+        ( name: "SKILL_SPACT_DIRECT_TRANSFUSION", value: 843, ),
+        ( name: "SKILL_SPACT_ELECTRIC_SHOCK", value: 844, ),
+        ( name: "SKILL_SPACT_INSTANT_SUTURE", value: 845, ),
+
+        ( name: "MAX_SKILL", value: 846, code_value: "SKILL_SPACT_INSTANT_SUTURE + 1" ),
+      ]
+    ),
+    "event": (
+      variables: [
+        ( name: "EVENT_BIRTH", value: 93 ),
+      ]
+    ),
+    "random_event": (
+      variables: [
+        ( name: "RANDOM_EVENT_DREAM_CAUSE_UNKNOWN", value: 36 ),
+        ( name: "RANDOM_EVENT_DREAM_CHILD_SELF_EXPRESSION", value: 37 ),
+        ( name: "RANDOM_EVENT_DREAM_DREAM_FOR_THE_FUTURE", value: 38 ),
+        ( name: "RANDOM_EVENT_DREAM_TREASURE_DISCOVERY", value: 39 ),
+        ( name: "RANDOM_EVENT_DREAM_ROOTS", value: 40 ),
+        ( name: "RANDOM_EVENT_DREAM_BATTLE_IN_THE_BRAIN", value: 41 ),
+        ( name: "RANDOM_EVENT_DREAM_THIS_WORLD_IS_CANVAS", value: 42 ),
+        ( name: "RANDOM_EVENT_DREAM_MEANING_OF_STUDY", value: 43 ),
+        ( name: "RANDOM_EVENT_DREAM_SELF_REVELATION", value: 44 ),
+        ( name: "RANDOM_EVENT_DREAM_SELF_AWARENESS", value: 45 ),
+        ( name: "RANDOM_EVENT_DREAM_MARGINAL_MAN", value: 46 ),
+      ]
+    ),
+    "sound_id": (
+        variables: [
+        ( name: "SOUNDLIST_CHANDLER23", value: 302, ),
+
+        ( name: "SOUNDLIST_MAX", value: 303, code_value: "SOUNDLIST_CHANDLER23 + 1", exclude: true ),
+      ],
+    ),
+  },
+
+  arrays: {},
+
+  expressions: {
+    "gdata": (
+      indices: [
+        MatchAll((
+            rules: ( lhs: Array({ 0: Variant("gdata", ["GDATA_FLAG_WORLD_MAP_VEHICLE_KIND", "GDATA_FLAG_WORLD_MAP_VEHICLE_KIND_COLORED", "GDATA_FLAG_MOST_EXPENSIVE_WORLD_MAP_VEHICLE_THIS_MONTH"]) }) ),
+            substitute: ( rhs: { 0: Group("vehicle_kind") } )
+          )),
+      ]
+    ),
+  },
+
+  functions: {
+    "gain_iden": (
+      args: {
+        0: (name: "charaid1", type: Int, indices: [ ( substitute: Group("chara") ) ]),
+        1: (name: "charaid2", type: Int, indices: [ ( substitute: Group("chara") ) ]),
+        2: (name: "amount", type: Int),
+      }
+    ),
+  },
+
+  labels: {
+    "*eatIssizzle": (
+      rules: [
+        (
+          kind: StringLiteral,
+          match: "の胃は狂気で満たされた。"
+        ),
+        (
+          kind: Function,
+          match: "resistmodh cc, SKILL_RES_MIND, 50"
+        ),
+        (
+          kind: Function,
+          match: "dmgsan cc, 200"
+        ),
+        (
+          kind: Function,
+          match: "dmgcon cc, CONDITION_INSANE, 1000"
+        )
+      ]
+    ),
+    "*los": (
+      rules: [
+        (
+          kind: Function,
+          match: "memset slight, 0, (inf_screenw + 4) * (inf_screenh + 4) * 4"
+        )
+      ]
+    ),
+  },
+
+  files: {}
+)
