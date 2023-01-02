@@ -83,8 +83,8 @@ pushd ../elonaplus_sources/diff
 # diff -U5 --recursive '-I\*label_' ../2.13-borscht/db_item.hsp ../2.14-borscht/db_item.hsp | unix2dos > 2.13-to-2.14.db_item.diff
 # diff -U5 --recursive '-I\*label_' ../2.13-borscht/db_creature.hsp ../2.14-borscht/db_creature.hsp | unix2dos > 2.13-to-2.14.db_creature.diff
 diff -U5 --recursive -x 'db_creature*' -x 'db_item*' '-I\*label_' ../2.14-borscht/ ../2.15R-borscht/ | unix2dos > 2.14-to-2.15R.diff
-diff -U5 --recursive '-I\*label_' ../2.14-borscht/db_item.hsp ../2.15R-borscht/db_item.hsp | unix2dos > 2.14-to-2.15R.db_item.diff
-diff -U5 --recursive '-I\*label_' ../2.14-borscht/db_creature.hsp ../2.15R-borscht/db_creature.hsp | unix2dos > 2.14-to-2.15R.db_creature.diff
+diff -U5 --recursive '-I\*label_' ../2.14-borscht/db_item.clean.hsp ../2.15R-borscht/db_item.clean.hsp | unix2dos > 2.14-to-2.15R.db_item.diff
+diff -U5 --recursive '-I\*label_' ../2.14-borscht/db_creature.clean.hsp ../2.15R-borscht/db_creature.clean.hsp | unix2dos > 2.14-to-2.15R.db_creature.diff
 git status
 # git add ../1.90-borscht ../2.05-borscht ../2.06-borscht ../2.06fix-borscht
 # git add ../2.07-borscht

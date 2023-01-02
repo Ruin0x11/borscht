@@ -21,7 +21,7 @@ AnalysisConfig(
         ( name: "CREATURE_ID_DAGANOTOSUS", value: 1071 ),
         ( name: "CREATURE_ID_SP_CHAMPION", value: 1072 ),
 
-        ( name: "MAX_CREATURE_ID", value: 1075, code_value: "CREATURE_ID_PROVOCASQUID + 3" ),
+        ( name: "MAX_CREATURE_ID", value: 1075, code_value: "CREATURE_ID_SP_CHAMPION + 3" ),
       ]
     ),
     "filter_race": (
